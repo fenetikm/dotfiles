@@ -1,0 +1,122 @@
+snippet _form_textfield "Drupal Form API Textfield element" s
+$form['$1'] = [
+  '#type' => 'textfield',
+	'#title' => $this->t('$2'),
+	'#description' => $this->t('$3'),
+	'#default_value' => $4,
+	${5:'#required' => TRUE,}
+];
+$0
+endsnippet
+
+snippet _form_text_format "Drupal Form API text_format element" s
+$${1:field_config_id} = $config->get('$1');
+$form['$2'] = [
+  '#type' => 'text_format',
+	'#title' => $this->t('$3'),
+	'#description' => $this->t('$4'),
+	'#format' => empty($$1['format']) ? filter_default_format() : $$1['format'],
+	'#default_value' => empty($$1['value']) ? '' : $$1['value'],
+	${5:'#required' => TRUE,}
+];
+$0
+endsnippet
+
+snippet _form_submit "Drupal Form API Submit element"
+$form['$1'] = [
+  '#type' => 'submit',
+	'#value' => $this->t('$2'),
+];
+$0
+endsnippet
+
+snippet _form_check "Drupal Form API Checkbox element"
+$form['$1'] = [
+  '#type' => 'checkbox',
+	'#title' => $this->t('$2'),
+	'#description' => $this->t('$3'),
+	'#default_value' => ${4:FALSE},
+];
+$0
+endsnippet
+
+snippet _form_select "Drupal Form API Select element"
+$form['$1'] = [
+  '#type' => 'select',
+	'#title' => $this->t('$2'),
+	'#description' => $this->t('$3'),
+	'#default_value' => ${4:FALSE},
+	'#options' => $5,
+	${6:'#required' => TRUE,}
+];
+$0
+endsnippet
+
+snippet _form_details "Drupal Form API Details element"
+$form['$1'] = [
+  '#type' => 'details',
+	'#title' => $this->t('$2'),
+	${3:'#open' => TRUE,}
+];
+$0
+endsnippet
+
+snippet _hook_update "Drupal hook update"
+/**
+ * ${1:Description of update.}
+ */
+function ${2:mymodule}_update_${3:8000}(&$sandbox) {
+  $0
+}
+endsnippet
+
+snippet _hook "Drupal hook"
+/**
+ * Implements hook_${1:hook}().
+ */
+function ${2:mymodule}_${3:hook}($4) {
+  $0
+}
+endsnippet
+
+snippet _func_module "Drupal module function"
+/**
+ * ${1:Description}
+ */
+function ${2:mymodule}_${3:function_name}($4) {
+  $0
+}
+endsnippet
+
+snippet _func_class "Drupal class function"
+/**
+ * ${1:{@inheritdoc}}
+ */
+${2:public} ${3:static }function $4($5) {
+  $0
+}
+endsnippet
+
+snippet _const_class "Drupal class const"
+/**
+ * ${1:Description}.
+ */
+const $0
+endsnippet
+
+snippet _var_class "Drupal class var"
+/**
+ * ${1:Description}
+ *
+ * @var $2
+ */
+${3:protected} $4
+endsnippet
+
+snippet _log "Drupal logger"
+\Drupal::logger('$1')->${2:notice}($3);
+endsnippet
+
+snippet _logp "Drupal logger print_r"
+\Drupal::logger('$1')->${2:notice}('<pre>' . print_r($3, TRUE) . '</pre>');
+endsnippet
