@@ -80,6 +80,17 @@ alias redyssh='ssh theoryz4@122.129.219.79 -p 2022 -i id_dsa'
 
 alias de='eval $(docker-machine env default)'
 
+# Make CTRL-Z background things and unbackground them.
+function fg-bg() {
+  if [[ $#BUFFER -eq 0 ]]; then
+    fg
+  else
+    zle push-input
+  fi
+}
+zle -N fg-bg
+bindkey '^Z' fg-bg
+
 
 stty start undef stop undef
 

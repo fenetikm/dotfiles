@@ -4,7 +4,8 @@
 " General options --------------------------------------------------- {{{
 
 set nocompatible " disable compatibility with vi
-set scrolloff=12 "set number of lines to show above and below cursor
+set scrolloff=5 "set number of lines to show above and below cursor
+set sidescrolloff=5 " same as scrolloff, but for columns
 filetype plugin indent on "use indentation scripts per filetype
 set history=9999 "number of lines of history
 set cursorline "highlight the line the cursor is on
@@ -71,9 +72,34 @@ set tw=500 "set textwidth to 500 to auto linebreak with really long lines
 set autoindent "copy indentation from line above
 "set smartindent "indent if not handled by plugins, disabled since plugins!
 set wrap "wrap visually, don't actually change the file
-set listchars=tab:›\ ,trail:X,extends:#,nbsp:. "characters to use when showing formatting characters
+set list                              " show whitespace
+set listchars=nbsp:⦸                  " CIRCLED REVERSE SOLIDUS (U+29B8, UTF-8: E2 A6 B8)
+set listchars+=tab:▷┅                 " WHITE RIGHT-POINTING TRIANGLE (U+25B7, UTF-8: E2 96 B7)
+                                      " + BOX DRAWINGS HEAVY TRIPLE DASH HORIZONTAL (U+2505, UTF-8: E2 94 85)
+set listchars+=extends:»              " RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
+set listchars+=precedes:«             " LEFT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00AB, UTF-8: C2 AB)
+set listchars+=trail:•                " BULLET (U+2022, UTF-8: E2 80 A2)
+set nojoinspaces                      " don't autoinsert two spaces after '.', '?', '!' for join command
+" old version is below, above from @wincent
+" set listchars=tab:›\ ,trail:X,extends:#,nbsp:. "characters to use when showing formatting characters
 " format trailing whitespace as if it was in error state
 match ErrorMsg '\s\+$'
+
+set shortmess+=A                      " ignore annoying swapfile messages
+set shortmess+=O                      " file-read message overwrites previous
+set shortmess+=T                      " truncate non-file messages in middle
+set shortmess+=W                      " don't echo "[w]"/"[written]" when writing
+set shortmess+=a                      " use abbreviations in messages eg. `[RO]` instead of `[readonly]`
+set shortmess+=o                      " overwrite file-written messages
+set shortmess+=t                      " truncate file messages at start
+
+if has('linebreak')
+  let &showbreak='↳ '                 " DOWNWARDS ARROW WITH TIP RIGHTWARDS (U+21B3, UTF-8: E2 86 B3)
+endif
+
+if has('virtualedit')
+  set virtualedit=block               " allow cursor to move where there is no text in visual block mode
+endif
 
 set fileformat=unix "default fileformat
 
@@ -474,6 +500,9 @@ map <C-e> :NERDTreeToggle<CR>
 "width
 let g:NERDTreeWinSize=40
 
+" Disable display of '?' text and 'Bookmarks' label.
+let g:NERDTreeMinimalUI=1
+
 " }}} End NERDTree
 " NeoMake --------------------------------------------------- {{{
 
@@ -863,6 +892,13 @@ nnoremap <c-l> <c-w>l
 
 " }}} End Movement
 
+"tab to toggle folding
+nnoremap <Tab> za
+
+"I like this idea, would be good to use the hyper and j/k to do this.
+nnoremap <silent> <Up> :cprevious<CR>
+nnoremap <silent> <Down> :cnext<CR>
+
 "visual mode pressing * or # searches for the current selection
 vnoremap <silent> * :call VisualSelection('f')<cr>
 vnoremap <silent> # :call VisualSelection('b')<cr>
@@ -952,10 +988,14 @@ set background=dark
 " LuciusBlack
 let g:airline_theme='tomorrow'
 colorscheme gruvbox
+let g:gruvbox_italic=1
 let g:gruvbox_contrast_dark='hard'
 
 "colorscheme customisation
 hi NeomakeWarningSignAlt ctermfg=255 gui=none guifg=#ffffff guibg=#202020
 let g:neomake_warning_sign={'text': '⚠', 'texthl': 'NeomakeWarningSignAlt'}
+
+"set comments to italic
+highlight Comment cterm=italic
 
 " }}} End Colors
