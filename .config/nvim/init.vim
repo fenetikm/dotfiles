@@ -987,15 +987,12 @@ set background=dark
 " colorscheme lucius
 " LuciusBlack
 let g:airline_theme='tomorrow'
-colorscheme gruvbox
 let g:gruvbox_italic=1
 let g:gruvbox_contrast_dark='hard'
+colorscheme gruvbox
 
 "colorscheme customisation
 hi NeomakeWarningSignAlt ctermfg=255 gui=none guifg=#ffffff guibg=#202020
 let g:neomake_warning_sign={'text': '⚠', 'texthl': 'NeomakeWarningSignAlt'}
-
-"set comments to italic
-highlight Comment cterm=italic
 
 " }}} End Colors
