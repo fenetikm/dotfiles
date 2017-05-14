@@ -202,7 +202,7 @@ command! StartProfile call StartProfile()
 
 function! StopProfile()
   profile pause
-  noautocmd qall!
+  " noautocmd qall!
 endfunction
 
 command! StopProfile call StopProfile()
@@ -416,13 +416,16 @@ function! s:ProcessMyCommand(l)
   elseif command_parts[0] == 'vc'
     "vim call
     execute 'call '.command_function[0]
+  elseif command_parts[0] == 'op'
+    execute '!open '.command_function[0]
   else
     "just do whatever it says
     execute command_function[0]
   endif
 endfunction
 
-command! -bang -nargs=* MyCommands call fzf#run({'sink': function('<sid>ProcessMyCommand'), 'source': 'cat '.$HOME.'/.config/nvim/commands.txt'})
+"Pull in from *.cmd files from current directory and home nvim config directory.
+command! -bang -nargs=* MyCommands call fzf#run({'sink': function('<sid>ProcessMyCommand'), 'source': 'cat '.$HOME.'/.config/nvim/*.cmd *.cmd 2>/dev/null'})
 nnoremap <c-c> :MyCommands<cr>
 
 "ctrlp settings
@@ -637,6 +640,9 @@ let g:pdv_template_dir = "/Users/mjw/.config/nvim/plugged/pdv/templates_snip"
 " turn this off and just use our custom command list
 let g:vim_php_refactoring_use_default_mapping=0
 
+"disable php manual online shortcut
+let g:php_manual_online_search_shortcut = ''
+
 " }}} End PHP plugins
 " Debug plugins --------------------------------------------------- {{{
 
@@ -693,10 +699,10 @@ nnoremap <leader>dre :!vagrant ssh -c "/home/vagrant/.composer/vendor/bin/robo d
 " Splitjoin --------------------------------------------------- {{{
 
 "splitjoin
-let g:splitjoin_split_mapping = ''
-let g:splitjoin_join_mapping = ''
-nnoremap ss :SplitjoinSplit<cr>
-nnoremap sj :SplitjoinJoin<cr>
+" let g:splitjoin_split_mapping = ''
+" let g:splitjoin_join_mapping = ''
+" nnoremap ss :SplitjoinSplit<cr>
+" nnoremap sj :SplitjoinJoin<cr>
 
 " }}} End Splitjoin
 " Local vimrc --------------------------------------------------- {{{
@@ -849,6 +855,12 @@ map k gk
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
+" Fast switching between splits
+nnoremap <c-h> <c-w>h
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-l> <c-w>l
+
 " }}} End Movement
 
 "visual mode pressing * or # searches for the current selection
@@ -893,7 +905,6 @@ nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
 nnoremap <leader>ek :vsplit ~/.config/karabiner/karabiner.json<cr>
 nnoremap <leader>eh :vsplit ~/.hammerspoon/init.lua<cr>
 nnoremap <leader>ez :vsplit ~/.zshrc<cr>
-nnoremap <leader>ec :vsplit ~/.config/nvim/commands.txt<cr>
 nnoremap <leader>eu :UltiSnipsEdit<cr>
 
 "move lines up and down
