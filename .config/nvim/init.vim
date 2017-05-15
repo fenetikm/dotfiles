@@ -332,6 +332,7 @@ Plug 'wellle/targets.vim' "Additional target text objects
 " Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 " Disabled, not sure if worth it.
 " Plug 'Shougo/echodoc.vim' "prints completion in echo area
+Plug 'vim-scripts/todo-txt.vim' "handling of todo.txt
 
 " }}} End Coding, text objects
 " To try --------------------------------------------------- {{{
@@ -354,7 +355,7 @@ Plug 'janko-m/vim-test' "testing at diff granularities
 " }}} End To try plugins
 " Colors --------------------------------------------------- {{{
 
-Plug 'flazz/vim-colorschemes' "colorscheme pack
+" Plug 'flazz/vim-colorschemes' "colorscheme pack
 Plug 'AlessandroYorba/Monrovia'
 Plug 'AlessandroYorba/Sidonia'
 Plug 'AlessandroYorba/Despacio'
@@ -367,6 +368,7 @@ Plug 'fcpg/vim-orbital'
 Plug 'jonathanfilip/vim-lucius'
 Plug 'liuchengxu/space-vim-dark'
 Plug 'whatyouhide/vim-gotham'
+Plug 'morhetz/gruvbox'
 
 " }}} End Colors
 
