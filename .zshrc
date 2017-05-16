@@ -4,9 +4,12 @@ export ZSH=$HOME/.oh-my-zsh
 # Would you like to use another custom folder than $ZSH/custom?
 ZSH_CUSTOM=~/.zsh-themes
 ZSH_THEME="bullet-train"
-BULLETTRAIN_DIR_BG='magenta'
-BULLETTRAIN_GIT_BG='white'
-BULLETTRAIN_GIT_FG='black'
+BULLETTRAIN_DIR_BG='white'
+BULLETTRAIN_DIR_FG='black'
+BULLETTRAIN_GIT_BG='black'
+BULLETTRAIN_GIT_FG='white'
+BULLETTRAIN_STATUS_BG='cyan'
+BULLETTRAIN_STATUS_FG='default'
 BULLETTRAIN_GIT_UNTRACKED="%F{magenta}✭%F{black}"
 BULLETTRAIN_PROMPT_SEPARATE_LINE='false'
 BULLETTRAIN_PROMPT_ORDER=(
