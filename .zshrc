@@ -6,11 +6,11 @@ ZSH_CUSTOM=~/.zsh-themes
 ZSH_THEME="bullet-train"
 BULLETTRAIN_DIR_BG='white'
 BULLETTRAIN_DIR_FG='black'
-BULLETTRAIN_GIT_BG='black'
+BULLETTRAIN_GIT_BG='8'
 BULLETTRAIN_GIT_FG='white'
 BULLETTRAIN_STATUS_BG='cyan'
 BULLETTRAIN_STATUS_FG='default'
-BULLETTRAIN_GIT_UNTRACKED="%F{magenta}✭%F{black}"
+BULLETTRAIN_GIT_UNTRACKED="%F{yellow}+%F{black}"
 BULLETTRAIN_PROMPT_SEPARATE_LINE='false'
 BULLETTRAIN_PROMPT_ORDER=(
   context
@@ -85,7 +85,7 @@ alias de='eval $(docker-machine env default)'
 
 # Make CTRL-Z background things and unbackground them.
 function fg-bg() {
-  if [[ $#BUFFER -eq 0 ]]; then
+  if []; then
     fg
   else
     zle push-input

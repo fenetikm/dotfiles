@@ -128,11 +128,13 @@ if has("autocmd")
 endif
 
 "run Neomake on php files on save
-function! RunAutoPHP()
-  Neomake phpcs
+function! NeomakeSave()
+  if &ft == 'php'
+    Neomake phpcs
+  endif
 endfunction
 
-autocmd! BufWritePost * call RunAutoPHP()
+autocmd! BufWritePost * call NeomakeSave()
 
 " set omni for php
 " au FileType php set omnifunc=phpcomplete#CompletePHP
