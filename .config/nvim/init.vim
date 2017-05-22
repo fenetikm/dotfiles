@@ -21,6 +21,9 @@ set wildignore+=.hg,.git,.svn " Version Controls"
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg "Binary Imgs"
 set wildignore+=*.sw? "Vim swap files"
 set wildignore+=*.DS_Store "OSX SHIT"
+set wildignore+=log/**
+set wildignore+=tmp/**
+set wildignore+=vendor/cache/**
 
 set ruler "show column/row/line number position
 set number "show line numbers
@@ -34,7 +37,7 @@ set ignorecase "ignore case when searching
 set smartcase "use case searching if uppercase character is included
 set hlsearch "highlight search results
 set incsearch "incremental search
-set magic "regex magic
+set magic "regex magic, more useable
 set showmatch "show matching brackets when text indicator is over them
 set mat=2 "how many tenths of a second to blink when matching brackets
 
@@ -43,6 +46,11 @@ set novisualbell "no screen flashes on errors
 set t_vb= "no screen flashes
 set timeoutlen=2000 "timeout for leader key
 set noshowmode "hide showing which mode we are in, the status bar is fine
+
+set fcs=vert:│ " Solid line for vsplit separator
+" Always splits to the right and below
+set splitright
+set splitbelow
 
 syntax enable "enable syntax highlighting
 
@@ -92,6 +100,8 @@ set shortmess+=W                      " don't echo "[w]"/"[written]" when writin
 set shortmess+=a                      " use abbreviations in messages eg. `[RO]` instead of `[readonly]`
 set shortmess+=o                      " overwrite file-written messages
 set shortmess+=t                      " truncate file messages at start
+
+set synmaxcol=800                     " Don't try to highlight lines longer than 800 characters.
 
 if has('linebreak')
   let &showbreak='↳ '                 " DOWNWARDS ARROW WITH TIP RIGHTWARDS (U+21B3, UTF-8: E2 86 B3)
@@ -273,6 +283,7 @@ Plug 'tpope/vim-unimpaired' "Various dual pair commands
 " Interface, fuzzy handling --------------------------------------------------- {{{
 
 " Plug 'bling/vim-airline' "improved status line
+Plug 'itchyny/lightline.vim' "statusline handling
 "Plug 'ctrlpvim/ctrlp.vim' "fuzzy file searching
 " Plug 'Numkil/ag.nvim' "ag for nvim
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } "fuzzy finder
@@ -371,6 +382,7 @@ Plug 'jonathanfilip/vim-lucius'
 Plug 'liuchengxu/space-vim-dark'
 Plug 'whatyouhide/vim-gotham'
 Plug 'morhetz/gruvbox'
+" Plug 'rakr/vim-one' "Atom dark / light one theme
 
 " }}} End Colors
 
@@ -772,110 +784,6 @@ nnoremap <leader>tl :TestLast -strategy=vimux --steps<cr>
 " }}} End Testing
 
 " }}} End Plugin settings
-" Statusline --------------------------------------------------- {{{
-
-let g:currentmode={
-    \ 'n'  : 'N ',
-    \ 'no' : 'N·Operator Pending ',
-    \ 'v'  : 'V ',
-    \ 'V'  : 'V·Line ',
-    \ '^V' : 'V·Block ',
-    \ 's'  : 'Select ',
-    \ 'S'  : 'S·Line ',
-    \ '^S' : 'S·Block ',
-    \ 'i'  : 'I ',
-    \ 'R'  : 'R ',
-    \ 'Rv' : 'V·Replace ',
-    \ 'c'  : 'Command ',
-    \ 'cv' : 'Vim Ex ',
-    \ 'ce' : 'Ex ',
-    \ 'r'  : 'Prompt ',
-    \ 'rm' : 'More ',
-    \ 'r?' : 'Confirm ',
-    \ '!'  : 'Shell ',
-    \ 't'  : 'Terminal '
-    \}
-
-" Automatically change the statusline color depending on mode
-function! ChangeStatuslineColor()
-  if (mode() =~# '\v(n|no)')
-    exe 'hi! StatusLine ctermfg=008'
-  elseif (mode() =~# '\v(v|V)' || g:currentmode[mode()] ==# 'V·Block' || get(g:currentmode, mode(), '') ==# 't')
-    exe 'hi! StatusLine ctermfg=005'
-  elseif (mode() ==# 'i')
-    exe 'hi! StatusLine ctermfg=004'
-  else
-    exe 'hi! StatusLine ctermfg=006'
-  endif
-
-  return ''
-endfunction
-
-" Find out current buffer's size and output it.
-function! FileSize()
-  let bytes = getfsize(expand('%:p'))
-  if (bytes >= 1024)
-    let kbytes = bytes / 1024
-  endif
-  if (exists('kbytes') && kbytes >= 1000)
-    let mbytes = kbytes / 1000
-  endif
-
-  if bytes <= 0
-    return '0'
-  endif
-
-  if (exists('mbytes'))
-    return mbytes . 'MB '
-  elseif (exists('kbytes'))
-    return kbytes . 'KB '
-  else
-    return bytes . 'B '
-  endif
-endfunction
-
-function! ReadOnly()
-  if &readonly || !&modifiable
-    return ''
-  else
-    return ''
-endfunction
-
-function! GitInfo()
-  let git = fugitive#head()
-  if git != ''
-    return ' '.fugitive#head()
-  else
-    return ''
-endfunction
-
-set laststatus=2
-set statusline=
-set statusline+=%{ChangeStatuslineColor()}               " Changing the statusline color
-set statusline+=%0*\ %{toupper(g:currentmode[mode()])}   " Current mode
-set statusline+=%8*\ [%n]                                " buffernr
-set statusline+=%8*\ %{GitInfo()}                        " Git Branch name
-set statusline+=%8*\ %<%F\ %{ReadOnly()}\ %m\ %w\        " File+path
-set statusline+=%#warningmsg#
-set statusline+=%*
-set statusline+=%9*\ %=                                  " Space
-set statusline+=%8*\ %y\                                 " FileType
-" Encoding & Fileformat
-set statusline+=%7*\ %{(&fenc!=''?&fenc:&enc)}\[%{&ff}]\
-set statusline+=%8*\ %-3(%{FileSize()}%)                 " File size
-set statusline+=%0*\ %3p%%\ \ %l:\ %3c\                 " Rownumber/total (%)
-
-"Custom user colours
-hi User1 ctermfg=007
-hi User2 ctermfg=008
-hi User3 ctermfg=008
-hi User4 ctermfg=008
-hi User5 ctermfg=008
-hi User7 ctermfg=008
-hi User8 ctermfg=008
-hi User9 ctermfg=007
-
-" }}} End Statusline
 " Mappings --------------------------------------------------- {{{
 
 " Movement --------------------------------------------------- {{{
@@ -981,6 +889,84 @@ vmap <C-v> <Plug>(expand_region_shrink)
 inoremap jk <Esc>
 
 " }}} End Mappings
+" Statusline --------------------------------------------------- {{{
+
+set laststatus=2
+let g:lightline = {
+      \ 'colorscheme': 'gruvbox',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'fugitive', 'filename' ] ]
+      \ },
+      \ 'component_function': {
+      \   'filename': 'LightlineFilename',
+      \   'fugitive': 'LightlineFugitive',
+      \   'fileformat': 'LightlineFileformat',
+      \   'filetype': 'LightlineFiletype',
+      \   'fileencoding': 'LightlineFileencoding',
+      \   'mode': 'LightlineMode'
+      \ },
+      \ 'separator': { 'left': '', 'right': '' },
+      \ 'subseparator': { 'left': '|', 'right': '|' }
+      \}
+
+function! LightlineMode()
+  let fname = expand('%:t')
+  return fname == '__Tagbar__' ? 'Tagbar' :
+        \ fname == 'ControlP' ? 'CtrlP' :
+        \ fname == '__Gundo__' ? 'Gundo' :
+        \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
+        \ fname =~ 'NERD_tree' ? 'NERDTree' :
+        \ &ft == 'unite' ? 'Unite' :
+        \ &ft == 'vimfiler' ? 'VimFiler' :
+        \ &ft == 'vimshell' ? 'VimShell' :
+        \ winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
+
+function! LightlineFugitive()
+  try
+    if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
+      let mark = ' '  " edit here for cool mark
+      let branch = fugitive#head()
+      return branch !=# '' ? mark.branch : ''
+    endif
+  catch
+  endtry
+  return ''
+endfunction
+
+function! LightlineReadonly()
+  return &ft !~? 'help' && &readonly ? '' : ''
+endfunction
+
+function! LightlineModified()
+  return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+endfunction
+
+function! LightlineFilename()
+  let fname = expand('%:t')
+  return fname == 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? g:lightline.ctrlp_item :
+        \ fname == '__Tagbar__' ? g:lightline.fname :
+        \ fname =~ '__Gundo\|NERD_tree' ? '' :
+        \ &ft == 'unite' ? unite#get_status_string() :
+        \ ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+        \ ('' != fname ? fname : '[No Name]') .
+        \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+endfunction
+
+function! LightlineFileformat()
+  return winwidth(0) > 70 ? &fileformat : ''
+endfunction
+
+function! LightlineFiletype()
+  return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+endfunction
+
+function! LightlineFileencoding()
+  return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
+endfunction
+
+" }}} End Statusline
 " Colors --------------------------------------------------- {{{
 
 "24bit color

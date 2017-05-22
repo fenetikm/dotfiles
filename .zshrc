@@ -76,8 +76,8 @@ alias gfff='git flow feature finish'
 
 #vagrant exec binstubs
 alias rb='vbin/robo'
-alias dh='vbin/drush'
-alias dr='vbin/drupal'
+alias dr='vbin/drush'
+alias dc='vbin/drupal'
 alias vs='vagrant ssh'
 alias co='vbin/codecept'
 
