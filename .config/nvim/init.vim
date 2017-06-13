@@ -1,3 +1,4 @@
+" Michael Welford's vimrc
 " Set fold marker to {{{}}}
 " vim: set fdm=marker fmr={{{,}}} fdl=0 :
 
@@ -48,23 +49,20 @@ set timeoutlen=2000 "timeout for leader key
 set noshowmode "hide showing which mode we are in, the status bar is fine
 
 set fcs=vert:│ " Solid line for vsplit separator
-" Always splits to the right and below
-set splitright
-set splitbelow
 
 syntax enable "enable syntax highlighting
 
 set guifont=Consolas:h10:cANSI
 
 if has("gui_running")
-	set guioptions-=T "remove toolbar"
+  set guioptions-=T "remove toolbar"
   set guioptions+=e "add tab pages
   set guioptions-=r "remove right hand scrollbar
-	set guioptions-=R "remove split window right hand scrollbar
+  set guioptions-=R "remove split window right hand scrollbar
   set guioptions-=l "remove left hand scrollbar
-	set guioptions-=L "remove split window left hand scrollbar
-	set t_Co=256 "enable 256 colors
-	set guitablabel=%M\ %t
+  set guioptions-=L "remove split window left hand scrollbar
+  set t_Co=256 "enable 256 colors
+  set guitablabel=%M\ %t
 endif
 
 set encoding=utf-8 "set utf8 as standard encoding
@@ -113,6 +111,17 @@ endif
 
 set fileformat=unix "default fileformat
 
+" Cursor settings. This makes terminal vim sooo much nicer!
+" Tmux will only forward escape sequences to the terminal if surrounded by a DCS
+" sequence
+if exists('$TMUX')
+  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
+
 " set python3 host program location
 let g:python3_host_prog = '/usr/local/bin/python3'
 
@@ -157,13 +166,10 @@ au BufNewFile,BufRead *.as set filetype=actionscript
 " Buffer handling --------------------------------------------------- {{{
 
 " Make sure Vim returns to the same line when you reopen a file.
-augroup line_return
-  au!
-  au BufReadPost *
-      \ if line("'\"") > 0 && line("'\"") <= line("$") |
-      \     execute 'normal! g`"zvzz' |
-      \ endif
-augroup END
+autocmd BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \     execute 'normal! g`"zvzz' |
+    \ endif
 
 " Remember info about open buffers on close
 set viminfo^=%
@@ -185,6 +191,17 @@ endfunction
 
 function! SearchWordWithAg()
     execute 'Ag' expand('<cword>')
+endfunction
+
+" Thanks gary.
+function! RenameFile()
+    let old_name = expand('%')
+    let new_name = input('New file name: ', expand('%'), 'file')
+    if new_name != '' && new_name != old_name
+        exec ':saveas ' . new_name
+        exec ':silent !rm ' . old_name
+        redraw!
+    endif
 endfunction
 
 function! VisualSelection(direction) range
@@ -253,6 +270,34 @@ function! <SID>SynStack()
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
 
+function! DrupalConsoleReloadConfig()
+  " name of the file
+  let fn = expand('%:t')
+  " just the path containing the file
+  let path = expand('%:p:h')
+  " position of '/app/'
+  let app_pos = match(path, '/app/')
+  " full path to file inside of vagrant
+  let webpath = '/vagrant' . strpart(path, app_pos) . '/' . fn
+  let config_name = substitute(fn, '.yml', '', '')
+  let command = 'vbin/drupal config:import:single --name=' . config_name . ' --file=' . webpath
+  execute 'call VimuxRunCommand("' . command . '")'
+endfunction
+command! DrupalConsoleReloadConfig call DrupalConsoleReloadConfig()
+
+"Get the Drupal root
+function! DrupalRoot()
+  " path containing the current file
+  let path = expand('%:p:h')
+  " position of '/app/'
+  let app_pos = match(path, '/app')
+  if app_pos == -1
+    return ''
+  endif
+  return strpart(path, 0, app_pos)
+endfunction
+command! DrupalRoot call DrupalRoot()
+
 " }}} End Helper functions
 " Plugins --------------------------------------------------- {{{
 
@@ -276,6 +321,7 @@ Plug 'terryma/vim-expand-region' "expand region useful for selection
 " Plug 'AndrewRadev/splitjoin.vim' "convert single/multi line code expressions
 " Plug 'breuckelen/vim-resize' "resize splits
 Plug 'benmills/vimux' "Interact with tmux from vim
+" Plug 'jebaum/vim-tmuxify' "tmux controlling, might be a bit more powerful than vimux?
 " Plug 'tpope/vim-eunuch' "Better unix commands
 Plug 'tpope/vim-unimpaired' "Various dual pair commands
 
@@ -288,8 +334,9 @@ Plug 'itchyny/lightline.vim' "statusline handling
 " Plug 'Numkil/ag.nvim' "ag for nvim
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } "fuzzy finder
 Plug 'junegunn/fzf.vim' "fuzzy finder stuff
+" Plug 'Shougo/unite.vim' "create lists and filter them
+" Plug 'Shougo/unite-outline' "outline of current buffer source
 Plug 'airblade/vim-gitgutter' "place git changes in the gutter
-Plug 'tpope/vim-fugitive' "git management
 Plug 'kshenoy/vim-signature' "marks handling
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } "autocomplete
 " Plug 'Valloric/YouCompleteMe', { 'do': './install.py' } "youcompleteme omnicomplete
@@ -316,6 +363,7 @@ Plug 'ap/vim-css-color' "css color preview
 " }}} End Syntax 
 " Coding, text objects --------------------------------------------------- {{{
 
+Plug 'tpope/vim-fugitive' "git management
 Plug 'tomtom/tcomment_vim' "commenting
 Plug 'sniphpets/sniphpets' "php snippets
 Plug 'sniphpets/sniphpets-common' "php snippets
@@ -346,6 +394,7 @@ Plug 'wellle/targets.vim' "Additional target text objects
 " Disabled, not sure if worth it.
 " Plug 'Shougo/echodoc.vim' "prints completion in echo area
 Plug 'vim-scripts/todo-txt.vim' "handling of todo.txt
+Plug 'int3/vim-extradite' "Git commit browser
 
 " }}} End Coding, text objects
 " To try --------------------------------------------------- {{{
@@ -364,6 +413,12 @@ Plug 'janko-m/vim-test' "testing at diff granularities
 " Plug 'ntpeters/vim-better-whitespace' "whitespace handing
 " Plug 'tpope/vim-scriptease' "vim script helper functions
 " Plug 'mkitt/browser-refresh.vim' "Refresh browser from vim
+" Plug 'osyo-manga/vim-anzu' "show x/y when searching
+" Plug 'idanarye/vim-merginal' "additional git branches on top of fugitive
+" Plug 'AndrewRadev/switch.vim' "switch between values, e.g. true and false
+" Plug 'francoiscabrol/ranger.vim' "ranger integration, mac osx?
+" Plug 'Shougo/neoyank.vim' "saves yank history, can we use this with fzf?
+" Plug 'svermeulen/vim-easyclip' "simplified clipboard / yank functionality see: https://github.com/svermeulen/vim-easyclip/issues/62
 
 " }}} End To try plugins
 " Colors --------------------------------------------------- {{{
@@ -391,16 +446,44 @@ call plug#end()
 " }}} End Plugins
 " Plugin settings --------------------------------------------------- {{{
 
-" FZF, CtrlP, Ag --------------------------------------------------- {{{
+" FZF, CtrlP, Ag, Unite --------------------------------------------- {{{
 
-nnoremap <C-p> :GitFiles<cr>
 " for some reason :Buffers is giving me something funky from elsewhere...
-nnoremap <leader>b :call fzf#vim#buffers()<cr>
-nnoremap <leader>f :Files<cr>
-" Given this up for the testing namespace
+" nnoremap <leader>b :call fzf#vim#buffers()<cr>
+" Files searches through all files (not just version controlled)
+" nnoremap <leader>f :Files<cr>
+" Given this up for thm testing namespace
 " nnoremap <leader>t :Tags<cr>
 " nnoremap <C-r> :History<cr>
-nnoremap <silent> \ :Ag<space>
+" nnoremap <silent> \ :Ag<space>
+
+nnoremap <silent> <leader>tt :BTags<cr>
+" search for text in Ag
+nnoremap <silent> \ :DAg<space>
+nnoremap <silent> <leader>\ :DAgAll<space>
+" search for under cursor keyword in Ag
+nnoremap <silent> <leader>a :DAg <c-r><c-w><cr>
+" search for under cursor keyword in Ag in all files (ex. gitignore)
+nnoremap <silent> <leader>A :DAgAll <c-r><c-w><cr>
+
+nnoremap <silent> <c-p> :DFiles<cr>
+
+"File searching stuff, WIP
+nnoremap <silent> <leader>ff :Files<cr>
+nnoremap <silent> <leader>FF :GitFiles<cr>
+nnoremap <silent> <leader>fd :DFiles<cr>
+nnoremap <silent> <leader>DD :DGFiles<cr>
+nnoremap <silent> <leader>fh :Helptags<cr>
+nnoremap <silent> <leader>fc :Commands<cr>
+nnoremap <silent> <leader>fm :Maps<cr>
+nnoremap <silent> <leader>fb :call fzf#vim#buffers()<cr>
+nnoremap <silent> <leader>s :Snippets<cr>
+
+" @todo maybe?
+" :Colors
+" :Marks
+" :Filetypes
+" :BLines
 
 "line completion
 imap <c-x><c-l> <plug>(fzf-complete-line)
@@ -408,7 +491,8 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 " match splitting to ctrl-w splitting
 let g:fzf_action = {
   \ 'ctrl-s': 'split',
-  \ 'ctrl-v': 'vsplit' }
+  \ 'ctrl-v': 'vsplit',
+  \ 'ctrl-o': '!open'}
 
 " change the color path of the Ag output
 command! -bang -nargs=* Ag
@@ -470,38 +554,45 @@ endfunction
 command! -bang -nargs=* MyCommands call fzf#run({'sink': function('<sid>ProcessMyCommand'), 'source': 'cat '.$HOME.'/.config/nvim/*.cmd *.cmd 2>/dev/null'})
 nnoremap <c-c> :MyCommands<cr>
 
-"ctrlp settings
-" let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-" let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-" let g:ctrlp_prompt_mappings = {
-"   \ 'PrtSelectMove("j")':   ['<c-j>', '<down>'],
-"   \ 'PrtSelectMove("k")':   ['<c-k>', '<up>'],
-"   \ 'PrtSelectMove("t")':   ['<Home>', '<kHome>'],
-"   \ 'PrtSelectMove("b")':   ['<End>', '<kEnd>'],
-"   \ 'PrtSelectMove("u")':   ['<PageUp>', '<kPageUp>'],
-"   \ 'PrtSelectMove("d")':   ['<PageDown>', '<kPageDown>'],
-"   \ }
-" " disable jumping to window if file already open, will always open
-" let g:ctrlp_switch_buffer = "0"
-" nnoremap <leader>t :CtrlPTag<cr>
-" nnoremap <leader>tj :CtrlPTag<cr><C-r><C-w><cr>
-" " @todo need to fix buffer to work with ag
-" nnoremap <leader>b :CtrlPBuffer<cr>
+function! s:DirWithDrupalRoot(options)
+  let root = DrupalRoot()
+  let ret_val = {}
+  if a:options != ''
+    echom 'stuff'
+    ret_val = {'source': 'ag ' . a:options}
+  endif
+  if v:shell_error
+    return ret_val
+  endif
+  ret_val['dir'] = root
+  return ret_val
+endfunction
 
-"silver searcher stuff, replaced with fzf
-" if executable('ag')
-"   set grepprg=ag\ --nogroup\ --nocolor " Use ag over grep
-"   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""' " Use ag in CtrlP for listing files
-"   let g:ctrlp_use_caching = 0 " ag is fast enough that CtrlP doesn't need to cache
-" endif
+"DAg search for text in files from DrupalRoot or working directory
+command! -nargs=* DAg
+  \ call fzf#vim#ag(<q-args>, extend(s:DirWithDrupalRoot(''), g:fzf#vim#default_layout))
 
-" let g:ag_working_path_mode='r' "set ag to run from project root by default
-" "search for word under cursor
-" nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
-" "map \ to LAg (Ag using the location-list)
-" nnoremap \ :LAg!<SPACE>
+"
+"DAg search for text in files from DrupalRoot or working directory but all files
+command! -nargs=* DAgAll
+  \ call fzf#vim#ag(<q-args>, '-a --ignore .git', extend(s:DirWithDrupalRoot(''), g:fzf#vim#default_layout))
 
-" }}} End FZF, CtrlP, Ag
+function! s:WithDrupalRoot()
+  let root = DrupalRoot()
+  return v:shell_error ? '' : root
+endfunction
+
+"DFiles command, search filenames from DrupalRoot or working directory
+command! -nargs=* DFiles
+  \ call fzf#vim#files(s:WithDrupalRoot())
+
+"DGFiles command, search git files from DrupalRoot
+command! -bang -nargs=* DGFiles call fzf#run({'source': 'git ls-files', 'dir': s:WithDrupalRoot(), 'options': '-m --prompt "Drupal GitFiles> "', 'down': '~40%'})
+
+"Unite settings
+" nnoremap <c-o> :<c-u>Unite -buffer-name=outline -direction=bottom -start-insert outline<cr>
+
+" }}} End FZF, CtrlP, Ag, Unite
 " Status line --------------------------------------------------- {{{
 
 "turn on airline to use patched style fonts
@@ -511,13 +602,35 @@ let g:airline_powerline_fonts = 1
 " NERDTree --------------------------------------------------- {{{
 
 "map ctrl-e to show nerdtree
-map <C-e> :NERDTreeToggle<CR>
+"@todo fix this so that if no % (e.g. startify) then it still works
+map <silent> <C-e> :NERDTreeToggle %<CR>
+
+" Switch to the directory of the open buffer
+nnoremap <silent> <leader>cd :NERDTreeFind<cr>
 
 "width
 let g:NERDTreeWinSize=40
 
 " Disable display of '?' text and 'Bookmarks' label.
 let g:NERDTreeMinimalUI=1
+
+" @todo
+" Check if NERDTree is open or active
+function! IsNERDTreeOpen()
+  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+endfunction
+
+" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
+" file, and we're not in vimdiff
+function! SyncTree()
+  if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
+    NERDTreeFind
+    wincmd p
+  endif
+endfunction
+
+" Highlight currently open buffer in NERDTree
+" autocmd BufEnter * call SyncTree()
 
 " }}} End NERDTree
 " NeoMake --------------------------------------------------- {{{
@@ -551,6 +664,8 @@ let g:UltiSnipsEditSplit="vertical"
 "in select mode hit ctrl-u to delete the whole line
 snoremap <C-u> <Esc>:d1<cr>i
 
+let g:UltiSnipsExpandTrigger="<c-j>"
+
 " }}} End UltiSnips
 " Deoplete --------------------------------------------------- {{{
 
@@ -576,22 +691,31 @@ set completeopt=longest,menuone
 set completeopt-=preview
 
 " inoremap <silent><expr><tab> pumvisible() ? deoplete#close_popup() : "\<TAB>"
+" deoplete tab-complete
+inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+
+" shift tab to go backwards
+inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+" shi
+
+" close if open
+" inoremap <expr><CR> pumvisible() ? deoplete#mappings#close_popup() : "\<CR>"
 
 " if menu is showing then hitting enter will select the items
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " these keeps the menu showing as you type
-inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
-  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
-  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+" inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
+  " \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+" inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
+  " \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 
-let g:echodoc_enable_at_startup=1
+" let g:echodoc_enable_at_startup=1
 
 " function IniEclim()
-" 	if !filereadable("~/Documents/workspace/.metadata/.lock")
+"   if !filereadable("~/Documents/workspace/.metadata/.lock")
 "     execute '!~/Eclipse.app/Contents/Eclipse/eclimd &> /dev/null &'
 "     autocmd Filetype php setlocal omnifunc=eclim#php#complete#CodeComplete
-" 	endif
+"   endif
 " :endfunction
 " command! -nargs=* IniEclim call IniEclim()
 
@@ -739,6 +863,7 @@ nnoremap <leader>drc :VimuxRunCommand('vagrant ssh -c "/vagrant/bin/drush -r /va
 nnoremap <leader>drd :!vagrant ssh -c "/home/vagrant/.composer/vendor/bin/robo dev:twig-debug-disable"<cr>
 nnoremap <leader>dre :!vagrant ssh -c "/home/vagrant/.composer/vendor/bin/robo dev:twig-debug-enable"<cr>
 
+let g:VimuxRunnerIndex=3
 
 " }}} End Vimux
 " Splitjoin --------------------------------------------------- {{{
@@ -775,18 +900,57 @@ let g:vim_resize_disable_auto_mappings = 1
 " }}} End Resize splits
 " Testing --------------------------------------------------- {{{
 
+" @TODO check for existence of vbin versions
 " let g:test#runner_commands = ['PHPUnit', 'Codeception']
+" codeception setup
 let test#php#codeception#executable = 'vbin/codecept'
-nnoremap <leader>tf :TestFile -strategy=vimux --steps<cr>
-nnoremap <leader>ts :TestSuite -strategy=vimux --steps --html<cr>
-nnoremap <leader>tl :TestLast -strategy=vimux --steps<cr>
+let test#php#codeception#options = '--steps'
+
+" phpunit setup
+" let test#php#phpunit#executable = 'vbin/phpunit'
+" overwrite the original phpunit executable command
+function! test#php#phpunit#executable() abort
+  " get the full path including filename
+  let path = expand('%:p')
+  " position of '/Unit/'
+  let unit_pos = match(path, '/Unit/')
+  if unit_pos == -1
+    " we are inside functional/kerne/web so use the vbin one
+    return 'vbin/codecept'
+  else
+    " use the original code
+    if filereadable('./vendor/bin/phpunit')
+      return './vendor/bin/phpunit'
+    elseif filereadable('./bin/phpunit')
+      return './bin/phpunit'
+    else
+      return 'phpunit'
+    endif
+  endif
+endfunction
+
+let test#strategy = 'vimux'
+
+"overwrite the codeception testing so that only works when not inside drupal root
+function! test#php#codeception#test_file(file) abort
+  if a:file =~# g:test#php#codeception#file_pattern
+    let drupal_root = DrupalRoot()
+    if drupal_root == ''
+      return filereadable('./codeception.yml')
+    else
+      return 0
+    endif
+  endif
+endfunction
+
+nnoremap <leader>tf :TestFile<cr>
+nnoremap <leader>ts :TestSuite<cr>
+nnoremap <leader>tl :TestLast<cr>
 
 " }}} End Testing
 
 " }}} End Plugin settings
 " Mappings --------------------------------------------------- {{{
-
-" Movement --------------------------------------------------- {{{
 
 "treat long lines as break lines
 map j gj
@@ -802,14 +966,14 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
 
-" }}} End Movement
+"return to toggle folding
+nnoremap <cr> za
 
-"tab to toggle folding
-nnoremap <Tab> za
-
-"I like this idea, would be good to use the hyper and j/k to do this.
-nnoremap <silent> <Up> :cprevious<CR>
-nnoremap <silent> <Down> :cnext<CR>
+" arrow keys to navigate quickfix/location list
+nnoremap <silent> <up> :lprevious<CR>
+nnoremap <silent> <down> :lnext<CR>
+nnoremap <silent> <left> :cprevious<CR>
+nnoremap <silent> <right> :cnext<CR>
 
 "visual mode pressing * or # searches for the current selection
 vnoremap <silent> * :call VisualSelection('f')<cr>
@@ -826,8 +990,16 @@ xnoremap >  >gv
 
 "jump to end when inserting
 inoremap <c-e> <c-o>$
-"jump one character right in insert (this overwrites digraph entry)
-inoremap <c-k> <c-o>k
+
+" move cursor left
+inoremap <c-f> <Left>
+
+" move cursor right
+silent! iunmap <c-g>s
+silent! iunmap <c-g>S
+inoremap <c-g> <Right>
+
+inoremap <c-l> <space>=><space>
 
 " always search forward for n, always backward for N
 " @TODO conflicts with the centering thingy
@@ -844,22 +1016,30 @@ nnoremap <s-b> ^
 nnoremap <s-e> $
 
 "ev to edit vimrc, sv to source vimrc
-nmap <silent> <leader>ev :vsplit $MYVIMRC<cr>
-nmap <silent> <leader>sv :so $MYVIMRC<cr>
+nmap <silent> <leader>sv :so $MYVIMRC <bar>exe 'normal! zvzz'<cr>
 
-"quick editing
-nnoremap <leader>ed :vsplit ~/.drush/aliases.drushrc.php<cr>
-nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
-nnoremap <leader>ek :vsplit ~/.config/karabiner/karabiner.json<cr>
-nnoremap <leader>eh :vsplit ~/.hammerspoon/init.lua<cr>
-nnoremap <leader>ez :vsplit ~/.zshrc<cr>
+"quick editing straight open or split
+function! OpenOrSplit(filename)
+  if bufname('') == 'Startify'
+    execute 'edit' a:filename | exe 'normal! zvzz'
+  else
+    execute 'vsplit' a:filename | exe 'normal! zvzz'
+  endif
+endfunction
+nnoremap <leader>ev :call OpenOrSplit($MYVIMRC)<cr>
+nnoremap <leader>ed :call OpenOrSplit("~/.drush/aliases.drushrc.php")<cr>
+" nnoremap <leader>ed :vsplit ~/.drush/aliases.drushrc.php<cr>
+nnoremap <leader>et :call OpenOrSplit("~/.tmux.conf")<cr>
+nnoremap <leader>ek :call OpenOrSplit("~/.config/karabiner/karabiner.json")<cr>
+nnoremap <leader>eh :call OpenOrSplit("~/.hammerspoon/init.lua")<cr>
+nnoremap <leader>ez :call OpenOrSplit("~/.zshrc")<cr>
 nnoremap <leader>eu :UltiSnipsEdit<cr>
 
 "move lines up and down
-nnoremap <leader>k :m-2<cr>==
-nnoremap <leader>j :m+<cr>==
-xnoremap <leader>k :m-2<cr>gv=gv
-xnoremap <leader>j :m'>+<cr>gv=gv
+" nnoremap <leader>k :m-2<cr>==
+" nnoremap <leader>j :m+<cr>==
+" xnoremap <leader>k :m-2<cr>gv=gv
+" xnoremap <leader>j :m'>+<cr>gv=gv
 
 "close the preview window with leader z
 nmap <leader>z :pclose<cr>
@@ -871,6 +1051,7 @@ inoremap <C-S> <C-O>:update<cr>
 
 " quit all
 nnoremap ZQ :qa!<cr>
+
 " map w!! to sudo save
 cmap w!! w !sudo tee % >/dev/null
 
@@ -890,6 +1071,14 @@ inoremap jk <Esc>
 
 " }}} End Mappings
 " Statusline --------------------------------------------------- {{{
+
+"@todo override filename formatting to italic.
+"@todo disable stuff on the right for NERDTree
+"get rid of percent?
+"make modified a different colour
+"something to do with number of errors from neomake
+"change mode to short form
+" let g:lightline#colorscheme#gruvbox
 
 set laststatus=2
 let g:lightline = {

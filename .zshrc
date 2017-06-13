@@ -14,6 +14,7 @@ BULLETTRAIN_GIT_UNTRACKED="%F{yellow} +%F{black}"
 BULLETTRAIN_GIT_AHEAD="%F{15} ⬆"
 BULLETTRAIN_GIT_BEHIND="%F{15} ⬇"
 BULLETTRAIN_GIT_DIVERGED="%F{15} ⬍"
+BULLETTRAIN_GIT_RENAMED="%F{15} ➜"
 BULLETTRAIN_PROMPT_SEPARATE_LINE='false'
 BULLETTRAIN_PROMPT_ORDER=(
   context
@@ -73,6 +74,8 @@ alias gd='git diff'
 alias gl='git log'
 alias gffp='git flow feature publish'
 alias gfff='git flow feature finish'
+
+alias tmuxd='~/.config/tmux/drupal.sh'
 
 #vagrant exec binstubs
 alias rb='vbin/robo'
