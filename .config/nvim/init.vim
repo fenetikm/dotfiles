@@ -114,13 +114,8 @@ set fileformat=unix "default fileformat
 " Cursor settings. This makes terminal vim sooo much nicer!
 " Tmux will only forward escape sequences to the terminal if surrounded by a DCS
 " sequence
-if exists('$TMUX')
-  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-else
-  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-endif
+
+set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
 
 " set python3 host program location
 let g:python3_host_prog = '/usr/local/bin/python3'
@@ -204,6 +199,20 @@ function! RenameFile()
     endif
 endfunction
 
+"Again thanks gary.
+function! RemoveFancyCharacters()
+    let typo = {}
+    let typo["“"] = '"'
+    let typo["”"] = '"'
+    let typo["‘"] = "'"
+    let typo["’"] = "'"
+    let typo["–"] = '--'
+    let typo["—"] = '---'
+    let typo["…"] = '...'
+    :exe ":%s/".join(keys(typo), '\|').'/\=typo[submatch(0)]/ge'
+endfunction
+command! RemoveFancyCharacters :call RemoveFancyCharacters()
+
 function! VisualSelection(direction) range
     let l:saved_reg = @"
     execute "normal! vgvy"
@@ -245,21 +254,20 @@ function! DeleteInactiveBufs()
     echomsg nWipeouts . ' buffer(s) wiped out'
 endfunction
 command! Bdi :call DeleteInactiveBufs()
+command! DeleteInactiveBuffers :call DeleteInactiveBufs()
 
 " Function to start profiling commmands
 function! StartProfile()
-  profile start profile.log
+  profile start 'profile.log'
   profile func *
   profile file *
 endfunction
-
 command! StartProfile call StartProfile()
 
 function! StopProfile()
   profile pause
   " noautocmd qall!
 endfunction
-
 command! StopProfile call StopProfile()
 
 nmap <C-S-C> :call <SID>SynStack()<CR>
@@ -283,10 +291,12 @@ function! DrupalConsoleReloadConfig()
   let command = 'vbin/drupal config:import:single --name=' . config_name . ' --file=' . webpath
   execute 'call VimuxRunCommand("' . command . '")'
 endfunction
-command! DrupalConsoleReloadConfig call DrupalConsoleReloadConfig()
+command! DrupalConsoleReloadConfig :call DrupalConsoleReloadConfig()
 
 "Get the Drupal root
 function! DrupalRoot()
+  " This now does the trick.
+  return projectroot#guess()
   " path containing the current file
   let path = expand('%:p:h')
   " position of '/app/'
@@ -466,7 +476,8 @@ nnoremap <silent> <leader>a :DAg <c-r><c-w><cr>
 " search for under cursor keyword in Ag in all files (ex. gitignore)
 nnoremap <silent> <leader>A :DAgAll <c-r><c-w><cr>
 
-nnoremap <silent> <c-p> :DFiles<cr>
+nnoremap <silent> <c-p> :DGFiles<cr>
+nnoremap <silent> <c-s-p> :DFiles<cr>
 
 "File searching stuff, WIP
 nnoremap <silent> <leader>ff :Files<cr>
@@ -486,7 +497,10 @@ nnoremap <silent> <leader>s :Snippets<cr>
 " :BLines
 
 "line completion
-imap <c-x><c-l> <plug>(fzf-complete-line)
+imap <c-x><c-l> <plug>(fzf-complete-buffer-line)
+
+"word completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
 
 " match splitting to ctrl-w splitting
 let g:fzf_action = {
@@ -553,6 +567,13 @@ endfunction
 "Pull in from *.cmd files from current directory and home nvim config directory.
 command! -bang -nargs=* MyCommands call fzf#run({'sink': function('<sid>ProcessMyCommand'), 'source': 'cat '.$HOME.'/.config/nvim/*.cmd *.cmd 2>/dev/null'})
 nnoremap <c-c> :MyCommands<cr>
+
+"@todo need to insert in the DrupalRoot here
+function! s:DoDrupalEditConfig(c)
+  execute 'call VimuxRunCommand("vbin/drush cedit '.a:c.'")'
+endfunction
+
+command! -bang -nargs=* DrupalEditConfig call fzf#run({'sink': function('<sid>DoDrupalEditConfig'), 'source': 'vbin/drush sqlq \"select name from config\"'})
 
 function! s:DirWithDrupalRoot(options)
   let root = DrupalRoot()
@@ -665,6 +686,21 @@ let g:UltiSnipsEditSplit="vertical"
 snoremap <C-u> <Esc>:d1<cr>i
 
 let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+" let g:UltiSnipsJumpForwardTrigger="<c-n>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-p>"
+" let g:UltiSnipsExpandTrigger = "<nop>"
+" let g:ulti_expand_or_jump_res = 0
+" function! ExpandSnippetOrCarriageReturn()
+"     let snippet = UltiSnips#ExpandSnippetOrJump()
+"     if g:ulti_expand_or_jump_res > 0
+"         return snippet
+"     else
+"         return "\<CR>"
+"     endif
+" endfunction
+" inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
 
 " }}} End UltiSnips
 " Deoplete --------------------------------------------------- {{{
@@ -1055,9 +1091,9 @@ nnoremap ZQ :qa!<cr>
 " map w!! to sudo save
 cmap w!! w !sudo tee % >/dev/null
 
-"fast quit
+"fast quit, fast write
 noremap <C-q> :quit<cr>
-noremap <C-x> :quit<cr>
+nnoremap <c-x> :wq!<cr>
 
 "disable accidental Ex mode
 nnoremap Q <nop>

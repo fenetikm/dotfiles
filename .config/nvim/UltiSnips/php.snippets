@@ -52,6 +52,18 @@ $form['$1'] = [
 $0
 endsnippet
 
+snippet _form_radios "Drupal Form API Radios element"
+$form['$1'] = [
+  '#type' => 'radios',
+	'#title' => $this->t('$2'),
+	'#description' => $this->t('$3'),
+	'#default_value' => ${4:FALSE},
+	'#options' => $5,
+	${6:'#required' => TRUE,}
+];
+$0
+endsnippet
+
 snippet _form_details "Drupal Form API Details element"
 $form['$1'] = [
   '#type' => 'details',
@@ -95,6 +107,13 @@ snippet _func_class "Drupal class function"
 ${2:public} ${3:static }function $4($5) {
   $0
 }
+endsnippet
+
+snippet _func_class_interface "Drupal class interface function"
+/**
+ * ${1:Description}
+ */
+${2:public} function $3($4);
 endsnippet
 
 snippet _const_class "Drupal class const"
