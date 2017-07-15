@@ -24,14 +24,16 @@
             "name": "Default profile",
             "selected": true,
             "simple_modifications": {
-                "caps_lock": "left_control"
+                "caps_lock": "left_control",
+                "left_command": "left_option",
+                "left_option": "left_command"
             },
             "standalone_keys": {
               "caps_lock": "escape"
             },
             "one_to_many_mappings": {
-                "right_command": ["right_command", "right_shift", "right_option", "right_control"],
-                "right_option": ["right_command", "right_option", "right_control"]
+                "right_option": ["right_command", "right_shift", "right_option", "right_control"],
+                "right_command": ["right_command", "right_option", "right_control"]
             },
             "virtual_hid_keyboard": {
                 "caps_lock_delay_milliseconds": 0,
