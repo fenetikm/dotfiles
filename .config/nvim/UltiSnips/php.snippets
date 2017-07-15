@@ -139,3 +139,40 @@ endsnippet
 snippet _logp "Drupal logger print_r"
 \Drupal::logger('$1')->${2:notice}('<pre>' . print_r($3, TRUE) . '</pre>');
 endsnippet
+
+snippet _file_test_kernel "Drupal Kernel Test file template"
+<?php
+
+namespace Drupal\Tests\\$1\Kernel\\$2
+
+/**
+ * $3
+ *
+ * @group ${4:ua}
+ * ${5:@coversDefaultClass \Drupal\ }
+ */
+class $6 {
+
+  /**
+   * {@inheritdoc}
+   */
+  public static $modules = [
+    'system',
+  ];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function setUp() {
+    parent::setUp();
+  }
+
+  /**
+   * ${7:First test description}
+   */
+  public function test${8:FirstTest}() {
+    $9
+  }
+
+}
+endsnippet

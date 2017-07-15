@@ -258,7 +258,7 @@ command! DeleteInactiveBuffers :call DeleteInactiveBufs()
 
 " Function to start profiling commmands
 function! StartProfile()
-  profile start 'profile.log'
+  profile start profile.log
   profile func *
   profile file *
 endfunction
@@ -288,7 +288,7 @@ function! DrupalConsoleReloadConfig()
   " full path to file inside of vagrant
   let webpath = '/vagrant' . strpart(path, app_pos) . '/' . fn
   let config_name = substitute(fn, '.yml', '', '')
-  let command = 'vbin/drupal config:import:single --name=' . config_name . ' --file=' . webpath
+  let command = 'vbin/drupal config:import:single --file=' . webpath
   execute 'call VimuxRunCommand("' . command . '")'
 endfunction
 command! DrupalConsoleReloadConfig :call DrupalConsoleReloadConfig()
@@ -334,6 +334,8 @@ Plug 'benmills/vimux' "Interact with tmux from vim
 " Plug 'jebaum/vim-tmuxify' "tmux controlling, might be a bit more powerful than vimux?
 " Plug 'tpope/vim-eunuch' "Better unix commands
 Plug 'tpope/vim-unimpaired' "Various dual pair commands
+Plug 'tpope/vim-repeat' "Repeat plugin commands
+
 
 " }}} End Global, system, movement
 " Interface, fuzzy handling --------------------------------------------------- {{{
@@ -418,7 +420,6 @@ Plug 'janko-m/vim-test' "testing at diff granularities
 " Plug 'lambdalisue/gina.vim' "Alternative git plugin
 " Plug 'lambdalisue/vim-gista' "Messing with gists
 " Plug 'mbbill/undotree ' "Undo tree
-" Plug 'tpope/vim-repeat' "Repeat plugin commands
 " Plug 'phpstan/vim-phpstan' "PHP static analysis
 " Plug 'ntpeters/vim-better-whitespace' "whitespace handing
 " Plug 'tpope/vim-scriptease' "vim script helper functions
@@ -475,19 +476,17 @@ nnoremap <silent> <leader>\ :DAgAll<space>
 nnoremap <silent> <leader>a :DAg <c-r><c-w><cr>
 " search for under cursor keyword in Ag in all files (ex. gitignore)
 nnoremap <silent> <leader>A :DAgAll <c-r><c-w><cr>
+nnoremap <silent> <leader>b :call fzf#vim#buffers()<cr>
 
-nnoremap <silent> <c-p> :DGFiles<cr>
-nnoremap <silent> <c-s-p> :DFiles<cr>
+nnoremap <silent> <c-p> :GFiles<cr>
+nnoremap <silent> <leader>pp :DFiles<cr>
 
 "File searching stuff, WIP
 nnoremap <silent> <leader>ff :Files<cr>
 nnoremap <silent> <leader>FF :GitFiles<cr>
-nnoremap <silent> <leader>fd :DFiles<cr>
-nnoremap <silent> <leader>DD :DGFiles<cr>
 nnoremap <silent> <leader>fh :Helptags<cr>
 nnoremap <silent> <leader>fc :Commands<cr>
 nnoremap <silent> <leader>fm :Maps<cr>
-nnoremap <silent> <leader>fb :call fzf#vim#buffers()<cr>
 nnoremap <silent> <leader>s :Snippets<cr>
 
 " @todo maybe?
@@ -496,7 +495,7 @@ nnoremap <silent> <leader>s :Snippets<cr>
 " :Filetypes
 " :BLines
 
-"line completion
+"@todo fix this: line completion why you no work?
 imap <c-x><c-l> <plug>(fzf-complete-buffer-line)
 
 "word completion
@@ -608,7 +607,9 @@ command! -nargs=* DFiles
   \ call fzf#vim#files(s:WithDrupalRoot())
 
 "DGFiles command, search git files from DrupalRoot
-command! -bang -nargs=* DGFiles call fzf#run({'source': 'git ls-files', 'dir': s:WithDrupalRoot(), 'options': '-m --prompt "Drupal GitFiles> "', 'down': '~40%'})
+" command! -nargs=* DGFiles call fzf#run({'source': 'git ls-files', 'dir': s:WithDrupalRoot(), 'options': '-m --prompt "Drupal GitFiles> "', 'down': '~40%'})
+command! -bang -nargs=* DGFiles
+  \ call fzf#vim#gitfiles(s:WithDrupalRoot())
 
 "Unite settings
 " nnoremap <c-o> :<c-u>Unite -buffer-name=outline -direction=bottom -start-insert outline<cr>
@@ -624,7 +625,16 @@ let g:airline_powerline_fonts = 1
 
 "map ctrl-e to show nerdtree
 "@todo fix this so that if no % (e.g. startify) then it still works
-map <silent> <C-e> :NERDTreeToggle %<CR>
+function! OpenNERD()
+  if bufname('') == 'Startify'
+    execute 'NERDTreeToggle'
+  else
+    echom
+    execute 'NERDTreeToggle '.expand('%:p:h')
+  endif
+endfunction
+" map <silent> <C-e> :NERDTreeToggle %<CR>
+map <silent> <C-e> :call OpenNERD()<cr>
 
 " Switch to the directory of the open buffer
 nnoremap <silent> <leader>cd :NERDTreeFind<cr>
@@ -707,8 +717,8 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 " let g:EclimCompletionMethod = 'omnifunc'
 let g:deoplete#enable_at_startup = 1
-" this changes the ultisnips matching to get really short ones
-" call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
+" this changes the ultisnips matching to get really short ones and use fuzzy matching
+call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
 let g:deoplete#sources = {}
 " let g:deoplete#omni#input_patterns.php = '\w*|[^. \t]->\w*|\w*::\w*'
 let g:deoplete#sources.php = ['buffer', 'member', 'ultisnips']
@@ -771,12 +781,14 @@ nnoremap <leader>ge :Gedit<cr>
 nnoremap <leader>gr :Gread<cr>
 nnoremap <leader>gw :Gwrite<cr><cr>
 nnoremap <leader>gl :silent! Glog<cr>:bot copen<cr>
-" nnoremap <leader>gp :Gpush<cr>
+nnoremap <leader>gp :Gpush<cr>
 nnoremap <leader>gm :Gmove<leader>
 nnoremap <leader>gb :Git branch<leader>
 nnoremap <leader>go :Git checkout<leader>
-nnoremap <leader>gps :Dispatch! git push<cr>
-nnoremap <leader>gpl :Dispatch! git pull<cr>
+" Quickly stage, commit and push the current file.
+nnoremap <Leader>gg :Gwrite<cr>:Gcommit -m 'Quick update'<cr>:Git push<cr>
+" nnoremap <leader>gps :Dispatch! git push<cr>
+" nnoremap <leader>gpl :Dispatch! git pull<cr>
 
 " }}} End Fugitive
 " Dash --------------------------------------------------- {{{
@@ -792,10 +804,10 @@ nnoremap <leader>dp :Dash <C-r><C-w> php<cr>
 
 "gutentags
 let g:gutentags_ctags_exclude=['*.json', '*.css', '*.html', '*.sh', '*.yml', '*.html.twig', '*.sql', '*.md']
-let g:gutentags_file_list_command='find vendor/symfony vendor/symfony-cmf vendor/twig vendor/psr app -type f'
+" let g:gutentags_file_list_command='find vendor/symfony vendor/symfony-cmf vendor/twig vendor/psr app -type f'
 
 "tagbar
-nmap <leader>tt :TagbarToggle<cr>
+" nmap <leader>tt :TagbarToggle<cr>
 
 " }}} End Tag plugins
 " PHP plugins --------------------------------------------------- {{{
@@ -806,8 +818,8 @@ nmap <leader>tt :TagbarToggle<cr>
 " command! RestartPadawan call deoplete#sources#padawan#RestartServer()
 
 "php folding
-nnoremap <leader>pz :EnablePHPFolds<cr>
-nnoremap <leader>pzd :DisablePHPFolds<cr>
+" nnoremap <leader>pz :EnablePHPFolds<cr>
+" nnoremap <leader>pzd :DisablePHPFolds<cr>
 
 "php documenter
 " I think this is causing weird shit to happen sometimes with <space>p
@@ -939,8 +951,10 @@ let g:vim_resize_disable_auto_mappings = 1
 " @TODO check for existence of vbin versions
 " let g:test#runner_commands = ['PHPUnit', 'Codeception']
 " codeception setup
-let test#php#codeception#executable = 'vbin/codecept'
+let test#php#codeception#executable = 'bin/codecept'
 let test#php#codeception#options = '--steps'
+" this will hide errors doh.
+" let test#php#phpunit#options = '--testdox'
 
 " phpunit setup
 " let test#php#phpunit#executable = 'vbin/phpunit'
@@ -951,8 +965,8 @@ function! test#php#phpunit#executable() abort
   " position of '/Unit/'
   let unit_pos = match(path, '/Unit/')
   if unit_pos == -1
-    " we are inside functional/kerne/web so use the vbin one
-    return 'vbin/codecept'
+    " we are inside functional/kernel/web so use the vbin one
+    return 'vbin/phpunit'
   else
     " use the original code
     if filereadable('./vendor/bin/phpunit')
@@ -980,6 +994,7 @@ function! test#php#codeception#test_file(file) abort
 endfunction
 
 nnoremap <leader>tf :TestFile<cr>
+nnoremap <leader>tn :TestNearest<cr>
 nnoremap <leader>ts :TestSuite<cr>
 nnoremap <leader>tl :TestLast<cr>
 
@@ -1003,7 +1018,14 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
 
 "return to toggle folding
-nnoremap <cr> za
+function! DoFold()
+  if &buftype == 'quickfix'
+    return "\<cr>"
+  else
+    return 'za'
+  endif
+endfunction
+nnoremap <expr> <cr> DoFold()
 
 " arrow keys to navigate quickfix/location list
 nnoremap <silent> <up> :lprevious<CR>
@@ -1024,6 +1046,9 @@ nnoremap ` '
 xnoremap <  <gv
 xnoremap >  >gv
 
+"format in block
+nnoremap <c-=> =iB
+
 "jump to end when inserting
 inoremap <c-e> <c-o>$
 
@@ -1036,6 +1061,9 @@ silent! iunmap <c-g>S
 inoremap <c-g> <Right>
 
 inoremap <c-l> <space>=><space>
+
+"map alternate file switching to leader leader
+nnoremap <leader><leader> <c-^>
 
 " always search forward for n, always backward for N
 " @TODO conflicts with the centering thingy
