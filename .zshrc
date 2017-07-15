@@ -38,19 +38,20 @@ export PATH="$PATH:$HOME/.composer/vendor/bin"
 
 #additions as per drbunsen.org
 export EDITOR="nvim"
-bindkey -v 
+bindkey -v
 
 # vi style incremental search
-bindkey '^R' history-incremental-search-backward
-bindkey '^S' history-incremental-search-forward
-bindkey '^P' history-search-backward
-bindkey '^N' history-search-forward  
+# bindkey '^R' history-incremental-search-backward
+# bindkey '^S' history-incremental-search-forward
+# bindkey '^P' history-search-backward
+# bindkey '^N' history-search-forward
 
 setopt AUTO_CD
 
 alias l='ls -alhF'
 alias uas='cd ~/Documents/Work/UofA/scholarships/ua-scholarships6/'
 alias arop='cd ~/Documents/Work/UofA/arop/vms/ua-arop2/'
+alias ccsp='cd ~/Documents/Work/UofA/ccsp/vms/ua-ccsp'
 alias bd='cd ~/Documents/Work/UofA/bank_details/vms/ua-bank-details-1/'
 alias docs='cd ~/Documents/Work/UofA/ua-docs/vms/ua-docs/'
 alias sys='cd ~/Documents/Work/internal/vms/sys/'
@@ -76,6 +77,8 @@ alias gffp='git flow feature publish'
 alias gfff='git flow feature finish'
 
 alias tmuxd='~/.config/tmux/drupal.sh'
+alias ta='tmux attach -t'
+alias tl='tmux ls'
 
 #vagrant exec binstubs
 alias rb='vbin/robo'
@@ -89,28 +92,30 @@ alias redyssh='ssh theoryz4@122.129.219.79 -p 2022 -i id_dsa'
 
 alias de='eval $(docker-machine env default)'
 
-# Make CTRL-Z background things and unbackground them.
-function fg-bg() {
-  if []; then
-    fg
+# function to toggle fg/bg on control z
+fancy-ctrl-z () {
+  if [[ $#BUFFER -eq 0 ]]; then
+    BUFFER="fg"
+    zle accept-line
   else
     zle push-input
+    zle clear-screen
   fi
 }
-zle -N fg-bg
-bindkey '^Z' fg-bg
-
+zle -N fancy-ctrl-z
+bindkey '^Z' fancy-ctrl-z
 
 stty start undef stop undef
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # setup fasd
- eval "$(fasd --init auto)"
+eval "$(fasd --init auto)"
 
 # fasd z replacement using fzf
 z() {
   local dir
   dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
 }
+
 export PATH="/usr/local/opt/ncurses/bin:$PATH"
