@@ -1,0 +1,36 @@
+[user]
+	name = Michael Welford
+	email = michael.welford@adelaide.edu.au
+[push]
+	default = simple
+[core]
+	excludesfile = /Users/mjw/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[alias]
+    st = status
+    ci = commit --verbose
+    co = checkout
+    di = diff
+    dc = diff --cached
+    amend = commit --amend
+    aa = add --all
+
+    # Fancy logging.
+    #   h = head
+    #   hp = head with patch
+    #   r = recent commits, only current branch
+    #   ra = recent commits, all reachable refs
+    #   l = all commits, only current branch
+    #   la = all commits, all reachable refs
+    head = !git r -1
+    h = !git head
+    hp = "!. ~/.githelpers && show_git_head"
+    r = !GIT_NO_PAGER=1 git l -30
+    ra = !git r --all
+    l = "!. ~/.githelpers && pretty_git_log"
+    la = !git l --all
