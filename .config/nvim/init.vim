@@ -278,7 +278,7 @@ function! <SID>SynStack()
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
 
-function! DrupalConsoleReloadConfig()
+function! DrupalConsoleReloadConfig() "Do stuff
   " name of the file
   let fn = expand('%:t')
   " just the path containing the file
@@ -406,7 +406,8 @@ Plug 'wellle/targets.vim' "Additional target text objects
 " Disabled, not sure if worth it.
 " Plug 'Shougo/echodoc.vim' "prints completion in echo area
 Plug 'vim-scripts/todo-txt.vim' "handling of todo.txt
-Plug 'int3/vim-extradite' "Git commit browser
+" Plug 'int3/vim-extradite' "Git commit browser
+Plug 'junegunn/vim-easy-align' "Alignment of variables, etc.
 
 " }}} End Coding, text objects
 " To try --------------------------------------------------- {{{
@@ -430,6 +431,8 @@ Plug 'janko-m/vim-test' "testing at diff granularities
 " Plug 'francoiscabrol/ranger.vim' "ranger integration, mac osx?
 " Plug 'Shougo/neoyank.vim' "saves yank history, can we use this with fzf?
 " Plug 'svermeulen/vim-easyclip' "simplified clipboard / yank functionality see: https://github.com/svermeulen/vim-easyclip/issues/62
+" Plug 'junegunn/gv.vim' "pretty git log file explorer
+"
 
 " }}} End To try plugins
 " Colors --------------------------------------------------- {{{
@@ -556,7 +559,7 @@ function! s:ProcessMyCommand(l)
     "vim call
     execute 'call '.command_function[0]
   elseif command_parts[0] == 'op'
-    execute '!open '.command_function[0]
+    execute '!open -g '.command_function[0]
   else
     "just do whatever it says
     execute command_function[0]
@@ -999,6 +1002,12 @@ nnoremap <leader>ts :TestSuite<cr>
 nnoremap <leader>tl :TestLast<cr>
 
 " }}} End Testing
+" EasyAlign --------------------------------------------------- {{{
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" }}} End EasyAlign
 
 " }}} End Plugin settings
 " Mappings --------------------------------------------------- {{{
@@ -1239,3 +1248,4 @@ hi NeomakeWarningSignAlt ctermfg=255 gui=none guifg=#ffffff guibg=#202020
 let g:neomake_warning_sign={'text': '⚠', 'texthl': 'NeomakeWarningSignAlt'}
 
 " }}} End Colors
+"
