@@ -52,7 +52,7 @@ set fcs=vert:│ " Solid line for vsplit separator
 
 syntax enable "enable syntax highlighting
 
-set guifont=Consolas:h10:cANSI
+set guifont=FiraCode-Regular:h14
 
 if has("gui_running")
   set guioptions-=T "remove toolbar"
@@ -115,8 +115,6 @@ set fileformat=unix "default fileformat
 " Tmux will only forward escape sequences to the terminal if surrounded by a DCS
 " sequence
 
-set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
-
 " set python3 host program location
 let g:python3_host_prog = '/usr/local/bin/python3'
 
@@ -173,6 +171,9 @@ set viminfo^=%
 autocmd InsertLeave,WinEnter * set cursorline
 autocmd InsertEnter,WinLeave * set nocursorline
 
+" Reload when gaining focus
+au FocusGained,BufEnter * :silent! !
+
 "refresh screen that turns off highlights, fix syntax highlight etc.
 "@TODO fix this
 " nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
@@ -198,6 +199,7 @@ function! RenameFile()
         redraw!
     endif
 endfunction
+command! RenameFile :call RenameFile()
 
 "Again thanks gary.
 function! RemoveFancyCharacters()
@@ -335,6 +337,7 @@ Plug 'benmills/vimux' "Interact with tmux from vim
 " Plug 'tpope/vim-eunuch' "Better unix commands
 Plug 'tpope/vim-unimpaired' "Various dual pair commands
 Plug 'tpope/vim-repeat' "Repeat plugin commands
+Plug 'wincent/loupe' "nicer search highlighting
 
 
 " }}} End Global, system, movement
@@ -359,8 +362,11 @@ Plug 'mhinz/vim-startify' "startify
 Plug 'scrooloose/nerdtree' "nerdtree file tree explorer
 Plug 'Xuyuanp/nerdtree-git-plugin' "nerdtree git plugin
 Plug 'ryanoasis/vim-devicons' "icons using the nerd font
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight' "add in colors for above icons
 " Plug 'junegunn/vim-emoji' "emojis for vim
 " Plug 'yuttie/comfortable-motion.vim' "Nice scrolling in vim
+Plug 'ap/vim-buftabline' "Show what buffers are open at the top
+Plug 'edkolev/tmuxline.vim' "Change the tmux status to be similar to vim
 
 " }}} End Interface, fuzzy handling
 " Syntax --------------------------------------------------- {{{
@@ -432,6 +438,17 @@ Plug 'janko-m/vim-test' "testing at diff granularities
 " Plug 'Shougo/neoyank.vim' "saves yank history, can we use this with fzf?
 " Plug 'svermeulen/vim-easyclip' "simplified clipboard / yank functionality see: https://github.com/svermeulen/vim-easyclip/issues/62
 " Plug 'junegunn/gv.vim' "pretty git log file explorer
+" Plug 'junegunn/vim-peekaboo' "show preview of registers, commands etc.
+" Plug 'junegunn/vim-journal' "nice looking syntax for notes
+" Plug 'wincent/ferret' "multi file search and replace etc.
+" Plug 'w0rp/ale' "async linting engine
+" Plug 'obertbasic/snipbar' "show snippets in a side bar
+" Plug 'phpstan/vim-phpstan' "php static analysis plugin to call phpstan
+" Plug 'https://github.com/tmux-plugins/vim-tmux-focus-events' "focus events for vim
+" Plug 'kenng/vim-bettersearch' "show search results in a small window as you go?
+" Plug 'mhinz/vim-sayonara'"smart closing of buffers
+" Plug 'KabbAmine/vCoolor.vim' "color picker
+" Plug 'nicwest/QQ.vim' "curl wrapper for in vim testing of endpoints
 "
 
 " }}} End To try plugins
@@ -471,18 +488,18 @@ call plug#end()
 " nnoremap <C-r> :History<cr>
 " nnoremap <silent> \ :Ag<space>
 
-nnoremap <silent> <leader>tt :BTags<cr>
+nnoremap <silent> <leader>tt :Tags<cr>
 " search for text in Ag
-nnoremap <silent> \ :DAg<space>
-nnoremap <silent> <leader>\ :DAgAll<space>
+nnoremap <silent> \ :Ag<space>
+nnoremap <silent> <leader>\ :AgAll<space>
 " search for under cursor keyword in Ag
 nnoremap <silent> <leader>a :DAg <c-r><c-w><cr>
 " search for under cursor keyword in Ag in all files (ex. gitignore)
 nnoremap <silent> <leader>A :DAgAll <c-r><c-w><cr>
 nnoremap <silent> <leader>b :call fzf#vim#buffers()<cr>
 
-nnoremap <silent> <c-p> :GFiles<cr>
-nnoremap <silent> <leader>pp :DFiles<cr>
+nnoremap <silent> <c-p> :DFiles<cr>
+nnoremap <silent> <leader>pp :GFiles<cr>
 
 "File searching stuff, WIP
 nnoremap <silent> <leader>ff :Files<cr>
@@ -510,9 +527,13 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit',
   \ 'ctrl-o': '!open'}
 
-" change the color path of the Ag output
+"Default Ag command with addition of changing color
 command! -bang -nargs=* Ag
   \ call fzf#vim#ag(<q-args>, '--color-path 400', fzf#vim#default_layout)
+
+" Ag all files
+command! -bang -nargs=* AgAll
+  \ call fzf#vim#ag(<q-args>, '--color-path 400 -a', fzf#vim#default_layout)
 
 "don't jump to an open buffer, reopen
 let g:fzf_buffers_jump=0
@@ -534,6 +555,7 @@ function! s:ProcessMyCommand(l)
   let keys = split(a:l, ':\t')
   let command_parts = split(keys[0], '|')
   let command_function = split(command_parts[1], '#')
+  "for commands that might run through vagrant
   if command_parts[0] == 'dh' || command_parts[0] == 'dc' || command_parts[0] == 'rb' || command_parts[0] == 'cp'
     let command_bin = 'vagrant exec'
     "drush, drupal console, robo, composer
@@ -579,10 +601,10 @@ command! -bang -nargs=* DrupalEditConfig call fzf#run({'sink': function('<sid>Do
 
 function! s:DirWithDrupalRoot(options)
   let root = DrupalRoot()
+  " let ret_val = {'options': '--color-path 400'}
   let ret_val = {}
   if a:options != ''
-    echom 'stuff'
-    ret_val = {'source': 'ag ' . a:options}
+    ret_val['source'] = 'ag ' . a:options
   endif
   if v:shell_error
     return ret_val
