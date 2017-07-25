@@ -810,8 +810,16 @@ nnoremap <leader>gp :Gpush<cr>
 nnoremap <leader>gm :Gmove<leader>
 nnoremap <leader>gb :Git branch<leader>
 nnoremap <leader>go :Git checkout<leader>
-" Quickly stage, commit and push the current file.
-nnoremap <Leader>gg :Gwrite<cr>:Gcommit -m 'Quick update'<cr>:Git push<cr>
+
+function! QuickCommitMessage()
+  if &ft == 'todo'
+    execute 'Gcommit -m "Update todo"'
+  elseif
+    execute 'Gcommit -m "Update"'
+  endif
+endfunction
+" Stage and commit the current file.
+nnoremap <Leader>gg :Gwrite<cr>:call QuickCommitMessage()<cr>
 " nnoremap <leader>gps :Dispatch! git push<cr>
 " nnoremap <leader>gpl :Dispatch! git pull<cr>
 
