@@ -9,6 +9,15 @@ $form['$1'] = [
 $0
 endsnippet
 
+snippet _form_item "Drupal Form API Item element" s
+$form['$1'] = [
+  '#type' => 'item',
+	'#title' => $this->t('$2'),
+	'#description' => $this->t('$3'),
+];
+$0
+endsnippet
+
 snippet _form_text_format "Drupal Form API text_format element" s
 $${1:field_config_id} = $config->get('$1');
 $form['$2'] = [
@@ -73,7 +82,7 @@ $form['$1'] = [
 $0
 endsnippet
 
-snippet _hook_update "Drupal hook update"
+snippet _module_hook_update "Drupal hook update"
 /**
  * ${1:Description of update.}
  */
@@ -82,7 +91,7 @@ function ${2:mymodule}_update_${3:8000}(&$sandbox) {
 }
 endsnippet
 
-snippet _hook "Drupal hook"
+snippet _module_hook "Drupal hook"
 /**
  * Implements hook_${1:hook}().
  */
@@ -91,7 +100,7 @@ function ${2:mymodule}_${3:hook}($4) {
 }
 endsnippet
 
-snippet _func_module "Drupal module function"
+snippet _module_func "Drupal module function"
 /**
  * ${1:Description}
  */
@@ -100,7 +109,7 @@ function ${2:mymodule}_${3:function_name}($4) {
 }
 endsnippet
 
-snippet _func_class "Drupal class function"
+snippet _class_func "Drupal class function"
 /**
  * ${1:{@inheritdoc}}
  */
@@ -109,21 +118,21 @@ ${2:public} ${3:static }function $4($5) {
 }
 endsnippet
 
-snippet _func_class_interface "Drupal class interface function"
+snippet _class_func_interface "Drupal class interface function"
 /**
  * ${1:Description}
  */
 ${2:public} function $3($4);
 endsnippet
 
-snippet _const_class "Drupal class const"
+snippet _class_const "Drupal class const"
 /**
  * ${1:Description}.
  */
 const $0
 endsnippet
 
-snippet _var_class "Drupal class var"
+snippet _class_var "Drupal class protected var"
 /**
  * ${1:Description}
  *
@@ -175,4 +184,20 @@ class $6 {
   }
 
 }
+endsnippet
+
+snippet _class_plugin_injection "Drupal plugin injection create / construct"
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(array $configuration, $plugin_id, $plugin_definition) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static($configuration, $plugin_id, $plugin_definition);
+  }
 endsnippet
