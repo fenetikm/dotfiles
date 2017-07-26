@@ -836,8 +836,9 @@ nnoremap <leader>dp :Dash <C-r><C-w> php<cr>
 " Tag plugins --------------------------------------------------- {{{
 
 "gutentags
-let g:gutentags_ctags_exclude=['*.json', '*.css', '*.html', '*.sh', '*.yml', '*.html.twig', '*.sql', '*.md']
+let g:gutentags_ctags_exclude=['*.json', '*.css', '*.html', '*.sh', '*.yml', '*.html.twig', '*.sql', '*.md', '*.xml', '*.js', '*.phar']
 " let g:gutentags_file_list_command='find vendor/symfony vendor/symfony-cmf vendor/twig vendor/psr app -type f'
+let g:gutentags_cache_dir = '~/.config/nvim/gutentags'
 
 "tagbar
 " nmap <leader>tt :TagbarToggle<cr>
