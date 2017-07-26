@@ -12,14 +12,18 @@
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
 [alias]
+  # mostly taken from Gary Bernhardt
   st = status
   ci = commit --verbose
-  ca = commit --all
+  cim = commit --verbose -m
+  ca = commit --all --verbose
+  cam = commit --all --verbose -m
   co = checkout
   di = diff
   dc = diff --cached
   amend = commit --amend
   aa = add --all
+  ap = add --patch
   ff = merge --ff-only
   pullff = pull --ff-only
   noff = merge --no-ff
