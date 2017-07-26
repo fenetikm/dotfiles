@@ -1,56 +1,6 @@
 
--- A global variable for the Hyper Mode
-k = hs.hotkey.modal.new({}, "F18")
 
--- per application binding
--- from https://gist.github.com/dulm/ee5ec47cfd2a71ded0e3841ee04e6ea3
--- modal = hs.hotkey.modal.new({}, nil )
-function bindKeyMappers(keyMappers,modal)
-  for i,mapper in ipairs(keyMappers) do
-    -- if modal == nil then
-      hs.hotkey.bind(mapper[1], mapper[2], function()
-        hs.eventtap.keyStroke(mapper[3],mapper[4])
-      end)
-    -- else
-      -- modal:bind(mapper[1], mapper[2], nil, function()
-        -- modal.triggered = true
-        -- hs.eventtap.keyStroke(mapper[3],mapper[4])
-      -- end)
-    -- end
-  end
-end
-
-appKeyMappers = {
-  iTerm2 = {
-    {{'cmd'}, 'i', {}, 'f6'},
-  },
-}
-
-function applicationWatcher(appName, eventType, appObject)
-  if (eventType == hs.application.watcher.activated) then
-    print(appName)
-    local isMatch = false
-    for app, keyMappers in pairs(appKeyMappers) do
-      if(appName == app) then
-        if keyMappers == "nochange" then
-          modal:exit()
-        else
-          modal:exit()
-          bindKeyMappers(keyMappers,modal)
-          modal:enter()
-        end
-        isMatch = true
-        break
-      end
-    end
-    if isMatch == false then
-      modal:exit()
-      bindKeyMappers(defaultKeyMappers,modal)
-      modal:enter()
-    end
-  end
-end
-
+-- hyper key mash
 local mash_apps = {"cmd", "alt", "ctrl", "shift"}
 
 -- https://github.com/digitalbase/hammerspoon/blob/master/init.lua
@@ -79,8 +29,11 @@ hs.fnutils.each({
     hs.hotkey.bind(mash_apps, object.key, function() ext.app.forceLaunchOrFocus(object.app) end) 
 end)
 
--- map mash+k to karabiner swap
+-- map mash+k to karabiner swap keyboard profiles
 hs.hotkey.bind(mash_apps, 'k', function() hs.alert.show((hs.execute("/Users/mjw/.config/karabiner/swap.sh"))) end)
+
+-- map mash+l to lock screen
+hs.hotkey.bind(mash_apps, 'l', function() hs.caffeinate.lockScreen() end)
 
 ext = {
   app = {},
