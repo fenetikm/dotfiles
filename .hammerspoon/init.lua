@@ -61,7 +61,7 @@ hs.fnutils.each({
   { key = "s", app = "Slack" },
   { key = "g", app = "Google Chrome" },
   { key = "x", app = "Firefox" },
-  { key = "2", app = "iterm" },
+  { key = "space", app = "iterm" },
   { key = "m", app = "Mail" },
   { key = "v", app = "Evernote" },
   { key = "d", app = "Dash" },
@@ -74,6 +74,7 @@ hs.fnutils.each({
   { key = "1", app = "Messages" },
   { key = "3", app = "activeCollabTimer3" },
   { key = "i", app = "iTunes" },
+  { key = "r", app = "Transmit" },
 }, function(object)
     hs.hotkey.bind(mash_apps, object.key, function() ext.app.forceLaunchOrFocus(object.app) end) 
 end)
@@ -127,9 +128,9 @@ function reloadConfig(files)
     end
     if doReload then
         hs.reload()
+        hs.alert.show("Hammerspoon config loaded")
     end
 end
 
 hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
-hs.alert.show("Config loaded")
-
+hs.alert.show("Hammerspoon config loaded")
