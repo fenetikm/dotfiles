@@ -1084,6 +1084,22 @@ augroup END
 " }}} End Plugin settings
 " Mappings --------------------------------------------------- {{{
 
+" Remapping of escape sequences
+" control-enter
+set <F13>=[25~
+map <F13> <c-cr>
+map! <F13> <c-cr>
+
+" shift-enter
+set <F14>=[27~
+map <F14> <s-cr>
+map! <F14> <s-cr>
+
+" control-space
+set <F15>=[29~
+map <F15> <c-space>
+map! <F15> <c-space>
+
 "treat long lines as break lines
 map j gj
 map k gk
@@ -1108,11 +1124,9 @@ function! DoFold()
 endfunction
 nnoremap <expr> <cr> DoFold()
 
-" arrow keys to navigate quickfix/location list
-nnoremap <silent> <up> :lprevious<CR>
-nnoremap <silent> <down> :lnext<CR>
-nnoremap <silent> <left> :cprevious<CR>
-nnoremap <silent> <right> :cnext<CR>
+" Folds navigation
+nnoremap [z zk
+nnoremap ]z zj
 
 "visual mode pressing * or # searches for the current selection
 vnoremap <silent> * :call VisualSelection('f')<cr>
@@ -1213,6 +1227,9 @@ vmap <C-v> <Plug>(expand_region_shrink)
 
 "fast escape
 inoremap jk <Esc>
+
+"refresh chrome
+nnoremap <silent> <leader>r :!chrome-cli reload<cr><cr>
 
 " }}} End Mappings
 " Statusline --------------------------------------------------- {{{
