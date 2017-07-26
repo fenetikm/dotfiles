@@ -1051,6 +1051,35 @@ nnoremap <c-cr> :TestLast<cr>
 xmap ga <Plug>(EasyAlign)
 
 " }}} End EasyAlign
+" Buftabline --------------------------------------------------- {{{
+" turn on separators
+let g:buftabline_separators=1
+
+" }}} End Buftabline
+" Loupe --------------------------------------------------- {{{
+
+let g:LoupeVeryMagic=0
+
+" }}} End Loupe
+" Webdevicons --------------------------------------------------- {{{
+
+"enable on nerdtree
+let g:webdevicons_enable_nerdtree=1
+let g:WebDevIconsUnicodeDecorateFileNodes=1
+" hide the brackets, not useful
+let g:webdevicons_conceal_nerdtree_brackets=1
+" single width for icons
+let g:WebDevIconsUnicodeGlyphDoubleWidth=0
+
+"avoid the system call to detect OS
+let g:WebDevIconsOS = 'Darwin'
+
+augroup devicons_nerdtree
+    autocmd FileType nerdtree setlocal list
+    autocmd FileType nerdtree setlocal nolist
+augroup END
+
+" }}} End Webdevicons
 
 " }}} End Plugin settings
 " Mappings --------------------------------------------------- {{{
