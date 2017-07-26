@@ -493,9 +493,9 @@ nnoremap <silent> <leader>tt :Tags<cr>
 nnoremap <silent> \ :Ag<space>
 nnoremap <silent> <leader>\ :AgAll<space>
 " search for under cursor keyword in Ag
-nnoremap <silent> <leader>a :DAg <c-r><c-w><cr>
+nnoremap <silent> <leader>a :Ag <c-r><c-w><cr>
 " search for under cursor keyword in Ag in all files (ex. gitignore)
-nnoremap <silent> <leader>A :DAgAll <c-r><c-w><cr>
+nnoremap <silent> <leader>A :AgAll <c-r><c-w><cr>
 nnoremap <silent> <leader>b :call fzf#vim#buffers()<cr>
 
 nnoremap <silent> <c-p> :DFiles<cr>
