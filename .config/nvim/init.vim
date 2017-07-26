@@ -1013,7 +1013,15 @@ function! test#php#phpunit#executable() abort
   endif
 endfunction
 
-let test#strategy = 'vimux'
+"add in a custom version of vimux strategy which clears the history
+"to fix when we have scrolled it
+function! CustomVimuxStrategy(cmd)
+  call VimuxClearRunnerHistory()
+  call VimuxRunCommand('clear')
+  call VimuxRunCommand(a:cmd)
+endfunction
+let g:test#custom_strategies = {'custom_vimux': function('CustomVimuxStrategy')}
+let g:test#strategy = 'custom_vimux'
 
 "overwrite the codeception testing so that only works when not inside drupal root
 function! test#php#codeception#test_file(file) abort
@@ -1031,6 +1039,10 @@ nnoremap <leader>tf :TestFile<cr>
 nnoremap <leader>tn :TestNearest<cr>
 nnoremap <leader>ts :TestSuite<cr>
 nnoremap <leader>tl :TestLast<cr>
+
+" Run the last test with control enter
+inoremap <c-cr> <Esc>:TestLast<cr>i
+nnoremap <c-cr> :TestLast<cr>
 
 " }}} End Testing
 " EasyAlign --------------------------------------------------- {{{
