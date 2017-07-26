@@ -43,8 +43,8 @@ bindkey -v
 # vi style incremental search
 # bindkey '^R' history-incremental-search-backward
 # bindkey '^S' history-incremental-search-forward
-# bindkey '^P' history-search-backward
-# bindkey '^N' history-search-forward
+bindkey '^P' history-search-backward
+bindkey '^N' history-search-forward
 
 setopt AUTO_CD
 
@@ -56,6 +56,7 @@ alias bd='cd ~/Documents/Work/UofA/bank_details/vms/ua-bank-details-1/'
 alias docs='cd ~/Documents/Work/UofA/ua-docs/vms/ua-docs/'
 alias sys='cd ~/Documents/Work/internal/vms/sys/'
 alias cusoon='cd ~/Documents/Work/jubn_cusoon/vms/cusoon'
+alias e='exa -algB'
 
 alias uakeys='ssh-add ~/.ssh/uofa/keys/ua_lamp_docker/id_rsa && ssh-add ~/.ssh/uofa/keys/jenkins_deployment_key/id_rsa'
 alias ecd='~/Eclipse.app/Contents/Eclipse/eclimd'
