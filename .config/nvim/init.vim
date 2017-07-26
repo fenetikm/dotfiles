@@ -1246,20 +1246,36 @@ set laststatus=2
 let g:lightline = {
       \ 'colorscheme': 'gruvbox',
       \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'fugitive', 'filename' ] ]
-      \ },
+      \     'left': [ [ 'mode', 'paste' ],
+      \               [ 'fugitive', 'filename' ] ],
+      \     'right': [ [ 'lineinfo' ], 
+      \                [ 'fileformat', 'fileencoding', 'filetype' ] ]
+      \   },
+      \   'inactive': {
+      \     'left': [ [ 'filename' ] ],
+      \     'right': [ [ 'lineinfo' ], 
+      \                [ 'filetype' ] ]
+      \   },
       \ 'component_function': {
+      \   'lineinfo': 'LightlineLineinfo',
       \   'filename': 'LightlineFilename',
       \   'fugitive': 'LightlineFugitive',
       \   'fileformat': 'LightlineFileformat',
       \   'filetype': 'LightlineFiletype',
       \   'fileencoding': 'LightlineFileencoding',
-      \   'mode': 'LightlineMode'
+      \   'mode': 'LightlineMode',
       \ },
       \ 'separator': { 'left': '', 'right': '' },
       \ 'subseparator': { 'left': '|', 'right': '|' }
       \}
+" some alternate sep glyph ideas
+" 
+" 
+
+function! LightlineLineinfo()
+  let fname = expand('%:t')
+  return fname =~ 'NERD_tree' ? '' : printf('%d:%-2d', line('.'), col('.'))
+endfunction
 
 function! LightlineMode()
   let fname = expand('%:t')
@@ -1306,11 +1322,11 @@ function! LightlineFilename()
 endfunction
 
 function! LightlineFileformat()
-  return winwidth(0) > 70 ? &fileformat : ''
+  return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
 endfunction
 
 function! LightlineFiletype()
-  return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
 endfunction
 
 function! LightlineFileencoding()
@@ -1336,5 +1352,7 @@ colorscheme gruvbox
 hi NeomakeWarningSignAlt ctermfg=255 gui=none guifg=#ffffff guibg=#202020
 let g:neomake_warning_sign={'text': '⚠', 'texthl': 'NeomakeWarningSignAlt'}
 
+" doesn't work yet :(
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
+
 " }}} End Colors
-"
