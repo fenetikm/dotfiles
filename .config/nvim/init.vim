@@ -838,7 +838,7 @@ nnoremap <leader>dp :Dash <C-r><C-w> php<cr>
 "gutentags
 let g:gutentags_ctags_exclude=['*.json', '*.css', '*.html', '*.sh', '*.yml', '*.html.twig', '*.sql', '*.md', '*.xml', '*.js', '*.phar']
 " let g:gutentags_file_list_command='find vendor/symfony vendor/symfony-cmf vendor/twig vendor/psr app -type f'
-let g:gutentags_cache_dir = '~/.config/nvim/gutentags'
+let g:gutentags_cache_dir = '/Users/mjw/.config/nvim/gutentags'
 
 "tagbar
 " nmap <leader>tt :TagbarToggle<cr>
@@ -928,12 +928,6 @@ nmap <leader>xrd :call RemapDebug()<cr>
 "vimux stuff
 let g:VimuxHeight="15"
 "vagrant
-nnoremap <leader>vs :VimuxRunCommand("vagrant ssh")<cr>
-nnoremap <leader>vu :VimuxRunCommand("vagrant up")<cr>
-nnoremap <leader>vh :VimuxRunCommand("vagrant halt")<cr>
-nnoremap <leader>vc :VimuxRunCommand("bin/drush -r app cr")<cr>
-nnoremap <leader>vd :VimuxPromptCommand("bin/drush -r app ")<cr>
-nnoremap <leader>vv :VimuxPromptCommand("vagrant ")<cr>
 nnoremap <leader>vp :VimuxPromptCommand<cr>
 nnoremap <leader>vx :VimuxCloseRunner<cr>
 nnoremap <leader>vo :VimuxOpenPane<cr>
