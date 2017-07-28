@@ -61,6 +61,9 @@ alias e='exa -algB'
 alias uakeys='ssh-add ~/.ssh/uofa/keys/ua_lamp_docker/id_rsa && ssh-add ~/.ssh/uofa/keys/jenkins_deployment_key/id_rsa'
 alias ecd='~/Eclipse.app/Contents/Eclipse/eclimd'
 
+# nvim aliases
+alias nv='nvim'
+alias v='nvim'
 alias -s php=nvim
 alias -s module=nvim
 alias -s scss=nvim
@@ -68,20 +71,20 @@ alias -s css=nvim
 alias -s tpl=nvim
 alias -s yml=nvim
 
-alias nv='nvim'
-alias v='nvim'
-
+# git aliases
+alias g='git'
 alias gs='git status'
 alias gd='git diff'
 alias gl='git log'
 alias gffp='git flow feature publish'
 alias gfff='git flow feature finish'
 
+# tmux aliases
 alias tmuxd='~/.config/tmux/drupal.sh'
 alias ta='tmux attach -t'
 alias tl='tmux ls'
 
-#vagrant exec binstubs
+# vagrant exec binstubs
 alias rb='vbin/robo'
 alias dr='vbin/drush'
 alias dc='vbin/drupal'
