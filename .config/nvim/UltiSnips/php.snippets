@@ -24,8 +24,8 @@ $form['$2'] = [
   '#type' => 'text_format',
 	'#title' => $this->t('$3'),
 	'#description' => $this->t('$4'),
-	'#format' => empty($$1['format']) ? filter_default_format() : $$1['format'],
-	'#default_value' => empty($$1['value']) ? '' : $$1['value'],
+	'#format' => $$1['format'] ?? filter_default_format(),
+	'#default_value' => $$1['value'] ?? '',
 	${5:'#required' => TRUE,}
 ];
 $0
@@ -147,6 +147,21 @@ endsnippet
 
 snippet _logp "Drupal logger print_r"
 \Drupal::logger('$1')->${2:notice}('<pre>' . print_r($3, TRUE) . '</pre>');
+endsnippet
+
+snippet _file_class_interface "Drupal class interface"
+<?php
+
+namespace Drupal\\$1
+
+/**
+ * ${2:Interface.}
+ */
+interface $3Interface {
+
+  $0
+
+}
 endsnippet
 
 snippet _file_test_kernel "Drupal Kernel Test file template"
