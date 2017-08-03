@@ -291,6 +291,7 @@ function! DrupalConsoleReloadConfig() "Do stuff
   let webpath = '/vagrant' . strpart(path, app_pos) . '/' . fn
   let config_name = substitute(fn, '.yml', '', '')
   let command = 'vbin/drupal config:import:single --file=' . webpath
+  let g:VimuxRunnerIndex = 3
   execute 'call VimuxRunCommand("' . command . '")'
 endfunction
 command! DrupalConsoleReloadConfig :call DrupalConsoleReloadConfig()
@@ -925,21 +926,19 @@ nmap <leader>xrd :call RemapDebug()<cr>
 " }}} End Debug plugins
 " Vimux --------------------------------------------------- {{{
 
-"vimux stuff
-let g:VimuxHeight="15"
+"percentage size
+let g:VimuxHeight="32"
+
+"set pane to open on right
+let g:VimuxOrientation = 'h'
+
 "vagrant
 nnoremap <leader>vp :VimuxPromptCommand<cr>
 nnoremap <leader>vx :VimuxCloseRunner<cr>
 nnoremap <leader>vo :VimuxOpenPane<cr>
 nnoremap <leader>vl :VimuxRunLastCommand<cr>
-"
-" drupal vagrant shortcuts
-nnoremap <leader>drc :VimuxRunCommand('vagrant ssh -c "/vagrant/bin/drush -r /vagrant/app cr"')<cr>
-" nnoremap <leader>drc :!vagrant ssh -c "/vagrant/bin/drush -r /vagrant/app cr"<cr>
-nnoremap <leader>drd :!vagrant ssh -c "/home/vagrant/.composer/vendor/bin/robo dev:twig-debug-disable"<cr>
-nnoremap <leader>dre :!vagrant ssh -c "/home/vagrant/.composer/vendor/bin/robo dev:twig-debug-enable"<cr>
 
-let g:VimuxRunnerIndex=3
+" let g:VimuxRunnerIndex=3
 
 " }}} End Vimux
 " Splitjoin --------------------------------------------------- {{{
@@ -976,16 +975,20 @@ let g:vim_resize_disable_auto_mappings = 1
 " }}} End Resize splits
 " Testing --------------------------------------------------- {{{
 
-" @TODO check for existence of vbin versions
-" let g:test#runner_commands = ['PHPUnit', 'Codeception']
 " codeception setup
-let test#php#codeception#executable = 'bin/codecept'
-let test#php#codeception#options = '--steps'
-" this will hide errors doh.
-" let test#php#phpunit#options = '--testdox'
+function! test#php#codeception#executable() abort
+  " use the vbin one if it is there
+  if filereadable('./vbin/codecept')
+    return 'vbin/codecept'
+  elseif filereadable('./bin/codecept')
+    return 'bin/codecept'
+  else
+    return 'codecept'
+  endif
+endfunction
+let test#php#codeception#options = '--steps --env local'
 
 " phpunit setup
-" let test#php#phpunit#executable = 'vbin/phpunit'
 " overwrite the original phpunit executable command
 function! test#php#phpunit#executable() abort
   " get the full path including filename
@@ -1007,9 +1010,12 @@ function! test#php#phpunit#executable() abort
   endif
 endfunction
 
-"add in a custom version of vimux strategy which clears the history
-"to fix when we have scrolled it
 function! CustomVimuxStrategy(cmd)
+  " Note: if there is only one count then this seems to do the right thing and pops out a new pane
+  let pane_count = str2nr(system('tmux list-panes | wc -l'))
+  if pane_count == '3'
+    let g:VimuxRunnerIndex = pane_count
+  endif
   call VimuxClearRunnerHistory()
   call VimuxRunCommand('clear')
   call VimuxRunCommand(a:cmd)
@@ -1017,15 +1023,15 @@ endfunction
 let g:test#custom_strategies = {'custom_vimux': function('CustomVimuxStrategy')}
 let g:test#strategy = 'custom_vimux'
 
-"overwrite the codeception testing so that only works when not inside drupal root
+"overwrite the codeception test_file / check if file is a codeception one
 function! test#php#codeception#test_file(file) abort
   if a:file =~# g:test#php#codeception#file_pattern
-    let drupal_root = DrupalRoot()
-    if drupal_root == ''
-      return filereadable('./codeception.yml')
-    else
-      return 0
+    let drupal_tests = DrupalRoot() . '/tests'
+    let path = expand('%:p:h')
+    if match(path, drupal_tests) == 0
+      return 1
     endif
+    return 0
   endif
 endfunction
 
