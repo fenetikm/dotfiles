@@ -1084,7 +1084,8 @@ augroup END
 " }}} End Plugin settings
 " Mappings --------------------------------------------------- {{{
 
-" Remapping of escape sequences
+" Key escape remapping --------------------------------------------------- {{{
+
 " control-enter
 set <F13>=[25~
 map <F13> <c-cr>
@@ -1099,6 +1100,47 @@ map! <F14> <s-cr>
 set <F15>=[29~
 map <F15> <c-space>
 map! <F15> <c-space>
+
+" }}} End Key escape remapping
+" Insert mode mappings --------------------------------------------------- {{{
+
+"jump to end when inserting
+inoremap <c-e> <c-o>$
+
+" move cursor left
+inoremap <c-f> <Left>
+
+" move cursor right
+silent! iunmap <c-g>s
+silent! iunmap <c-g>S
+inoremap <c-g> <Right>
+
+inoremap <c-l> <space>=><space>
+
+" }}} End Insert mode mappings
+" Easy file opening --------------------------------------------------- {{{
+
+"ev to edit vimrc, sv to source vimrc
+nmap <silent> <leader>sv :so $MYVIMRC <bar>exe 'normal! zvzz'<cr>
+
+"quick editing straight open or split
+function! OpenOrSplit(filename)
+  if bufname('') == 'Startify'
+    execute 'edit' a:filename | exe 'normal! zvzz'
+  else
+    execute 'vsplit' a:filename | exe 'normal! zvzz'
+  endif
+endfunction
+nnoremap <leader>ev :call OpenOrSplit($MYVIMRC)<cr>
+nnoremap <leader>ed :call OpenOrSplit("~/.drush/aliases.drushrc.php")<cr>
+" nnoremap <leader>ed :vsplit ~/.drush/aliases.drushrc.php<cr>
+nnoremap <leader>et :call OpenOrSplit("~/.tmux.conf")<cr>
+nnoremap <leader>ek :call OpenOrSplit("~/.config/karabiner/karabiner.json")<cr>
+nnoremap <leader>eh :call OpenOrSplit("~/.hammerspoon/init.lua")<cr>
+nnoremap <leader>ez :call OpenOrSplit("~/.zshrc")<cr>
+nnoremap <leader>eu :UltiSnipsEdit<cr>
+
+" }}} End Easy file opening
 
 "treat long lines as break lines
 map j gj
@@ -1144,26 +1186,8 @@ xnoremap >  >gv
 "format in block
 nnoremap <c-=> =iB
 
-"jump to end when inserting
-inoremap <c-e> <c-o>$
-
-" move cursor left
-inoremap <c-f> <Left>
-
-" move cursor right
-silent! iunmap <c-g>s
-silent! iunmap <c-g>S
-inoremap <c-g> <Right>
-
-inoremap <c-l> <space>=><space>
-
 "map alternate file switching to leader leader
 nnoremap <leader><leader> <c-^>
-
-" always search forward for n, always backward for N
-" @TODO conflicts with the centering thingy
-" nnoremap <expr> n  'Nn'[v:searchforward]
-" nnoremap <expr> N  'nN'[v:searchforward]
 
 "remap visual for put and get
 xnoremap dp :diffput<cr>
@@ -1173,32 +1197,6 @@ nnoremap du :diffupdate<cr>
 "easier begin and end of line
 nnoremap <s-b> ^
 nnoremap <s-e> $
-
-"ev to edit vimrc, sv to source vimrc
-nmap <silent> <leader>sv :so $MYVIMRC <bar>exe 'normal! zvzz'<cr>
-
-"quick editing straight open or split
-function! OpenOrSplit(filename)
-  if bufname('') == 'Startify'
-    execute 'edit' a:filename | exe 'normal! zvzz'
-  else
-    execute 'vsplit' a:filename | exe 'normal! zvzz'
-  endif
-endfunction
-nnoremap <leader>ev :call OpenOrSplit($MYVIMRC)<cr>
-nnoremap <leader>ed :call OpenOrSplit("~/.drush/aliases.drushrc.php")<cr>
-" nnoremap <leader>ed :vsplit ~/.drush/aliases.drushrc.php<cr>
-nnoremap <leader>et :call OpenOrSplit("~/.tmux.conf")<cr>
-nnoremap <leader>ek :call OpenOrSplit("~/.config/karabiner/karabiner.json")<cr>
-nnoremap <leader>eh :call OpenOrSplit("~/.hammerspoon/init.lua")<cr>
-nnoremap <leader>ez :call OpenOrSplit("~/.zshrc")<cr>
-nnoremap <leader>eu :UltiSnipsEdit<cr>
-
-"move lines up and down
-" nnoremap <leader>k :m-2<cr>==
-" nnoremap <leader>j :m+<cr>==
-" xnoremap <leader>k :m-2<cr>gv=gv
-" xnoremap <leader>j :m'>+<cr>gv=gv
 
 "close the preview window with leader z
 nmap <leader>z :pclose<cr>
@@ -1224,9 +1222,6 @@ nnoremap Q <nop>
 "region expanding
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
-
-"fast escape
-inoremap jk <Esc>
 
 "refresh chrome
 nnoremap <silent> <leader>r :!chrome-cli reload<cr><cr>
