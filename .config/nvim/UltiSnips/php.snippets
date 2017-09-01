@@ -164,10 +164,44 @@ interface $3Interface {
 }
 endsnippet
 
+snippet _file_test_unit "Drupal Unit Test file template"
+<?php
+
+namespace Drupal\Tests\\$1
+
+use Drupal\Tests\UnitTestCase;
+
+/**
+ * $2
+ *
+ * @group ${3:ua}
+ * ${4:@coversDefaultClass \Drupal\ }
+ */
+class $5 extends UnitTestCase {
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function setUp() {
+    parent::setUp();
+  }
+
+  /**
+	 * ${6:First test description}
+	 */
+	public function test${7:FirstTest}() {
+
+	}
+
+}
+endsnippet
+
 snippet _file_test_kernel "Drupal Kernel Test file template"
 <?php
 
 namespace Drupal\Tests\\$1\Kernel\\$2
+
+use Drupal\KernelTests\KernelTestBase;
 
 /**
  * $3
@@ -175,7 +209,7 @@ namespace Drupal\Tests\\$1\Kernel\\$2
  * @group ${4:ua}
  * ${5:@coversDefaultClass \Drupal\ }
  */
-class $6 {
+class $6 extends KernelTestBase {
 
   /**
    * {@inheritdoc}

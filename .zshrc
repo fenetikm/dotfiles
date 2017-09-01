@@ -49,6 +49,7 @@ bindkey '^N' history-search-forward
 setopt AUTO_CD
 
 alias l='ls -alhF'
+alias lvr='ls -alR > /dev/null'
 alias uas='cd ~/Documents/Work/UofA/scholarships/ua-scholarships6/'
 alias arop='cd ~/Documents/Work/UofA/arop/vms/ua-arop2/'
 alias ccsp='cd ~/Documents/Work/UofA/ccsp/vms/ua-ccsp'
@@ -81,12 +82,13 @@ alias gfff='git flow feature finish'
 
 # tmux aliases
 alias tmuxd='~/.config/tmux/drupal.sh'
+alias tmuxs='~/.config/tmux/split.sh'
 alias ta='tmux attach -t'
 alias tl='tmux ls'
 
 # vagrant exec binstubs
 alias rb='vbin/robo'
-alias dr='vbin/drush'
+# alias dr='vbin/drush'
 alias dc='vbin/drupal'
 alias vs='vagrant ssh'
 alias co='vbin/codecept'
@@ -95,6 +97,43 @@ alias wallissh='ssh -p 2223 root@103.21.48.192'
 alias redyssh='ssh theoryz4@122.129.219.79 -p 2022 -i id_dsa'
 
 alias de='eval $(docker-machine env default)'
+
+alias ..='cd ..'
+
+find-up () {
+  SWD=$(pwd)
+  while [[ $PWD != / ]] ; do
+    find "$PWD" -maxdepth 1 -name "$@"
+    cd ..
+  done
+  cd $SWD
+}
+
+run-drush () {
+  ssh -F .vagrant/ssh_config -q -t default "bash -l -c 'cd /vagrant/app && /home/vagrant/.composer/vendor/bin/drush $@'"
+}
+
+alias dr2='run-drush'
+
+# add in looking for the command down the tree...
+# the idea begin:
+# use the vbin version if it exists, or
+# if in Vagrant directory do vagrant ssh -c, or
+# run it if command, or
+# throw error
+vbb () {
+  if [ -f vbin/$1 ]
+  then
+    vbin/$1
+  elif [ -f Vagrantfile ]
+  then
+    vagrant ssh -c "cd /vagrant && $1 ${@:2}"
+  else
+    echo "echo"
+  fi
+}
+
+alias dr='vbb bin/drush -r app'
 
 # function to toggle fg/bg on control z
 fancy-ctrl-z () {
