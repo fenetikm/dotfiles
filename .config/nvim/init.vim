@@ -111,10 +111,6 @@ endif
 
 set fileformat=unix "default fileformat
 
-" Cursor settings. This makes terminal vim sooo much nicer!
-" Tmux will only forward escape sequences to the terminal if surrounded by a DCS
-" sequence
-
 " set python3 host program location
 let g:python3_host_prog = '/usr/local/bin/python3'
 
@@ -148,12 +144,6 @@ endfunction
 
 autocmd! BufWritePost * call NeomakeSave()
 
-" set omni for php
-" au FileType php set omnifunc=phpcomplete#CompletePHP
-
-" highlight SQL syntax in strings
-" let php_sql_query=1
-
 " }}} End Drupal / PHP
 
 au BufNewFile,BufRead *.as set filetype=actionscript
@@ -178,8 +168,6 @@ autocmd InsertEnter,WinLeave * set nocursorline
 au FocusGained,BufEnter * :silent! !
 
 "refresh screen that turns off highlights, fix syntax highlight etc.
-"@TODO fix this
-" nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
 
 " }}} End Buffer handling
 " Helper functions --------------------------------------------------- {{{
@@ -320,7 +308,6 @@ command! DrupalRoot call DrupalRoot()
 
 call plug#begin()
 
-
 " Global, system, movement --------------------------------------------------- {{{
 
 Plug 'tpope/vim-surround' "change surrounding characters
@@ -344,20 +331,13 @@ Plug 'benmills/vimux' "Interact with tmux from vim
 Plug 'tpope/vim-unimpaired' "Various dual pair commands
 Plug 'tpope/vim-repeat' "Repeat plugin commands
 
-
 " }}} End Global, system, movement
 " Interface, fuzzy handling --------------------------------------------------- {{{
 
-" Plug 'bling/vim-airline' "improved status line
 Plug 'itchyny/lightline.vim' "statusline handling
-"Plug 'ctrlpvim/ctrlp.vim' "fuzzy file searching
-" Plug 'Numkil/ag.nvim' "ag for nvim
-" Plug 'Shougo/unite.vim' "create lists and filter them
-" Plug 'Shougo/unite-outline' "outline of current buffer source
 Plug 'airblade/vim-gitgutter' "place git changes in the gutter
 Plug 'kshenoy/vim-signature' "marks handling
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } "autocomplete
-" Plug 'Valloric/YouCompleteMe', { 'do': './install.py' } "youcompleteme omnicomplete
 Plug 'Valloric/ListToggle' "toggle quickfix and location lists
 " Plug 'majutsushi/tagbar' "tagbar
 " Plug 'vim-php/tagbar-phpctags.vim' "tagbar phpctags
@@ -367,7 +347,6 @@ Plug 'Xuyuanp/nerdtree-git-plugin' "nerdtree git plugin
 Plug 'ryanoasis/vim-devicons' "icons using the nerd font
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight' "add in colors for above icons
 " Plug 'junegunn/vim-emoji' "emojis for vim
-" Plug 'yuttie/comfortable-motion.vim' "Nice scrolling in vim
 Plug 'ap/vim-buftabline' "Show what buffers are open at the top
 Plug 'edkolev/tmuxline.vim' "Change the tmux status to be similar to vim
 
@@ -378,8 +357,6 @@ Plug 'wincent/loupe' "nicer search highlighting
 Plug 'wincent/ferret' "multi file search
 Plug '/usr/local/opt/fzf' "fzf
 Plug 'junegunn/fzf.vim' "fuzzy finder stuff
-" Plug 'haya14busa/vim-asterisk' "improved asterisk
-" Plug 'haya14busa/incsearch.vim' "highlight all when doing incsearch
 
 " }}} End Search, Fuzzy Finding
 " Syntax --------------------------------------------------- {{{
@@ -426,7 +403,6 @@ Plug 'wellle/targets.vim' "Additional target text objects
 " Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
 " Disabled, not sure if worth it.
-" Plug 'Shougo/echodoc.vim' "prints completion in echo area
 Plug 'vim-scripts/todo-txt.vim' "handling of todo.txt
 " Plug 'int3/vim-extradite' "Git commit browser
 Plug 'junegunn/vim-easy-align' "Alignment of variables, etc.
@@ -465,12 +441,10 @@ Plug 'janko-m/vim-test' "testing at diff granularities
 " Plug 'mhinz/vim-sayonara'"smart closing of buffers
 " Plug 'KabbAmine/vCoolor.vim' "color picker
 " Plug 'nicwest/QQ.vim' "curl wrapper for in vim testing of endpoints
-"
 
 " }}} End To try plugins
 " Colors --------------------------------------------------- {{{
 
-" Plug 'flazz/vim-colorschemes' "colorscheme pack
 Plug 'AlessandroYorba/Monrovia'
 Plug 'AlessandroYorba/Sidonia'
 Plug 'AlessandroYorba/Despacio'
@@ -494,15 +468,6 @@ call plug#end()
 " Plugin settings --------------------------------------------------- {{{
 
 " FZF, CtrlP, Ag, Unite --------------------------------------------- {{{
-
-" for some reason :Buffers is giving me something funky from elsewhere...
-" nnoremap <leader>b :call fzf#vim#buffers()<cr>
-" Files searches through all files (not just version controlled)
-" nnoremap <leader>f :Files<cr>
-" Given this up for thm testing namespace
-" nnoremap <leader>t :Tags<cr>
-" nnoremap <C-r> :History<cr>
-" nnoremap <silent> \ :Ag<space>
 
 nnoremap <silent> <leader>tt :Tags<cr>
 " search for text in Ag
@@ -531,7 +496,6 @@ nnoremap <silent> <leader>s :Snippets<cr>
 " :Filetypes
 " :BLines
 
-"@todo fix this: line completion why you no work?
 imap <c-x><c-l> <plug>(fzf-complete-buffer-line)
 
 "word completion
@@ -641,7 +605,6 @@ endfunction
 command! -nargs=* DAg
   \ call fzf#vim#ag(<q-args>, extend(s:DirWithDrupalRoot(''), g:fzf#vim#default_layout))
 
-"
 "DAg search for text in files from DrupalRoot or working directory but all files
 command! -nargs=* DAgAll
   \ call fzf#vim#ag(<q-args>, '-a --ignore .git', extend(s:DirWithDrupalRoot(''), g:fzf#vim#default_layout))
@@ -660,9 +623,6 @@ command! -nargs=* DFiles
 " command! -nargs=* DGFiles call fzf#run({'source': 'git ls-files', 'dir': s:WithDrupalRoot(), 'options': '-m --prompt "Drupal GitFiles> "', 'down': '~40%'})
 command! -bang -nargs=* DGFiles
   \ call fzf#vim#gitfiles(s:WithDrupalRoot())
-
-"Unite settings
-" nnoremap <c-o> :<c-u>Unite -buffer-name=outline -direction=bottom -start-insert outline<cr>
 
 " }}} End FZF, CtrlP, Ag, Unite
 " Status line --------------------------------------------------- {{{
@@ -709,9 +669,6 @@ function! SyncTree()
     wincmd p
   endif
 endfunction
-
-" Highlight currently open buffer in NERDTree
-" autocmd BufEnter * call SyncTree()
 
 " }}} End NERDTree
 " NeoMake --------------------------------------------------- {{{
@@ -780,7 +737,6 @@ let g:deoplete#enable_smart_case = 1
 " call deoplete#custom#source('ultisnips', 'rank', 9999)
 " close the preview window automatically.
 " autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-"
 
 " stop insertion, match with the longest common match, still show if one option
 set completeopt=longest,menuone
@@ -793,32 +749,6 @@ inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 " shift tab to go backwards
 inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
-" shi
-
-" close if open
-" inoremap <expr><CR> pumvisible() ? deoplete#mappings#close_popup() : "\<CR>"
-
-" if menu is showing then hitting enter will select the items
-" inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" these keeps the menu showing as you type
-" inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
-  " \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-" inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
-  " \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-
-" let g:echodoc_enable_at_startup=1
-
-" function IniEclim()
-"   if !filereadable("~/Documents/workspace/.metadata/.lock")
-"     execute '!~/Eclipse.app/Contents/Eclipse/eclimd &> /dev/null &'
-"     autocmd Filetype php setlocal omnifunc=eclim#php#complete#CodeComplete
-"   endif
-" :endfunction
-" command! -nargs=* IniEclim call IniEclim()
-
-" the below is phpcd stuff, maybe one day.
-" let g:deoplete#ignore_sources = get(g:, 'deoplete#ignore_sources', {})
-" let g:deoplete#ignore_sources.php = ['omni']
 
 " }}} End Deoplete
 " Fugitive --------------------------------------------------- {{{
@@ -844,10 +774,9 @@ function! QuickCommitMessage()
     execute 'Gcommit -m "Update"'
   endif
 endfunction
+
 " Stage and commit the current file.
 nnoremap <Leader>gg :Gwrite<cr>:call QuickCommitMessage()<cr>
-" nnoremap <leader>gps :Dispatch! git push<cr>
-" nnoremap <leader>gpl :Dispatch! git pull<cr>
 
 " }}} End Fugitive
 " Dash --------------------------------------------------- {{{
@@ -873,11 +802,6 @@ let g:gutentags_project_root_finder = 'projectroot#guess'
 
 " }}} End Tag plugins
 " PHP plugins --------------------------------------------------- {{{
-"
-"padawan completion server
-" command! StartPadawan call deoplete#sources#padawan#StartServer()
-" command! StopPadawan call deoplete#sources#padawan#StopServer()
-" command! RestartPadawan call deoplete#sources#padawan#RestartServer()
 
 "php folding
 " nnoremap <leader>pz :EnablePHPFolds<cr>
@@ -900,9 +824,6 @@ function! IPhpExpandClass()
     call feedkeys('a',  'n')
 endfunction
 
-" Let's disable these since I think they are also causing mischief
-" autocmd FileType php inoremap <leader>pu <Esc>:call IPhpInsertUse()<cr>
-" autocmd FileType php inoremap <leader>pe <Esc>:call IPhpExpandClass()<cr>
 autocmd FileType php noremap <leader>pu :call PhpInsertUse()<cr>
 autocmd FileType php noremap <leader>pe :call PhpExpandClass()<cr>
 
@@ -984,22 +905,6 @@ let g:localvimrc_sandbox=0 "don't load in sandbox (security)
 let g:localvimrc_name=['.lvimrc'] "name of the local vimrc
 
 " }}} End Local vimrc
-" Emojis --------------------------------------------------- {{{
-
-" if emoji#available()
-"   let g:gitgutter_sign_added = emoji#for('small_blue_diamond')
-"   let g:gitgutter_sign_modified = emoji#for('small_orange_diamond')
-"   let g:gitgutter_sign_removed = emoji#for('small_red_triangle')
-"   let g:gitgutter_sign_modified_removed = emoji#for('collision')
-" endif
-
-" }}} End Emojis
-" Resize splits --------------------------------------------------- {{{
-
-" @todo need to work out the sending of escape sequences...
-let g:vim_resize_disable_auto_mappings = 1
-
-" }}} End Resize splits
 " Testing --------------------------------------------------- {{{
 
 " codeception setup
@@ -1085,6 +990,7 @@ let g:buftabline_separators=1
 " }}} End Buftabline
 " Loupe --------------------------------------------------- {{{
 
+"turn off insertion of \v
 let g:LoupeVeryMagic=0
 
 " }}} End Loupe
@@ -1107,21 +1013,6 @@ augroup devicons_nerdtree
 augroup END
 
 " }}} End Webdevicons
-" Asterisk --------------------------------------------------- {{{
-
-" This will change asterisk and co so that it doesn't move straight away
-" map *  <Plug>(asterisk-z*)
-" map #  <Plug>(asterisk-z#)
-" map g* <Plug>(asterisk-gz*)
-" map g# <Plug>(asterisk-gz#)
-
-" }}} End Asterisk
-" Incsearch --------------------------------------------------- {{{
-
-" map /  <Plug>(incsearch-forward)
-" map ?  <Plug>(incsearch-backward)
-
-" }}} End Incsearch
 " phpactor --------------------------------------------------- {{{
 
 "omnicompletion
@@ -1184,7 +1075,6 @@ function! OpenOrSplit(filename)
 endfunction
 nnoremap <leader>ev :call OpenOrSplit($MYVIMRC)<cr>
 nnoremap <leader>ed :call OpenOrSplit("~/.drush/aliases.drushrc.php")<cr>
-" nnoremap <leader>ed :vsplit ~/.drush/aliases.drushrc.php<cr>
 nnoremap <leader>et :call OpenOrSplit("~/.tmux.conf")<cr>
 nnoremap <leader>ek :call OpenOrSplit("~/.config/karabiner/karabiner.json")<cr>
 nnoremap <leader>eh :call OpenOrSplit("~/.hammerspoon/init.lua")<cr>
