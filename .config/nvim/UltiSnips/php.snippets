@@ -9,6 +9,17 @@ $form['$1'] = [
 $0
 endsnippet
 
+snippet _form_textarea "Drupal Form API Textarea element" s
+$form['$1'] = [
+  '#type' => 'textarea',
+	'#title' => $this->t('$2'),
+	'#description' => $this->t('$3'),
+	'#default_value' => $4,
+	${5:'#required' => TRUE,}
+];
+$0
+endsnippet
+
 snippet _form_item "Drupal Form API Item element" s
 $form['$1'] = [
   '#type' => 'item',
@@ -141,12 +152,47 @@ snippet _class_var "Drupal class protected var"
 ${3:protected} $4
 endsnippet
 
+snippet _class_var_entity_type_manager_interface "Drupal class EntityTypeManagerInterface"
+/**
+ * Entity type manager.
+ *
+ * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+ */
+protected $entityTypeManager;
+$0
+endsnippet
+
+snippet _class_var_config_factory_interface "Drupal class ConfigFactoryInterface"
+/**
+ * The config factory.
+ *
+ * @var \Drupal\Core\Config\ConfigFactoryInterface
+ */
+protected $configFactory;
+$0
+endsnippet
+
 snippet _log "Drupal logger"
 \Drupal::logger('$1')->${2:notice}($3);
 endsnippet
 
 snippet _logp "Drupal logger print_r"
 \Drupal::logger('$1')->${2:notice}('<pre>' . print_r($3, TRUE) . '</pre>');
+endsnippet
+
+snippet _file_class_standard "Drupal class, standard"
+<?php
+
+namespace Drupal\\$1
+
+/**
+ * ${2:Class description.}
+ */
+class $3 {
+
+  $0
+
+}
 endsnippet
 
 snippet _file_class_interface "Drupal class interface"
