@@ -88,6 +88,7 @@ alias tl='tmux ls'
 
 # vagrant exec binstubs
 alias rb='vbin/robo'
+alias rbc='ls -alR > /dev/null && vbin/robo build:clean'
 # alias dr='vbin/drush'
 alias dc='vbin/drupal'
 alias vs='vagrant ssh'

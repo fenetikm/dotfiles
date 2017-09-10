@@ -151,6 +151,9 @@ autocmd! BufWritePost * call NeomakeSave()
 " set omni for php
 " au FileType php set omnifunc=phpcomplete#CompletePHP
 
+" highlight SQL syntax in strings
+" let php_sql_query=1
+
 " }}} End Drupal / PHP
 
 au BufNewFile,BufRead *.as set filetype=actionscript
@@ -290,9 +293,10 @@ function! DrupalConsoleReloadConfig() "Do stuff
   " full path to file inside of vagrant
   let webpath = '/vagrant' . strpart(path, app_pos) . '/' . fn
   let config_name = substitute(fn, '.yml', '', '')
-  let command = 'vbin/drupal config:import:single --file=' . webpath
+  let dcommand = 'vbin/drupal config:import:single --file=' . webpath
   let g:VimuxRunnerIndex = 3
-  execute 'call VimuxRunCommand("' . command . '")'
+  echom dcommand
+  execute 'call VimuxRunCommand("' . dcommand . '")'
 endfunction
 command! DrupalConsoleReloadConfig :call DrupalConsoleReloadConfig()
 
@@ -316,6 +320,7 @@ command! DrupalRoot call DrupalRoot()
 
 call plug#begin()
 
+
 " Global, system, movement --------------------------------------------------- {{{
 
 Plug 'tpope/vim-surround' "change surrounding characters
@@ -338,7 +343,6 @@ Plug 'benmills/vimux' "Interact with tmux from vim
 " Plug 'tpope/vim-eunuch' "Better unix commands
 Plug 'tpope/vim-unimpaired' "Various dual pair commands
 Plug 'tpope/vim-repeat' "Repeat plugin commands
-Plug 'wincent/loupe' "nicer search highlighting
 
 
 " }}} End Global, system, movement
@@ -348,8 +352,6 @@ Plug 'wincent/loupe' "nicer search highlighting
 Plug 'itchyny/lightline.vim' "statusline handling
 "Plug 'ctrlpvim/ctrlp.vim' "fuzzy file searching
 " Plug 'Numkil/ag.nvim' "ag for nvim
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } "fuzzy finder
-Plug 'junegunn/fzf.vim' "fuzzy finder stuff
 " Plug 'Shougo/unite.vim' "create lists and filter them
 " Plug 'Shougo/unite-outline' "outline of current buffer source
 Plug 'airblade/vim-gitgutter' "place git changes in the gutter
@@ -370,6 +372,16 @@ Plug 'ap/vim-buftabline' "Show what buffers are open at the top
 Plug 'edkolev/tmuxline.vim' "Change the tmux status to be similar to vim
 
 " }}} End Interface, fuzzy handling
+" Search, Fuzzy Finding --------------------------------------------------- {{{
+
+Plug 'wincent/loupe' "nicer search highlighting
+Plug 'wincent/ferret' "multi file search
+Plug '/usr/local/opt/fzf' "fzf
+Plug 'junegunn/fzf.vim' "fuzzy finder stuff
+" Plug 'haya14busa/vim-asterisk' "improved asterisk
+" Plug 'haya14busa/incsearch.vim' "highlight all when doing incsearch
+
+" }}} End Search, Fuzzy Finding
 " Syntax --------------------------------------------------- {{{
 
 Plug 'plasticboy/vim-markdown' "markdown handling
@@ -408,8 +420,11 @@ Plug 'wellle/targets.vim' "Additional target text objects
 " Plug 'kana/vim-textobj-function' "function textobj , buggy...
 " Plug 'michaeljsmith/vim-indent-object' "indentation text objects
 " Plug 'padawan-php/deoplete-padawan' "deoplete padawan completion
+" Plug 'phpactor/phpactor',  {'do': 'composer install'}
 " Plug 'm2mdas/phpcomplete-extended-symfony' "phpcomplete symfony (drupal)
+" Plug 'roxma/nvim-completion-manager' "nvim completion manager
 " Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
 " Disabled, not sure if worth it.
 " Plug 'Shougo/echodoc.vim' "prints completion in echo area
 Plug 'vim-scripts/todo-txt.vim' "handling of todo.txt
@@ -494,9 +509,9 @@ nnoremap <silent> <leader>tt :Tags<cr>
 nnoremap <silent> \ :Ag<space>
 nnoremap <silent> <leader>\ :AgAll<space>
 " search for under cursor keyword in Ag
-nnoremap <silent> <leader>a :Ag <c-r><c-w><cr>
+nnoremap <silent> <leader>A :Ag <c-r><c-w><cr>
 " search for under cursor keyword in Ag in all files (ex. gitignore)
-nnoremap <silent> <leader>A :AgAll <c-r><c-w><cr>
+nnoremap <silent> <leader>a :AgAll <c-r><c-w><cr>
 nnoremap <silent> <leader>b :call fzf#vim#buffers()<cr>
 
 nnoremap <silent> <c-p> :DFiles<cr>
@@ -573,9 +588,17 @@ function! s:ProcessMyCommand(l)
     "check for * which signifies to use a prompt
     let trimmed_function = split(command_function[0], '*')
     if len(trimmed_function) == 2
+      let pane_count = str2nr(system('tmux list-panes | wc -l'))
+      if pane_count == '3'
+        let g:VimuxRunnerIndex = pane_count
+      endif
       "Extra space for after prompt
       execute 'call VimuxPromptCommand("'.command_bin.trimmed_function[0].' ")'
     else
+      let pane_count = str2nr(system('tmux list-panes | wc -l'))
+      if pane_count == '3'
+        let g:VimuxRunnerIndex = pane_count
+      endif
       execute 'call VimuxRunCommand("'.command_bin.command_function[0].'")'
     endif
   elseif command_parts[0] == 'vc'
@@ -625,6 +648,7 @@ command! -nargs=* DAgAll
 
 function! s:WithDrupalRoot()
   let root = DrupalRoot()
+  echom root
   return v:shell_error ? '' : root
 endfunction
 
@@ -724,6 +748,7 @@ snoremap <C-u> <Esc>:d1<cr>i
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+" let g:UltiSnipsListSnippets="<c-tab>"
 " let g:UltiSnipsJumpForwardTrigger="<c-n>"
 " let g:UltiSnipsJumpBackwardTrigger="<c-p>"
 " let g:UltiSnipsExpandTrigger = "<nop>"
@@ -741,21 +766,21 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 " }}} End UltiSnips
 " Deoplete --------------------------------------------------- {{{
 
-" let g:EclimCompletionMethod = 'omnifunc'
 let g:deoplete#enable_at_startup = 1
 " this changes the ultisnips matching to get really short ones and use fuzzy matching
-call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
+" call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
 let g:deoplete#sources = {}
-" let g:deoplete#omni#input_patterns.php = '\w*|[^. \t]->\w*|\w*::\w*'
-let g:deoplete#sources.php = ['buffer', 'member', 'ultisnips']
-let g:deoplete#sources.text = ['buffer', 'ultisnips', 'dictionary']
-" let deoplete#tag#cache_limit_size = 50000000
+let g:deoplete#sources.php = ['ultisnips', 'member', 'buffer']
+" let g:deoplete#sources.text = ['ultisnips', 'buffer', 'ultisnips', 'dictionary']
 let g:deoplete#auto_complete_delay=50
+" Use smartcase.
+let g:deoplete#enable_smart_case = 1
+
+" change the rank to put ultisnips at the top
+" call deoplete#custom#source('ultisnips', 'rank', 9999)
 " close the preview window automatically.
 " autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 "
-" Use smartcase.
-let g:deoplete#enable_smart_case = 1
 
 " stop insertion, match with the longest common match, still show if one option
 set completeopt=longest,menuone
@@ -840,6 +865,8 @@ nnoremap <leader>dp :Dash <C-r><C-w> php<cr>
 let g:gutentags_ctags_exclude=['*.json', '*.css', '*.html', '*.sh', '*.yml', '*.html.twig', '*.sql', '*.md', '*.xml', '*.js', '*.phar']
 " let g:gutentags_file_list_command='find vendor/symfony vendor/symfony-cmf vendor/twig vendor/psr app -type f'
 let g:gutentags_cache_dir = '/Users/mjw/.config/nvim/gutentags'
+
+let g:gutentags_project_root_finder = 'projectroot#guess'
 
 "tagbar
 " nmap <leader>tt :TagbarToggle<cr>
@@ -1080,6 +1107,30 @@ augroup devicons_nerdtree
 augroup END
 
 " }}} End Webdevicons
+" Asterisk --------------------------------------------------- {{{
+
+" This will change asterisk and co so that it doesn't move straight away
+" map *  <Plug>(asterisk-z*)
+" map #  <Plug>(asterisk-z#)
+" map g* <Plug>(asterisk-gz*)
+" map g# <Plug>(asterisk-gz#)
+
+" }}} End Asterisk
+" Incsearch --------------------------------------------------- {{{
+
+" map /  <Plug>(incsearch-forward)
+" map ?  <Plug>(incsearch-backward)
+
+" }}} End Incsearch
+" phpactor --------------------------------------------------- {{{
+
+"omnicompletion
+" autocmd FileType php setlocal omnifunc=phpactor#Complete
+"
+" autocmd FileType php LanguageClientStart
+" autocmd FileType php set omnifunc=LanguageClient#complete
+
+" }}} End phpactor
 
 " }}} End Plugin settings
 " Mappings --------------------------------------------------- {{{
@@ -1142,6 +1193,9 @@ nnoremap <leader>eu :UltiSnipsEdit<cr>
 
 " }}} End Easy file opening
 
+" visual select fold
+nnoremap vaf ?function.*{<cr>zCVzO
+
 "treat long lines as break lines
 map j gj
 map k gk
@@ -1184,7 +1238,7 @@ xnoremap <  <gv
 xnoremap >  >gv
 
 "format in block
-nnoremap <c-=> =iB
+nnoremap <leader>= =iB
 
 "map alternate file switching to leader leader
 nnoremap <leader><leader> <c-^>
@@ -1227,6 +1281,14 @@ vmap <C-v> <Plug>(expand_region_shrink)
 nnoremap <silent> <leader>r :!chrome-cli reload<cr><cr>
 
 " }}} End Mappings
+" Abbreviations --------------------------------------------------- {{{
+
+iab vd var_dump();<Esc>hi
+iab vdd var_dump();<cr>die;<Esc>k$hi
+iab prr print_r();<Esc>hi
+iab prd print_r();<cr>die;<Esc>k$hi
+
+" }}} End Abbreviations
 " Statusline --------------------------------------------------- {{{
 
 "@todo override filename formatting to italic.
@@ -1347,7 +1409,7 @@ colorscheme gruvbox
 hi NeomakeWarningSignAlt ctermfg=255 gui=none guifg=#ffffff guibg=#202020
 let g:neomake_warning_sign={'text': '⚠', 'texthl': 'NeomakeWarningSignAlt'}
 
-" doesn't work yet :(
+" doesn't work yet (inside of tmux) :(
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
 " }}} End Colors
