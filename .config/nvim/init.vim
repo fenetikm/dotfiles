@@ -1112,8 +1112,8 @@ let g:indent_guides_guide_size=1
 " Ale {{{ "
 
 let g:ale_linters = {
-			\   'php': ['phpcs'],
-			\}
+      \   'php': ['phpcs'],
+      \}
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
 let g:ale_php_phpcs_standard = 'Drupal'
@@ -1330,7 +1330,7 @@ let g:lightline = {
       \     'left': [ [ 'mode', 'paste' ],
       \               [ 'filename' ] ],
       \     'right': [ ['linter_status', 'lineinfo'],
-			\								 [ 'linter_warnings', 'linter_errors', 'linter_ok', 'fileformat', 'fileencoding', 'filetype' ] ]
+      \                [ 'linter_warnings', 'linter_errors', 'linter_ok', 'fileformat', 'fileencoding', 'filetype' ] ]
       \   },
       \   'inactive': {
       \     'left': [ [ 'filename' ] ],
@@ -1346,16 +1346,16 @@ let g:lightline = {
       \   'fileencoding': 'LightlineFileencoding',
       \   'mode': 'LightlineMode',
       \ },
-			\ 'component_expand': {
+      \ 'component_expand': {
       \    'linter_warnings': 'LightlineLinterWarnings',
       \    'linter_errors': 'LightlineLinterErrors',
       \    'linter_ok': 'LightlineLinterOk',
-			\ },
-			\ 'component_type': {
-			\    'linter_warnings': 'warning',
-			\    'linter_errors': 'error',
-			\    'linter_ok': 'ok',
-			\ },
+      \ },
+      \ 'component_type': {
+      \    'linter_warnings': 'warning',
+      \    'linter_errors': 'error',
+      \    'linter_ok': 'ok',
+      \ },
       \ 'separator': { 'left': '', 'right': '' },
       \ 'subseparator': { 'left': '|', 'right': '|' }
       \}
