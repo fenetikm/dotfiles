@@ -1123,6 +1123,14 @@ let g:ale_sign_info=''
 let g:ale_sign_warning=''
 
 " }}} Ale "
+" GitGutter {{{ "
+
+let g:gitgutter_sign_added = '+'
+let g:gitgutter_sign_modified = ''
+let g:gitgutter_sign_removed = ''
+let g:gitgutter_sign_modified_removed = ''
+
+" }}} GitGutter "
 
 " }}} End Plugin settings
 " Mappings {{{
@@ -1487,11 +1495,6 @@ set background=dark
 let g:falcon_lightline = 1
 let g:lightline.colorscheme='falcon'
 colorscheme falcon
-
-"colorscheme customisation
-" @todo put in falcon
-hi NeomakeWarningSignAlt ctermfg=255 gui=none guifg=#ffffff guibg=#0b0b1a
-let g:neomake_warning_sign={'text': '!', 'texthl': 'NeomakeWarningSignAlt'}
 
 " set cursors depending on mode
 set t_SI=[6\ q
