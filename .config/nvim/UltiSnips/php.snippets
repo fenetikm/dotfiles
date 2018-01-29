@@ -152,7 +152,7 @@ snippet _class_var "Drupal class protected var"
 ${3:protected} $4
 endsnippet
 
-snippet _class_var_entity_type_manager_interface "Drupal class EntityTypeManagerInterface"
+snippet _class_var_entity_type_manager_interface "Drupal class var EntityTypeManagerInterface"
 /**
  * Entity type manager.
  *
@@ -162,13 +162,43 @@ protected $entityTypeManager;
 $0
 endsnippet
 
-snippet _class_var_config_factory_interface "Drupal class ConfigFactoryInterface"
+snippet _class_var_database_connection "Drupal class var Database Connection"
+/**
+ * Database connection.
+ *
+ * @var \Drupal\Core\Database\Connection
+ */
+protected $databaseConnection;
+$0
+endsnippet
+
+snippet _class_var_config_factory_interface "Drupal class var ConfigFactoryInterface"
 /**
  * The config factory.
  *
  * @var \Drupal\Core\Config\ConfigFactoryInterface
  */
 protected $configFactory;
+$0
+endsnippet
+
+snippet _class_var_date_formatter_interface "Drupal class var DateFormatterInterface"
+/**
+ * Date formatter.
+ *
+ * @var \Drupal\Core\Datetime\DateFormatterInterface
+ */
+protected $dateFormatter;
+$0
+endsnippet
+
+snippet _class_var_logger_interface "Drupal class var LoggerInterface"
+/**
+ * Logger for a channel.
+ *
+ * @var \Psr\Log\LoggerInterface
+ */
+protected $logger;
 $0
 endsnippet
 
