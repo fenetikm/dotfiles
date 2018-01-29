@@ -13,21 +13,23 @@ if [ $# -eq 0 ]
 fi
 
 CWD=$(pwd)
+SESSION_NAME="$1"
 
 # detach from a tmux session if in one
 tmux detach > /dev/null
 
 # Create a new session, -d means detached itself
-tmux new-session -d -s $1
+set -- $(stty size) # $1 = rows $2 = columns
+tmux new-session -d -s $SESSION_NAME -x "$2" -y "$(($1 - 1))"
 
-tmux new-window -t $1:1 -n 'Code'
+tmux new-window -t $SESSION_NAME:1 -n 'Code'
 
 ## Main Window
-tmux select-window -t $1:1
+tmux select-window -t $SESSION_NAME:1
 tmux rename-window 'Code'
 
 # Split into left and right
-tmux split-window -h -p 33
+tmux split-window -h -p33
 
 # Open the things
 # Todo.txt in top right
@@ -41,4 +43,4 @@ tmux select-pane -t 1
 tmux send-keys "v" C-m
 
 # Finally attach to it
-tmux attach -t $1
+tmux attach -t $SESSION_NAME
