@@ -1,8 +1,8 @@
-" Michael Welford's vimrc
+" Michael Welford's vimrc.
 " Set fold marker to {{{}}}
 " vim: set fdm=marker fmr={{{,}}} fdl=0 :
 
-" General options --------------------------------------------------- {{{
+" General options {{{
 
 set nocompatible " disable compatibility with vi
 set scrolloff=5 "set number of lines to show above and below cursor
@@ -12,9 +12,13 @@ set history=9999 "number of lines of history
 set cursorline "highlight the line the cursor is on
 set clipboard=unnamed "for copy and paste, anonymous register aliased to * register
 set autoread "set to auto read when a file is changed from the outside
+set report=0 "Always report line changes
+set mouse=nv " mouse only enabled in normal and visual
 
 let mapleader = "\<Space>" "set variable mapleader
 let g:mapleader = "\<Space>" "set global variable mapleader see http://stackoverflow.com/a/15685904
+
+" Wildmenu {{{ "
 
 set wildmenu "turn on wildmenu, commandline completion
 set wildmode=longest:full,full
@@ -25,6 +29,9 @@ set wildignore+=*.DS_Store "OSX SHIT"
 set wildignore+=log/**
 set wildignore+=tmp/**
 set wildignore+=vendor/cache/**
+set wildignorecase
+
+" }}} Wildmenu "
 
 set ruler "show column/row/line number position
 set number "show line numbers
@@ -34,6 +41,9 @@ set laststatus=2 "always show status line
 set backspace=eol,start,indent "delete over end of line, autoindent, start of insert
 set whichwrap+=<,>,h,l,[,] "wrap with cursor keys and h and l
 
+" Search {{{ "
+
+set infercase "adjust case when searching
 set ignorecase "ignore case when searching
 set smartcase "use case searching if uppercase character is included
 set hlsearch "highlight search results
@@ -42,10 +52,13 @@ set magic "regex magic, more useable
 set showmatch "show matching brackets when text indicator is over them
 set mat=2 "how many tenths of a second to blink when matching brackets
 
+" }}} Search "
+
 set noerrorbells "no annoying beeps
 set novisualbell "no screen flashes on errors
 set t_vb= "no screen flashes
 set timeoutlen=2000 "timeout for leader key
+set ttimeoutlen=10 "timeout for key code delays
 set noshowmode "hide showing which mode we are in, the status bar is fine
 
 set fcs=vert:│ " Solid line for vsplit separator
@@ -81,10 +94,18 @@ set wrap "wrap visually, don't actually change the file
 set list                              " show whitespace
 set listchars=nbsp:⦸                  " CIRCLED REVERSE SOLIDUS (U+29B8, UTF-8: E2 A6 B8)
 set listchars+=tab:▷┅                 " WHITE RIGHT-POINTING TRIANGLE (U+25B7, UTF-8: E2 96 B7)
-                                      " + BOX DRAWINGS HEAVY TRIPLE DASH HORIZONTAL (U+2505, UTF-8: E2 94 85)
+" + BOX DRAWINGS HEAVY TRIPLE DASH HORIZONTAL (U+2505, UTF-8: E2 94 85)
 set listchars+=extends:»              " RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
 set listchars+=precedes:«             " LEFT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00AB, UTF-8: C2 AB)
 set listchars+=trail:•                " BULLET (U+2022, UTF-8: E2 80 A2)
+
+"folding stuff
+set fillchars=vert:┃
+set fillchars+=fold:
+set foldmethod=indent "indent method
+set foldlevelstart=99 "start unfolded
+set foldtext=Customfoldtext()
+
 set nojoinspaces                      " don't autoinsert two spaces after '.', '?', '!' for join command
 " old version is below, above from @wincent
 " set listchars=tab:›\ ,trail:X,extends:#,nbsp:. "characters to use when showing formatting characters
@@ -118,7 +139,7 @@ let g:python3_host_prog = '/usr/local/bin/python3'
 runtime macros/matchit.vim
 
 " }}} End General options
-" Filetypes --------------------------------------------------- {{{
+" Filetypes {{{
 
 " Drupal / PHP --------------------------------------------------- {{{
 
@@ -135,21 +156,12 @@ if has("autocmd")
     augroup END
 endif
 
-"run Neomake on php files on save
-function! NeomakeSave()
-  if &ft == 'php'
-    Neomake phpcs
-  endif
-endfunction
-
-autocmd! BufWritePost * call NeomakeSave()
-
 " }}} End Drupal / PHP
 
 au BufNewFile,BufRead *.as set filetype=actionscript
 
 " }}} End Filetypes
-" Buffer handling --------------------------------------------------- {{{
+" Buffer handling {{{
 
 " Make sure Vim returns to the same line when you reopen a file.
 autocmd BufReadPost *
@@ -170,81 +182,107 @@ au FocusGained,BufEnter * :silent! !
 "refresh screen that turns off highlights, fix syntax highlight etc.
 
 " }}} End Buffer handling
-" Helper functions --------------------------------------------------- {{{
+" Helper functions {{{
+
+" Based off of a post by Greg Sexton
+function! Customfoldtext() abort
+  "get first non-blank line
+  let fs = v:foldstart
+    while getline(fs) =~ '^\s*$' | let fs = nextnonblank(fs + 1)
+  endwhile
+  if fs > v:foldend
+    let line = getline(v:foldstart)
+  else
+    let line = substitute(getline(fs), '\t', repeat(' ', &tabstop), 'g')
+  endif
+
+  let foldsymbol=''
+  let repeatsymbol=''
+  let prefix = foldsymbol . ' '
+
+  let w = winwidth(0) - &foldcolumn - (&number ? 8 : 0)
+  let foldSize = 1 + v:foldend - v:foldstart
+  let foldSizeStr = " " . foldSize . " lines "
+  let foldLevelStr = repeat("+--", v:foldlevel)
+  let lineCount = line("$")
+  let foldPercentage = printf("[%.1f", (foldSize*1.0)/lineCount*100) . "%] "
+  let expansionString = repeat(repeatsymbol, w - strwidth(prefix.foldSizeStr.line.foldLevelStr.foldPercentage))
+  return prefix . line . expansionString . foldSizeStr . foldPercentage . foldLevelStr
+endfunction
 
 function! TrimWhiteSpace()
-    %s/\s\+$//e
+  %s/\s\+$//e
 endfunction
 
 function! SearchWordWithAg()
-    execute 'Ag' expand('<cword>')
+  execute 'Ag' expand('<cword>')
 endfunction
 
 " Thanks gary.
 function! RenameFile()
-    let old_name = expand('%')
-    let new_name = input('New file name: ', expand('%'), 'file')
-    if new_name != '' && new_name != old_name
-        exec ':saveas ' . new_name
-        exec ':silent !rm ' . old_name
-        redraw!
-    endif
+  let old_name = expand('%')
+  let new_name = input('New file name: ', expand('%'), 'file')
+  if new_name != '' && new_name != old_name
+    exec ':saveas ' . new_name
+    exec ':silent !rm ' . old_name
+    redraw!
+  endif
 endfunction
 command! RenameFile :call RenameFile()
 
 "Again thanks gary.
 function! RemoveFancyCharacters()
-    let typo = {}
-    let typo["“"] = '"'
-    let typo["”"] = '"'
-    let typo["‘"] = "'"
-    let typo["’"] = "'"
-    let typo["–"] = '--'
-    let typo["—"] = '---'
-    let typo["…"] = '...'
-    :exe ":%s/".join(keys(typo), '\|').'/\=typo[submatch(0)]/ge'
+  let typo = {}
+  let typo["“"] = '"'
+  let typo["”"] = '"'
+  let typo["‘"] = "'"
+  let typo["’"] = "'"
+  let typo["–"] = '--'
+  let typo["—"] = '---'
+  let typo["…"] = '...'
+  :exe ":%s/".join(keys(typo), '\|').'/\=typo[submatch(0)]/ge'
 endfunction
 command! RemoveFancyCharacters :call RemoveFancyCharacters()
 
 function! VisualSelection(direction) range
-    let l:saved_reg = @"
-    execute "normal! vgvy"
+  let l:saved_reg = @"
+  execute "normal! vgvy"
 
-    let l:pattern = escape(@", '\\/.*$^~[]')
-    let l:pattern = substitute(l:pattern, "\n$", "", "")
+  let l:pattern = escape(@", '\\/.*$^~[]')
+  let l:pattern = substitute(l:pattern, "\n$", "", "")
 
-    if a:direction == 'b'
-        execute "normal ?" . l:pattern . "^M"
-    elseif a:direction == 'gv'
-        call CmdLine("vimgrep " . '/'. l:pattern . '/' . ' **/*.')
-    elseif a:direction == 'replace'
-        call CmdLine("%s" . '/'. l:pattern . '/')
-    elseif a:direction == 'f'
-        execute "normal /" . l:pattern . "^M"
-    endif
+  if a:direction == 'b'
+    execute "normal ?" . l:pattern . "^M"
+  elseif a:direction == 'gv'
+    call CmdLine("vimgrep " . '/'. l:pattern . '/' . ' **/*.')
+  elseif a:direction == 'replace'
+    call CmdLine("%s" . '/'. l:pattern . '/')
+  elseif a:direction == 'f'
+    execute "normal /" . l:pattern . "^M"
+  endif
 
-    let @/ = l:pattern
-    let @" = l:saved_reg
+  let @/ = l:pattern
+  let @" = l:saved_reg
 endfunction
 
 function! DeleteInactiveBufs()
-    "From tabpagebuflist() help, get a list of all buffers in all tabs
-    let tablist = []
-    for i in range(tabpagenr('$'))
-        call extend(tablist, tabpagebuflist(i + 1))
-    endfor
+  "From tabpagebuflist() help, get a list of all buffers in all tabs
+  let tablist = []
+  for i in range(tabpagenr('$'))
+    call extend(tablist, tabpagebuflist(i + 1))
+  endfor
 
-    "Below originally inspired by Hara Krishna Dara and Keith Roberts
-    "http://tech.groups.yahoo.com/group/vim/message/56425
-    let nWipeouts = 0
-    for i in range(1, bufnr('$'))
-        if bufexists(i) && !getbufvar(i,"&mod") && index(tablist, i) == -1
-        "bufno exists AND isn't modified AND isn't in the list of buffers open in windows and tabs
-            silent exec 'bwipeout' i
-            let nWipeouts = nWipeouts + 1
-        endif
-    endfor
-    echomsg nWipeouts . ' buffer(s) wiped out'
+  "Below originally inspired by Hara Krishna Dara and Keith Roberts
+  "http://tech.groups.yahoo.com/group/vim/message/56425
+  let nWipeouts = 0
+  for i in range(1, bufnr('$'))
+    if bufexists(i) && !getbufvar(i,"&mod") && index(tablist, i) == -1
+      "bufno exists AND isn't modified AND isn't in the list of buffers open in windows and tabs
+      silent exec 'bwipeout' i
+      let nWipeouts = nWipeouts + 1
+    endif
+  endfor
+  echomsg nWipeouts . ' buffer(s) wiped out'
 endfunction
 command! Bdi :call DeleteInactiveBufs()
 command! DeleteInactiveBuffers :call DeleteInactiveBufs()
@@ -304,20 +342,20 @@ endfunction
 command! DrupalRoot call DrupalRoot()
 
 " }}} End Helper functions
-" Plugins --------------------------------------------------- {{{
+" Plugins {{{
 
 call plug#begin()
 
-" Global, system, movement --------------------------------------------------- {{{
+" Global, system, movement {{{
 
 Plug 'tpope/vim-surround' "change surrounding characters
 Plug 'SirVer/ultisnips' "ultisnips snippets
 Plug 'honza/vim-snippets' "snippets library
 Plug 'tpope/vim-dispatch' "async dispatching
 Plug 'radenling/vim-dispatch-neovim' "dispatch for neovim
-Plug 'neomake/neomake' "async syntax checking
+" Plug 'neomake/neomake' "async syntax checking
 Plug 'ludovicchabant/vim-gutentags' "tag generation
-Plug 'rizzatti/dash.vim' "lookup a word in dash
+" Plug 'rizzatti/dash.vim' "lookup a word in dash
 " Plug 'easymotion/vim-easymotion' "vimperator style jumping around
 Plug 'embear/vim-localvimrc' "local vimrc
 Plug 'dbakker/vim-projectroot' "project root stuff
@@ -330,9 +368,12 @@ Plug 'benmills/vimux' "Interact with tmux from vim
 " Plug 'tpope/vim-eunuch' "Better unix commands
 Plug 'tpope/vim-unimpaired' "Various dual pair commands
 Plug 'tpope/vim-repeat' "Repeat plugin commands
+Plug 'ConradIrwin/vim-bracketed-paste' "auto set paste nopaste
+Plug 'neilagabriel/vim-geeknote' "Evernote
+Plug 'kakkyz81/evervim' "Evernote integration try, requires an API key.
 
 " }}} End Global, system, movement
-" Interface, fuzzy handling --------------------------------------------------- {{{
+" Interface, fuzzy handling {{{
 
 Plug 'itchyny/lightline.vim' "statusline handling
 Plug 'airblade/vim-gitgutter' "place git changes in the gutter
@@ -345,13 +386,16 @@ Plug 'mhinz/vim-startify' "startify
 Plug 'scrooloose/nerdtree' "nerdtree file tree explorer
 Plug 'Xuyuanp/nerdtree-git-plugin' "nerdtree git plugin
 Plug 'ryanoasis/vim-devicons' "icons using the nerd font
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight' "add in colors for above icons
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight' "add in colors for above icons but seems to slow down nerdtree
 " Plug 'junegunn/vim-emoji' "emojis for vim
-Plug 'ap/vim-buftabline' "Show what buffers are open at the top
+" Plug 'ap/vim-buftabline' "Show what buffers are open at the top
 Plug 'edkolev/tmuxline.vim' "Change the tmux status to be similar to vim
+" Plug 'roman/golden-ratio' "make the focused split bigger
+" Plug 'jszakmeister/vim-togglecursor/' "change cursor depending on mode
+"Plug 'sjl/vitality.vim' "more cursor stuff
 
 " }}} End Interface, fuzzy handling
-" Search, Fuzzy Finding --------------------------------------------------- {{{
+" Search, Fuzzy Finding {{{
 
 Plug 'wincent/loupe' "nicer search highlighting
 Plug 'wincent/ferret' "multi file search
@@ -359,7 +403,7 @@ Plug '/usr/local/opt/fzf' "fzf
 Plug 'junegunn/fzf.vim' "fuzzy finder stuff
 
 " }}} End Search, Fuzzy Finding
-" Syntax --------------------------------------------------- {{{
+" Syntax {{{
 
 Plug 'plasticboy/vim-markdown' "markdown handling
 Plug 'cakebaker/scss-syntax.vim' "scss syntax
@@ -367,24 +411,29 @@ Plug 'evidens/vim-twig' "twig syntax
 Plug 'jeroenbourgois/vim-actionscript' "actionscript syntax
 Plug 'elzr/vim-json' "better json syntax
 Plug 'ap/vim-css-color' "css color preview
+Plug 'pangloss/vim-javascript' "javascript syntax
+Plug 'mxw/vim-jsx' "jsx syntax support
+Plug 'posva/vim-vue' "vue support
+Plug 'gerw/vim-HiLinkTrace' "show syntax color groups
+Plug 'StanAngeloff/php.vim', { 'for': 'php' } "More updatd php syntax
+Plug 'vim-scripts/todo-txt.vim' "handling of todo.txt
 
-" }}} End Syntax 
-" Coding, text objects --------------------------------------------------- {{{
+" }}} End Syntax
+" Coding, text objects {{{
 
 Plug 'tpope/vim-fugitive' "git management
 Plug 'tomtom/tcomment_vim' "commenting
 Plug 'sniphpets/sniphpets' "php snippets
 Plug 'sniphpets/sniphpets-common' "php snippets
-Plug 'gerw/vim-HiLinkTrace' "show syntax color groups
 Plug '2072/PHP-Indenting-for-VIm' "updated indenting
 " Plug 'paulyg/Vim-PHP-Stuff' "updated php syntax
-Plug 'StanAngeloff/php.vim', { 'for': 'php' } "More updatd php syntax
+" Plug 'StanAngeloff/php.vim' "More updatd php syntax
 Plug 'arnaud-lb/vim-php-namespace' "insert use statements automatically
 " Plug 'Rican7/php-doc-modded' "insert php doc blocks
 Plug 'adoy/vim-php-refactoring-toolbox' "php refactoring
 Plug 'tobyS/vmustache' "mustache templater for pdv
 Plug 'tobyS/pdv' "php documenter
-Plug 'rayburgemeestre/phpfolding.vim' "php folding
+Plug 'fenetikm/phpfolding.vim' "php folding
 Plug 'alvan/vim-php-manual' "php manual
 " Plug 'sickill/vim-pasta' "paste with indentation
 Plug 'joonty/vdebug' "debugger
@@ -394,7 +443,11 @@ Plug 'joonty/vdebug' "debugger
 Plug 'joonty/vim-phpunitqf' "PHPUnit runner
 Plug 'janko-m/vim-test' "Test runner
 Plug 'wellle/targets.vim' "Additional target text objects
+Plug 'nathanaelkane/vim-indent-guides' "indent guides
+Plug 'kana/vim-textobj-user' "user textobjects
 " Plug 'kana/vim-textobj-function' "function textobj , buggy...
+" Plug 'kana/vim-textobj-entire' "entire document
+Plug 'kana/vim-textobj-fold' "fold textobj
 " Plug 'michaeljsmith/vim-indent-object' "indentation text objects
 " Plug 'padawan-php/deoplete-padawan' "deoplete padawan completion
 " Plug 'phpactor/phpactor',  {'do': 'composer install'}
@@ -403,16 +456,15 @@ Plug 'wellle/targets.vim' "Additional target text objects
 " Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
 " Disabled, not sure if worth it.
-Plug 'vim-scripts/todo-txt.vim' "handling of todo.txt
 " Plug 'int3/vim-extradite' "Git commit browser
 Plug 'junegunn/vim-easy-align' "Alignment of variables, etc.
+" Plug 'Konfekt/FastFold' "fastfolding and fold custom objects
 
 " }}} End Coding, text objects
-" To try --------------------------------------------------- {{{
+" To try {{{
 
 " Plug 'tpope/vim-eunuch' "unix commands
 " Plug 'tpope/vim-characterize' "character codes and emoji codes. html entities
-Plug 'janko-m/vim-test' "testing at diff granularities
 " Plug 'itchyny/calendar.vim' "calendar, integrate with GCal?!
 " Plug 'chrisbra/csv.vim' "CSV file syntax and commands
 " Plug 'Shougo/vinarise.vim' "Hex editor
@@ -433,7 +485,7 @@ Plug 'janko-m/vim-test' "testing at diff granularities
 " Plug 'junegunn/vim-peekaboo' "show preview of registers, commands etc.
 " Plug 'junegunn/vim-journal' "nice looking syntax for notes
 " Plug 'wincent/ferret' "multi file search and replace etc.
-" Plug 'w0rp/ale' "async linting engine
+Plug 'w0rp/ale' "async linting engine
 " Plug 'obertbasic/snipbar' "show snippets in a side bar
 " Plug 'phpstan/vim-phpstan' "php static analysis plugin to call phpstan
 " Plug 'https://github.com/tmux-plugins/vim-tmux-focus-events' "focus events for vim
@@ -443,7 +495,7 @@ Plug 'janko-m/vim-test' "testing at diff granularities
 " Plug 'nicwest/QQ.vim' "curl wrapper for in vim testing of endpoints
 
 " }}} End To try plugins
-" Colors --------------------------------------------------- {{{
+" Colors {{{
 
 Plug 'AlessandroYorba/Monrovia'
 Plug 'AlessandroYorba/Sidonia'
@@ -458,16 +510,25 @@ Plug 'jonathanfilip/vim-lucius'
 Plug 'liuchengxu/space-vim-dark'
 Plug 'whatyouhide/vim-gotham'
 Plug 'morhetz/gruvbox'
-" Plug 'rakr/vim-one' "Atom dark / light one theme
+Plug 'sonph/onehalf', {'rtp': 'vim/'}
+Plug 'arcticicestudio/nord-vim'
+Plug 'rakr/vim-one'
+Plug 'cocopon/iceberg.vim'
+Plug 'jacoborus/tender.vim'
+Plug 'tomasiser/vim-code-dark'
+Plug 'mhartington/oceanic-next'
+Plug 'dracula/vim'
+Plug '~/Documents/Work/internal/vim/colors/falcon'
+" Plug 'rafi/awesome-vim-colorschemes'
 
 " }}} End Colors
 
 call plug#end()
 
 " }}} End Plugins
-" Plugin settings --------------------------------------------------- {{{
+" Plugin settings {{{
 
-" FZF, CtrlP, Ag, Unite --------------------------------------------- {{{
+" FZF, CtrlP, Ag, Unite {{{
 
 nnoremap <silent> <leader>tt :Tags<cr>
 " search for text in Ag
@@ -485,10 +546,9 @@ nnoremap <silent> <leader>pp :GFiles<cr>
 "File searching stuff, WIP
 nnoremap <silent> <leader>ff :Files<cr>
 nnoremap <silent> <leader>FF :GitFiles<cr>
-nnoremap <silent> <leader>fh :Helptags<cr>
+nnoremap <silent> <leader>fh :History<cr>
 nnoremap <silent> <leader>fc :Commands<cr>
 nnoremap <silent> <leader>fm :Maps<cr>
-nnoremap <silent> <leader>s :Snippets<cr>
 
 " @todo maybe?
 " :Colors
@@ -496,10 +556,11 @@ nnoremap <silent> <leader>s :Snippets<cr>
 " :Filetypes
 " :BLines
 
-imap <c-x><c-l> <plug>(fzf-complete-buffer-line)
+" line completion
+" imap <c-x><c-l> <plug>(fzf-complete-buffer-line)
 
 "word completion
-imap <c-x><c-k> <plug>(fzf-complete-word)
+" imap <c-x><c-k> <plug>(fzf-complete-word)
 
 " match splitting to ctrl-w splitting
 let g:fzf_action = {
@@ -507,13 +568,16 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit',
   \ 'ctrl-o': '!open'}
 
+" default layout
+let g:fzf_layout = { 'down': '~40%' }
+
 "Default Ag command with addition of changing color
 command! -bang -nargs=* Ag
-  \ call fzf#vim#ag(<q-args>, '--color-path 400', fzf#vim#default_layout)
+  \ call fzf#vim#ag(<q-args>, '--color-path 400', g:fzf_layout)
 
 " Ag all files
 command! -bang -nargs=* AgAll
-  \ call fzf#vim#ag(<q-args>, '--color-path 400 -a', fzf#vim#default_layout)
+  \ call fzf#vim#ag(<q-args>, '--color-path 400 -a', g:fzf_layout)
 
 "don't jump to an open buffer, reopen
 let g:fzf_buffers_jump=0
@@ -625,13 +689,7 @@ command! -bang -nargs=* DGFiles
   \ call fzf#vim#gitfiles(s:WithDrupalRoot())
 
 " }}} End FZF, CtrlP, Ag, Unite
-" Status line --------------------------------------------------- {{{
-
-"turn on airline to use patched style fonts
-let g:airline_powerline_fonts = 1
-
-" }}} End Status line
-" NERDTree --------------------------------------------------- {{{
+" NERDTree {{{
 
 "map ctrl-e to show nerdtree
 "@todo fix this so that if no % (e.g. startify) then it still works
@@ -670,20 +728,27 @@ function! SyncTree()
   endif
 endfunction
 
+" Show hidden files by default
+let g:NERDTreeShowHidden=1
+
+" turn off cursorline highlighting
+let NERDTreeHighlightCursorline = 0
+
+" nerdtree highlighting icon stuff.
+let g:NERDTreeLimitedSyntax = 1
+" let g:NERDTreeSyntaxDisableDefaultExtensions = 1
+" let g:NERDTreeDisableExactMatchHighlight = 1
+" let g:NERDTreeDisablePatternMatchHighlight = 1
+" let g:NERDTreeSyntaxEnabledExtensions = ['yaml', 'php', 'js', 'css']
+
 " }}} End NERDTree
-" NeoMake --------------------------------------------------- {{{
-
-" neomake syntax checking
-let g:neomake_php_phpcs_args_standard = 'Drupal'
-
-" }}} End NeoMake
-" ListToggle --------------------------------------------------- {{{
+" ListToggle {{{
 
 let g:lt_location_list_toggle_map = '<leader>l'
 let g:lt_quickfix_list_toggle_map = '<leader>q'
 
 " }}} End ListToggle
-" EasyMotion --------------------------------------------------- {{{
+" EasyMotion {{{
 
 let g:EasyMotion_do_mapping = 0 "Disable default mappings
 let g:EasyMotion_smartcase = 1 "Enable smartcase like vim
@@ -693,7 +758,7 @@ map  <leader>w <Plug>(easymotion-bd-w)
 nmap <leader>w <Plug>(easymotion-overwin-w)
 
 " }}} End EasyMotion
-" UltiSnips --------------------------------------------------- {{{
+" UltiSnips {{{
 
 "directory for my snippets
 let g:UltiSnipsSnippetsDir="~/.config/nvim/UltiSnips"
@@ -701,6 +766,9 @@ let g:UltiSnipsSnippetsDir="~/.config/nvim/UltiSnips"
 let g:UltiSnipsEditSplit="vertical"
 "in select mode hit ctrl-u to delete the whole line
 snoremap <C-u> <Esc>:d1<cr>i
+
+"snippets completion using fzf
+inoremap <silent> <c-x><c-s> <Esc>:Snippets<cr>
 
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
@@ -721,7 +789,7 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 " inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
 
 " }}} End UltiSnips
-" Deoplete --------------------------------------------------- {{{
+" Deoplete {{{
 
 let g:deoplete#enable_at_startup = 1
 " this changes the ultisnips matching to get really short ones and use fuzzy matching
@@ -751,7 +819,7 @@ inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
 " }}} End Deoplete
-" Fugitive --------------------------------------------------- {{{
+" Fugitive {{{
 
 nnoremap <leader>ga :Git add %:p<cr><cr>
 nnoremap <leader>gs :Gstatus<cr>
@@ -779,16 +847,7 @@ endfunction
 nnoremap <Leader>gg :Gwrite<cr>:call QuickCommitMessage()<cr>
 
 " }}} End Fugitive
-" Dash --------------------------------------------------- {{{
-
-"open word under cursor in dash, by default uses filetype
-nnoremap <leader>da :Dash<cr>
-"specify these since filetype might be either or
-nnoremap <leader>dd :Dash <C-r><C-w> drupal<cr>
-nnoremap <leader>dp :Dash <C-r><C-w> php<cr>
-
-" }}} End Dash
-" Tag plugins --------------------------------------------------- {{{
+" Tag plugins {{{
 
 "gutentags
 let g:gutentags_ctags_exclude=['*.json', '*.css', '*.html', '*.sh', '*.yml', '*.html.twig', '*.sql', '*.md', '*.xml', '*.js', '*.phar']
@@ -801,11 +860,13 @@ let g:gutentags_project_root_finder = 'projectroot#guess'
 " nmap <leader>tt :TagbarToggle<cr>
 
 " }}} End Tag plugins
-" PHP plugins --------------------------------------------------- {{{
+" PHP plugins {{{
 
 "php folding
-" nnoremap <leader>pz :EnablePHPFolds<cr>
-" nnoremap <leader>pzd :DisablePHPFolds<cr>
+"let g:DisablePHPFoldingClass=1
+let g:PHPFoldingCollapsedSymbol=''
+let g:PHPFoldingRepeatSymbol=''
+let g:phpDocIncludedPostfix=''
 
 "php documenter
 " I think this is causing weird shit to happen sometimes with <space>p
@@ -844,13 +905,13 @@ let g:vim_php_refactoring_use_default_mapping=0
 let g:php_manual_online_search_shortcut = ''
 
 " }}} End PHP plugins
-" Debug plugins --------------------------------------------------- {{{
+" Debug plugins {{{
 
 "debugging
 function! SetupDebug()
   let g:vdebug_options['ide_key']='PHPSTORM'
   let g:vdebug_options['port']=9001
-  let g:vdebug_options['path_maps']={'/web': call('projectroot#get', a:000)}
+  let g:vdebug_options['path_maps']={'/vagrant': call('projectroot#get', a:000)}
 endfunction
 nmap <leader>xd :call SetupDebug()<cr>
 
@@ -872,7 +933,7 @@ endfunction
 nmap <leader>xrd :call RemapDebug()<cr>
 
 " }}} End Debug plugins
-" Vimux --------------------------------------------------- {{{
+" Vimux {{{
 
 "percentage size
 let g:VimuxHeight="32"
@@ -889,7 +950,7 @@ nnoremap <leader>vl :VimuxRunLastCommand<cr>
 " let g:VimuxRunnerIndex=3
 
 " }}} End Vimux
-" Splitjoin --------------------------------------------------- {{{
+" Splitjoin {{{
 
 "splitjoin
 " let g:splitjoin_split_mapping = ''
@@ -898,14 +959,14 @@ nnoremap <leader>vl :VimuxRunLastCommand<cr>
 " nnoremap sj :SplitjoinJoin<cr>
 
 " }}} End Splitjoin
-" Local vimrc --------------------------------------------------- {{{
+" Local vimrc {{{
 
 let g:localvimrc_ask=0 "don't ask to load local version
 let g:localvimrc_sandbox=0 "don't load in sandbox (security)
 let g:localvimrc_name=['.lvimrc'] "name of the local vimrc
 
 " }}} End Local vimrc
-" Testing --------------------------------------------------- {{{
+" Testing {{{
 
 " codeception setup
 function! test#php#codeception#executable() abort
@@ -967,34 +1028,35 @@ function! test#php#codeception#test_file(file) abort
   endif
 endfunction
 
-nnoremap <leader>tf :TestFile<cr>
-nnoremap <leader>tn :TestNearest<cr>
-nnoremap <leader>ts :TestSuite<cr>
-nnoremap <leader>tl :TestLast<cr>
+"mnemonic run
+nnoremap <leader>rf :TestFile<cr>
+nnoremap <leader>rn :TestNearest<cr>
+nnoremap <leader>rs :TestSuite<cr>
+nnoremap <leader>rl :TestLast<cr>
 
 " Run the last test with control enter
 inoremap <c-cr> <Esc>:TestLast<cr>i
 nnoremap <c-cr> :TestLast<cr>
 
 " }}} End Testing
-" EasyAlign --------------------------------------------------- {{{
+" EasyAlign {{{
 
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 
 " }}} End EasyAlign
-" Buftabline --------------------------------------------------- {{{
+" Buftabline {{{
 " turn on separators
 let g:buftabline_separators=1
 
 " }}} End Buftabline
-" Loupe --------------------------------------------------- {{{
+" Loupe {{{
 
 "turn off insertion of \v
 let g:LoupeVeryMagic=0
 
 " }}} End Loupe
-" Webdevicons --------------------------------------------------- {{{
+" Webdevicons {{{
 
 "enable on nerdtree
 let g:webdevicons_enable_nerdtree=1
@@ -1013,7 +1075,7 @@ augroup devicons_nerdtree
 augroup END
 
 " }}} End Webdevicons
-" phpactor --------------------------------------------------- {{{
+" phpactor {{{
 
 "omnicompletion
 " autocmd FileType php setlocal omnifunc=phpactor#Complete
@@ -1022,11 +1084,50 @@ augroup END
 " autocmd FileType php set omnifunc=LanguageClient#complete
 
 " }}} End phpactor
+" Javascript Plugins {{{
+
+"highlight jsx in .js files too.
+let g:jsx_ext_required = 0
+
+" }}} End Javascript Plugins
+" Geeknote {{{
+
+" set format to plain
+let g:GeeknoteFormat="plain"
+"turn off numbers in browser
+autocmd FileType geeknote setlocal nonumber
+"change highlighing to asciidoc
+autocmd FileType geeknote set syntax=asciidoc
+
+" }}} End Geeknote
+" Indent guide {{{ "
+
+" disable automatic colors, will use colorscheme settings
+let g:indent_guides_auto_colors=0
+
+"size to be one space
+let g:indent_guides_guide_size=1
+
+" }}} Indent guide "
+" Ale {{{ "
+
+let g:ale_linters = {
+			\   'php': ['phpcs'],
+			\}
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 0
+let g:ale_php_phpcs_standard = 'Drupal'
+
+let g:ale_sign_error=''
+let g:ale_sign_info=''
+let g:ale_sign_warning=''
+
+" }}} Ale "
 
 " }}} End Plugin settings
-" Mappings --------------------------------------------------- {{{
+" Mappings {{{
 
-" Key escape remapping --------------------------------------------------- {{{
+" Key escape remapping {{{
 
 " control-enter
 set <F13>=[25~
@@ -1034,9 +1135,9 @@ map <F13> <c-cr>
 map! <F13> <c-cr>
 
 " shift-enter
-set <F14>=[27~
-map <F14> <s-cr>
-map! <F14> <s-cr>
+" set <F14>=[27~
+" map <F14> <s-cr>
+" map! <F14> <s-cr>
 
 " control-space
 set <F15>=[29~
@@ -1044,7 +1145,7 @@ map <F15> <c-space>
 map! <F15> <c-space>
 
 " }}} End Key escape remapping
-" Insert mode mappings --------------------------------------------------- {{{
+" Insert mode mappings {{{
 
 "jump to end when inserting
 inoremap <c-e> <c-o>$
@@ -1060,7 +1161,7 @@ inoremap <c-g> <Right>
 inoremap <c-l> <space>=><space>
 
 " }}} End Insert mode mappings
-" Easy file opening --------------------------------------------------- {{{
+" Easy file opening [leader e*]{{{
 
 "ev to edit vimrc, sv to source vimrc
 nmap <silent> <leader>sv :so $MYVIMRC <bar>exe 'normal! zvzz'<cr>
@@ -1077,11 +1178,37 @@ nnoremap <leader>ev :call OpenOrSplit($MYVIMRC)<cr>
 nnoremap <leader>ed :call OpenOrSplit("~/.drush/aliases.drushrc.php")<cr>
 nnoremap <leader>et :call OpenOrSplit("~/.tmux.conf")<cr>
 nnoremap <leader>ek :call OpenOrSplit("~/.config/karabiner/karabiner.json")<cr>
+nnoremap <leader>ey :call OpenOrSplit("~/Library/Preferences/kitty/kitty.conf")<cr>
 nnoremap <leader>eh :call OpenOrSplit("~/.hammerspoon/init.lua")<cr>
 nnoremap <leader>ez :call OpenOrSplit("~/.zshrc")<cr>
 nnoremap <leader>eu :UltiSnipsEdit<cr>
 
 " }}} End Easy file opening
+" Toggling [leader t*] {{{ "
+
+"toggle guides
+nnoremap <silent> <leader>tg :IndentGuidesToggle<cr>
+"toggle search highlight
+nnoremap <silent> <leader>th :nohlsearch<CR>
+"toggle line numbers
+nnoremap <silent> <leader>tn :setlocal nonumber! norelativenumber!<CR>
+"toggle wrapping
+nnoremap <silent> <leader>tw :setlocal wrap! breakindent!<CR>
+"toggle tagbar
+nnoremap <silent> <leader>tt :TagbarToggle<cr>
+"toggle list
+nnoremap <silent> <leader>tl :LToggle<cr>
+"toggle quickfix
+nnoremap <silent> <leader>tq :QToggle<cr>
+
+" }}} Toggling "
+" Finding [leader f*] {{{ "
+
+" }}} Finding "
+" Searching and replacing [leader s*] {{{ "
+" }}} Searching and replacing [leader s*] "
+" Pairs ][ {{{ "
+" }}} Pairs "
 
 " visual select fold
 nnoremap vaf ?function.*{<cr>zCVzO
@@ -1109,6 +1236,9 @@ function! DoFold()
   endif
 endfunction
 nnoremap <expr> <cr> DoFold()
+
+"focus the current fold
+nnoremap <s-cr> zMzAzz
 
 " Folds navigation
 nnoremap [z zk
@@ -1170,8 +1300,14 @@ vmap <C-v> <Plug>(expand_region_shrink)
 "refresh chrome
 nnoremap <silent> <leader>r :!chrome-cli reload<cr><cr>
 
+" map arrows to resize splits
+nnoremap <Up>    :resize +2<CR>
+nnoremap <Down>  :resize -2<CR>
+nnoremap <Left>  :vertical resize +2<CR>
+nnoremap <Right> :vertical resize -2<CR>
+
 " }}} End Mappings
-" Abbreviations --------------------------------------------------- {{{
+" Abbreviations {{{
 
 iab vd var_dump();<Esc>hi
 iab vdd var_dump();<cr>die;<Esc>k$hi
@@ -1179,28 +1315,26 @@ iab prr print_r();<Esc>hi
 iab prd print_r();<cr>die;<Esc>k$hi
 
 " }}} End Abbreviations
-" Statusline --------------------------------------------------- {{{
+" Statusline {{{
 
 "@todo override filename formatting to italic.
 "@todo disable stuff on the right for NERDTree
-"get rid of percent?
 "make modified a different colour
-"something to do with number of errors from neomake
-"change mode to short form
-" let g:lightline#colorscheme#gruvbox
+
+      " \ 'colorscheme': 'gruvbox',
 
 set laststatus=2
 let g:lightline = {
-      \ 'colorscheme': 'gruvbox',
+      \ 'colorscheme': 'falcon',
       \ 'active': {
       \     'left': [ [ 'mode', 'paste' ],
-      \               [ 'fugitive', 'filename' ] ],
-      \     'right': [ [ 'lineinfo' ], 
-      \                [ 'fileformat', 'fileencoding', 'filetype' ] ]
+      \               [ 'filename' ] ],
+      \     'right': [ ['linter_status', 'lineinfo'],
+			\								 [ 'linter_warnings', 'linter_errors', 'linter_ok', 'fileformat', 'fileencoding', 'filetype' ] ]
       \   },
       \   'inactive': {
       \     'left': [ [ 'filename' ] ],
-      \     'right': [ [ 'lineinfo' ], 
+      \     'right': [ [ 'lineinfo' ],
       \                [ 'filetype' ] ]
       \   },
       \ 'component_function': {
@@ -1212,17 +1346,71 @@ let g:lightline = {
       \   'fileencoding': 'LightlineFileencoding',
       \   'mode': 'LightlineMode',
       \ },
+			\ 'component_expand': {
+      \    'linter_warnings': 'LightlineLinterWarnings',
+      \    'linter_errors': 'LightlineLinterErrors',
+      \    'linter_ok': 'LightlineLinterOk',
+			\ },
+			\ 'component_type': {
+			\    'linter_warnings': 'warning',
+			\    'linter_errors': 'error',
+			\    'linter_ok': 'ok',
+			\ },
       \ 'separator': { 'left': '', 'right': '' },
       \ 'subseparator': { 'left': '|', 'right': '|' }
       \}
 " some alternate sep glyph ideas
-" 
-" 
+"  'left': '', 'right': '' 
+"  'left': '', 'right': '' 
+"  'left': '', 'right': '' 
+"  'left': '', 'right': '' 
+
+let g:lightline.mode_map = {
+      \ 'n' : 'N',
+      \ 'i' : 'I',
+      \ 'R' : 'R',
+      \ 'v' : 'V',
+      \ 'V' : 'V-L',
+      \ "\<C-v>": 'V-B',
+      \ 'c' : 'C',
+      \ 's' : 'S',
+      \ 'S' : 'S-L',
+      \ "\<C-s>": 'S-B',
+      \ 't': 'T',
+      \ }
 
 function! LightlineLineinfo()
   let fname = expand('%:t')
   return fname =~ 'NERD_tree' ? '' : printf('%d:%-2d', line('.'), col('.'))
 endfunction
+
+function! LightlineLinterWarnings() abort
+  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:all_errors = l:counts.error + l:counts.style_error
+  let l:all_non_errors = l:counts.total - l:all_errors
+  return l:counts.total == 0 ? '' : printf('%d ◆', all_non_errors)
+endfunction
+
+function! LightlineLinterErrors() abort
+  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:all_errors = l:counts.error + l:counts.style_error
+  let l:all_non_errors = l:counts.total - l:all_errors
+  return l:counts.total == 0 ? '' : printf('%d ✗', all_errors)
+endfunction
+
+function! LightlineLinterOk() abort
+  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:all_errors = l:counts.error + l:counts.style_error
+  let l:all_non_errors = l:counts.total - l:all_errors
+  let fname = expand('%:t')
+  if fname =~ 'NERD_tree' || bufname('') == 'Startify'
+    return ''
+  endif
+  return l:counts.total == 0 ? '✓' : ''
+endfunction
+
+" update status after ale finishes linting
+autocmd User ALELint call lightline#update()
 
 function! LightlineMode()
   let fname = expand('%:t')
@@ -1281,25 +1469,33 @@ function! LightlineFileencoding()
 endfunction
 
 " }}} End Statusline
-" Colors --------------------------------------------------- {{{
+" Colors {{{
 
 "24bit color
 set termguicolors
+
 "dark
 set background=dark
-" colorscheme mustang
-" colorscheme lucius
-" LuciusBlack
-let g:airline_theme='tomorrow'
-let g:gruvbox_italic=1
-let g:gruvbox_contrast_dark='hard'
-colorscheme gruvbox
+
+" gruvbox settings
+" let g:lightline.colorscheme='gruvbox'
+" let g:gruvbox_italic=1
+" let g:gruvbox_contrast_dark='hard'
+" colorscheme gruvbox
+
+" faclon settings
+let g:falcon_lightline = 1
+let g:lightline.colorscheme='falcon'
+colorscheme falcon
 
 "colorscheme customisation
-hi NeomakeWarningSignAlt ctermfg=255 gui=none guifg=#ffffff guibg=#202020
-let g:neomake_warning_sign={'text': '⚠', 'texthl': 'NeomakeWarningSignAlt'}
+" @todo put in falcon
+hi NeomakeWarningSignAlt ctermfg=255 gui=none guifg=#ffffff guibg=#0b0b1a
+let g:neomake_warning_sign={'text': '!', 'texthl': 'NeomakeWarningSignAlt'}
 
-" doesn't work yet (inside of tmux) :(
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
+" set cursors depending on mode
+set t_SI=[6\ q
+set t_SR=[4\ q
+set t_SR=[2\ q
 
 " }}} End Colors
