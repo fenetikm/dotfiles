@@ -1,40 +1,26 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
-
-# Would you like to use another custom folder than $ZSH/custom?
-ZSH_CUSTOM=~/.zsh-themes
-ZSH_THEME="bullet-train"
-BULLETTRAIN_DIR_BG='15'
-BULLETTRAIN_DIR_FG='black'
-BULLETTRAIN_GIT_BG='8'
-BULLETTRAIN_GIT_FG='white'
-BULLETTRAIN_STATUS_BG='cyan'
-BULLETTRAIN_STATUS_FG='default'
-BULLETTRAIN_GIT_UNTRACKED="%F{yellow} +%F{black}"
-BULLETTRAIN_GIT_AHEAD="%F{15} ⬆"
-BULLETTRAIN_GIT_BEHIND="%F{15} ⬇"
-BULLETTRAIN_GIT_DIVERGED="%F{15} ⬍"
-BULLETTRAIN_GIT_RENAMED="%F{15} ➜"
-BULLETTRAIN_PROMPT_SEPARATE_LINE='false'
-BULLETTRAIN_PROMPT_ORDER=(
-  context
-  dir
-  git
-  status
-)
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
-
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
+PROMPT_LEAN_TMUX=''
+PROMPT_LEAN_COLOR1='blue'
+PROMPT_LEAN_COLOR2='12'
+PROMPT_LEAN_COLOR3='219'
+PROMPT_LEAN_GIT_STYLE='FAT'
+# PROMPT_LEAN_SYMBOL='❯'
+PROMPT_LEAN_SYMBOL='$'
+PROMPT_LEAN_PATH_SED='s/Documents\/Work/\$/g'
+source ~/.config/zsh/lean/lean.plugin.zsh
 
+# Specify zsh plugins.
+plugins=(git)
+
+# User configuration.
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 export PATH="$PATH:$HOME/.composer/vendor/bin"
+
+# set how long to wait for a sequence
+KEYTIMEOUT=1
 
 #additions as per drbunsen.org
 export EDITOR="nvim"
@@ -53,11 +39,13 @@ alias lvr='ls -alR > /dev/null'
 alias uas='cd ~/Documents/Work/UofA/scholarships/ua-scholarships6/'
 alias arop='cd ~/Documents/Work/UofA/arop/vms/ua-arop2/'
 alias ccsp='cd ~/Documents/Work/UofA/ccsp/vms/ua-ccsp'
+alias stui='cd ~/Documents/Work/UofA/stui/vms/ua-stui'
 alias bd='cd ~/Documents/Work/UofA/bank_details/vms/ua-bank-details-1/'
 alias docs='cd ~/Documents/Work/UofA/ua-docs/vms/ua-docs/'
 alias sys='cd ~/Documents/Work/internal/vms/sys/'
 alias cusoon='cd ~/Documents/Work/jubn_cusoon/vms/cusoon'
 alias e='exa -algB'
+alias c='pygmentize'
 
 alias uakeys='ssh-add ~/.ssh/uofa/keys/ua_lamp_docker/id_rsa && ssh-add ~/.ssh/uofa/keys/jenkins_deployment_key/id_rsa'
 alias ecd='~/Eclipse.app/Contents/Eclipse/eclimd'
@@ -79,6 +67,8 @@ alias gd='git diff'
 alias gl='git log'
 alias gffp='git flow feature publish'
 alias gfff='git flow feature finish'
+alias gp='git push'
+alias gb='git branch'
 
 # tmux aliases
 alias tmuxd='~/.config/tmux/drupal.sh'
@@ -160,6 +150,15 @@ eval "$(fasd --init auto)"
 z() {
   local dir
   dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
+}
+
+set_cursor_color() {
+  # Plain iTerm2, no tmux
+  if [[ -n $ITERM_SESSION_ID ]] && [[ -z $TMUX ]]; then
+      printf '\033]Pl%s\033\\' "${1#\#}"
+  else  # Plain xterm or tmux, sequence is the same
+      printf '\033]12;%s\007' "$1"
+  fi
 }
 
 export PATH="/usr/local/opt/ncurses/bin:$PATH"
