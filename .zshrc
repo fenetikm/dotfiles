@@ -162,3 +162,6 @@ set_cursor_color() {
 }
 
 export PATH="/usr/local/opt/ncurses/bin:$PATH"
+
+# OPAM configuration
+. /Users/mjw/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true

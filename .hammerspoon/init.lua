@@ -26,7 +26,7 @@ hs.fnutils.each({
   { key = "i", app = "iTunes" },
   { key = "r", app = "Transmit" },
 }, function(object)
-    hs.hotkey.bind(mash_apps, object.key, function() ext.app.forceLaunchOrFocus(object.app) end) 
+    hs.hotkey.bind(mash_apps, object.key, function() ext.app.forceLaunchOrFocus(object.app) end)
 end)
 
 -- map mash+k to karabiner swap keyboard profiles

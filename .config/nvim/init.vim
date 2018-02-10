@@ -2,7 +2,7 @@
 " Set fold marker to {{{}}}
 " vim: set fdm=marker fmr={{{,}}} fdl=0 :
 
-" General options {{{
+" General Options: {{{
 
 set nocompatible " disable compatibility with vi
 set scrolloff=5 "set number of lines to show above and below cursor
@@ -158,7 +158,11 @@ endif
 
 " }}} End Drupal / PHP
 
+"actionscript/flash files. RIP.
 au BufNewFile,BufRead *.as set filetype=actionscript
+
+"quickfix
+au FileType qf setlocal nonumber colorcolumn=
 
 " }}} End Filetypes
 " Buffer handling {{{
@@ -380,16 +384,18 @@ Plug 'airblade/vim-gitgutter' "place git changes in the gutter
 Plug 'kshenoy/vim-signature' "marks handling
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } "autocomplete
 Plug 'Valloric/ListToggle' "toggle quickfix and location lists
-" Plug 'majutsushi/tagbar' "tagbar
-" Plug 'vim-php/tagbar-phpctags.vim' "tagbar phpctags
+Plug 'majutsushi/tagbar' "tagbar
+Plug 'vim-php/tagbar-phpctags.vim' "tagbar phpctags
 Plug 'mhinz/vim-startify' "startify
 Plug 'scrooloose/nerdtree' "nerdtree file tree explorer
 Plug 'Xuyuanp/nerdtree-git-plugin' "nerdtree git plugin
 Plug 'ryanoasis/vim-devicons' "icons using the nerd font
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight' "add in colors for above icons but seems to slow down nerdtree
+"Plug 'auwsmit/vim-active-numbers' "line numbers only in active buffer, it's a bit disctracting though
+"Plug 'roman/golden-ratio' "
 " Plug 'junegunn/vim-emoji' "emojis for vim
 " Plug 'ap/vim-buftabline' "Show what buffers are open at the top
-Plug 'edkolev/tmuxline.vim' "Change the tmux status to be similar to vim
+" Plug 'edkolev/tmuxline.vim' "Change the tmux status to be similar to vim
 " Plug 'roman/golden-ratio' "make the focused split bigger
 " Plug 'jszakmeister/vim-togglecursor/' "change cursor depending on mode
 "Plug 'sjl/vitality.vim' "more cursor stuff
@@ -405,6 +411,7 @@ Plug 'junegunn/fzf.vim' "fuzzy finder stuff
 " }}} End Search, Fuzzy Finding
 " Syntax {{{
 
+Plug 'sheerun/vim-polyglot' "syntax for a lot of types
 Plug 'plasticboy/vim-markdown' "markdown handling
 Plug 'cakebaker/scss-syntax.vim' "scss syntax
 Plug 'evidens/vim-twig' "twig syntax
@@ -415,7 +422,7 @@ Plug 'pangloss/vim-javascript' "javascript syntax
 Plug 'mxw/vim-jsx' "jsx syntax support
 Plug 'posva/vim-vue' "vue support
 Plug 'gerw/vim-HiLinkTrace' "show syntax color groups
-Plug 'StanAngeloff/php.vim', { 'for': 'php' } "More updatd php syntax
+"Plug 'StanAngeloff/php.vim', { 'for': 'php' } "More updatd php syntax
 Plug 'vim-scripts/todo-txt.vim' "handling of todo.txt
 
 " }}} End Syntax
@@ -445,7 +452,7 @@ Plug 'janko-m/vim-test' "Test runner
 Plug 'wellle/targets.vim' "Additional target text objects
 Plug 'nathanaelkane/vim-indent-guides' "indent guides
 Plug 'kana/vim-textobj-user' "user textobjects
-" Plug 'kana/vim-textobj-function' "function textobj , buggy...
+Plug 'fenetikm/vim-textobj-function' "function textobj with php
 " Plug 'kana/vim-textobj-entire' "entire document
 Plug 'kana/vim-textobj-fold' "fold textobj
 " Plug 'michaeljsmith/vim-indent-object' "indentation text objects
@@ -530,32 +537,6 @@ call plug#end()
 
 " FZF, CtrlP, Ag, Unite {{{
 
-nnoremap <silent> <leader>tt :Tags<cr>
-" search for text in Ag
-nnoremap <silent> \ :Ag<space>
-nnoremap <silent> <leader>\ :AgAll<space>
-" search for under cursor keyword in Ag
-nnoremap <silent> <leader>A :Ag <c-r><c-w><cr>
-" search for under cursor keyword in Ag in all files (ex. gitignore)
-nnoremap <silent> <leader>a :AgAll <c-r><c-w><cr>
-nnoremap <silent> <leader>b :call fzf#vim#buffers()<cr>
-
-nnoremap <silent> <c-p> :DFiles<cr>
-nnoremap <silent> <leader>pp :GFiles<cr>
-
-"File searching stuff, WIP
-nnoremap <silent> <leader>ff :Files<cr>
-nnoremap <silent> <leader>FF :GitFiles<cr>
-nnoremap <silent> <leader>fh :History<cr>
-nnoremap <silent> <leader>fc :Commands<cr>
-nnoremap <silent> <leader>fm :Maps<cr>
-
-" @todo maybe?
-" :Colors
-" :Marks
-" :Filetypes
-" :BLines
-
 " line completion
 " imap <c-x><c-l> <plug>(fzf-complete-buffer-line)
 
@@ -573,11 +554,11 @@ let g:fzf_layout = { 'down': '~40%' }
 
 "Default Ag command with addition of changing color
 command! -bang -nargs=* Ag
-  \ call fzf#vim#ag(<q-args>, '--color-path 400', g:fzf_layout)
+  \ call fzf#vim#ag(<q-args>, '--color-path "38;5;241" --color-match "38;5;254" --color-line-number "38;5;254"', g:fzf_layout)
 
 " Ag all files
 command! -bang -nargs=* AgAll
-  \ call fzf#vim#ag(<q-args>, '--color-path 400 -a', g:fzf_layout)
+  \ call fzf#vim#ag(<q-args>, '--color-path "38;5;241" --color-match "38;5;254" --color-line-number "38;5;254;" -a', g:fzf_layout)
 
 "don't jump to an open buffer, reopen
 let g:fzf_buffers_jump=0
@@ -858,6 +839,7 @@ let g:gutentags_project_root_finder = 'projectroot#guess'
 
 "tagbar
 " nmap <leader>tt :TagbarToggle<cr>
+let g:tagbar_iconchars = ['', '']
 
 " }}} End Tag plugins
 " PHP plugins {{{
@@ -867,6 +849,9 @@ let g:gutentags_project_root_finder = 'projectroot#guess'
 let g:PHPFoldingCollapsedSymbol=''
 let g:PHPFoldingRepeatSymbol=''
 let g:phpDocIncludedPostfix=''
+
+"php indenting
+let g:PHP_vintage_case_default_indent=1
 
 "php documenter
 " I think this is causing weird shit to happen sometimes with <space>p
@@ -1113,6 +1098,8 @@ let g:indent_guides_guide_size=1
 
 let g:ale_linters = {
       \   'php': ['phpcs'],
+      \   'javascript': ['eslint'],
+      \   'javascript.jsx': ['eslint'],
       \}
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
@@ -1131,6 +1118,12 @@ let g:gitgutter_sign_removed = ''
 let g:gitgutter_sign_modified_removed = ''
 
 " }}} GitGutter "
+" tcomment {{{ "
+let g:tcommentMaps=0
+" }}} tcomment "
+" Fold description {{{ "
+let g:polyglot_disabled = ['yaml']
+" }}} Fold description "
 
 " }}} End Plugin settings
 " Mappings {{{
@@ -1151,6 +1144,22 @@ map! <F13> <c-cr>
 set <F15>=[29~
 map <F15> <c-space>
 map! <F15> <c-space>
+
+" control-minus
+set <F17>=[31~
+map <F17> <c-_>
+map! <F17> <c-_>
+
+" commenting
+nnoremap <F17><F17> :TComment<cr>
+nnoremap <F17>b :TCommentBlock<cr>
+nnoremap <F17>i :TCommentInline<cr>
+inoremap <F17><F17> <c-o>:TComment<cr>
+inoremap <F17>b <c-o>:TCommentBlock<cr>
+inoremap <F17>i <c-o>:TCommentInline<cr>
+vnoremap <F17><F17> :TComment<cr>
+vnoremap <F17>b :TCommentBlock<cr>
+vnoremap <F17>i :TCommentInline<cr>
 
 " }}} End Key escape remapping
 " Insert mode mappings {{{
@@ -1212,14 +1221,40 @@ nnoremap <silent> <leader>tq :QToggle<cr>
 " }}} Toggling "
 " Finding [leader f*] {{{ "
 
+nnoremap <silent> <c-p> :DFiles<cr>
+
+"File searching stuff, WIP
+nnoremap <silent> <leader>ff :Files<cr>
+nnoremap <silent> <leader>fg :GitFiles<cr>
+nnoremap <silent> <leader>fh :History<cr>
+nnoremap <silent> <leader>fc :Commands<cr>
+nnoremap <silent> <leader>fm :Maps<cr>
+nnoremap <silent> <leader>ft :Tags<cr>
+nnoremap <silent> <leader>fb :call fzf#vim#buffers()<cr>
+
 " }}} Finding "
 " Searching and replacing [leader s*] {{{ "
+
+" search for text in Ag
+" old
+" nnoremap <silent> \ :Ag<space>
+" nnoremap <silent> <leader>\ :AgAll<space>
+" search for under cursor keyword in Ag
+" nnoremap <silent> <leader>A :Ag <c-r><c-w><cr>
+" search for under cursor keyword in Ag in all files (ex. gitignore)
+" nnoremap <silent> <leader>a :AgAll <c-r><c-w><cr>
+
+" new
+nnoremap <silent> <leader>ss :Ag<space>
+nnoremap <silent> <leader>sa :AgAll<space>
+nnoremap <silent> <leader>sk :AgAll <c-r><c-w><cr>
+
 " }}} Searching and replacing [leader s*] "
 " Pairs ][ {{{ "
 " }}} Pairs "
 
-" visual select fold
-nnoremap vaf ?function.*{<cr>zCVzO
+" yank to p register
+vnoremap <c-y> "py
 
 "treat long lines as break lines
 map j gj
@@ -1248,6 +1283,9 @@ nnoremap <expr> <cr> DoFold()
 "focus the current fold
 nnoremap <s-cr> zMzAzz
 
+" refold php
+nnoremap zp :EnablePHPFolds<cr>
+
 " Folds navigation
 nnoremap [z zk
 nnoremap ]z zj
@@ -1265,8 +1303,8 @@ nnoremap ` '
 xnoremap <  <gv
 xnoremap >  >gv
 
-"format in block
-nnoremap <leader>= =iB
+"format in function / block
+nnoremap <leader>b =if
 
 "map alternate file switching to leader leader
 nnoremap <leader><leader> <c-^>
@@ -1410,8 +1448,13 @@ function! LightlineLinterOk() abort
   let l:counts = ale#statusline#Count(bufnr(''))
   let l:all_errors = l:counts.error + l:counts.style_error
   let l:all_non_errors = l:counts.total - l:all_errors
-  let fname = expand('%:t')
-  if fname =~ 'NERD_tree' || bufname('') == 'Startify'
+  let l:match_type=0
+  for pkey in keys(g:ale_linters)
+    if pkey == &ft
+      let l:match_type = 1
+    endif
+  endfor
+  if l:match_type == 0
     return ''
   endif
   return l:counts.total == 0 ? '✓' : ''
@@ -1465,11 +1508,13 @@ function! LightlineFilename()
 endfunction
 
 function! LightlineFileformat()
-  return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+  "return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+  return winwidth(0) > 70 ? &fileformat : ''
 endfunction
 
 function! LightlineFiletype()
-  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+  "return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
 endfunction
 
 function! LightlineFileencoding()
