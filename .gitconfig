@@ -1,16 +1,40 @@
 [user]
 	name = Michael Welford
 	email = michael.welford@adelaide.edu.au
+
 [push]
 	default = simple
+
 [core]
 	excludesfile = /Users/mjw/.gitignore_global
+
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path =
+
 [mergetool "sourcetree"]
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
+
+[color]
+  ui = auto
+
+[color "branch"]
+  current = yellow reverse
+  local = yellow
+  remote = green
+
+[color "diff"]
+  meta = yellow
+  frag = magenta
+  old = red
+  new = green
+
+[color "status"]
+  added = green
+  changed = yellow
+  untracked = magenta
+
 [alias]
   # mostly taken from Gary Bernhardt
   st = status

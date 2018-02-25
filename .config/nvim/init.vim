@@ -192,7 +192,7 @@ au FocusGained,BufEnter * :silent! !
 function! Customfoldtext() abort
   "get first non-blank line
   let fs = v:foldstart
-    while getline(fs) =~ '^\s*$' | let fs = nextnonblank(fs + 1)
+  while getline(fs) =~ '^\s*$' | let fs = nextnonblank(fs + 1)
   endwhile
   if fs > v:foldend
     let line = getline(v:foldstart)
@@ -300,7 +300,7 @@ endfunction
 command! StartProfile call StartProfile()
 
 function! StopProfile()
-  profile pause
+  profile stop
   " noautocmd qall!
 endfunction
 command! StopProfile call StopProfile()
@@ -346,7 +346,7 @@ endfunction
 command! DrupalRoot call DrupalRoot()
 
 " }}} End Helper functions
-" Plugins {{{
+" Plugins: {{{
 
 call plug#begin()
 
@@ -457,7 +457,7 @@ Plug 'fenetikm/vim-textobj-function' "function textobj with php
 Plug 'kana/vim-textobj-fold' "fold textobj
 " Plug 'michaeljsmith/vim-indent-object' "indentation text objects
 " Plug 'padawan-php/deoplete-padawan' "deoplete padawan completion
-" Plug 'phpactor/phpactor',  {'do': 'composer install'}
+Plug 'phpactor/phpactor',  {'do': 'composer install'}
 " Plug 'm2mdas/phpcomplete-extended-symfony' "phpcomplete symfony (drupal)
 " Plug 'roxma/nvim-completion-manager' "nvim completion manager
 " Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
@@ -670,7 +670,7 @@ command! -bang -nargs=* DGFiles
   \ call fzf#vim#gitfiles(s:WithDrupalRoot())
 
 " }}} End FZF, CtrlP, Ag, Unite
-" NERDTree {{{
+" NERDTree and Plugins: {{{
 
 "map ctrl-e to show nerdtree
 "@todo fix this so that if no % (e.g. startify) then it still works
@@ -721,6 +721,19 @@ let g:NERDTreeLimitedSyntax = 1
 " let g:NERDTreeDisableExactMatchHighlight = 1
 " let g:NERDTreeDisablePatternMatchHighlight = 1
 " let g:NERDTreeSyntaxEnabledExtensions = ['yaml', 'php', 'js', 'css']
+
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "~",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✓",
+    \ 'Ignored'   : 'i',
+    \ "Unknown"   : "?"
+    \ }
 
 " }}} End NERDTree
 " ListToggle {{{
@@ -776,6 +789,7 @@ let g:deoplete#enable_at_startup = 1
 " this changes the ultisnips matching to get really short ones and use fuzzy matching
 " call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
 let g:deoplete#sources = {}
+" let g:deoplete#sources.php = ['member', 'buffer']
 let g:deoplete#sources.php = ['ultisnips', 'member', 'buffer']
 " let g:deoplete#sources.text = ['ultisnips', 'buffer', 'ultisnips', 'dictionary']
 let g:deoplete#auto_complete_delay=50
@@ -888,6 +902,9 @@ let g:vim_php_refactoring_use_default_mapping=0
 
 "disable php manual online shortcut
 let g:php_manual_online_search_shortcut = ''
+
+" phpactor omni
+autocmd FileType php setlocal omnifunc=phpactor#Complete
 
 " }}} End PHP plugins
 " Debug plugins {{{
@@ -1014,6 +1031,7 @@ function! test#php#codeception#test_file(file) abort
 endfunction
 
 "mnemonic run
+nnoremap <leader>rr :TestFile<cr>
 nnoremap <leader>rf :TestFile<cr>
 nnoremap <leader>rn :TestNearest<cr>
 nnoremap <leader>rs :TestSuite<cr>

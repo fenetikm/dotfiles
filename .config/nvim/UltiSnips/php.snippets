@@ -326,3 +326,21 @@ snippet _class_plugin_injection "Drupal plugin injection create / construct"
     return new static($configuration, $plugin_id, $plugin_definition);
   }
 endsnippet
+
+snippet _array_filter "PHP Array filter"
+$${1:filtered_array} = array_filter($${2:array_to_filter}, function ($${3:item}) {
+  return $0
+});
+endsnippet
+
+snippet _array_map "PHP Array map"
+$${1:mapped_array} = array_map(function ($${2:item}) {
+  return $0
+}, $${3:array_to_map});
+endsnippet
+
+snippet _array_reduce "PHP Array reduce"
+$${1:final_reduction} = array_reduce($${2:array_to_reduce}, function ($${3:carry}, $${4:item}) {
+  return $0
+}, ${5:initial});
+endsnippet
