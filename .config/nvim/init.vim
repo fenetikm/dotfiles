@@ -436,6 +436,7 @@ Plug '2072/PHP-Indenting-for-VIm' "updated indenting
 " Plug 'paulyg/Vim-PHP-Stuff' "updated php syntax
 " Plug 'StanAngeloff/php.vim' "More updatd php syntax
 Plug 'arnaud-lb/vim-php-namespace' "insert use statements automatically
+Plug 'sahibalejandro/vim-php' "insert absolute FQCN
 " Plug 'Rican7/php-doc-modded' "insert php doc blocks
 Plug 'adoy/vim-php-refactoring-toolbox' "php refactoring
 Plug 'tobyS/vmustache' "mustache templater for pdv
@@ -886,6 +887,7 @@ endfunction
 
 autocmd FileType php noremap <leader>pu :call PhpInsertUse()<cr>
 autocmd FileType php noremap <leader>pe :call PhpExpandClass()<cr>
+autocmd FileType php noremap <leader>pa :PHPExpandFQCNAbsolute<cr>
 
 "sort the use statements after inserting
 let g:php_namespace_sort_after_insert=1
@@ -1113,6 +1115,8 @@ let g:indent_guides_guide_size=1
 
 " }}} Indent guide "
 " Ale {{{ "
+"
+let g:ale_javascript_eslint_use_global = 1
 
 let g:ale_linters = {
       \   'php': ['phpcs'],
@@ -1216,6 +1220,7 @@ nnoremap <leader>ek :call OpenOrSplit("~/.config/karabiner/karabiner.json")<cr>
 nnoremap <leader>ey :call OpenOrSplit("~/Library/Preferences/kitty/kitty.conf")<cr>
 nnoremap <leader>eh :call OpenOrSplit("~/.hammerspoon/init.lua")<cr>
 nnoremap <leader>ez :call OpenOrSplit("~/.zshrc")<cr>
+nnoremap <leader>eg :call OpenOrSplit("~/.gitconfig")<cr>
 nnoremap <leader>eu :UltiSnipsEdit<cr>
 
 " }}} End Easy file opening
