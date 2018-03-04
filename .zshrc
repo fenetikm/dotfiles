@@ -2,14 +2,16 @@
 export ZSH=$HOME/.oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
+PROMPT_LEAN_VIMODE=1
+PROMPT_LEAN_VIMODE_FORMAT="%F{red}[VI]%f"
 PROMPT_LEAN_TMUX=''
 PROMPT_LEAN_COLOR1='249'
 PROMPT_LEAN_COLOR2='245'
 PROMPT_LEAN_COLOR3='207'
 PROMPT_LEAN_GIT_STYLE='FAT'
-# PROMPT_LEAN_SYMBOL='❯'
-PROMPT_LEAN_SYMBOL='$'
+PROMPT_LEAN_SYMBOL=''
 PROMPT_LEAN_PATH_SED='s/Documents\/Work/\$/g'
+PROMPT_LEAN_FG='%F{7}'
 source ~/.config/zsh/lean/lean.plugin.zsh
 
 # di directories
