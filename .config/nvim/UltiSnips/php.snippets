@@ -327,20 +327,48 @@ snippet _class_plugin_injection "Drupal plugin injection create / construct"
   }
 endsnippet
 
-snippet _array_filter "PHP Array filter"
-$${1:filtered_array} = array_filter($${2:array_to_filter}, function ($${3:item}) {
+snippet array_filter "PHP Array filter"
+array_filter($${2:array_to_filter}, function ($${3:item}) {
   return $0
 });
 endsnippet
 
-snippet _array_map "PHP Array map"
-$${1:mapped_array} = array_map(function ($${2:item}) {
+snippet array_filter_use "PHP Array filter, use"
+array_filter($${2:array_to_filter}, function ($${3:item}) use ($${4:included}) {
+  return $0
+});
+endsnippet
+
+snippet array_map "PHP Array map"
+array_map(function ($${2:item}) {
   return $0
 }, $${3:array_to_map});
 endsnippet
 
-snippet _array_reduce "PHP Array reduce"
-$${1:final_reduction} = array_reduce($${2:array_to_reduce}, function ($${3:carry}, $${4:item}) {
+snippet array_map_use "PHP Array map, use"
+array_map(function ($${2:item}) use ($${3:included}) {
+  return $0
+}, $${4:array_to_map});
+endsnippet
+
+snippet array_reduce "PHP Array reduce"
+array_reduce($${2:array_to_reduce}, function ($${3:carry}, $${4:item}) {
   return $0
 }, ${5:initial});
+endsnippet
+
+snippet array_reduce_use "PHP Array reduce, use"
+array_reduce($${2:array_to_reduce}, function ($${3:carry}, $${4:item}) use ($${5:included}) {
+  return $0
+}, ${6:initial});
+endsnippet
+
+snippet mock_method_return_callback "Drupal mock method will returnCallback"
+$${1:variable}->expects($this->any())
+  ->method('${2:method_name}')
+  ->will($this->returnCallback(
+    function (${3:method_parameters}) {
+      $0
+		}
+	));
 endsnippet

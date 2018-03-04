@@ -1,0 +1,10 @@
+snippet _routing_controller "Drupal routing.yml controller"
+${1:module_name}.$2:
+  path: '$3'
+	defaults:
+	  _controller: '\Drupal\\$1\Controller\\$4'
+		_title: '$5'
+	requirements:
+		_permission: '$6'
+$0
+endsnippet
