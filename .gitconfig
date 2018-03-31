@@ -20,8 +20,8 @@
   ui = auto
 
 [color "branch"]
-  current = yellow reverse
-  local = yellow
+  current = yellow
+  local = 241
   remote = green
 
 [color "diff"]

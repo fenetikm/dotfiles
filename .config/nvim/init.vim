@@ -373,8 +373,8 @@ Plug 'benmills/vimux' "Interact with tmux from vim
 Plug 'tpope/vim-unimpaired' "Various dual pair commands
 Plug 'tpope/vim-repeat' "Repeat plugin commands
 Plug 'ConradIrwin/vim-bracketed-paste' "auto set paste nopaste
-Plug 'neilagabriel/vim-geeknote' "Evernote
-Plug 'kakkyz81/evervim' "Evernote integration try, requires an API key.
+" Plug 'neilagabriel/vim-geeknote' "Evernote
+" Plug 'kakkyz81/evervim' "Evernote integration try, requires an API key.
 
 " }}} End Global, system, movement
 " Interface, fuzzy handling {{{
@@ -387,10 +387,10 @@ Plug 'Valloric/ListToggle' "toggle quickfix and location lists
 Plug 'majutsushi/tagbar' "tagbar
 Plug 'vim-php/tagbar-phpctags.vim' "tagbar phpctags
 Plug 'mhinz/vim-startify' "startify
-Plug 'scrooloose/nerdtree' "nerdtree file tree explorer
-Plug 'Xuyuanp/nerdtree-git-plugin' "nerdtree git plugin
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } "nerdtree file tree explorer
+Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' } "nerdtree git plugin
 Plug 'ryanoasis/vim-devicons' "icons using the nerd font
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight' "add in colors for above icons but seems to slow down nerdtree
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': 'NERDTreeToggle' } "add in colors for above icons but seems to slow down nerdtree
 "Plug 'auwsmit/vim-active-numbers' "line numbers only in active buffer, it's a bit disctracting though
 "Plug 'roman/golden-ratio' "
 " Plug 'junegunn/vim-emoji' "emojis for vim
@@ -412,15 +412,16 @@ Plug 'junegunn/fzf.vim' "fuzzy finder stuff
 " Syntax {{{
 
 Plug 'sheerun/vim-polyglot' "syntax for a lot of types
-Plug 'plasticboy/vim-markdown' "markdown handling
-Plug 'cakebaker/scss-syntax.vim' "scss syntax
-Plug 'evidens/vim-twig' "twig syntax
-Plug 'jeroenbourgois/vim-actionscript' "actionscript syntax
-Plug 'elzr/vim-json' "better json syntax
+" The following are included by the above
+" Plug 'plasticboy/vim-markdown', { 'for': 'markdown' } "markdown handling
+" Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' } "scss syntax
+" Plug 'evidens/vim-twig', { 'for': 'twig' } "twig syntax
+Plug 'jeroenbourgois/vim-actionscript', { 'for': 'actionscript' } "actionscript syntax
+" Plug 'elzr/vim-json', { 'for': 'json' } "better json syntax
 Plug 'ap/vim-css-color' "css color preview
-Plug 'pangloss/vim-javascript' "javascript syntax
-Plug 'mxw/vim-jsx' "jsx syntax support
-Plug 'posva/vim-vue' "vue support
+" Plug 'pangloss/vim-javascript', { 'for': 'javascript' } "javascript syntax
+" Plug 'mxw/vim-jsx' "jsx syntax support
+" Plug 'posva/vim-vue', { 'for': 'vue' } "vue support
 Plug 'gerw/vim-HiLinkTrace' "show syntax color groups
 "Plug 'StanAngeloff/php.vim', { 'for': 'php' } "More updatd php syntax
 Plug 'vim-scripts/todo-txt.vim' "handling of todo.txt
@@ -430,35 +431,35 @@ Plug 'vim-scripts/todo-txt.vim' "handling of todo.txt
 
 Plug 'tpope/vim-fugitive' "git management
 Plug 'tomtom/tcomment_vim' "commenting
-Plug 'sniphpets/sniphpets' "php snippets
-Plug 'sniphpets/sniphpets-common' "php snippets
-Plug '2072/PHP-Indenting-for-VIm' "updated indenting
+Plug 'sniphpets/sniphpets', { 'for': 'php' } "php snippets
+Plug 'sniphpets/sniphpets-common', { 'for': 'php' } "php snippets
+Plug '2072/PHP-Indenting-for-VIm', { 'for': 'php' } "updated indenting
 " Plug 'paulyg/Vim-PHP-Stuff' "updated php syntax
 " Plug 'StanAngeloff/php.vim' "More updatd php syntax
-Plug 'arnaud-lb/vim-php-namespace' "insert use statements automatically
-Plug 'sahibalejandro/vim-php' "insert absolute FQCN
+Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php' } "insert use statements automatically
+Plug 'sahibalejandro/vim-php', { 'for': 'php' } "insert absolute FQCN
 " Plug 'Rican7/php-doc-modded' "insert php doc blocks
-Plug 'adoy/vim-php-refactoring-toolbox' "php refactoring
+Plug 'adoy/vim-php-refactoring-toolbox', { 'for': 'php' } "php refactoring
 Plug 'tobyS/vmustache' "mustache templater for pdv
 Plug 'tobyS/pdv' "php documenter
-Plug 'fenetikm/phpfolding.vim' "php folding
-Plug 'alvan/vim-php-manual' "php manual
+Plug 'fenetikm/phpfolding.vim', { 'for': 'php' } "php folding
+Plug 'alvan/vim-php-manual', { 'for': 'php' } "php manual
 " Plug 'sickill/vim-pasta' "paste with indentation
-Plug 'joonty/vdebug' "debugger
+Plug 'joonty/vdebug', { 'for': 'php' } "debugger
 " Plug '~/.config/nvim/eclim' "eclim for completion
 " Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer update' }
 " Plug 'przepompownia/phpcd.vim', { 'for': 'php', 'do': 'composer update' }
-Plug 'joonty/vim-phpunitqf' "PHPUnit runner
+Plug 'joonty/vim-phpunitqf', { 'for': 'php' } "PHPUnit runner
 Plug 'janko-m/vim-test' "Test runner
 Plug 'wellle/targets.vim' "Additional target text objects
 Plug 'nathanaelkane/vim-indent-guides' "indent guides
 Plug 'kana/vim-textobj-user' "user textobjects
-Plug 'fenetikm/vim-textobj-function' "function textobj with php
+Plug 'fenetikm/vim-textobj-function', { 'for': 'php' } "function textobj with php
 " Plug 'kana/vim-textobj-entire' "entire document
 Plug 'kana/vim-textobj-fold' "fold textobj
 " Plug 'michaeljsmith/vim-indent-object' "indentation text objects
 " Plug 'padawan-php/deoplete-padawan' "deoplete padawan completion
-Plug 'phpactor/phpactor',  {'do': 'composer install'}
+Plug 'phpactor/phpactor',  {'do': 'composer install', 'for': 'php'} "php completion
 " Plug 'm2mdas/phpcomplete-extended-symfony' "phpcomplete symfony (drupal)
 " Plug 'roxma/nvim-completion-manager' "nvim completion manager
 " Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
@@ -505,27 +506,27 @@ Plug 'w0rp/ale' "async linting engine
 " }}} End To try plugins
 " Colors {{{
 
-Plug 'AlessandroYorba/Monrovia'
-Plug 'AlessandroYorba/Sidonia'
-Plug 'AlessandroYorba/Despacio'
-Plug 'sjl/badwolf'
-Plug 'davidklsn/vim-sialoquent'
-Plug 'croaker/mustang-vim'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'gosukiwi/vim-atom-dark'
-Plug 'fcpg/vim-orbital'
-Plug 'jonathanfilip/vim-lucius'
-Plug 'liuchengxu/space-vim-dark'
-Plug 'whatyouhide/vim-gotham'
-Plug 'morhetz/gruvbox'
-Plug 'sonph/onehalf', {'rtp': 'vim/'}
-Plug 'arcticicestudio/nord-vim'
-Plug 'rakr/vim-one'
-Plug 'cocopon/iceberg.vim'
-Plug 'jacoborus/tender.vim'
-Plug 'tomasiser/vim-code-dark'
-Plug 'mhartington/oceanic-next'
-Plug 'dracula/vim'
+" Plug 'AlessandroYorba/Monrovia'
+" Plug 'AlessandroYorba/Sidonia'
+" Plug 'AlessandroYorba/Despacio'
+" Plug 'sjl/badwolf'
+" Plug 'davidklsn/vim-sialoquent'
+" Plug 'croaker/mustang-vim'
+" Plug 'vim-airline/vim-airline-themes'
+" Plug 'gosukiwi/vim-atom-dark'
+" Plug 'fcpg/vim-orbital'
+" Plug 'jonathanfilip/vim-lucius'
+" Plug 'liuchengxu/space-vim-dark'
+" Plug 'whatyouhide/vim-gotham'
+" Plug 'morhetz/gruvbox'
+" Plug 'sonph/onehalf', {'rtp': 'vim/'}
+" Plug 'arcticicestudio/nord-vim'
+" Plug 'rakr/vim-one'
+" Plug 'cocopon/iceberg.vim'
+" Plug 'jacoborus/tender.vim'
+" Plug 'tomasiser/vim-code-dark'
+" Plug 'mhartington/oceanic-next'
+" Plug 'dracula/vim'
 Plug '~/Documents/Work/internal/vim/colors/falcon'
 " Plug 'rafi/awesome-vim-colorschemes'
 
@@ -763,12 +764,35 @@ let g:UltiSnipsEditSplit="vertical"
 snoremap <C-u> <Esc>:d1<cr>i
 
 "snippets completion using fzf
-inoremap <silent> <c-x><c-s> <Esc>:Snippets<cr>
+" inoremap <silent> <c-x><c-s> <Esc>:Snippets<cr>
+"as the name says
+function! s:list_snippets_for_current_ft_only() abort
+    if empty(UltiSnips#SnippetsInCurrentScope(1))
+        return ''
+    endif
+    let word_to_complete = matchstr(strpart(getline('.'), 0, col('.') - 1), '\S\+$')
+    let l:Is_relevant = {i,v ->
+    \      stridx(v, word_to_complete)>=0
+    \&&    matchstr(g:current_ulti_dict_info[v].location, '.*/\zs.\{-}\ze\.') ==# &ft}
+    let l:Build_info = { i,v -> {
+    \     'word': v,
+    \     'menu': '[snip] '. g:current_ulti_dict_info[v]['description'],
+    \     'dup' : 1,
+    \ }}
+    let candidates = map(filter(keys(g:current_ulti_dict_info), l:Is_relevant), l:Build_info)
+    let from_where = col('.') - len(word_to_complete)
+    if !empty(candidates)
+        call complete(from_where, candidates)
+    endif
+    return ''
+endfu
+" map the above to c-x c-x
+ino <silent> <c-x><c-x> <c-r>=<sid>list_snippets_for_current_ft_only()<cr>
 
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-" let g:UltiSnipsListSnippets="<c-tab>"
+" let g:UltiSnipsListSnippets="<c-'>"
 " let g:UltiSnipsJumpForwardTrigger="<c-n>"
 " let g:UltiSnipsJumpBackwardTrigger="<c-p>"
 " let g:UltiSnipsExpandTrigger = "<nop>"
@@ -786,7 +810,8 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 " }}} End UltiSnips
 " Deoplete {{{
 
-let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_at_startup = 0
+autocmd InsertEnter * call deoplete#enable()
 " this changes the ultisnips matching to get really short ones and use fuzzy matching
 " call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
 let g:deoplete#sources = {}
