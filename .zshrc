@@ -3,25 +3,22 @@ export ZSH=$HOME/.oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
 PROMPT_LEAN_VIMODE=1
-PROMPT_LEAN_VIMODE_FORMAT="%F{red}[VI]%f"
+PROMPT_LEAN_VIMODE_FORMAT="%F{red}[VI] %f"
 PROMPT_LEAN_TMUX=''
 PROMPT_LEAN_COLOR1='249'
 PROMPT_LEAN_COLOR2='245'
 PROMPT_LEAN_COLOR3='207'
 PROMPT_LEAN_GIT_STYLE='FAT'
 PROMPT_LEAN_SEP=''
-# PROMPT_LEAN_SYMBOL=''
-# PROMPT_LEAN_SYMBOL=''
 PROMPT_LEAN_SYMBOL='==>'
 PROMPT_LEAN_PATH_SED='s/Documents\/Work/\$/g'
-# PROMPT_LEAN_FG='%F{7}'
 source ~/.config/zsh/lean/lean.plugin.zsh
 
 # exa colours
 source ~/Documents/Work/internal/vim/colors/falcon/exa/EXA_COLORS
 
 # Specify zsh plugins.
-plugins=(git)
+plugins=(git colored-man)
 
 # User configuration.
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
@@ -44,7 +41,11 @@ setopt AUTO_CD
 
 alias l='ls -alhF'
 alias lvr='ls -alR > /dev/null'
+
+# directory aliases
+alias aa='cd ~/Documents/Work/UofA/aa/vms/ua-aa-1'
 alias uas='cd ~/Documents/Work/UofA/scholarships/ua-scholarships6/'
+alias uacs='cd ~/Documents/Work/UofA/api/vms/ua-content-store/'
 alias arop='cd ~/Documents/Work/UofA/arop/vms/ua-arop2/'
 alias ccsp='cd ~/Documents/Work/UofA/ccsp/vms/ua-ccsp'
 alias refactor='cd ~/Documents/Work/UofA/refactor/vms/refactor'
@@ -75,15 +76,39 @@ alias gs='git status'
 alias gd='git diff'
 alias gl='git log'
 alias gffp='git flow feature publish'
-alias gfff='git flow feature finish'
+alias gffs='git flow feature start'
 alias gp='git push'
 alias gb='git branch'
 
 # tmux aliases
-alias tmuxd='~/.config/tmux/drupal.sh'
-alias tmuxs='~/.config/tmux/split.sh'
-alias ta='tmux attach -t'
-alias tl='tmux ls'
+alias txd='~/.config/tmux/drupal.sh'
+alias txs='~/.config/tmux/split.sh'
+alias txn='~/.config/tmux/new.sh'
+alias txa='tmux attach -t'
+alias txl='tmux ls'
+
+#jira aliases
+alias j='jira'
+alias ji="~/.config/zsh/jira.zsh 'jira mine'"
+alias jo="~/.config/zsh/jira.zsh 'jira open'"
+alias ja="~/.config/zsh/jira.zsh 'jira all_mine'"
+
+#taskwarrior aliases
+tw_filter_project() { 
+  task project:"$1" "${@:2}"
+}
+tw_add_with_project() {
+  task add project:"$1" "${@:2}"
+}
+tw_add() {
+  task add $@
+}
+alias tw='task'
+alias twp='tw_filter_project'
+alias twa='tw_add'
+alias twap='tw_add_with_project'
+alias tws='task +ACTIVE stop'
+alias twd='task +ACTIVE done'
 
 # vagrant exec binstubs
 alias rb='vbin/robo'
@@ -92,6 +117,10 @@ alias rbc='ls -alR > /dev/null && vbin/robo build:clean'
 alias dc='vbin/drupal'
 alias vs='vagrant ssh'
 alias co='vbin/codecept'
+
+#virtual box
+alias vbox='vboxmanage'
+alias vboxr='vboxmanage list runningvms'
 
 alias wallissh='ssh -p 2223 root@103.21.48.192'
 alias redyssh='ssh theoryz4@122.129.219.79 -p 2022 -i id_dsa'
@@ -171,6 +200,8 @@ set_cursor_color() {
 }
 
 export PATH="/usr/local/opt/ncurses/bin:$PATH"
+export GOPATH="/Users/mjw/go"
+export PATH="$GOPATH/bin:$PATH"
 
 # OPAM configuration
 . /Users/mjw/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
