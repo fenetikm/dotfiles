@@ -22,11 +22,11 @@ tmux detach > /dev/null
 set -- $(stty size) # $1 = rows $2 = columns
 tmux new-session -d -s $SESSION_NAME -x "$2" -y "$(($1 - 1))"
 
-tmux new-window -t $SESSION_NAME:1 -n 'Code'
+tmux new-window -t $SESSION_NAME:1 -n 'code'
 
 ## Main Window
 tmux select-window -t $SESSION_NAME:1
-tmux rename-window 'Code'
+tmux rename-window 'code'
 
 # Split into left and right
 tmux split-window -h -p33
