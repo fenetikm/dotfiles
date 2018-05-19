@@ -794,12 +794,18 @@ endfu
 " map the above to c-x c-x
 ino <silent> <c-x><c-x> <c-r>=<sid>list_snippets_for_current_ft_only()<cr>
 
+function! ExpandPossibleShorterSnippet()
+  let matches = len(UltiSnips#SnippetsInCurrentScope())
+  if matches >= 1
+    return 1
+  endif
+  return 0
+endfunction
+inoremap <silent> <s-cr> <c-r>=(ExpandPossibleShorterSnippet() == 0 ? '' : UltiSnips#ExpandSnippet())
+
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-" let g:UltiSnipsListSnippets="<c-'>"
-" let g:UltiSnipsJumpForwardTrigger="<c-n>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-p>"
 " let g:UltiSnipsExpandTrigger = "<nop>"
 " let g:ulti_expand_or_jump_res = 0
 " function! ExpandSnippetOrCarriageReturn()
@@ -820,8 +826,9 @@ autocmd InsertEnter * call deoplete#enable()
 " this changes the ultisnips matching to get really short ones and use fuzzy matching
 " call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
 let g:deoplete#sources = {}
+let g:deoplete#sources.php = ['around', 'member', 'buffer']
 " let g:deoplete#sources.php = ['member', 'buffer']
-let g:deoplete#sources.php = ['ultisnips', 'member', 'buffer']
+" let g:deoplete#sources.php = ['member', 'buffer']
 " let g:deoplete#sources.text = ['ultisnips', 'buffer', 'ultisnips', 'dictionary']
 let g:deoplete#auto_complete_delay=50
 " Use smartcase.
@@ -987,10 +994,10 @@ nnoremap <leader>vl :VimuxRunLastCommand<cr>
 " Splitjoin {{{
 
 "splitjoin
-" let g:splitjoin_split_mapping = ''
-" let g:splitjoin_join_mapping = ''
-" nnoremap ss :SplitjoinSplit<cr>
-" nnoremap sj :SplitjoinJoin<cr>
+nnoremap ss :SplitjoinSplit<cr>
+nnoremap sj :SplitjoinJoin<cr>
+
+"check the ftplugin settings for specific settings
 
 " }}} End Splitjoin
 " Local vimrc {{{
@@ -1157,7 +1164,7 @@ let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
 let g:ale_php_phpcs_standard = 'Drupal'
 
-let g:ale_sign_error=''
+let g:ale_sign_error=''
 let g:ale_sign_info=''
 let g:ale_sign_warning=''
 
@@ -1176,6 +1183,16 @@ let g:tcommentMaps=0
 " Fold description {{{ "
 let g:polyglot_disabled = ['yaml']
 " }}} Fold description "
+" Vimwiki and Markdown {{{ "
+let wiki_1 = {}
+let wiki_1.path = '~/vimwiki'
+let wiki_1.nested_syntaxes = {'php': 'php'}
+let wiki_1.syntax = 'markdown'
+let wiki_1.ext = '.md'
+let wiki_1.conceallevel = 0
+let g:vimwiki_list = [wiki_1]
+
+" }}}  "
 
 " }}} End Plugin settings
 " Mappings {{{
@@ -1227,7 +1244,8 @@ silent! iunmap <c-g>s
 silent! iunmap <c-g>S
 inoremap <c-g> <Right>
 
-inoremap <c-l> <space>=><space>
+" insert rocket
+" inoremap <c-l> <space>=><space>
 
 " }}} End Insert mode mappings
 " Easy file opening [leader e*]{{{
@@ -1258,16 +1276,22 @@ nnoremap <leader>eu :UltiSnipsEdit<cr>
 
 "toggle guides
 nnoremap <silent> <leader>tg :IndentGuidesToggle<cr>
+
 "toggle search highlight
 nnoremap <silent> <leader>th :nohlsearch<CR>
+
 "toggle line numbers
 nnoremap <silent> <leader>tn :setlocal nonumber! norelativenumber!<CR>
+
 "toggle wrapping
 nnoremap <silent> <leader>tw :setlocal wrap! breakindent!<CR>
+
 "toggle tagbar
 nnoremap <silent> <leader>tt :TagbarToggle<cr>
+
 "toggle list
 nnoremap <silent> <leader>tl :LToggle<cr>
+
 "toggle quickfix
 nnoremap <silent> <leader>tq :QToggle<cr>
 
@@ -1375,9 +1399,9 @@ nnoremap <s-e> $
 nmap <leader>z :pclose<cr>
 
 " Use CTRL-S for saving, also in Insert mode
-noremap <C-S> :update<cr>
-vnoremap <C-S> <C-C>:update<cr>
-inoremap <C-S> <C-O>:update<cr>
+noremap <c-s> :update<cr>
+vnoremap <c-s> <c-c>:update<cr>
+inoremap <c-s> <c-o>:update<cr>
 
 " quit all
 nnoremap ZQ :qa!<cr>
@@ -1399,19 +1423,13 @@ vmap <C-v> <Plug>(expand_region_shrink)
 "refresh chrome
 nnoremap <silent> <leader>r :!chrome-cli reload<cr><cr>
 
-" map arrows to resize splits
-nnoremap <Up>    :resize +2<CR>
-nnoremap <Down>  :resize -2<CR>
-nnoremap <Left>  :vertical resize +2<CR>
-nnoremap <Right> :vertical resize -2<CR>
+"map cursors to up and down location list
+nnoremap <Down> :lnext<cr>
+nnoremap <Up> :lprevious<cr>
 
 " }}} End Mappings
 " Abbreviations {{{
 
-iab vd var_dump();<Esc>hi
-iab vdd var_dump();<cr>die;<Esc>k$hi
-iab prr print_r();<Esc>hi
-iab prd print_r();<cr>die;<Esc>k$hi
 
 " }}} End Abbreviations
 " Statusline {{{
@@ -1592,6 +1610,7 @@ set background=dark
 " faclon settings
 let g:falcon_lightline = 1
 let g:lightline.colorscheme='falcon'
+
 colorscheme falcon
 
 " set cursors depending on mode
