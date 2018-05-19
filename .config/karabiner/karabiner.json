@@ -1,6 +1,6 @@
 {
     "global": {
-        "check_for_updates_on_startup": false,
+        "check_for_updates_on_startup": true,
         "show_in_menu_bar": false,
         "show_profile_name_in_menu_bar": false
     },
@@ -98,50 +98,22 @@
                         ]
                     },
                     {
-                        "description": "Left and Right Shift together toggle Caps Lock",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    },
-                                    "simultaneous": [
-                                        {
-                                            "key_code": "left_shift"
-                                        },
-                                        {
-                                            "key_code": "right_shift"
-                                        }
-                                    ],
-                                    "simultaneous_options": {
-                                        "key_down_order": "insensitive",
-                                        "key_up_order": "insensitive"
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "caps_lock"
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "SpaceFN: Space+[hjkl] to Left, Down, Up, Right",
+                        "description": "Change Left Control to Escape when used alone only for nightfox",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
-                                        "name": "spacefn_mode",
-                                        "type": "variable_if",
-                                        "value": 1
+                                        "type": "device_if",
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 7185
+                                            }
+                                        ]
                                     }
                                 ],
+                                "type": "basic",
                                 "from": {
-                                    "key_code": "h",
+                                    "key_code": "left_control",
                                     "modifiers": {
                                         "optional": [
                                             "any"
@@ -150,79 +122,15 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "left_arrow"
+                                        "key_code": "left_control",
+                                        "lazy": true
                                     }
                                 ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
+                                "to_if_alone": [
                                     {
-                                        "name": "spacefn_mode",
-                                        "type": "variable_if",
-                                        "value": 1
+                                        "key_code": "escape"
                                     }
-                                ],
-                                "from": {
-                                    "key_code": "j",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "down_arrow"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "name": "spacefn_mode",
-                                        "type": "variable_if",
-                                        "value": 1
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "k",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "up_arrow"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "name": "spacefn_mode",
-                                        "type": "variable_if",
-                                        "value": 1
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "l",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "right_arrow"
-                                    }
-                                ],
-                                "type": "basic"
+                                ]
                             }
                         ]
                     }
@@ -233,6 +141,7 @@
                     "disable_built_in_keyboard_if_exists": false,
                     "fn_function_keys": [],
                     "identifiers": {
+                        "aka": "daskeyboard",
                         "is_keyboard": true,
                         "is_pointing_device": false,
                         "product_id": 8211,
@@ -259,18 +168,18 @@
                         },
                         {
                             "from": {
-                                "key_code": "right_option"
+                                "key_code": "right_command"
                             },
                             "to": {
-                                "key_code": "right_command"
+                                "key_code": "right_option"
                             }
                         },
                         {
                             "from": {
-                                "key_code": "right_command"
+                                "key_code": "right_option"
                             },
                             "to": {
-                                "key_code": "right_option"
+                                "key_code": "right_command"
                             }
                         }
                     ]
