@@ -18,7 +18,7 @@ hs.fnutils.each({
   { key = "q", app = "Sequel" },
   { key = "n", app = "Notes" },
   { key = "c", app = "Calendar" },
-  { key = "w", app = "Microsoft Word" },
+  { key = "w", app = "iTerm" },
   { key = "e", app = "Microsoft Excel" },
   { key = "p", app = "Preview" },
   { key = "1", app = "Messages" },
@@ -28,9 +28,6 @@ hs.fnutils.each({
 }, function(object)
     hs.hotkey.bind(mash_apps, object.key, function() ext.app.forceLaunchOrFocus(object.app) end)
 end)
-
--- map mash+k to karabiner swap keyboard profiles
-hs.hotkey.bind(mash_apps, 'k', function() hs.alert.show((hs.execute("/Users/mjw/.config/karabiner/swap.sh"))) end)
 
 -- map mash+l to lock screen
 hs.hotkey.bind(mash_apps, 'l', function() hs.caffeinate.lockScreen() end)
