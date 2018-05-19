@@ -369,7 +369,7 @@ Plug 'embear/vim-localvimrc' "local vimrc
 Plug 'dbakker/vim-projectroot' "project root stuff
 Plug 'cohama/lexima.vim' "auto closing pairs
 Plug 'terryma/vim-expand-region' "expand region useful for selection
-" Plug 'AndrewRadev/splitjoin.vim' "convert single/multi line code expressions
+Plug 'AndrewRadev/splitjoin.vim' "convert single/multi line code expressions
 " Plug 'breuckelen/vim-resize' "resize splits
 Plug 'benmills/vimux' "Interact with tmux from vim
 " Plug 'jebaum/vim-tmuxify' "tmux controlling, might be a bit more powerful than vimux?
@@ -379,6 +379,10 @@ Plug 'tpope/vim-repeat' "Repeat plugin commands
 Plug 'ConradIrwin/vim-bracketed-paste' "auto set paste nopaste
 " Plug 'neilagabriel/vim-geeknote' "Evernote
 " Plug 'kakkyz81/evervim' "Evernote integration try, requires an API key.
+Plug 'vimwiki/vimwiki' "Wiki for vim
+Plug 'tbabej/taskwiki' "taskwarrior integration
+Plug 'blindFS/vim-taskwarrior' "taskwarrior management
+Plug 'powerman/vim-plugin-AnsiEsc' "improve colour support for graphs
 
 " }}} End Global, system, movement
 " Interface, fuzzy handling {{{
@@ -416,25 +420,44 @@ Plug 'junegunn/fzf.vim' "fuzzy finder stuff
 " Syntax {{{
 
 Plug 'sheerun/vim-polyglot' "syntax for a lot of types
-" The following are included by the above
-" Plug 'plasticboy/vim-markdown', { 'for': 'markdown' } "markdown handling
-" Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' } "scss syntax
-" Plug 'evidens/vim-twig', { 'for': 'twig' } "twig syntax
 Plug 'jeroenbourgois/vim-actionscript', { 'for': 'actionscript' } "actionscript syntax
-" Plug 'elzr/vim-json', { 'for': 'json' } "better json syntax
 Plug 'ap/vim-css-color' "css color preview
 " Plug 'pangloss/vim-javascript', { 'for': 'javascript' } "javascript syntax
 " Plug 'mxw/vim-jsx' "jsx syntax support
 " Plug 'posva/vim-vue', { 'for': 'vue' } "vue support
 Plug 'gerw/vim-HiLinkTrace' "show syntax color groups
-"Plug 'StanAngeloff/php.vim', { 'for': 'php' } "More updatd php syntax
 Plug 'vim-scripts/todo-txt.vim' "handling of todo.txt
+" Plug 'gabrielelana/vim-markdown' "better markdown support
 
 " }}} End Syntax
 " Coding, text objects {{{
+"
 
 Plug 'tpope/vim-fugitive' "git management
 Plug 'tomtom/tcomment_vim' "commenting
+" Plug 'sickill/vim-pasta' "paste with indentation
+Plug 'joonty/vdebug', { 'for': 'php' } "debugger
+" Plug '~/.config/nvim/eclim' "eclim for completion
+" Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer update' }
+" Plug 'przepompownia/phpcd.vim', { 'for': 'php', 'do': 'composer update' }
+Plug 'joonty/vim-phpunitqf', { 'for': 'php' } "PHPUnit runner
+Plug 'janko-m/vim-test' "Test runner
+Plug 'wellle/targets.vim' "Additional target text objects
+Plug 'nathanaelkane/vim-indent-guides' "indent guides
+Plug 'kana/vim-textobj-user' "user textobjects
+" Plug 'kana/vim-textobj-entire' "entire document
+Plug 'kana/vim-textobj-fold' "fold textobj
+" Plug 'michaeljsmith/vim-indent-object' "indentation text objects
+" Plug 'roxma/nvim-completion-manager' "nvim completion manager
+" Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
+" Disabled, not sure if worth it.
+" Plug 'int3/vim-extradite' "Git commit browser
+Plug 'junegunn/vim-easy-align' "Alignment of variables, etc.
+" Plug 'Konfekt/FastFold' "fastfolding and fold custom objects
+
+" PHP Specific {{{
+
 Plug 'sniphpets/sniphpets', { 'for': 'php' } "php snippets
 Plug 'sniphpets/sniphpets-common', { 'for': 'php' } "php snippets
 Plug '2072/PHP-Indenting-for-VIm', { 'for': 'php' } "updated indenting
@@ -448,30 +471,14 @@ Plug 'tobyS/vmustache' "mustache templater for pdv
 Plug 'tobyS/pdv' "php documenter
 Plug 'fenetikm/phpfolding.vim', { 'for': 'php' } "php folding
 Plug 'alvan/vim-php-manual', { 'for': 'php' } "php manual
-" Plug 'sickill/vim-pasta' "paste with indentation
-Plug 'joonty/vdebug', { 'for': 'php' } "debugger
-" Plug '~/.config/nvim/eclim' "eclim for completion
-" Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer update' }
-" Plug 'przepompownia/phpcd.vim', { 'for': 'php', 'do': 'composer update' }
-Plug 'joonty/vim-phpunitqf', { 'for': 'php' } "PHPUnit runner
-Plug 'janko-m/vim-test' "Test runner
-Plug 'wellle/targets.vim' "Additional target text objects
-Plug 'nathanaelkane/vim-indent-guides' "indent guides
-Plug 'kana/vim-textobj-user' "user textobjects
 Plug 'fenetikm/vim-textobj-function', { 'for': 'php' } "function textobj with php
-" Plug 'kana/vim-textobj-entire' "entire document
-Plug 'kana/vim-textobj-fold' "fold textobj
-" Plug 'michaeljsmith/vim-indent-object' "indentation text objects
 " Plug 'padawan-php/deoplete-padawan' "deoplete padawan completion
 Plug 'phpactor/phpactor',  {'do': 'composer install', 'for': 'php'} "php completion
+" Plug 'kristijanhusak/deoplete-phpactor' "async phpactor
 " Plug 'm2mdas/phpcomplete-extended-symfony' "phpcomplete symfony (drupal)
-" Plug 'roxma/nvim-completion-manager' "nvim completion manager
-" Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
-" Disabled, not sure if worth it.
-" Plug 'int3/vim-extradite' "Git commit browser
-Plug 'junegunn/vim-easy-align' "Alignment of variables, etc.
-" Plug 'Konfekt/FastFold' "fastfolding and fold custom objects
+" Plug 'guywithnose/vim-split-join' "split and join arrays, messes up syntax?
+
+" }}} End PHP Specific
 
 " }}} End Coding, text objects
 " To try {{{
@@ -542,12 +549,6 @@ call plug#end()
 " Plugin settings {{{
 
 " FZF, CtrlP, Ag, Unite {{{
-
-" line completion
-" imap <c-x><c-l> <plug>(fzf-complete-buffer-line)
-
-"word completion
-" imap <c-x><c-k> <plug>(fzf-complete-word)
 
 " match splitting to ctrl-w splitting
 let g:fzf_action = {
