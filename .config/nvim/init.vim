@@ -14,6 +14,7 @@ set clipboard=unnamed "for copy and paste, anonymous register aliased to * regis
 set autoread "set to auto read when a file is changed from the outside
 set report=0 "Always report line changes
 set mouse=nv " mouse only enabled in normal and visual
+set noshowcmd "hide the command showing in the status
 
 let mapleader = "\<Space>" "set variable mapleader
 let g:mapleader = "\<Space>" "set global variable mapleader see http://stackoverflow.com/a/15685904
@@ -160,6 +161,9 @@ endif
 
 "actionscript/flash files. RIP.
 au BufNewFile,BufRead *.as set filetype=actionscript
+
+"json
+autocmd FileType json setlocal shiftwidth=4 tabstop=4
 
 "quickfix
 au FileType qf setlocal nonumber colorcolumn=
