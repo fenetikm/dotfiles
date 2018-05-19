@@ -1,4 +1,17 @@
-snippet _form_textfield "Drupal Form API Textfield element" s
+snippet vd "var_dump"
+var_dump($0);
+endsnippet
+
+snippet vdd "var_dump die;"
+var_dump($0);
+die;
+endsnippet
+
+snippet pr "print_r"
+print_r($0)
+endsnippet
+
+snippet form_textfield "Drupal Form API Textfield element" s
 $form['$1'] = [
   '#type' => 'textfield',
 	'#title' => $this->t('$2'),
@@ -9,7 +22,7 @@ $form['$1'] = [
 $0
 endsnippet
 
-snippet _form_textarea "Drupal Form API Textarea element" s
+snippet form_textarea "Drupal Form API Textarea element" s
 $form['$1'] = [
   '#type' => 'textarea',
 	'#title' => $this->t('$2'),
@@ -20,7 +33,7 @@ $form['$1'] = [
 $0
 endsnippet
 
-snippet _form_item "Drupal Form API Item element" s
+snippet form_item "Drupal Form API Item element" s
 $form['$1'] = [
   '#type' => 'item',
 	'#title' => $this->t('$2'),
@@ -29,7 +42,7 @@ $form['$1'] = [
 $0
 endsnippet
 
-snippet _form_text_format "Drupal Form API text_format element" s
+snippet form_text_format "Drupal Form API text_format element" s
 $${1:field_config_id} = $config->get('$1');
 $form['$2'] = [
   '#type' => 'text_format',
@@ -42,7 +55,7 @@ $form['$2'] = [
 $0
 endsnippet
 
-snippet _form_submit "Drupal Form API Submit element"
+snippet form_submit "Drupal Form API Submit element"
 $form['$1'] = [
   '#type' => 'submit',
 	'#value' => $this->t('$2'),
@@ -50,7 +63,7 @@ $form['$1'] = [
 $0
 endsnippet
 
-snippet _form_check "Drupal Form API Checkbox element"
+snippet form_check "Drupal Form API Checkbox element"
 $form['$1'] = [
   '#type' => 'checkbox',
 	'#title' => $this->t('$2'),
@@ -60,7 +73,7 @@ $form['$1'] = [
 $0
 endsnippet
 
-snippet _form_select "Drupal Form API Select element"
+snippet form_select "Drupal Form API Select element"
 $form['$1'] = [
   '#type' => 'select',
 	'#title' => $this->t('$2'),
@@ -72,7 +85,7 @@ $form['$1'] = [
 $0
 endsnippet
 
-snippet _form_radios "Drupal Form API Radios element"
+snippet form_radios "Drupal Form API Radios element"
 $form['$1'] = [
   '#type' => 'radios',
 	'#title' => $this->t('$2'),
@@ -84,7 +97,7 @@ $form['$1'] = [
 $0
 endsnippet
 
-snippet _form_details "Drupal Form API Details element"
+snippet form_details "Drupal Form API Details element"
 $form['$1'] = [
   '#type' => 'details',
 	'#title' => $this->t('$2'),
@@ -93,7 +106,7 @@ $form['$1'] = [
 $0
 endsnippet
 
-snippet _module_hook_update "Drupal hook update"
+snippet module_hook_update "Drupal hook update"
 /**
  * ${1:Description of update.}
  */
@@ -102,7 +115,7 @@ function ${2:mymodule}_update_${3:8000}(&$sandbox) {
 }
 endsnippet
 
-snippet _module_hook "Drupal hook"
+snippet module_hook "Drupal hook"
 /**
  * Implements hook_${1:hook}().
  */
@@ -111,7 +124,7 @@ function ${2:mymodule}_${3:hook}($4) {
 }
 endsnippet
 
-snippet _module_func "Drupal module function"
+snippet module_func "Drupal module function"
 /**
  * ${1:Description}
  */
@@ -120,7 +133,7 @@ function ${2:mymodule}_${3:function_name}($4) {
 }
 endsnippet
 
-snippet _class_func "Drupal class function"
+snippet class_func "Drupal class function"
 /**
  * ${1:{@inheritdoc}}
  */
@@ -129,21 +142,21 @@ ${2:public} ${3:static }function $4($5) {
 }
 endsnippet
 
-snippet _class_func_interface "Drupal class interface function"
+snippet class_func_interface "Drupal class interface function"
 /**
  * ${1:Description}
  */
 ${2:public} function $3($4);
 endsnippet
 
-snippet _class_const "Drupal class const"
+snippet class_const "Drupal class const"
 /**
  * ${1:Description}.
  */
 const $0
 endsnippet
 
-snippet _class_var "Drupal class protected var"
+snippet class_var "Drupal class protected var"
 /**
  * ${1:Description}
  *
@@ -152,7 +165,7 @@ snippet _class_var "Drupal class protected var"
 ${3:protected} $4
 endsnippet
 
-snippet _class_var_entity_type_manager_interface "Drupal class var EntityTypeManagerInterface"
+snippet class_var_entity_type_manager_interface "Drupal class var EntityTypeManagerInterface"
 /**
  * Entity type manager.
  *
@@ -162,7 +175,7 @@ protected $entityTypeManager;
 $0
 endsnippet
 
-snippet _class_var_database_connection "Drupal class var Database Connection"
+snippet class_var_database_connection "Drupal class var Database Connection"
 /**
  * Database connection.
  *
@@ -172,7 +185,7 @@ protected $databaseConnection;
 $0
 endsnippet
 
-snippet _class_var_config_factory_interface "Drupal class var ConfigFactoryInterface"
+snippet class_var_config_factory_interface "Drupal class var ConfigFactoryInterface"
 /**
  * The config factory.
  *
@@ -182,7 +195,7 @@ protected $configFactory;
 $0
 endsnippet
 
-snippet _class_var_date_formatter_interface "Drupal class var DateFormatterInterface"
+snippet class_var_date_formatter_interface "Drupal class var DateFormatterInterface"
 /**
  * Date formatter.
  *
@@ -192,7 +205,7 @@ protected $dateFormatter;
 $0
 endsnippet
 
-snippet _class_var_logger_interface "Drupal class var LoggerInterface"
+snippet class_var_logger_interface "Drupal class var LoggerInterface"
 /**
  * Logger for a channel.
  *
@@ -202,15 +215,15 @@ protected $logger;
 $0
 endsnippet
 
-snippet _log "Drupal logger"
+snippet log "Drupal logger"
 \Drupal::logger('$1')->${2:notice}($3);
 endsnippet
 
-snippet _logp "Drupal logger print_r"
+snippet logp "Drupal logger print_r"
 \Drupal::logger('$1')->${2:notice}('<pre>' . print_r($3, TRUE) . '</pre>');
 endsnippet
 
-snippet _file_class_standard "Drupal class, standard"
+snippet file_class_standard "Drupal class, standard"
 <?php
 
 namespace Drupal\\$1
@@ -225,7 +238,7 @@ class $3 {
 }
 endsnippet
 
-snippet _file_class_interface "Drupal class interface"
+snippet file_class_interface "Drupal class interface"
 <?php
 
 namespace Drupal\\$1
@@ -240,7 +253,7 @@ interface $3Interface {
 }
 endsnippet
 
-snippet _file_test_unit "Drupal Unit Test file template"
+snippet file_test_unit "Drupal Unit Test file template"
 <?php
 
 namespace Drupal\Tests\\$1
@@ -272,7 +285,7 @@ class $5 extends UnitTestCase {
 }
 endsnippet
 
-snippet _file_test_kernel "Drupal Kernel Test file template"
+snippet file_test_kernel "Drupal Kernel Test file template"
 <?php
 
 namespace Drupal\Tests\\$1\Kernel\\$2
@@ -311,7 +324,7 @@ class $6 extends KernelTestBase {
 }
 endsnippet
 
-snippet _class_plugin_injection "Drupal plugin injection create / construct"
+snippet class_plugin_injection "Drupal plugin injection create / construct"
   /**
    * {@inheritdoc}
    */
