@@ -1,0 +1,71 @@
+# Bugwarrior.rc config
+# @see http://bugwarrior.readthedocs.io/en/latest/configuration.html
+# Note: Where items are commented out they are currently the default.
+
+[general]
+
+# where to pull from
+targets = ua_jira
+
+# which taskrc file to use
+#taskrc = ~/.taskrc
+
+# Shorten links
+shorten = False
+
+# disable links in the description
+inline_links = False
+
+# show links in the annotation
+annotation_links = True
+
+# show issue comments in annotation
+annotation_comments = True
+
+# don't use the old style of matching
+legacy_matching = False
+
+# Level of debugging: DEBUG, INFO, WARNING, ERROR, CRITICAL, DISABLED
+#log.level = DEBUG
+
+# Where to log to
+#log.file =
+
+# Max length of an annotation
+#annotation_length = 45
+
+# Max description length
+#description_length = 35
+
+# Whether to put information into annotations
+#merge_annotations = True
+
+# Whether to put information into tags
+merge_tags = False
+
+# Fields that shouldn't be updated
+#static_fields = priority
+
+# Hooks to run scripts on certain events
+#[hooks]
+# Run something before importing
+#pre_import = ~/.config/some_script.sh
+
+# Config notifications when bugwarrior-pull runs, issues are created,
+# updated or deleted.
+#[notifications]
+
+[ua_jira]
+service = jira
+jira.base_uri = https://jira.adelaide.edu.au
+jira.username = a1221112
+jira.password = @oracle:eval:pass UofA/account
+jira.query = resolution = unresolved and assignee=currentuser() and status != 'rejected' and status != 'done' ORDER BY priority asc, created
+jira.project_template = ua.jira.{{ jiraid }}
+jira.description_template = {{ jirasummary }}
+jira.add_tags = jira,ua
+# don't need to set these
+#jira.version = 5
+#jira.verify_ssl = False
+#jira.import_labels_as_tags = True
+#jira.import_sprints_as_tags = True
