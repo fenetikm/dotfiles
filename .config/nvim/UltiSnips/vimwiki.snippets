@@ -1,0 +1,50 @@
+snippet file_todo_references "Vimwiki file with todo and references"
+# ${1:Title}
+
+## Todo
+* [ ] $0
+
+## Someday
+
+## Ideas
+
+## References
+endsnippet
+
+snippet file_references "Vimwiki file with references"
+# ${1:Title}
+
+## Ideas
+
+## References
+$0
+endsnippet
+
+snippet file_blank "Vimwiki file with title only"
+# ${1:Title}
+
+$0
+endsnippet
+
+snippet file_blog "Vimwiki file for blog post"
+# ${1:Title}
+Title: ${2:Title of blog post}
+Size: ${3:bite|snack|meal|banquet}
+Category: ${4:ideas|technology|code}
+Tags: ${5:}
+--
+$0
+endsnippet
+
+snippet link "Vimwiki link"
+[${1:Title}](${2:Link})
+endsnippet
+
+snippet file_process "Vimwiki file with process"
+# ${1:Title}
+
+## Final process
+
+## Process ideas
+$0
+endsnippet

@@ -99,9 +99,7 @@ endsnippet
 
 snippet form_details "Drupal Form API Details element"
 $form['$1'] = [
-  '#type' => 'details',
-	'#title' => $this->t('$2'),
-	${3:'#open' => TRUE,}
+
 ];
 $0
 endsnippet
@@ -133,7 +131,16 @@ function ${2:mymodule}_${3:function_name}($4) {
 }
 endsnippet
 
-snippet class_func "Drupal class function"
+snippet func_standard "Drupal class standard method"
+/**
+ * ${1:{Description of method}}
+ */
+${2:public} ${3:static }function $4($5) {
+  $0
+}
+endsnippet
+
+snippet func_inherit "Drupal class inherited method"
 /**
  * ${1:{@inheritdoc}}
  */
@@ -142,21 +149,21 @@ ${2:public} ${3:static }function $4($5) {
 }
 endsnippet
 
-snippet class_func_interface "Drupal class interface function"
+snippet func_interface "Drupal class interface method"
 /**
  * ${1:Description}
  */
 ${2:public} function $3($4);
 endsnippet
 
-snippet class_const "Drupal class const"
+snippet const_description "Drupal const with description"
 /**
  * ${1:Description}.
  */
 const $0
 endsnippet
 
-snippet class_var "Drupal class protected var"
+snippet var_protected_description "Drupal protected var with description"
 /**
  * ${1:Description}
  *
@@ -165,7 +172,7 @@ snippet class_var "Drupal class protected var"
 ${3:protected} $4
 endsnippet
 
-snippet class_var_entity_type_manager_interface "Drupal class var EntityTypeManagerInterface"
+snippet var_entity_type_manager_interface "Drupal var EntityTypeManagerInterface"
 /**
  * Entity type manager.
  *
@@ -175,7 +182,7 @@ protected $entityTypeManager;
 $0
 endsnippet
 
-snippet class_var_database_connection "Drupal class var Database Connection"
+snippet var_database_connection "Drupal var Database Connection"
 /**
  * Database connection.
  *
@@ -185,7 +192,7 @@ protected $databaseConnection;
 $0
 endsnippet
 
-snippet class_var_config_factory_interface "Drupal class var ConfigFactoryInterface"
+snippet var_config_factory_interface "Drupal var ConfigFactoryInterface"
 /**
  * The config factory.
  *
@@ -195,7 +202,7 @@ protected $configFactory;
 $0
 endsnippet
 
-snippet class_var_date_formatter_interface "Drupal class var DateFormatterInterface"
+snippet var_date_formatter_interface "Drupal var DateFormatterInterface"
 /**
  * Date formatter.
  *
@@ -205,7 +212,7 @@ protected $dateFormatter;
 $0
 endsnippet
 
-snippet class_var_logger_interface "Drupal class var LoggerInterface"
+snippet var_logger_interface "Drupal var LoggerInterface"
 /**
  * Logger for a channel.
  *

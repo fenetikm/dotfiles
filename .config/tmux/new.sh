@@ -27,7 +27,7 @@ tmux new-window -t $SESSION_NAME:1 -n 'zsh'
 tmux select-window -t $SESSION_NAME:1
 tmux rename-window 'zsh'
 
-tmux send-keys "figlet -f roman Ready!" C-m
+tmux send-keys "figlet -f roman Ready! | lolcat" C-m
 
 # Finally attach to it
 tmux attach -t $SESSION_NAME

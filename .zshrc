@@ -42,33 +42,38 @@ setopt AUTO_CD
 alias l='ls -alhF'
 alias lvr='ls -alR > /dev/null'
 
-# directory aliases
-alias aa='cd ~/Documents/Work/UofA/aa/vms/ua-aa-1'
-alias uas='cd ~/Documents/Work/UofA/scholarships/ua-scholarships6/'
-alias uacs='cd ~/Documents/Work/UofA/api/vms/ua-content-store/'
-alias arop='cd ~/Documents/Work/UofA/arop/vms/ua-arop2/'
-alias ccsp='cd ~/Documents/Work/UofA/ccsp/vms/ua-ccsp'
-alias refactor='cd ~/Documents/Work/UofA/refactor/vms/refactor'
-alias stui='cd ~/Documents/Work/UofA/stui/vms/ua-stui'
-alias bd='cd ~/Documents/Work/UofA/bank_details/vms/ua-bank-details-1/'
-alias docs='cd ~/Documents/Work/UofA/ua-docs/vms/ua-docs/'
-alias sys='cd ~/Documents/Work/internal/vms/sys/'
-alias cusoon='cd ~/Documents/Work/jubn_cusoon/vms/cusoon'
+# directory hashes
+# to use: e.g. cd ~aa
+source ~/.config/zsh/directory_hashes.zsh
 alias e='exa -algB'
 alias c='pygmentize'
 
 alias uakeys='ssh-add ~/.ssh/uofa/keys/ua_lamp_docker/id_rsa && ssh-add ~/.ssh/uofa/keys/jenkins_deployment_key/id_rsa'
 alias ecd='~/Eclipse.app/Contents/Eclipse/eclimd'
 
+run_vim_leader() {
+  com="NormLead $1"
+  nvim -c "$com"
+}
+
 # nvim aliases
 alias nv='nvim'
 alias v='nvim'
+alias vl='run_vim_leader'
+
+# suffix aliases: typing name of file with suffix will use that program
 alias -s php=nvim
 alias -s module=nvim
 alias -s scss=nvim
 alias -s css=nvim
 alias -s tpl=nvim
 alias -s yml=nvim
+
+#global aliases, substitute anywhere
+alias -g L="| less"
+alias -g T="| tail"
+alias -g TL="| tail -20"
+alias -g C="| wc -l"
 
 # git aliases
 alias g='git'
@@ -80,12 +85,16 @@ alias gffs='git flow feature start'
 alias gp='git push'
 alias gb='git branch'
 
+# git dotfiles management
+alias y='yadm'
+
 # tmux aliases
-alias txd='~/.config/tmux/drupal.sh'
-alias txs='~/.config/tmux/split.sh'
-alias txn='~/.config/tmux/new.sh'
-alias txa='tmux attach -t'
-alias txl='tmux ls'
+alias tmd='~/.config/tmux/drupal.sh'
+alias tms='~/.config/tmux/split.sh'
+alias tmn='~/.config/tmux/new.sh'
+alias tmw='~/.config/tmux/tw.sh'
+alias tma='tmux attach -t'
+alias tml='tmux ls'
 
 #jira aliases
 alias j='jira'
@@ -93,42 +102,77 @@ alias ji="~/.config/zsh/jira.zsh 'jira mine'"
 alias jo="~/.config/zsh/jira.zsh 'jira open'"
 alias ja="~/.config/zsh/jira.zsh 'jira all_mine'"
 
-#taskwarrior aliases
-tw_filter_project() { 
+# Taskwarrior aliases
+tw_filter_project() {
   task project:"$1" "${@:2}"
 }
+
+# toggle start stop also done
+tw_toggle() {
+  IDS=`task +ACTIVE _ids`
+  IFS=$'\n'
+  if [[ -n "$IDS" ]]; then
+    echo "$IDS" | while IFS= read -r id ; do
+      if [[ "$1" = "done" ]]; then
+        task "$id" stop
+        task "$id" done
+      else
+        task "$id" stop
+      fi
+    done
+  else
+    # nothing running so:
+    if [[ -z "$1" ]]; then
+      # restart the most recent one?
+      echo 'Please specify a task id.'
+    else
+      task "$1" start
+    fi
+  fi
+}
+
+tw_alias() {
+  task "$1" "${@:2}"
+}
+
 tw_add_with_project() {
   task add project:"$1" "${@:2}"
 }
-tw_add() {
-  task add $@
-}
+
 alias tw='task'
 alias twp='tw_filter_project'
-alias twa='tw_add'
 alias twap='tw_add_with_project'
-alias tws='task +ACTIVE stop'
-alias twd='task +ACTIVE done'
+alias twa='tw_alias add'
+alias twe='tw_alias edit'
+alias tws='tw_toggle'
+alias twd='tw_toggle done'
+alias twh='task help | less'
+alias in='tw_alias add +in'
 
 # vagrant exec binstubs
 alias rb='vbin/robo'
 alias rbc='ls -alR > /dev/null && vbin/robo build:clean'
 # alias dr='vbin/drush'
-alias dc='vbin/drupal'
-alias vs='vagrant ssh'
-alias co='vbin/codecept'
+# alias dc='vbin/drupal'
+# alias vs='vagrant ssh'
+# alias co='vbin/codecept'
 
 #virtual box
 alias vbox='vboxmanage'
 alias vboxr='vboxmanage list runningvms'
 
+#specific ssh
 alias wallissh='ssh -p 2223 root@103.21.48.192'
 alias redyssh='ssh theoryz4@122.129.219.79 -p 2022 -i id_dsa'
 
-alias de='eval $(docker-machine env default)'
+#ranger
+alias r='ranger'
+
+# alias de='eval $(docker-machine env default)'
 
 alias ..='cd ..'
 
+# find up the directory hierarchy
 find-up () {
   SWD=$(pwd)
   while [[ $PWD != / ]] ; do
@@ -201,7 +245,8 @@ set_cursor_color() {
 
 export PATH="/usr/local/opt/ncurses/bin:$PATH"
 export GOPATH="/Users/mjw/go"
-export PATH="$GOPATH/bin:$PATH"
+export OCPATH="/Users/mjw/.minishift/cache/oc/v3.9.0/darwin"
+export PATH="$GOPATH/bin:$OCPATH:$PATH"
 
 # OPAM configuration
 . /Users/mjw/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true

@@ -1,0 +1,3 @@
+Abolish reponse response
+Abolish getReponse getResponse
+Abolish buildReponse buildResponse

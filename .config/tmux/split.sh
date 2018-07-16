@@ -29,14 +29,13 @@ tmux select-window -t $SESSION_NAME:1
 tmux rename-window 'code'
 
 # Split into left and right
-tmux split-window -h -p33
+tmux split-window -h -p28
 
 # Open the things
-# Todo.txt in top right
 
 # Bottom right ready for taking commands / tests.
 tmux select-pane -t 2
-tmux send-keys "figlet -f roman Ready!" C-m
+tmux send-keys "figlet -f roman Ready! | lolcat -t" C-m
 
 # Left for neovim.
 tmux select-pane -t 1

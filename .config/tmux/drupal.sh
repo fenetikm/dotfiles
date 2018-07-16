@@ -43,18 +43,9 @@ tmux rename-window 'code'
 # Split into left and right
 tmux split-window -h -p30
 
-# Split right into 60% (2) and 40% (3)
+# Right ready for taking commands / tests.
 tmux select-pane -t 2
-tmux split-window -v -p60
-
-# Open the things
-# Todo.txt in top right
-tmux select-pane -t 2
-tmux send-keys "v todo.txt" C-m
-
-# Bottom right ready for taking commands / tests.
-tmux select-pane -t 3
-tmux send-keys "figlet -f roman Ready!" C-m
+tmux send-keys "figlet -f roman Ready! | lolcat -t" C-m
 
 # Left for neovim.
 tmux select-pane -t 1

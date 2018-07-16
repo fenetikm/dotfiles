@@ -49,6 +49,7 @@ set ignorecase "ignore case when searching
 set smartcase "use case searching if uppercase character is included
 set hlsearch "highlight search results
 set incsearch "incremental search
+set inccommand=nosplit "incremental replace
 set magic "regex magic, more useable
 set showmatch "show matching brackets when text indicator is over them
 set mat=2 "how many tenths of a second to blink when matching brackets
@@ -139,6 +140,9 @@ let g:python3_host_prog = '/usr/local/bin/python3'
 " turn on matchit which extends % key matching
 runtime macros/matchit.vim
 
+"set the max time to update - affects, e.g. gitgutter
+set updatetime=300
+
 " }}} End General options
 " Filetypes {{{
 
@@ -204,7 +208,7 @@ function! Customfoldtext() abort
     let line = substitute(getline(fs), '\t', repeat(' ', &tabstop), 'g')
   endif
 
-  let foldsymbol=''
+  let foldsymbol='+'
   let repeatsymbol=''
   let prefix = foldsymbol . ' '
 
@@ -213,9 +217,10 @@ function! Customfoldtext() abort
   let foldSizeStr = " " . foldSize . " lines "
   let foldLevelStr = repeat("+--", v:foldlevel)
   let lineCount = line("$")
-  let foldPercentage = printf("[%.1f", (foldSize*1.0)/lineCount*100) . "%] "
-  let expansionString = repeat(repeatsymbol, w - strwidth(prefix.foldSizeStr.line.foldLevelStr.foldPercentage))
-  return prefix . line . expansionString . foldSizeStr . foldPercentage . foldLevelStr
+  " let foldPercentage = printf("[%.1f", (foldSize*1.0)/lineCount*100) . "%] "
+  " let expansionString = repeat(repeatsymbol, w - strwidth(prefix.foldSizeStr.line.foldLevelStr.foldPercentage))
+  let expansionString = repeat(repeatsymbol, w - strwidth(prefix.foldSizeStr.line.foldLevelStr))
+  return prefix . line . expansionString . foldSizeStr . foldLevelStr
 endfunction
 
 function! TrimWhiteSpace()
@@ -226,7 +231,7 @@ function! SearchWordWithAg()
   execute 'Ag' expand('<cword>')
 endfunction
 
-" Thanks gary.
+" Thanks gary. Renames current file.
 function! RenameFile()
   let old_name = expand('%')
   let new_name = input('New file name: ', expand('%'), 'file')
@@ -238,7 +243,7 @@ function! RenameFile()
 endfunction
 command! RenameFile :call RenameFile()
 
-"Again thanks gary.
+"Again thanks gary. Remove stupid fancy characters.
 function! RemoveFancyCharacters()
   let typo = {}
   let typo["“"] = '"'
@@ -252,6 +257,7 @@ function! RemoveFancyCharacters()
 endfunction
 command! RemoveFancyCharacters :call RemoveFancyCharacters()
 
+" Search for what is currently selected.
 function! VisualSelection(direction) range
   let l:saved_reg = @"
   execute "normal! vgvy"
@@ -356,8 +362,8 @@ call plug#begin()
 
 " Global, system, movement {{{
 
-Plug 'tpope/vim-surround' "change surrounding characters
-Plug 'SirVer/ultisnips' "ultisnips snippets
+Plug 'tpope/vim-surround', { 'on': [] } "change surrounding characters
+Plug 'SirVer/ultisnips', { 'on': [] } "ultisnips snippets
 Plug 'honza/vim-snippets' "snippets library
 Plug 'tpope/vim-dispatch' "async dispatching
 Plug 'radenling/vim-dispatch-neovim' "dispatch for neovim
@@ -379,10 +385,22 @@ Plug 'tpope/vim-repeat' "Repeat plugin commands
 Plug 'ConradIrwin/vim-bracketed-paste' "auto set paste nopaste
 " Plug 'neilagabriel/vim-geeknote' "Evernote
 " Plug 'kakkyz81/evervim' "Evernote integration try, requires an API key.
-Plug 'vimwiki/vimwiki' "Wiki for vim
-Plug 'tbabej/taskwiki' "taskwarrior integration
-Plug 'blindFS/vim-taskwarrior' "taskwarrior management
+Plug 'vimwiki/vimwiki'  "Wiki for vim
+" Plug 'tbabej/taskwiki' "taskwarrior integration
+" Plug 'blindFS/vim-taskwarrior' "taskwarrior management
 Plug 'powerman/vim-plugin-AnsiEsc' "improve colour support for graphs
+Plug 'tpope/vim-abolish' "abbreviation generation
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } "Undo tree
+
+augroup load_ultisnips
+  autocmd!
+  autocmd InsertEnter * call plug#load('ultisnips') | autocmd! load_ultisnips
+augroup END
+
+augroup load_surround
+  autocmd!
+  autocmd InsertEnter * call plug#load('vim-surround') | autocmd! load_ultisnips
+augroup END
 
 " }}} End Global, system, movement
 " Interface, fuzzy handling {{{
@@ -395,10 +413,10 @@ Plug 'Valloric/ListToggle' "toggle quickfix and location lists
 Plug 'majutsushi/tagbar' "tagbar
 Plug 'vim-php/tagbar-phpctags.vim' "tagbar phpctags
 Plug 'mhinz/vim-startify' "startify
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } "nerdtree file tree explorer
-Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' } "nerdtree git plugin
+Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] } "nerdtree file tree explorer
+Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] } "nerdtree git plugin
 Plug 'ryanoasis/vim-devicons' "icons using the nerd font
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': 'NERDTreeToggle' } "add in colors for above icons but seems to slow down nerdtree
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] } "add in colors for above icons but seems to slow down nerdtree
 "Plug 'auwsmit/vim-active-numbers' "line numbers only in active buffer, it's a bit disctracting though
 "Plug 'roman/golden-ratio' "
 " Plug 'junegunn/vim-emoji' "emojis for vim
@@ -420,8 +438,9 @@ Plug 'junegunn/fzf.vim' "fuzzy finder stuff
 " Syntax {{{
 
 Plug 'sheerun/vim-polyglot' "syntax for a lot of types
-Plug 'jeroenbourgois/vim-actionscript', { 'for': 'actionscript' } "actionscript syntax
-Plug 'ap/vim-css-color' "css color preview
+" Plug 'ap/vim-css-color' "css color preview
+Plug 'lilydjwg/colorizer'
+
 " Plug 'pangloss/vim-javascript', { 'for': 'javascript' } "javascript syntax
 " Plug 'mxw/vim-jsx' "jsx syntax support
 " Plug 'posva/vim-vue', { 'for': 'vue' } "vue support
@@ -433,7 +452,7 @@ Plug 'vim-scripts/todo-txt.vim' "handling of todo.txt
 " Coding, text objects {{{
 "
 
-Plug 'tpope/vim-fugitive' "git management
+Plug 'tpope/vim-fugitive', {'on': []} "git management
 Plug 'tomtom/tcomment_vim' "commenting
 " Plug 'sickill/vim-pasta' "paste with indentation
 Plug 'joonty/vdebug', { 'for': 'php' } "debugger
@@ -442,7 +461,7 @@ Plug 'joonty/vdebug', { 'for': 'php' } "debugger
 " Plug 'przepompownia/phpcd.vim', { 'for': 'php', 'do': 'composer update' }
 Plug 'joonty/vim-phpunitqf', { 'for': 'php' } "PHPUnit runner
 Plug 'janko-m/vim-test' "Test runner
-Plug 'wellle/targets.vim' "Additional target text objects
+Plug 'wellle/targets.vim', {'on': []} "Additional target text objects
 Plug 'nathanaelkane/vim-indent-guides' "indent guides
 Plug 'kana/vim-textobj-user' "user textobjects
 " Plug 'kana/vim-textobj-entire' "entire document
@@ -455,6 +474,17 @@ Plug 'kana/vim-textobj-fold' "fold textobj
 " Plug 'int3/vim-extradite' "Git commit browser
 Plug 'junegunn/vim-easy-align' "Alignment of variables, etc.
 " Plug 'Konfekt/FastFold' "fastfolding and fold custom objects
+
+augroup load_targets
+  autocmd!
+  autocmd InsertEnter * call plug#load('targets.vim') | autocmd! load_targets
+augroup END
+
+augroup load_fugitive
+  autocmd!
+  autocmd CursorHold,CursorHoldI * call plug#load('vim-fugitive') | autocmd! load_fugitive
+augroup END
+
 
 " PHP Specific {{{
 
@@ -679,14 +709,25 @@ command! -bang -nargs=* DGFiles
 " }}} End FZF, CtrlP, Ag, Unite
 " NERDTree and Plugins: {{{
 
+" Check if NERDTree is open or active
+function! IsNERDTreeOpen()
+  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+endfunction
+
 "map ctrl-e to show nerdtree
 "@todo fix this so that if no % (e.g. startify) then it still works
 function! OpenNERD()
+  let fname = expand('%:t')
   if bufname('') == 'Startify'
     execute 'NERDTreeToggle'
+  elseif fname =~ 'NERD_tree'
+    execute 'NERDTreeToggle'
+  " elseif IsNERDTreeOpen()
+    " If it is open close it
+    " execute 'NERDTreeToggle'
   else
     echom
-    execute 'NERDTreeToggle '.expand('%:p:h')
+    execute 'NERDTreeFind'
   endif
 endfunction
 " map <silent> <C-e> :NERDTreeToggle %<CR>
@@ -700,21 +741,6 @@ let g:NERDTreeWinSize=40
 
 " Disable display of '?' text and 'Bookmarks' label.
 let g:NERDTreeMinimalUI=1
-
-" @todo
-" Check if NERDTree is open or active
-function! IsNERDTreeOpen()
-  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
-endfunction
-
-" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
-" file, and we're not in vimdiff
-function! SyncTree()
-  if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
-    NERDTreeFind
-    wincmd p
-  endif
-endfunction
 
 " Show hidden files by default
 let g:NERDTreeShowHidden=1
@@ -749,16 +775,6 @@ let g:lt_location_list_toggle_map = '<leader>l'
 let g:lt_quickfix_list_toggle_map = '<leader>q'
 
 " }}} End ListToggle
-" EasyMotion {{{
-
-let g:EasyMotion_do_mapping = 0 "Disable default mappings
-let g:EasyMotion_smartcase = 1 "Enable smartcase like vim
-nmap s <Plug>(easymotion-overwin-f)
-nmap <leader>w <Plug>(easymotion-w)
-map  <leader>w <Plug>(easymotion-bd-w)
-nmap <leader>w <Plug>(easymotion-overwin-w)
-
-" }}} End EasyMotion
 " UltiSnips {{{
 
 "directory for my snippets
@@ -819,39 +835,6 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 " inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
 
 " }}} End UltiSnips
-" Deoplete {{{
-
-let g:deoplete#enable_at_startup = 0
-autocmd InsertEnter * call deoplete#enable()
-" this changes the ultisnips matching to get really short ones and use fuzzy matching
-" call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
-let g:deoplete#sources = {}
-let g:deoplete#sources.php = ['around', 'member', 'buffer']
-" let g:deoplete#sources.php = ['member', 'buffer']
-" let g:deoplete#sources.php = ['member', 'buffer']
-" let g:deoplete#sources.text = ['ultisnips', 'buffer', 'ultisnips', 'dictionary']
-let g:deoplete#auto_complete_delay=50
-" Use smartcase.
-let g:deoplete#enable_smart_case = 1
-
-" change the rank to put ultisnips at the top
-" call deoplete#custom#source('ultisnips', 'rank', 9999)
-" close the preview window automatically.
-" autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-
-" stop insertion, match with the longest common match, still show if one option
-set completeopt=longest,menuone
-" hide the preview window
-set completeopt-=preview
-
-" inoremap <silent><expr><tab> pumvisible() ? deoplete#close_popup() : "\<TAB>"
-" deoplete tab-complete
-inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-
-" shift tab to go backwards
-inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
-
-" }}} End Deoplete
 " Fugitive {{{
 
 nnoremap <leader>ga :Git add %:p<cr><cr>
@@ -898,7 +881,7 @@ let g:tagbar_iconchars = ['', '']
 
 "php folding
 "let g:DisablePHPFoldingClass=1
-let g:PHPFoldingCollapsedSymbol=''
+let g:PHPFoldingCollapsedSymbol='+'
 let g:PHPFoldingRepeatSymbol=''
 let g:phpDocIncludedPostfix=''
 
@@ -1175,24 +1158,78 @@ let g:gitgutter_sign_added = '+'
 let g:gitgutter_sign_modified = ''
 let g:gitgutter_sign_removed = ''
 let g:gitgutter_sign_modified_removed = ''
+let g:gitgutter_async = 0
 
 " }}} GitGutter "
 " tcomment {{{ "
 let g:tcommentMaps=0
 " }}} tcomment "
-" Fold description {{{ "
+" Polygloat {{{ "
 let g:polyglot_disabled = ['yaml']
-" }}} Fold description "
+" }}} "
 " Vimwiki and Markdown {{{ "
 let wiki_1 = {}
 let wiki_1.path = '~/vimwiki'
-let wiki_1.nested_syntaxes = {'php': 'php'}
+let wiki_1.nested_syntaxes = {'php': 'php', 'json': 'json'}
 let wiki_1.syntax = 'markdown'
 let wiki_1.ext = '.md'
 let wiki_1.conceallevel = 0
 let g:vimwiki_list = [wiki_1]
+let g:vimwiki_global_ext = 0
+
+" list remapping
+map <leader>lc <Plug>VimwikiRemoveSingleCB
+map <leader>ll <Plug>VimwikiToggleListItem
+
+"don't override tab so deoplete works
+nmap <leader>wn <Plug>VimwikiNextLink
+nmap <Leader>wp <Plug>VimwikiPrevLink
+"disable table mapping too to make this work
+let g:vimwiki_table_mappings = 0
+
+"remap enter, leave folding stuff as is
+nmap <leader>wl <Plug>VimwikiFollowLink
 
 " }}}  "
+" Deoplete {{{
+
+let g:deoplete#enable_at_startup = 0
+autocmd InsertEnter * call deoplete#enable()
+" this changes the ultisnips matching to get really short ones and use fuzzy matching
+" call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
+let g:deoplete#sources = {}
+let g:deoplete#sources.php = ['around', 'member', 'buffer', 'ultisnips']
+" let g:deoplete#sources.php = ['member', 'buffer']
+" let g:deoplete#sources.php = ['member', 'buffer']
+" let g:deoplete#sources.text = ['ultisnips', 'buffer', 'ultisnips', 'dictionary']
+let g:deoplete#auto_complete_delay=50
+" Use smartcase.
+let g:deoplete#enable_smart_case = 1
+
+" change the rank to put ultisnips at the top
+" call deoplete#custom#source('ultisnips', 'rank', 9999)
+" close the preview window automatically.
+" autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+
+" stop insertion, match with the longest common match, still show if one option
+set completeopt=longest,menuone
+" hide the preview window
+set completeopt-=preview
+
+" inoremap <silent><expr><tab> pumvisible() ? deoplete#close_popup() : "\<TAB>"
+" deoplete tab-complete
+inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+
+" shift tab to go backwards
+inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+
+" }}} End Deoplete
+" Undotree {{{ "
+nnoremap <leader>u :UndotreeToggle<cr>
+" }}} Undotree "
+" Colorizer {{{ "
+let g:colorizer_startup=0
+" }}} Colorizer "
 
 " }}} End Plugin settings
 " Mappings {{{
@@ -1255,7 +1292,7 @@ nmap <silent> <leader>sv :so $MYVIMRC <bar>exe 'normal! zvzz'<cr>
 
 "quick editing straight open or split
 function! OpenOrSplit(filename)
-  if bufname('') == 'Startify'
+  if bufname('') == 'Startify' || bufname('') == ''
     execute 'edit' a:filename | exe 'normal! zvzz'
   else
     execute 'vsplit' a:filename | exe 'normal! zvzz'
@@ -1269,7 +1306,19 @@ nnoremap <leader>ey :call OpenOrSplit("~/Library/Preferences/kitty/kitty.conf")<
 nnoremap <leader>eh :call OpenOrSplit("~/.hammerspoon/init.lua")<cr>
 nnoremap <leader>ez :call OpenOrSplit("~/.zshrc")<cr>
 nnoremap <leader>eg :call OpenOrSplit("~/.gitconfig")<cr>
+nnoremap <leader>ew :call OpenOrSplit("~/.taskrc")<cr>
+nnoremap <leader>er :call OpenOrSplit("~/.config/ranger/rc.conf")<cr>
 nnoremap <leader>eu :UltiSnipsEdit<cr>
+
+" This gem will let one run a leader from a command e.g: NormLead ev
+function! ExecuteLeader(suffix)
+  let l:leader = get(g:,"mapleader","\\")
+  if l:leader == ' '
+    let l:leader = '1' . l:leader
+  endif
+  execute "normal ".l:leader.a:suffix
+endfunction
+command! -nargs=1 NormLead call ExecuteLeader(<f-args>)
 
 " }}} End Easy file opening
 " Toggling [leader t*] {{{ "
@@ -1294,6 +1343,8 @@ nnoremap <silent> <leader>tl :LToggle<cr>
 
 "toggle quickfix
 nnoremap <silent> <leader>tq :QToggle<cr>
+
+" colorizer=<leader>tc
 
 " }}} Toggling "
 " Finding [leader f*] {{{ "
@@ -1333,9 +1384,11 @@ nnoremap <silent> <leader>sk :AgAll <c-r><c-w><cr>
 " yank to p register
 vnoremap <c-y> "py
 
-"treat long lines as break lines
-map j gj
-map k gk
+"treat long lines as break lines, but don't mess with the count for relative numbering
+nnoremap <expr> j v:count ? 'j' : 'gj'
+nnoremap <expr> k v:count ? 'k' : 'gk'
+" map j gj
+" map k gk
 
 " Keep search matches in the middle of the window.
 nnoremap n nzzzv

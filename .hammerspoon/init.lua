@@ -13,7 +13,7 @@ hs.fnutils.each({
   { key = "x", app = "Firefox" },
   { key = "space", app = "kitty" },
   { key = "m", app = "Mail" },
-  { key = "v", app = "Evernote" },
+  { key = "v", app = "iTerm_2" },
   { key = "d", app = "Dash" },
   { key = "q", app = "Sequel" },
   { key = "n", app = "Notes" },

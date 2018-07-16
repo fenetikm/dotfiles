@@ -22,14 +22,14 @@ if test "x$ITUNES_TRACK" != "x"; then
 EOF)
 
   TRACK_LEN=${#ITUNES_TRACK}
-  if [[ "$TRACK_LEN" > 40 ]]; then
-    ITUNES_TRACK=`echo "$ITUNES_TRACK" | cut -c -40`
+  if [[ "$TRACK_LEN" > 30 ]]; then
+    ITUNES_TRACK=`echo "$ITUNES_TRACK" | cut -c -30`
     ITUNES_TRACK+=...
   fi
 
   ARTIST_LEN=${#ITUNES_ARTIST}
-  if [[ "$ARTIST_LEN" > 40 ]]; then
-    ITUNES_ARTIST=`echo "$ITUNES_ARTIST" | cut -c -40`
+  if [[ "$ARTIST_LEN" > 20 ]]; then
+    ITUNES_ARTIST=`echo "$ITUNES_ARTIST" | cut -c -20`
     ITUNES_ARTIST+=...
   fi
 
