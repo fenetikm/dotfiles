@@ -11,6 +11,10 @@ snippet pr "print_r"
 print_r($0)
 endsnippet
 
+snippet tdo "TODO comment"
+// @TODO $0
+endsnippet
+
 snippet form_textfield "Drupal Form API Textfield element" s
 $form['$1'] = [
   '#type' => 'textfield',
@@ -104,7 +108,7 @@ $form['$1'] = [
 $0
 endsnippet
 
-snippet module_hook_update "Drupal hook update"
+snippet func_hook_update "Drupal module hook update function"
 /**
  * ${1:Description of update.}
  */
@@ -113,16 +117,16 @@ function ${2:mymodule}_update_${3:8000}(&$sandbox) {
 }
 endsnippet
 
-snippet module_hook "Drupal hook"
+snippet func_hook "Drupal module hook function"
 /**
  * Implements hook_${1:hook}().
  */
-function ${2:mymodule}_${3:hook}($4) {
+function ${2:mymodule}_${1:hook}($4) {
   $0
 }
 endsnippet
 
-snippet module_func "Drupal module function"
+snippet func "Drupal module function"
 /**
  * ${1:Description}
  */

@@ -1,6 +1,7 @@
-" Michael Welford's vimrc.
+" File: vimrc.
+" Author: Michael Welford.
 " Set fold marker to {{{}}}
-" vim: set fdm=marker fmr={{{,}}} fdl=0 :
+" vim: set fdm=marker fde={{{,}}} fdl=0 :
 
 " General Options: {{{
 
@@ -18,6 +19,7 @@ set noshowcmd "hide the command showing in the status
 
 let mapleader = "\<Space>" "set variable mapleader
 let g:mapleader = "\<Space>" "set global variable mapleader see http://stackoverflow.com/a/15685904
+let maplocalleader = ","
 
 " Wildmenu {{{ "
 
@@ -64,6 +66,9 @@ set ttimeoutlen=10 "timeout for key code delays
 set noshowmode "hide showing which mode we are in, the status bar is fine
 
 set fcs=vert:│ " Solid line for vsplit separator
+
+set splitbelow "horizontal split shows up below
+set previewheight=10
 
 syntax enable "enable syntax highlighting
 
@@ -141,7 +146,8 @@ let g:python3_host_prog = '/usr/local/bin/python3'
 runtime macros/matchit.vim
 
 "set the max time to update - affects, e.g. gitgutter
-set updatetime=300
+"1 sec.
+set updatetime=1000
 
 " }}} End General options
 " Filetypes {{{
@@ -195,6 +201,13 @@ au FocusGained,BufEnter * :silent! !
 
 " }}} End Buffer handling
 " Helper functions {{{
+
+function! ExecuteMacroOverVisualRange()
+  echo "@".getcmdline()
+  execute ":'<,'>normal @".nr2char(getchar())
+endfunction
+
+xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
 
 " Based off of a post by Greg Sexton
 function! Customfoldtext() abort
@@ -311,7 +324,6 @@ command! StartProfile call StartProfile()
 
 function! StopProfile()
   profile stop
-  " noautocmd qall!
 endfunction
 command! StopProfile call StopProfile()
 
@@ -371,6 +383,7 @@ Plug 'radenling/vim-dispatch-neovim' "dispatch for neovim
 Plug 'ludovicchabant/vim-gutentags' "tag generation
 " Plug 'rizzatti/dash.vim' "lookup a word in dash
 " Plug 'easymotion/vim-easymotion' "vimperator style jumping around
+Plug 'justinmk/vim-sneak' "like easy motion
 Plug 'embear/vim-localvimrc' "local vimrc
 Plug 'dbakker/vim-projectroot' "project root stuff
 Plug 'cohama/lexima.vim' "auto closing pairs
@@ -403,12 +416,24 @@ augroup load_surround
 augroup END
 
 " }}} End Global, system, movement
-" Interface, fuzzy handling {{{
+" Interface, fuzzy handling, completion {{{
 
 Plug 'itchyny/lightline.vim' "statusline handling
 Plug 'airblade/vim-gitgutter' "place git changes in the gutter
 Plug 'kshenoy/vim-signature' "marks handling
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } "autocomplete
+" Plug 'ncm2/ncm2' "Completion manager
+" Plug 'roxma/nvim-yarp' "plugin process required by ncm2
+
+" NCM2 plugins
+" Plug 'ncm2/ncm2-ultisnips' "ultisnips
+" Plug 'ncm2/ncm2-bufword' "bufferwords
+" Plug 'ncm2/ncm2-path' "paths
+
+Plug 'skywind3000/vim-preview' "preview commands
+" Plug 'tenfyzhong/CompleteParameter.vim' "insert completion parameters
+Plug 'Shougo/echodoc.vim' "show completion signatures
+
 Plug 'Valloric/ListToggle' "toggle quickfix and location lists
 Plug 'majutsushi/tagbar' "tagbar
 Plug 'vim-php/tagbar-phpctags.vim' "tagbar phpctags
@@ -453,6 +478,7 @@ Plug 'vim-scripts/todo-txt.vim' "handling of todo.txt
 "
 
 Plug 'tpope/vim-fugitive', {'on': []} "git management
+Plug 'jreybert/vimagit' "git management
 Plug 'tomtom/tcomment_vim' "commenting
 " Plug 'sickill/vim-pasta' "paste with indentation
 Plug 'joonty/vdebug', { 'for': 'php' } "debugger
@@ -466,10 +492,12 @@ Plug 'nathanaelkane/vim-indent-guides' "indent guides
 Plug 'kana/vim-textobj-user' "user textobjects
 " Plug 'kana/vim-textobj-entire' "entire document
 Plug 'kana/vim-textobj-fold' "fold textobj
+Plug 'kana/vim-textobj-line' "line textobj
+Plug 'kana/vim-textobj-indent' "indent textobj
 " Plug 'michaeljsmith/vim-indent-object' "indentation text objects
 " Plug 'roxma/nvim-completion-manager' "nvim completion manager
 " Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
+" Plug 'oxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
 " Disabled, not sure if worth it.
 " Plug 'int3/vim-extradite' "Git commit browser
 Plug 'junegunn/vim-easy-align' "Alignment of variables, etc.
@@ -495,10 +523,10 @@ Plug '2072/PHP-Indenting-for-VIm', { 'for': 'php' } "updated indenting
 " Plug 'StanAngeloff/php.vim' "More updatd php syntax
 Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php' } "insert use statements automatically
 Plug 'sahibalejandro/vim-php', { 'for': 'php' } "insert absolute FQCN
-" Plug 'Rican7/php-doc-modded' "insert php doc blocks
+Plug 'Rican7/php-doc-modded', { 'for': 'php' } "insert php doc blocks
 Plug 'adoy/vim-php-refactoring-toolbox', { 'for': 'php' } "php refactoring
-Plug 'tobyS/vmustache' "mustache templater for pdv
-Plug 'tobyS/pdv' "php documenter
+" Plug 'tobyS/vmustache' "mustache templater for pdv
+" Plug 'tobyS/pdv' "php documenter
 Plug 'fenetikm/phpfolding.vim', { 'for': 'php' } "php folding
 Plug 'alvan/vim-php-manual', { 'for': 'php' } "php manual
 Plug 'fenetikm/vim-textobj-function', { 'for': 'php' } "function textobj with php
@@ -513,6 +541,8 @@ Plug 'phpactor/phpactor',  {'do': 'composer install', 'for': 'php'} "php complet
 " }}} End Coding, text objects
 " To try {{{
 
+" Plug 'jeanCarloMachado/vim-toop' "text object operations, run through external commands
+" Plug 'eedes/vim-pencil' "good setup for writing
 " Plug 'tpope/vim-eunuch' "unix commands
 " Plug 'tpope/vim-characterize' "character codes and emoji codes. html entities
 " Plug 'itchyny/calendar.vim' "calendar, integrate with GCal?!
@@ -835,21 +865,20 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 " inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
 
 " }}} End UltiSnips
-" Fugitive {{{
+" Fugitive, GitGutter, Vimagit {{{
 
 nnoremap <leader>ga :Git add %:p<cr><cr>
 nnoremap <leader>gs :Gstatus<cr>
-nnoremap <leader>gc :Gcommit -v -q<cr>
-nnoremap <leader>gt :Gcommit -v -q %:p<cr>
+" nnoremap <leader>gc :Gcommit -v -q<cr>
+" nnoremap <leader>gt :Gcommit -v -q %:p<cr>
 nnoremap <leader>gd :Gvdiff<cr>
-nnoremap <leader>ge :Gedit<cr>
-nnoremap <leader>gr :Gread<cr>
-nnoremap <leader>gw :Gwrite<cr><cr>
+" nnoremap <leader>ge :Gedit<cr>
+" nnoremap <leader>gr :Gread<cr>
+" nnoremap <leader>gw :Gwrite<cr><cr>
 nnoremap <leader>gl :silent! Glog<cr>:bot copen<cr>
 nnoremap <leader>gp :Gpush<cr>
-nnoremap <leader>gm :Gmove<leader>
-nnoremap <leader>gb :Git branch<leader>
-nnoremap <leader>go :Git checkout<leader>
+nnoremap <leader>gb :Gblame<cr>
+" nnoremap <leader>go :Git checkout<leader>
 
 function! QuickCommitMessage()
   if &ft == 'todo'
@@ -860,7 +889,26 @@ function! QuickCommitMessage()
 endfunction
 
 " Stage and commit the current file.
-nnoremap <Leader>gg :Gwrite<cr>:call QuickCommitMessage()<cr>
+nnoremap <leader>gg :Gwrite<cr>:call QuickCommitMessage()<cr>
+
+" disable gitgutter default keys
+let g:gitgutter_map_keys = 0
+
+" stage a hunk via gitgutter
+nnoremap <leader>gh :GitGutterStageHunk<cr>
+
+"pair mapping for hunks
+nnoremap [c <Plug>GitGutterPrevHunk
+nnoremap ]c <Plug>GitGutterNextHunk
+
+"signs to use
+let g:gitgutter_sign_added = '+'
+let g:gitgutter_sign_modified = '~'
+let g:gitgutter_sign_removed = ''
+let g:gitgutter_sign_modified_removed = '·'
+let g:gitgutter_async = 1
+
+nnoremap <leader>gm :Magit<cr>
 
 " }}} End Fugitive
 " Tag plugins {{{
@@ -875,6 +923,8 @@ let g:gutentags_project_root_finder = 'projectroot#guess'
 "tagbar
 " nmap <leader>tt :TagbarToggle<cr>
 let g:tagbar_iconchars = ['', '']
+" take preview window from vimrc set options
+let g:tagbar_previewwin_pos = ""
 
 " }}} End Tag plugins
 " PHP plugins {{{
@@ -925,8 +975,29 @@ let g:vim_php_refactoring_use_default_mapping=0
 "disable php manual online shortcut
 let g:php_manual_online_search_shortcut = ''
 
+function! UpdatePhpDocIfExists()
+  normal! k
+  if getline('.') =~ '/'
+      normal! V%d
+  else
+      normal! j
+  endif
+  call PhpDocSingle()
+  normal! k^%k$
+  if getline('.') =~ ';'
+      exe "normal! $svoid"
+  endif
+endfunction
+
 " phpactor omni
 autocmd FileType php setlocal omnifunc=phpactor#Complete
+
+" enable echodoc to show function signatures
+autocmd FileType php :EchoDocEnable
+
+"php syntax
+"disable html inside of php syntax highlighting
+let g:php_html_load=0
 
 " }}} End PHP plugins
 " Debug plugins {{{
@@ -965,11 +1036,10 @@ let g:VimuxHeight="32"
 "set pane to open on right
 let g:VimuxOrientation = 'h'
 
-"vagrant
-nnoremap <leader>vp :VimuxPromptCommand<cr>
-nnoremap <leader>vx :VimuxCloseRunner<cr>
-nnoremap <leader>vo :VimuxOpenPane<cr>
-nnoremap <leader>vl :VimuxRunLastCommand<cr>
+" nnoremap <leader>vp :VimuxPromptCommand<cr>
+" nnoremap <leader>vx :VimuxCloseRunner<cr>
+" nnoremap <leader>vo :VimuxOpenPane<cr>
+" nnoremap <leader>vl :VimuxRunLastCommand<cr>
 
 " let g:VimuxRunnerIndex=3
 
@@ -977,8 +1047,9 @@ nnoremap <leader>vl :VimuxRunLastCommand<cr>
 " Splitjoin {{{
 
 "splitjoin
-nnoremap ss :SplitjoinSplit<cr>
-nnoremap sj :SplitjoinJoin<cr>
+" turning this off for now
+" nnoremap ss :SplitjoinSplit<cr>
+" nnoremap sj :SplitjoinJoin<cr>
 
 "check the ftplugin settings for specific settings
 
@@ -1017,7 +1088,9 @@ function! test#php#phpunit#executable() abort
     return 'vbin/phpunit'
   else
     " use the original code
-    if filereadable('./vendor/bin/phpunit')
+    if filereadable('./vendor/phpunit/phpunit/phpunit')
+      return './vendor/phpunit/phpunit/phpunit'
+    elseif filereadable('./vendor/bin/phpunit')
       return './vendor/bin/phpunit'
     elseif filereadable('./bin/phpunit')
       return './bin/phpunit'
@@ -1042,6 +1115,7 @@ let g:test#strategy = 'custom_vimux'
 
 "overwrite the codeception test_file / check if file is a codeception one
 function! test#php#codeception#test_file(file) abort
+  echom DrupalRoot()
   if a:file =~# g:test#php#codeception#file_pattern
     let drupal_tests = DrupalRoot() . '/tests'
     let path = expand('%:p:h')
@@ -1135,7 +1209,6 @@ let g:indent_guides_guide_size=1
 
 " }}} Indent guide "
 " Ale {{{ "
-"
 let g:ale_javascript_eslint_use_global = 1
 
 let g:ale_linters = {
@@ -1149,22 +1222,13 @@ let g:ale_php_phpcs_standard = 'Drupal'
 
 let g:ale_sign_error=''
 let g:ale_sign_info=''
-let g:ale_sign_warning=''
+let g:ale_sign_warning=''
 
 " }}} Ale "
-" GitGutter {{{ "
-
-let g:gitgutter_sign_added = '+'
-let g:gitgutter_sign_modified = ''
-let g:gitgutter_sign_removed = ''
-let g:gitgutter_sign_modified_removed = ''
-let g:gitgutter_async = 0
-
-" }}} GitGutter "
 " tcomment {{{ "
 let g:tcommentMaps=0
 " }}} tcomment "
-" Polygloat {{{ "
+" Polyglot {{{ "
 let g:polyglot_disabled = ['yaml']
 " }}} "
 " Vimwiki and Markdown {{{ "
@@ -1190,6 +1254,9 @@ let g:vimwiki_table_mappings = 0
 "remap enter, leave folding stuff as is
 nmap <leader>wl <Plug>VimwikiFollowLink
 
+"vim-markdown stuff
+let g:vim_markdown_fenced_languages = ['c++=cpp', 'viml=vim', 'bash=sh', 'ini=dosini', 'php=php']
+
 " }}}  "
 " Deoplete {{{
 
@@ -1197,8 +1264,9 @@ let g:deoplete#enable_at_startup = 0
 autocmd InsertEnter * call deoplete#enable()
 " this changes the ultisnips matching to get really short ones and use fuzzy matching
 " call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
+let g:deoplete#ignore_sources = {'_': ['tag']}
 let g:deoplete#sources = {}
-let g:deoplete#sources.php = ['around', 'member', 'buffer', 'ultisnips']
+" let g:deoplete#sources.php = ['around', 'member', 'buffer', 'ultisnips']
 " let g:deoplete#sources.php = ['member', 'buffer']
 " let g:deoplete#sources.php = ['member', 'buffer']
 " let g:deoplete#sources.text = ['ultisnips', 'buffer', 'ultisnips', 'dictionary']
@@ -1214,7 +1282,7 @@ let g:deoplete#enable_smart_case = 1
 " stop insertion, match with the longest common match, still show if one option
 set completeopt=longest,menuone
 " hide the preview window
-set completeopt-=preview
+" set completeopt-=preview
 
 " inoremap <silent><expr><tab> pumvisible() ? deoplete#close_popup() : "\<TAB>"
 " deoplete tab-complete
@@ -1223,13 +1291,95 @@ inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 " shift tab to go backwards
 inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
+"completion parameter setting
+" inoremap <silent><expr> ( complete_parameter#pre_complete("()")
+" smap <c-j> <Plug>(complete_parameter#goto_next_parameter)
+" imap <c-j> <Plug>(complete_parameter#goto_next_parameter)
+" smap <c-k> <Plug>(complete_parameter#goto_previous_parameter)
+" imap <c-k> <Plug>(complete_parameter#goto_previous_parameter)
+"
+" let g:complete_parameter_log_level = 1
+
+" let g:AutoPairs = {'[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
+" inoremap <buffer><silent> ) <C-R>=AutoPairsInsert(')')<CR>
+
 " }}} End Deoplete
+" NCM2 {{{
+
+" enable ncm2 for all buffers
+" autocmd InsertEnter * call ncm2#enable_for_buffer()
+
+" @todo need to work this one out...
+
+" set completeopt=noinsert,menuone,noselect
+" array_walk()
+" inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+"
+" " Use <TAB> to select the popup menu:
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" }}} End NCM2
 " Undotree {{{ "
 nnoremap <leader>u :UndotreeToggle<cr>
 " }}} Undotree "
 " Colorizer {{{ "
 let g:colorizer_startup=0
 " }}} Colorizer "
+" ExpandRegion --------------------------------------------------- {{{
+
+"`il` requires the line texobj plugin.
+let g:expand_region_text_objects = {
+      \ 'iw'  :0,
+      \ 'iW'  :0,
+      \ 'i"'  :0,
+      \ 'i''' :0,
+      \ 'i]'  :1,
+      \ 'ib'  :1,
+      \ 'iB'  :1,
+      \ 'il'  :1,
+      \ 'ip'  :1,
+      \ 'ie'  :0,
+      \ }
+
+" }}} End ExpandRegion
+" EasyMotion, Sneak, Snipe etc. --------------------------------------------------- {{{
+
+"EasyMotion
+"turn off default mapping
+" let g:EasyMotion_do_mapping = 0
+
+" Jump anywhere via s{char}
+" nmap s <Plug>(easymotion-overwin-f)
+
+" Turn on case insensitive feature
+" let g:EasyMotion_smartcase = 1
+
+" JK motions: Line motions
+" nmap <leader>j <Plug>(easymotion-j)
+" nmap <leader>k <Plug>(easymotion-k)
+
+"Sneak
+"one key replacement for f and t
+nnoremap <silent> f :<C-U>call sneak#wrap('',           1, 0, 1, 1)<CR>
+nnoremap <silent> F :<C-U>call sneak#wrap('',           1, 1, 1, 1)<CR>
+xnoremap <silent> f :<C-U>call sneak#wrap(visualmode(), 1, 0, 1, 1)<CR>
+xnoremap <silent> F :<C-U>call sneak#wrap(visualmode(), 1, 1, 1, 1)<CR>
+onoremap <silent> f :<C-U>call sneak#wrap(v:operator,   1, 0, 1, 1)<CR>
+onoremap <silent> F :<C-U>call sneak#wrap(v:operator,   1, 1, 1, 1)<CR>
+" map t <Plug>Sneak_t
+" map T <Plug>Sneak_T
+
+"enable clever sneak, s to go to next
+" let g:sneak#s_next = 1
+
+" easymotion style labeling
+let g:sneak#label = 1
+
+" case insensitive match vim settings
+let g:sneak#use_ic_scs = 1
+
+" }}} End EasyMotion
 
 " }}} End Plugin settings
 " Mappings {{{
@@ -1246,10 +1396,10 @@ map! <F13> <c-cr>
 " map <F14> <s-cr>
 " map! <F14> <s-cr>
 
-" control-space
-set <F15>=[29~
-map <F15> <c-space>
-map! <F15> <c-space>
+" control-space, for iTerm2
+set <F19>=[29~
+map <F19> <c-space>
+map! <F19> <c-space>
 
 " control-minus
 set <F17>=[31~
@@ -1272,14 +1422,6 @@ vnoremap <F17>i :TCommentInline<cr>
 
 "jump to end when inserting
 inoremap <c-e> <c-o>$
-
-" move cursor left
-inoremap <c-f> <Left>
-
-" move cursor right
-silent! iunmap <c-g>s
-silent! iunmap <c-g>S
-inoremap <c-g> <Right>
 
 " insert rocket
 " inoremap <c-l> <space>=><space>
@@ -1324,10 +1466,12 @@ command! -nargs=1 NormLead call ExecuteLeader(<f-args>)
 " Toggling [leader t*] {{{ "
 
 "toggle guides
-nnoremap <silent> <leader>tg :IndentGuidesToggle<cr>
+nnoremap <silent> <leader>ti :IndentGuidesToggle<cr>
 
 "toggle search highlight
 nnoremap <silent> <leader>th :nohlsearch<CR>
+" nnoremap <F19> :nohlsearch<CR>
+nnoremap <c-space> :nohlsearch<CR>
 
 "toggle line numbers
 nnoremap <silent> <leader>tn :setlocal nonumber! norelativenumber!<CR>
@@ -1344,7 +1488,9 @@ nnoremap <silent> <leader>tl :LToggle<cr>
 "toggle quickfix
 nnoremap <silent> <leader>tq :QToggle<cr>
 
-" colorizer=<leader>tc
+"toggle syntax
+nnoremap <leader>ts :ToggleSyntax<cr>
+
 
 " }}} Toggling "
 " Finding [leader f*] {{{ "
@@ -1383,6 +1529,9 @@ nnoremap <silent> <leader>sk :AgAll <c-r><c-w><cr>
 
 " yank to p register
 vnoremap <c-y> "py
+
+"preview mappings
+nnoremap <leader>vt :PreviewTag<cr>
 
 "treat long lines as break lines, but don't mess with the count for relative numbering
 nnoremap <expr> j v:count ? 'j' : 'gj'
@@ -1476,9 +1625,11 @@ vmap <C-v> <Plug>(expand_region_shrink)
 "refresh chrome
 nnoremap <silent> <leader>r :!chrome-cli reload<cr><cr>
 
-"map cursors to up and down location list
+" hooray for programmable keyboards
 nnoremap <Down> :lnext<cr>
 nnoremap <Up> :lprevious<cr>
+nnoremap <Right> :cnext<cr>
+nnoremap <Left> :cprevious<cr>
 
 " }}} End Mappings
 " Abbreviations {{{
@@ -1530,10 +1681,10 @@ let g:lightline = {
       \ 'subseparator': { 'left': '|', 'right': '|' }
       \}
 " some alternate sep glyph ideas
-"  'left': '', 'right': '' 
-"  'left': '', 'right': '' 
-"  'left': '', 'right': '' 
-"  'left': '', 'right': '' 
+"  'left': '', 'right': ''
+"  'left': '', 'right': ''
+"  'left': '', 'right': ''
+"  'left': '', 'right': ''
 
 let g:lightline.mode_map = {
       \ 'n' : 'N',
@@ -1613,7 +1764,7 @@ function! LightlineFugitive()
 endfunction
 
 function! LightlineReadonly()
-  return &ft !~? 'help' && &readonly ? '' : ''
+  return &ft !~? 'help' && &readonly ? '' : ''
 endfunction
 
 function! LightlineModified()
@@ -1660,9 +1811,11 @@ set background=dark
 " let g:gruvbox_contrast_dark='hard'
 " colorscheme gruvbox
 
-" faclon settings
+" falcon settings
 let g:falcon_lightline = 1
 let g:lightline.colorscheme='falcon'
+let g:falcon_background = 0
+let g:falcon_inactive = 1
 
 colorscheme falcon
 

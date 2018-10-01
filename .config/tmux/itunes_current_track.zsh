@@ -10,7 +10,7 @@ on appIsRunning(appName)
 end appIsRunning
 EOF)
 
-if test "x$ITUNES_TRACK" != "x"; then
+if [[ ! -z "$ITUNES_TRACK" ]]; then
   ITUNES_ARTIST=$(osascript <<EOF
   if appIsRunning("iTunes") then
       tell app "iTunes" to get the artist of the current track
@@ -22,19 +22,19 @@ if test "x$ITUNES_TRACK" != "x"; then
 EOF)
 
   TRACK_LEN=${#ITUNES_TRACK}
-  if [[ "$TRACK_LEN" > 30 ]]; then
+  if [[ "$TRACK_LEN" -gt 30 ]]; then
     ITUNES_TRACK=`echo "$ITUNES_TRACK" | cut -c -30`
     ITUNES_TRACK+=...
   fi
 
   ARTIST_LEN=${#ITUNES_ARTIST}
-  if [[ "$ARTIST_LEN" > 20 ]]; then
+  if [[ "$ARTIST_LEN" -gt 20 ]]; then
     ITUNES_ARTIST=`echo "$ITUNES_ARTIST" | cut -c -20`
     ITUNES_ARTIST+=...
   fi
 
-  echo '#[fg=#8fa3bf]♫#[fg=#d4d4d9]' $ITUNES_TRACK '#[fg=#89898c]-#[fg=white]' $ITUNES_ARTIST
+  echo '#[fg=#99a4bc]♫#[fg=#b4b4b9]' "$ITUNES_TRACK" '#[fg=#787882]-#[fg=#b4b4b9]' "$ITUNES_ARTIST"
   exit
 else
-  echo "#[fg=#89898c]No music playing"
+  echo "#[fg=#787882]No music playing"
 fi

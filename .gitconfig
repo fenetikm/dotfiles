@@ -45,6 +45,7 @@
 
 [alias]
   # mostly taken from Gary Bernhardt
+  s = status
   st = status
   ci = commit --verbose
   cim = commit --verbose -m

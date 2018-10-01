@@ -46,10 +46,12 @@ alias lvr='ls -alR > /dev/null'
 # to use: e.g. cd ~aa
 source ~/.config/zsh/directory_hashes.zsh
 alias e='exa -algB'
-alias c='pygmentize'
+alias cat='bat'
+alias c='bat'
+alias ping='prettyping'
 
+# keys
 alias uakeys='ssh-add ~/.ssh/uofa/keys/ua_lamp_docker/id_rsa && ssh-add ~/.ssh/uofa/keys/jenkins_deployment_key/id_rsa'
-alias ecd='~/Eclipse.app/Contents/Eclipse/eclimd'
 
 run_vim_leader() {
   com="NormLead $1"
@@ -59,6 +61,7 @@ run_vim_leader() {
 # nvim aliases
 alias nv='nvim'
 alias v='nvim'
+alias sv='sudo nvim'
 alias vl='run_vim_leader'
 
 # suffix aliases: typing name of file with suffix will use that program
@@ -77,9 +80,9 @@ alias -g C="| wc -l"
 
 # git aliases
 alias g='git'
-alias gs='git status'
-alias gd='git diff'
-alias gl='git log'
+alias gs='git s'
+alias gd='git di'
+alias gl='git l'
 alias gffp='git flow feature publish'
 alias gffs='git flow feature start'
 alias gp='git push'
@@ -150,12 +153,10 @@ alias twh='task help | less'
 alias in='tw_alias add +in'
 
 # vagrant exec binstubs
-alias rb='vbin/robo'
-alias rbc='ls -alR > /dev/null && vbin/robo build:clean'
-# alias dr='vbin/drush'
-# alias dc='vbin/drupal'
-# alias vs='vagrant ssh'
-# alias co='vbin/codecept'
+alias vr='vbin/robo'
+alias vb='vbin/bash'
+alias vd='vbin/drush'
+alias vc='ls -alR > /dev/null && vbin/robo build:clean'
 
 #virtual box
 alias vbox='vboxmanage'
@@ -247,6 +248,9 @@ export PATH="/usr/local/opt/ncurses/bin:$PATH"
 export GOPATH="/Users/mjw/go"
 export OCPATH="/Users/mjw/.minishift/cache/oc/v3.9.0/darwin"
 export PATH="$GOPATH/bin:$OCPATH:$PATH"
+
+# ripgrep configufation
+export RIPGREP_CONFIG_PATH="/Users/mjw/.rgrc"
 
 # OPAM configuration
 . /Users/mjw/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
