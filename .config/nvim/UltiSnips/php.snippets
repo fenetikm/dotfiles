@@ -108,58 +108,6 @@ $form['$1'] = [
 $0
 endsnippet
 
-snippet func_hook_update "Drupal module hook update function"
-/**
- * ${1:Description of update.}
- */
-function ${2:mymodule}_update_${3:8000}(&$sandbox) {
-  $0
-}
-endsnippet
-
-snippet func_hook "Drupal module hook function"
-/**
- * Implements hook_${1:hook}().
- */
-function ${2:mymodule}_${1:hook}($4) {
-  $0
-}
-endsnippet
-
-snippet func "Drupal module function"
-/**
- * ${1:Description}
- */
-function ${2:mymodule}_${3:function_name}($4) {
-  $0
-}
-endsnippet
-
-snippet func_standard "Drupal class standard method"
-/**
- * ${1:{Description of method}}
- */
-${2:public} ${3:static }function $4($5) {
-  $0
-}
-endsnippet
-
-snippet func_inherit "Drupal class inherited method"
-/**
- * ${1:{@inheritdoc}}
- */
-${2:public} ${3:static }function $4($5) {
-  $0
-}
-endsnippet
-
-snippet func_interface "Drupal class interface method"
-/**
- * ${1:Description}
- */
-${2:public} function $3($4);
-endsnippet
-
 snippet const_description "Drupal const with description"
 /**
  * ${1:Description}.
@@ -395,4 +343,124 @@ $${1:variable}->expects($this->any())
       $0
 		}
 	));
+endsnippet
+
+snippet fndhu "Drupal module hook update function"
+/**
+ * ${1:Description of update}
+ */
+function ${2:mymodule}_update_${3:8000}(&$sandbox) {
+  $0
+}
+endsnippet
+
+snippet fndh "Drupal module hook function"
+/**
+ * Implements hook_${1:hook}().
+ */
+function ${2:mymodule}_${1:hook}($3) {
+  $0
+}
+endsnippet
+
+snippet fnm "Drupal module function"
+/**
+ * ${1:Description}
+ */
+function ${2:mymodule}_${3:function_name}($4) {
+  $0
+}
+endsnippet
+
+snippet fndp "Drupal class standard method"
+/**
+ * ${1:{Description of method}}
+ */
+${2:public} ${3:static }function $4($5) {
+  $0
+}
+endsnippet
+
+snippet fndpi "Drupal class inherited method"
+/**
+ * ${1:{@inheritdoc}}
+ */
+${2:public} ${3:static }function $4($5) {
+  $0
+}
+endsnippet
+
+snippet fndi "Drupal class interface method"
+/**
+ * ${1:Description}
+ */
+${2:public} function $3($4);
+endsnippet
+
+
+snippet fn "PHP function"
+function ${1:name}(${2}) {
+  $0
+}
+endsnippet
+
+snippet fnp "PHP public function"
+public function ${1:name}(${2}) {
+  $0
+}
+endsnippet
+
+snippet fnr "PHP protected function"
+protected function ${1:name}(${2}) {
+  $0
+}
+endsnippet
+
+snippet fnv "PHP private function"
+private function ${1:name}(${2}) {
+  $0
+}
+endsnippet
+
+snippet fora "PHP foreach array"
+foreach (${1:array} as ${2:value}) {
+	$3
+}
+endsnippet
+
+snippet fork "PHP foreach array with key"
+foreach (${1:array} as ${2:key} => ${3:value}) {
+	$4
+}
+endsnippet
+
+snippet if "PHP if"
+if ($1) {
+	$2
+}
+endsnippet
+
+snippet ife "PHP if with else"
+if ($1) {
+	$2
+}
+else {
+	$3
+}
+endsnippet
+
+snippet ifr "PHP if with return"
+if ($1) {
+	$2
+	return ${4:true}
+}
+endsnippet
+
+snippet ifi "PHP if with else if"
+if ($1) {
+	$2
+}
+elseif ($3) {
+	$4
+}
 endsnippet

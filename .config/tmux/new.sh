@@ -21,7 +21,7 @@ tmux detach > /dev/null
 set -- $(stty size) # $1 = rows $2 = columns
 tmux new-session -d -s $SESSION_NAME
 
-tmux new-window -t $SESSION_NAME:1 -n 'zsh'
+# tmux new-window -t $SESSION_NAME:1 -n 'zsh'
 
 ## Main Window
 tmux select-window -t $SESSION_NAME:1

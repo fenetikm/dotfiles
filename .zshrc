@@ -17,8 +17,8 @@ source ~/.config/zsh/lean/lean.plugin.zsh
 # exa colours
 source ~/Documents/Work/internal/vim/colors/falcon/exa/EXA_COLORS
 
-# Specify zsh plugins.
-plugins=(git colored-man)
+# zsh falcon colouring
+source ~/Documents/Work/internal/vim/colors/falcon/zsh/falcon.zsh
 
 # User configuration.
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
@@ -41,6 +41,9 @@ setopt AUTO_CD
 
 alias l='ls -alhF'
 alias lvr='ls -alR > /dev/null'
+
+# reload
+alias reload="source ~/.zshrc"
 
 # directory hashes
 # to use: e.g. cd ~aa
@@ -92,12 +95,12 @@ alias gb='git branch'
 alias y='yadm'
 
 # tmux aliases
-alias tmd='~/.config/tmux/drupal.sh'
-alias tms='~/.config/tmux/split.sh'
-alias tmn='~/.config/tmux/new.sh'
-alias tmw='~/.config/tmux/tw.sh'
-alias tma='tmux attach -t'
-alias tml='tmux ls'
+alias ms='~/.config/tmux/split.sh'
+alias mn='~/.config/tmux/new.sh'
+alias mnd='~/.config/tmux/drupal.sh'
+alias mnw='~/.config/tmux/tw.sh'
+alias ma='tmux attach -t'
+alias ml='tmux ls'
 
 #jira aliases
 alias j='jira'
@@ -106,51 +109,7 @@ alias jo="~/.config/zsh/jira.zsh 'jira open'"
 alias ja="~/.config/zsh/jira.zsh 'jira all_mine'"
 
 # Taskwarrior aliases
-tw_filter_project() {
-  task project:"$1" "${@:2}"
-}
-
-# toggle start stop also done
-tw_toggle() {
-  IDS=`task +ACTIVE _ids`
-  IFS=$'\n'
-  if [[ -n "$IDS" ]]; then
-    echo "$IDS" | while IFS= read -r id ; do
-      if [[ "$1" = "done" ]]; then
-        task "$id" stop
-        task "$id" done
-      else
-        task "$id" stop
-      fi
-    done
-  else
-    # nothing running so:
-    if [[ -z "$1" ]]; then
-      # restart the most recent one?
-      echo 'Please specify a task id.'
-    else
-      task "$1" start
-    fi
-  fi
-}
-
-tw_alias() {
-  task "$1" "${@:2}"
-}
-
-tw_add_with_project() {
-  task add project:"$1" "${@:2}"
-}
-
-alias tw='task'
-alias twp='tw_filter_project'
-alias twap='tw_add_with_project'
-alias twa='tw_alias add'
-alias twe='tw_alias edit'
-alias tws='tw_toggle'
-alias twd='tw_toggle done'
-alias twh='task help | less'
-alias in='tw_alias add +in'
+source ~/.config/task/commands.zsh
 
 # vagrant exec binstubs
 alias vr='vbin/robo'

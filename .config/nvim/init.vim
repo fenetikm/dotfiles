@@ -178,6 +178,9 @@ autocmd FileType json setlocal shiftwidth=4 tabstop=4
 "quickfix
 au FileType qf setlocal nonumber colorcolumn=
 
+"vimwiki
+au FileType vimwiki setlocal tw=0
+
 " }}} End Filetypes
 " Buffer handling {{{
 
@@ -376,7 +379,7 @@ call plug#begin()
 
 Plug 'tpope/vim-surround', { 'on': [] } "change surrounding characters
 Plug 'SirVer/ultisnips', { 'on': [] } "ultisnips snippets
-Plug 'honza/vim-snippets' "snippets library
+" Plug 'honza/vim-snippets' "snippets library
 Plug 'tpope/vim-dispatch' "async dispatching
 Plug 'radenling/vim-dispatch-neovim' "dispatch for neovim
 " Plug 'neomake/neomake' "async syntax checking
@@ -404,6 +407,9 @@ Plug 'vimwiki/vimwiki'  "Wiki for vim
 Plug 'powerman/vim-plugin-AnsiEsc' "improve colour support for graphs
 Plug 'tpope/vim-abolish' "abbreviation generation
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } "Undo tree
+Plug 'junegunn/goyo.vim' "distraction free writing
+Plug 'vim-scripts/Decho' "debugging
+Plug 'chew-z/itunes.vim' "itunes in Vim!
 
 augroup load_ultisnips
   autocmd!
@@ -508,16 +514,28 @@ augroup load_targets
   autocmd InsertEnter * call plug#load('targets.vim') | autocmd! load_targets
 augroup END
 
-augroup load_fugitive
-  autocmd!
-  autocmd CursorHold,CursorHoldI * call plug#load('vim-fugitive') | autocmd! load_fugitive
-augroup END
+" a bit hacky, but required
+command! Gstatus call LazyLoadFugitive('Gstatus')
+command! Gdiff call LazyLoadFugitive('Gdiff')
+command! Glog call LazyLoadFugitive('Glog')
+command! Gblame call LazyLoadFugitive('Gblame')
 
+function! LazyLoadFugitive(cmd)
+  if exists('g:llf')
+    return
+  endif
+
+  let g:llf=1
+
+  call plug#load('vim-fugitive')
+  call fugitive#detect(expand('%:p'))
+  exe a:cmd
+endfunction
 
 " PHP Specific {{{
 
-Plug 'sniphpets/sniphpets', { 'for': 'php' } "php snippets
-Plug 'sniphpets/sniphpets-common', { 'for': 'php' } "php snippets
+" Plug 'sniphpets/sniphpets', { 'for': 'php' } "php snippets
+" Plug 'sniphpets/sniphpets-common', { 'for': 'php' } "php snippets
 Plug '2072/PHP-Indenting-for-VIm', { 'for': 'php' } "updated indenting
 " Plug 'paulyg/Vim-PHP-Stuff' "updated php syntax
 " Plug 'StanAngeloff/php.vim' "More updatd php syntax
@@ -592,7 +610,7 @@ Plug 'w0rp/ale' "async linting engine
 " Plug 'morhetz/gruvbox'
 " Plug 'sonph/onehalf', {'rtp': 'vim/'}
 " Plug 'arcticicestudio/nord-vim'
-" Plug 'rakr/vim-one'
+Plug 'rakr/vim-one'
 " Plug 'cocopon/iceberg.vim'
 " Plug 'jacoborus/tender.vim'
 " Plug 'tomasiser/vim-code-dark'
@@ -750,13 +768,9 @@ function! OpenNERD()
   let fname = expand('%:t')
   if bufname('') == 'Startify'
     execute 'NERDTreeToggle'
-  elseif fname =~ 'NERD_tree'
+  elseif fname == '' || bufname('') == 'NERD_tree_1'
     execute 'NERDTreeToggle'
-  " elseif IsNERDTreeOpen()
-    " If it is open close it
-    " execute 'NERDTreeToggle'
   else
-    echom
     execute 'NERDTreeFind'
   endif
 endfunction
@@ -807,17 +821,14 @@ let g:lt_quickfix_list_toggle_map = '<leader>q'
 " }}} End ListToggle
 " UltiSnips {{{
 
-"directory for my snippets
+" directory for my snippets
 let g:UltiSnipsSnippetsDir="~/.config/nvim/UltiSnips"
-"open edit in vertical split
+" open edit in vertical split
 let g:UltiSnipsEditSplit="vertical"
-"in select mode hit ctrl-u to delete the whole line
+" in select mode hit ctrl-u to delete the whole line
 snoremap <C-u> <Esc>:d1<cr>i
 
-"snippets completion using fzf
-" inoremap <silent> <c-x><c-s> <Esc>:Snippets<cr>
-"as the name says
-function! s:list_snippets_for_current_ft_only() abort
+function! s:ListSnippetsForCurrentFt() abort
     if empty(UltiSnips#SnippetsInCurrentScope(1))
         return ''
     endif
@@ -838,31 +849,37 @@ function! s:list_snippets_for_current_ft_only() abort
     return ''
 endfu
 " map the above to c-x c-x
-ino <silent> <c-x><c-x> <c-r>=<sid>list_snippets_for_current_ft_only()<cr>
+inoremap <silent> <c-x><c-x> <c-r>=<sid>ListSnippetsForCurrentFt()<cr>
 
-function! ExpandPossibleShorterSnippet()
-  let matches = len(UltiSnips#SnippetsInCurrentScope())
-  if matches >= 1
-    return 1
+function! s:ExpandShortestMatchingSnippet() abort
+  let the_snippets = UltiSnips#SnippetsInCurrentScope()
+  let shortest_candidate = ''
+  let shortest_snippet = ''
+  for i in items(the_snippets)
+    Decho i
+    if len(shortest_candidate) == 0
+      let shortest_candidate = i[0]
+      " let shortest_snippet = i[2]
+      continue
+    endif
+
+    if len(i[0]) < len(shortest_candidate)
+      let shortest_candidate = i[0]
+      " let shortest_snippet = i[2]
+    endif
+  endfor
+  if shortest_candidate == ''
+    return 0
+  else
+    " Decho shortest_snippet
+    return shortest_snippet
   endif
-  return 0
 endfunction
-inoremap <silent> <s-cr> <c-r>=(ExpandPossibleShorterSnippet() == 0 ? '' : UltiSnips#ExpandSnippet())
+inoremap <s-cr> <c-r>=(<sid>ExpandShortestMatchingSnippet() == 0 ? '' :UltiSnips#ExpandSnippet())<cr>
 
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-" let g:UltiSnipsExpandTrigger = "<nop>"
-" let g:ulti_expand_or_jump_res = 0
-" function! ExpandSnippetOrCarriageReturn()
-"     let snippet = UltiSnips#ExpandSnippetOrJump()
-"     if g:ulti_expand_or_jump_res > 0
-"         return snippet
-"     else
-"         return "\<CR>"
-"     endif
-" endfunction
-" inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
 
 " }}} End UltiSnips
 " Fugitive, GitGutter, Vimagit {{{
@@ -898,8 +915,8 @@ let g:gitgutter_map_keys = 0
 nnoremap <leader>gh :GitGutterStageHunk<cr>
 
 "pair mapping for hunks
-nnoremap [c <Plug>GitGutterPrevHunk
-nnoremap ]c <Plug>GitGutterNextHunk
+nmap ]c <Plug>GitGutterNextHunk
+nmap [c <Plug>GitGutterPrevHunk
 
 "signs to use
 let g:gitgutter_sign_added = '+'
@@ -1063,68 +1080,7 @@ let g:localvimrc_name=['.lvimrc'] "name of the local vimrc
 " }}} End Local vimrc
 " Testing {{{
 
-" codeception setup
-function! test#php#codeception#executable() abort
-  " use the vbin one if it is there
-  if filereadable('./vbin/codecept')
-    return 'vbin/codecept'
-  elseif filereadable('./bin/codecept')
-    return 'bin/codecept'
-  else
-    return 'codecept'
-  endif
-endfunction
-let test#php#codeception#options = '--steps --env local'
-
-" phpunit setup
-" overwrite the original phpunit executable command
-function! test#php#phpunit#executable() abort
-  " get the full path including filename
-  let path = expand('%:p')
-  " position of '/Unit/'
-  let unit_pos = match(path, '/Unit/')
-  if unit_pos == -1
-    " we are inside functional/kernel/web so use the vbin one
-    return 'vbin/phpunit'
-  else
-    " use the original code
-    if filereadable('./vendor/phpunit/phpunit/phpunit')
-      return './vendor/phpunit/phpunit/phpunit'
-    elseif filereadable('./vendor/bin/phpunit')
-      return './vendor/bin/phpunit'
-    elseif filereadable('./bin/phpunit')
-      return './bin/phpunit'
-    else
-      return 'phpunit'
-    endif
-  endif
-endfunction
-
-function! CustomVimuxStrategy(cmd)
-  " Note: if there is only one count then this seems to do the right thing and pops out a new pane
-  let pane_count = str2nr(system('tmux list-panes | wc -l'))
-  if pane_count == '3'
-    let g:VimuxRunnerIndex = pane_count
-  endif
-  call VimuxClearRunnerHistory()
-  call VimuxRunCommand('clear')
-  call VimuxRunCommand(a:cmd)
-endfunction
-let g:test#custom_strategies = {'custom_vimux': function('CustomVimuxStrategy')}
-let g:test#strategy = 'custom_vimux'
-
-"overwrite the codeception test_file / check if file is a codeception one
-function! test#php#codeception#test_file(file) abort
-  echom DrupalRoot()
-  if a:file =~# g:test#php#codeception#file_pattern
-    let drupal_tests = DrupalRoot() . '/tests'
-    let path = expand('%:p:h')
-    if match(path, drupal_tests) == 0
-      return 1
-    endif
-    return 0
-  endif
-endfunction
+" See the autoload file.
 
 "mnemonic run
 nnoremap <leader>rr :TestFile<cr>
@@ -1226,7 +1182,7 @@ let g:ale_sign_warning=''
 
 " }}} Ale "
 " tcomment {{{ "
-let g:tcommentMaps=0
+let g:tcomment_maps=0
 " }}} tcomment "
 " Polyglot {{{ "
 let g:polyglot_disabled = ['yaml']
@@ -1247,12 +1203,19 @@ map <leader>ll <Plug>VimwikiToggleListItem
 
 "don't override tab so deoplete works
 nmap <leader>wn <Plug>VimwikiNextLink
-nmap <Leader>wp <Plug>VimwikiPrevLink
+nmap <leader>wp <Plug>VimwikiPrevLink
 "disable table mapping too to make this work
 let g:vimwiki_table_mappings = 0
 
 "remap enter, leave folding stuff as is
 nmap <leader>wl <Plug>VimwikiFollowLink
+vmap <leader>wl <Plug>VimwikiFollowLink
+nmap <leader>wr <Plug>VimwikiDeleteLink
+
+nmap <leader>wd <Plug>VimwikiMakeDiaryNote
+
+"remove mapping VimwikiReturn
+inoremap <F20> VimwikiReturn
 
 "vim-markdown stuff
 let g:vim_markdown_fenced_languages = ['c++=cpp', 'viml=vim', 'bash=sh', 'ini=dosini', 'php=php']
@@ -1281,8 +1244,6 @@ let g:deoplete#enable_smart_case = 1
 
 " stop insertion, match with the longest common match, still show if one option
 set completeopt=longest,menuone
-" hide the preview window
-" set completeopt-=preview
 
 " inoremap <silent><expr><tab> pumvisible() ? deoplete#close_popup() : "\<TAB>"
 " deoplete tab-complete
@@ -1551,7 +1512,9 @@ nnoremap <c-l> <c-w>l
 
 "return to toggle folding
 function! DoFold()
-  if &buftype == 'quickfix'
+  if &filetype == 'vimwiki'
+    return "\<cr>"
+  elif &buftype == 'quickfix'
     return "\<cr>"
   else
     return 'za'
@@ -1804,12 +1767,6 @@ set termguicolors
 
 "dark
 set background=dark
-
-" gruvbox settings
-" let g:lightline.colorscheme='gruvbox'
-" let g:gruvbox_italic=1
-" let g:gruvbox_contrast_dark='hard'
-" colorscheme gruvbox
 
 " falcon settings
 let g:falcon_lightline = 1
