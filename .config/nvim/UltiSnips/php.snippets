@@ -1,3 +1,25 @@
+global !p
+
+def php_indent(snip):
+        indent = int(snip.opt('g:php_indent', 2))
+        spaces = ""
+        for s in range(0, indent):
+                spaces += " "
+        snip.rv = spaces
+
+def php_braces(snip):
+    # 0 is braces on the same line
+    # 1 is braces below
+    braces = int(snip.opt('g:php_brace_style', 0))
+    if braces == 0:
+        snip.rv = " {\n"
+    else:
+        snip.rv = "\n"
+        snip.rv += snip.mkline("")
+        snip.rv += "{"
+
+endglobal
+
 snippet vd "var_dump"
 var_dump($0);
 endsnippet
@@ -222,7 +244,7 @@ use Drupal\Tests\UnitTestCase;
 /**
  * $2
  *
- * @group ${3:ua}
+ * @group ${3:group}
  * ${4:@coversDefaultClass \Drupal\ }
  */
 class $5 extends UnitTestCase {
@@ -254,7 +276,7 @@ use Drupal\KernelTests\KernelTestBase;
 /**
  * $3
  *
- * @group ${4:ua}
+ * @group ${4:group}
  * ${5:@coversDefaultClass \Drupal\ }
  */
 class $6 extends KernelTestBase {
@@ -405,62 +427,67 @@ function ${1:name}(${2}) {
 endsnippet
 
 snippet fnp "PHP public function"
-public function ${1:name}(${2}) {
-  $0
+public function ${1:name}(${2})`!p php_braces(snip)`
+`!p php_indent(snip)`$0
 }
 endsnippet
 
 snippet fnr "PHP protected function"
-protected function ${1:name}(${2}) {
-  $0
+protected function ${1:name}(${2})`!p php_braces(snip)`
+`!p php_indent(snip)`$0
 }
 endsnippet
 
 snippet fnv "PHP private function"
-private function ${1:name}(${2}) {
-  $0
+private function ${1:name}(${2})`!p php_braces(snip)`
+`!p php_indent(snip)`$0
 }
 endsnippet
 
 snippet fora "PHP foreach array"
-foreach (${1:array} as ${2:value}) {
-	$3
+foreach (${1:array} as ${2:value})`!p php_braces(snip)`
+`!p php_indent(snip)`$0
 }
 endsnippet
 
 snippet fork "PHP foreach array with key"
-foreach (${1:array} as ${2:key} => ${3:value}) {
-	$4
+foreach (${1:array} as ${2:key} => ${3:value})`!p php_braces(snip)`
+`!p php_indent(snip)`$0
 }
 endsnippet
 
 snippet if "PHP if"
-if ($1) {
-	$2
+if ($1)`!p php_braces(snip)`
+`!p php_indent(snip)`$0
 }
 endsnippet
 
 snippet ife "PHP if with else"
-if ($1) {
-	$2
+if ($1)`!p php_braces(snip)`
+`!p php_indent(snip)`$2
 }
-else {
-	$3
+else`!p php_braces(snip)`
+`!p php_indent(snip)`$3
 }
 endsnippet
 
 snippet ifr "PHP if with return"
-if ($1) {
-	$2
-	return ${4:true}
+if ($1)`!p php_braces(snip)`
+`!p php_indent(snip)`return ${2:true}
 }
 endsnippet
 
 snippet ifi "PHP if with else if"
-if ($1) {
-	$2
+if ($1)`!p php_braces(snip)`
+`!p php_indent(snip)`$2
 }
-elseif ($3) {
-	$4
+elseif ($3)`!p php_braces(snip)`
+`!p php_indent(snip)`$4
 }
+endsnippet
+
+snippet doci "PHP Inheritdoc"
+/**
+ * {@inheritdoc}
+ */$0
 endsnippet

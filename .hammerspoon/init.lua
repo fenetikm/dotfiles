@@ -81,6 +81,8 @@ local layouts = {
   }
 }
 
+local screenCount = #hs.screen.allScreens()
+
 hs.fnutils.each(layouts, function(object)
   hs.hotkey.bind(mash_screen, object.key, function() ext.app.applyLayout(object) end)
 end)
@@ -203,10 +205,13 @@ hs.hotkey.bind(mash_screen, 'f', chain({
 
 -- bind key to set a specific grid layout
 -- internalKey: used on internal display, ultraKey on ultrawide screen
-function ext.app.setGrid(internalKey, ultraKey)
+function ext.app.setGrid(internalKey, ultraKey, dualKey, dualScreenIndex)
   local win = hs.window.focusedWindow()
   local internal = internalDisplay()
-  if internal == nil then
+  local dual = screenCount == 2
+  if dual then
+    hs.grid.set(win, grid[dualKey], hs.screen.allScreens()[dualScreenIndex])
+  elseif internal == nil then
     hs.grid.set(win, grid[ultraKey])
   else
     hs.grid.set(win, grid[internalKey])
@@ -219,18 +224,20 @@ function ext.app.setLayout(rect)
 end
 
 -- 1 row, halves
-hs.hotkey.bind(mash_screen, 'q', function() ext.app.setGrid('leftHalf', 'leftHalf') end)
-hs.hotkey.bind(mash_screen, 'w', function() ext.app.setGrid('rightHalf', 'rightHalf') end)
+hs.hotkey.bind(mash_screen, 'q', function() ext.app.setGrid('leftHalf', 'leftHalf', 'leftHalf', 1) end)
+hs.hotkey.bind(mash_screen, 'w', function() ext.app.setGrid('rightHalf', 'rightHalf', 'rightHalf', 1) end)
+hs.hotkey.bind(mash_screen, 'e', function() ext.app.setGrid('leftHalf', 'leftHalf', 'leftHalf', 2) end)
+hs.hotkey.bind(mash_screen, 'r', function() ext.app.setGrid('rightHalf', 'rightHalf', 'rightHalf', 2) end)
 
 -- 1 row, thirds
-hs.hotkey.bind(mash_screen, 'a', function() ext.app.setGrid('leftThird', 'leftThird') end)
-hs.hotkey.bind(mash_screen, 's', function() ext.app.setGrid('middleVertical', 'middleVertical') end)
-hs.hotkey.bind(mash_screen, 'd', function() ext.app.setGrid('rightThird', 'rightThird') end)
+hs.hotkey.bind(mash_screen, 'a', function() ext.app.setGrid('leftThird', 'leftThird', 'fullScreen', 1) end)
+hs.hotkey.bind(mash_screen, 's', function() ext.app.setGrid('middleVertical', 'middleVertical', 'fullScreen', 2) end)
+hs.hotkey.bind(mash_screen, 'd', function() ext.app.setGrid('rightThird', 'rightThird', '', 1) end)
 
 -- 1 row, two thirds
-hs.hotkey.bind(mash_screen, 'z', function() ext.app.setGrid('leftTwoThirds', 'leftTwoThirds') end)
-hs.hotkey.bind(mash_screen, 'x', function() ext.app.setGrid('middleTwoThirds', 'middleTwoThirds') end)
-hs.hotkey.bind(mash_screen, 'c', function() ext.app.setGrid('rightTwoThirds', 'rightTwoThirds') end)
+hs.hotkey.bind(mash_screen, 'z', function() ext.app.setGrid('leftTwoThirds', 'leftTwoThirds', '', 1) end)
+hs.hotkey.bind(mash_screen, 'x', function() ext.app.setGrid('middleTwoThirds', 'middleTwoThirds', '', 1) end)
+hs.hotkey.bind(mash_screen, 'c', function() ext.app.setGrid('rightTwoThirds', 'rightTwoThirds', '', 1) end)
 
 hs.hotkey.bind(mash_screen, 'g', function() ext.app.setLayout(layoutMetrics.screenshot1) end)
 

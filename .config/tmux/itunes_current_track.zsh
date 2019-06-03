@@ -33,8 +33,8 @@ EOF)
     ITUNES_ARTIST+=...
   fi
 
-  echo '#[fg=#99a4bc]♫#[fg=#b4b4b9]' "$ITUNES_TRACK" '#[fg=#787882]-#[fg=#b4b4b9]' "$ITUNES_ARTIST"
+  echo '#[fg=#99a4bc]♫#[fg=#b4b4b9]' "$ITUNES_TRACK" '#[fg=#787882]-#[fg=#b4b4b9]' "$ITUNES_ARTIST" '#[fg=#57575e] '
   exit
 else
-  echo "#[fg=#787882]No music playing"
+  echo ""
 fi

@@ -11,7 +11,7 @@ get_time() {
 
 TIME=`get_time`
 if [[ "$TIME" == "0m" ]]; then
-  echo "#[fg=#787882]No timer running"
+  echo ""
   exit;
 fi
 
@@ -19,7 +19,7 @@ fi
 PROJECT=`task +ACTIVE _projects`
 if [[ -z "$PROJECT" ]]; then
   # no project running, just report the time
-  echo "#[fg=yellow]$TIME "
+  echo "#[fg=yellow]$TIME #[fg=#57575e] "
   exit;
 fi
 
@@ -31,4 +31,4 @@ TAGS=" #[fg=magenta][#[fg=#99a4bc]$ID#[fg=magenta]]"
 
 # remove seconds once there is a minute, reformat hours and minutes
 
-echo "#[fg=#99a4bc]$ #[fg=white]$PROJECT$TAGS #[fg=yellow]$TIME "
+echo "#[fg=#99a4bc]$ #[fg=white]$PROJECT$TAGS #[fg=yellow]$TIME #[fg=#57575e] "

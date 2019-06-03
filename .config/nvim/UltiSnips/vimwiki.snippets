@@ -1,3 +1,6 @@
+snippet date "Current date"
+`date +%Y-%m-%d`
+endsnippet
 snippet todo "Vimwiki add in todo section"
 ## Todo
 - [ ] $0
@@ -37,12 +40,16 @@ $0
 endsnippet
 
 snippet file_blog "Vimwiki file for blog post"
-# ${1:Title}
-Title: ${2:Title of blog post}
-Size: ${3:bite|snack|meal|banquet}
-Category: ${4:ideas|technology|code}
-Tags: ${5:}
---
+---
+Title: ${1:Title of blog post}
+Date: `date +%Y-%m-%d`
+Size: ${2:bite|snack|meal|banquet}
+Category: ${3:ideas|technology|code}
+Tags: $4
+Series: $5
+Published: ${6:true|false}
+Summary: $7
+---
 $0
 endsnippet
 
@@ -62,9 +69,9 @@ endsnippet
 snippet file_diary_schedule "Vimwiki file for diary with schedule"
 # Diary `date +%Y-%m-%d`
 ## Work Schedule
-8:00  ${1:.}
+8:00  ${1:Timesheets, planning}
 8:30  ${2:.}
-9:00  ${3:Timesheets, planning}
+9:00  ${3:.}
 9:30  ${4:.}
 10:00 ${5:.}
 10:30 ${6:.}

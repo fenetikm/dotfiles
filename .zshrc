@@ -49,6 +49,7 @@ alias reload="source ~/.zshrc"
 # to use: e.g. cd ~aa
 source ~/.config/zsh/directory_hashes.zsh
 alias e='exa -algB'
+alias et='exa -algB --tree'
 alias cat='bat'
 alias c='bat'
 alias ping='prettyping'
@@ -80,6 +81,7 @@ alias -g L="| less"
 alias -g T="| tail"
 alias -g TL="| tail -20"
 alias -g C="| wc -l"
+alias -g G="| grep"
 
 # git aliases
 alias g='git'
@@ -116,6 +118,8 @@ alias vr='vbin/robo'
 alias vb='vbin/bash'
 alias vd='vbin/drush'
 alias vc='ls -alR > /dev/null && vbin/robo build:clean'
+
+alias rb='./vendor/bin/robo'
 
 #virtual box
 alias vbox='vboxmanage'

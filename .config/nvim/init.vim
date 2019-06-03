@@ -209,7 +209,6 @@ function! ExecuteMacroOverVisualRange()
   echo "@".getcmdline()
   execute ":'<,'>normal @".nr2char(getchar())
 endfunction
-
 xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
 
 " Based off of a post by Greg Sexton
@@ -242,10 +241,30 @@ endfunction
 function! TrimWhiteSpace()
   %s/\s\+$//e
 endfunction
+command! TrimWhiteSpace :call TrimWhiteSpace()
 
 function! SearchWordWithAg()
   execute 'Ag' expand('<cword>')
 endfunction
+
+"shift current item to todo or done in vimwiki
+"gary vimrc: https://github.com/garybernhardt/dotfiles/blob/master/.vimrc<Paste>
+"my folding stuff: https://github.com/fenetikm/vim-textobj-function/blob/master/autoload/textobj/function/php.vim
+function! ShiftTodoDone()
+  "search up for todo and done
+  let todoHeader = search('^#\+ Todo', 'bn')
+  let doneHeader = search('^#\+ Done', 'bn')
+  let currentPos = line('.')
+  if todoHeader == 0 || doneHeader == 0
+    echom 'Missing section'
+    return
+  endif
+  if todoHeader > currentPos && doneHeader > currentPos
+    echom 'Not inside section'
+    return
+  endif
+endfunction
+command! ShiftTodoDone :call ShiftTodoDone()
 
 " Thanks gary. Renames current file.
 function! RenameFile()
@@ -272,28 +291,6 @@ function! RemoveFancyCharacters()
   :exe ":%s/".join(keys(typo), '\|').'/\=typo[submatch(0)]/ge'
 endfunction
 command! RemoveFancyCharacters :call RemoveFancyCharacters()
-
-" Search for what is currently selected.
-function! VisualSelection(direction) range
-  let l:saved_reg = @"
-  execute "normal! vgvy"
-
-  let l:pattern = escape(@", '\\/.*$^~[]')
-  let l:pattern = substitute(l:pattern, "\n$", "", "")
-
-  if a:direction == 'b'
-    execute "normal ?" . l:pattern . "^M"
-  elseif a:direction == 'gv'
-    call CmdLine("vimgrep " . '/'. l:pattern . '/' . ' **/*.')
-  elseif a:direction == 'replace'
-    call CmdLine("%s" . '/'. l:pattern . '/')
-  elseif a:direction == 'f'
-    execute "normal /" . l:pattern . "^M"
-  endif
-
-  let @/ = l:pattern
-  let @" = l:saved_reg
-endfunction
 
 function! DeleteInactiveBufs()
   "From tabpagebuflist() help, get a list of all buffers in all tabs
@@ -370,6 +367,11 @@ function! DrupalRoot()
 endfunction
 command! DrupalRoot call DrupalRoot()
 
+function! ToggleSyntax()
+   if exists("g:syntax_on") | syntax off | else | syntax enable | endif
+endfunction
+command! ToggleSyntax call ToggleSyntax()
+
 " }}} End Helper functions
 " Plugins: {{{
 
@@ -382,25 +384,20 @@ Plug 'SirVer/ultisnips', { 'on': [] } "ultisnips snippets
 " Plug 'honza/vim-snippets' "snippets library
 Plug 'tpope/vim-dispatch' "async dispatching
 Plug 'radenling/vim-dispatch-neovim' "dispatch for neovim
-" Plug 'neomake/neomake' "async syntax checking
 Plug 'ludovicchabant/vim-gutentags' "tag generation
-" Plug 'rizzatti/dash.vim' "lookup a word in dash
 " Plug 'easymotion/vim-easymotion' "vimperator style jumping around
 Plug 'justinmk/vim-sneak' "like easy motion
 Plug 'embear/vim-localvimrc' "local vimrc
 Plug 'dbakker/vim-projectroot' "project root stuff
 Plug 'cohama/lexima.vim' "auto closing pairs
 Plug 'terryma/vim-expand-region' "expand region useful for selection
-Plug 'AndrewRadev/splitjoin.vim' "convert single/multi line code expressions
-" Plug 'breuckelen/vim-resize' "resize splits
+" Plug 'AndrewRadev/splitjoin.vim' "convert single/multi line code expressions
 Plug 'benmills/vimux' "Interact with tmux from vim
 " Plug 'jebaum/vim-tmuxify' "tmux controlling, might be a bit more powerful than vimux?
 " Plug 'tpope/vim-eunuch' "Better unix commands
-Plug 'tpope/vim-unimpaired' "Various dual pair commands
+Plug 'tpope/vim-unimpaired', { 'on': [] } "Various dual pair commands
 Plug 'tpope/vim-repeat' "Repeat plugin commands
 Plug 'ConradIrwin/vim-bracketed-paste' "auto set paste nopaste
-" Plug 'neilagabriel/vim-geeknote' "Evernote
-" Plug 'kakkyz81/evervim' "Evernote integration try, requires an API key.
 Plug 'vimwiki/vimwiki'  "Wiki for vim
 " Plug 'tbabej/taskwiki' "taskwarrior integration
 " Plug 'blindFS/vim-taskwarrior' "taskwarrior management
@@ -408,12 +405,17 @@ Plug 'powerman/vim-plugin-AnsiEsc' "improve colour support for graphs
 Plug 'tpope/vim-abolish' "abbreviation generation
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } "Undo tree
 Plug 'junegunn/goyo.vim' "distraction free writing
-Plug 'vim-scripts/Decho' "debugging
-Plug 'chew-z/itunes.vim' "itunes in Vim!
+" Plug 'vim-scripts/Decho' "debugging
+" Plug 'hecal3/vim-leader-guide' "show leader guide
 
 augroup load_ultisnips
   autocmd!
   autocmd InsertEnter * call plug#load('ultisnips') | autocmd! load_ultisnips
+augroup END
+
+augroup load_unimpaired
+  autocmd!
+  autocmd InsertEnter * call plug#load('vim-unimpaired') | autocmd! load_unimpaired
 augroup END
 
 augroup load_surround
@@ -442,7 +444,7 @@ Plug 'Shougo/echodoc.vim' "show completion signatures
 
 Plug 'Valloric/ListToggle' "toggle quickfix and location lists
 Plug 'majutsushi/tagbar' "tagbar
-Plug 'vim-php/tagbar-phpctags.vim' "tagbar phpctags
+" Plug 'vim-php/tagbar-phpctags.vim' "tagbar phpctags
 Plug 'mhinz/vim-startify' "startify
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] } "nerdtree file tree explorer
 Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] } "nerdtree git plugin
@@ -470,7 +472,7 @@ Plug 'junegunn/fzf.vim' "fuzzy finder stuff
 
 Plug 'sheerun/vim-polyglot' "syntax for a lot of types
 " Plug 'ap/vim-css-color' "css color preview
-Plug 'lilydjwg/colorizer'
+Plug 'lilydjwg/colorizer' "colorize text, works with background inactive / active stuff
 
 " Plug 'pangloss/vim-javascript', { 'for': 'javascript' } "javascript syntax
 " Plug 'mxw/vim-jsx' "jsx syntax support
@@ -484,8 +486,8 @@ Plug 'vim-scripts/todo-txt.vim' "handling of todo.txt
 "
 
 Plug 'tpope/vim-fugitive', {'on': []} "git management
-Plug 'jreybert/vimagit' "git management
-Plug 'tomtom/tcomment_vim' "commenting
+" Plug 'jreybert/vimagit' "git management
+Plug 'tomtom/tcomment_vim', {'on': []} "commenting
 " Plug 'sickill/vim-pasta' "paste with indentation
 Plug 'joonty/vdebug', { 'for': 'php' } "debugger
 " Plug '~/.config/nvim/eclim' "eclim for completion
@@ -497,7 +499,7 @@ Plug 'wellle/targets.vim', {'on': []} "Additional target text objects
 Plug 'nathanaelkane/vim-indent-guides' "indent guides
 Plug 'kana/vim-textobj-user' "user textobjects
 " Plug 'kana/vim-textobj-entire' "entire document
-Plug 'kana/vim-textobj-fold' "fold textobj
+" Plug 'kana/vim-textobj-fold' "fold textobj, 14ms to startup
 Plug 'kana/vim-textobj-line' "line textobj
 Plug 'kana/vim-textobj-indent' "indent textobj
 " Plug 'michaeljsmith/vim-indent-object' "indentation text objects
@@ -508,17 +510,25 @@ Plug 'kana/vim-textobj-indent' "indent textobj
 " Plug 'int3/vim-extradite' "Git commit browser
 Plug 'junegunn/vim-easy-align' "Alignment of variables, etc.
 " Plug 'Konfekt/FastFold' "fastfolding and fold custom objects
+Plug 'mattn/emmet-vim' "expansion of html/css to full tags
 
 augroup load_targets
   autocmd!
-  autocmd InsertEnter * call plug#load('targets.vim') | autocmd! load_targets
+  autocmd CursorHold,CursorHoldI * call plug#load('targets.vim') | autocmd! load_targets
 augroup END
 
-" a bit hacky, but required
+augroup load_tcomment
+  autocmd!
+  autocmd CursorHold,CursorHoldI * call plug#load('tcomment_vim') | autocmd! load_tcomment
+augroup END
+
+" a bit hacky, but required to get it working
 command! Gstatus call LazyLoadFugitive('Gstatus')
 command! Gdiff call LazyLoadFugitive('Gdiff')
 command! Glog call LazyLoadFugitive('Glog')
 command! Gblame call LazyLoadFugitive('Gblame')
+command! Gvdiff call LazyLoadFugitive('Gvdiff')
+command! Gdiff call LazyLoadFugitive('Gdiff')
 
 function! LazyLoadFugitive(cmd)
   if exists('g:llf')
@@ -582,7 +592,7 @@ Plug 'phpactor/phpactor',  {'do': 'composer install', 'for': 'php'} "php complet
 " Plug 'junegunn/gv.vim' "pretty git log file explorer
 " Plug 'junegunn/vim-peekaboo' "show preview of registers, commands etc.
 " Plug 'junegunn/vim-journal' "nice looking syntax for notes
-" Plug 'wincent/ferret' "multi file search and replace etc.
+Plug 'wincent/ferret' "multi file search and replace etc.
 Plug 'w0rp/ale' "async linting engine
 " Plug 'obertbasic/snipbar' "show snippets in a side bar
 " Plug 'phpstan/vim-phpstan' "php static analysis plugin to call phpstan
@@ -610,7 +620,7 @@ Plug 'w0rp/ale' "async linting engine
 " Plug 'morhetz/gruvbox'
 " Plug 'sonph/onehalf', {'rtp': 'vim/'}
 " Plug 'arcticicestudio/nord-vim'
-Plug 'rakr/vim-one'
+" Plug 'rakr/vim-one'
 " Plug 'cocopon/iceberg.vim'
 " Plug 'jacoborus/tender.vim'
 " Plug 'tomasiser/vim-code-dark'
@@ -812,6 +822,8 @@ let g:NERDTreeIndicatorMapCustom = {
     \ "Unknown"   : "?"
     \ }
 
+let NERDTreeIgnore=['\.git']
+
 " }}} End NERDTree
 " ListToggle {{{
 
@@ -1012,9 +1024,21 @@ autocmd FileType php setlocal omnifunc=phpactor#Complete
 " enable echodoc to show function signatures
 autocmd FileType php :EchoDocEnable
 
+let g:phpactorOmniAutoClassImport = v:true
+let g:phpactorOmniError = v:true
+
 "php syntax
 "disable html inside of php syntax highlighting
 let g:php_html_load=0
+
+" For UltiSnips
+" 0 is braces on the same line
+" 1 is braces below
+let g:php_brace_style=0
+
+" For UltiSnips
+" Number of spaces to indent in PHP
+let g:php_indent=2
 
 " }}} End PHP plugins
 " Debug plugins {{{
@@ -1080,18 +1104,28 @@ let g:localvimrc_name=['.lvimrc'] "name of the local vimrc
 " }}} End Local vimrc
 " Testing {{{
 
-" See the autoload file.
-
 "mnemonic run
-nnoremap <leader>rr :TestFile<cr>
+nnoremap <leader>rr :TestLast<cr>
 nnoremap <leader>rf :TestFile<cr>
 nnoremap <leader>rn :TestNearest<cr>
 nnoremap <leader>rs :TestSuite<cr>
-nnoremap <leader>rl :TestLast<cr>
 
-" Run the last test with control enter
-inoremap <c-cr> <Esc>:TestLast<cr>i
-nnoremap <c-cr> :TestLast<cr>
+" rest of this is in autoload/vim-test.vim
+function! CustomVimuxStrategy(cmd)
+  " Note: if there is only one count then this seems to do the right thing and pops out a new pane
+  let pane_count = str2nr(system('tmux list-panes | wc -l'))
+  if pane_count == '3'
+    let g:VimuxRunnerIndex = pane_count
+  endif
+  call VimuxClearRunnerHistory()
+  call VimuxRunCommand('clear')
+  call VimuxRunCommand(a:cmd)
+endfunction
+
+let g:test#custom_strategies = {'custom_vimux': function('CustomVimuxStrategy')}
+let g:test#strategy = 'custom_vimux'
+
+let test#custom_runners = {'php': ['megarunner']}
 
 " }}} End Testing
 " EasyAlign {{{
@@ -1129,6 +1163,11 @@ augroup devicons_nerdtree
     autocmd FileType nerdtree setlocal nolist
 augroup END
 
+" after a re-source, fix syntax matching issues (concealing brackets):
+if exists('g:loaded_webdevicons')
+  call webdevicons#refresh()
+endif
+
 " }}} End Webdevicons
 " phpactor {{{
 
@@ -1165,7 +1204,7 @@ let g:indent_guides_guide_size=1
 
 " }}} Indent guide "
 " Ale {{{ "
-let g:ale_javascript_eslint_use_global = 1
+let g:ale_javascript_eslint_use_global = 0
 
 let g:ale_linters = {
       \   'php': ['phpcs'],
@@ -1175,7 +1214,7 @@ let g:ale_linters = {
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 0
 let g:ale_php_phpcs_standard = 'Drupal'
-
+"
 let g:ale_sign_error=''
 let g:ale_sign_info=''
 let g:ale_sign_warning=''
@@ -1200,6 +1239,7 @@ let g:vimwiki_global_ext = 0
 " list remapping
 map <leader>lc <Plug>VimwikiRemoveSingleCB
 map <leader>ll <Plug>VimwikiToggleListItem
+map <leader>lt :call ShiftTodoDone()<cr>
 
 "don't override tab so deoplete works
 nmap <leader>wn <Plug>VimwikiNextLink
@@ -1208,14 +1248,15 @@ nmap <leader>wp <Plug>VimwikiPrevLink
 let g:vimwiki_table_mappings = 0
 
 "remap enter, leave folding stuff as is
-nmap <leader>wl <Plug>VimwikiFollowLink
-vmap <leader>wl <Plug>VimwikiFollowLink
+" have now reverted folding expansion to c-cr
+" nmap <leader>wl <Plug>VimwikiFollowLink
+" vmap <leader>wl <Plug>VimwikiFollowLink
 nmap <leader>wr <Plug>VimwikiDeleteLink
 
 nmap <leader>wd <Plug>VimwikiMakeDiaryNote
 
 "remove mapping VimwikiReturn
-inoremap <F20> VimwikiReturn
+" inoremap <F20> VimwikiReturn
 
 "vim-markdown stuff
 let g:vim_markdown_fenced_languages = ['c++=cpp', 'viml=vim', 'bash=sh', 'ini=dosini', 'php=php']
@@ -1430,9 +1471,12 @@ command! -nargs=1 NormLead call ExecuteLeader(<f-args>)
 nnoremap <silent> <leader>ti :IndentGuidesToggle<cr>
 
 "toggle search highlight
-nnoremap <silent> <leader>th :nohlsearch<CR>
-" nnoremap <F19> :nohlsearch<CR>
-nnoremap <c-space> :nohlsearch<CR>
+" let hlstate=0
+" nnoremap <silent> <leader>th :if (hlstate%2 == 0) \| nohlsearch \| else \| set hlsearch \| endif \| let hlstate=hlstate+1<cr>
+" nnoremap <silent><expr> <leader>th (&hls && v:hlsearch ? ':nohls' : ':set hls')<cr>
+
+"just turn it off
+nnoremap <silent> <esc> :nohlsearch<cr>
 
 "toggle line numbers
 nnoremap <silent> <leader>tn :setlocal nonumber! norelativenumber!<CR>
@@ -1452,6 +1496,8 @@ nnoremap <silent> <leader>tq :QToggle<cr>
 "toggle syntax
 nnoremap <leader>ts :ToggleSyntax<cr>
 
+"toggle spelling
+nnoremap <silent> <leader>tz :setlocal spell! spelllang=en_au<cr>
 
 " }}} Toggling "
 " Finding [leader f*] {{{ "
@@ -1479,10 +1525,29 @@ nnoremap <silent> <leader>fb :call fzf#vim#buffers()<cr>
 " search for under cursor keyword in Ag in all files (ex. gitignore)
 " nnoremap <silent> <leader>a :AgAll <c-r><c-w><cr>
 
+function! s:getVisualSelection()
+    let [line_start, column_start] = getpos("'<")[1:2]
+    let [line_end, column_end] = getpos("'>")[1:2]
+    let lines = getline(line_start, line_end)
+
+    if len(lines) == 0
+        return ""
+    endif
+
+    let lines[-1] = lines[-1][:column_end - (&selection == "inclusive" ? 1 : 2)]
+    let lines[0] = lines[0][column_start - 1:]
+
+    return join(lines, "\n")
+endfunction
+
 " new
 nnoremap <silent> <leader>ss :Ag<space>
 nnoremap <silent> <leader>sa :AgAll<space>
 nnoremap <silent> <leader>sk :AgAll <c-r><c-w><cr>
+vnoremap <silent><leader>sk <Esc>:AgAll <C-R>=<SID>getVisualSelection()<CR><CR>
+
+nmap <leader>sw <Plug>(FerretAckWord)
+nmap <leader>sr <Plug>(FerretAcks)
 
 " }}} Searching and replacing [leader s*] "
 " Pairs ][ {{{ "
@@ -1520,7 +1585,7 @@ function! DoFold()
     return 'za'
   endif
 endfunction
-nnoremap <expr> <cr> DoFold()
+nnoremap <c-cr> za
 
 "focus the current fold
 nnoremap <s-cr> zMzAzz
