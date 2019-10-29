@@ -9,8 +9,8 @@ local mash_screen = {"cmd", "alt", "ctrl"}
 
 -- initial settings
 hs.grid.setGrid('12x12') -- allows us to place on quarters, thirds and halves
-hs.grid.MARGINX = 20
-hs.grid.MARGINY = 20
+hs.grid.MARGINX = 30
+hs.grid.MARGINY = 30
 hs.window.animationDuration = 0 -- disable animations
 
 local grid = {
@@ -77,6 +77,9 @@ local layouts = {
     },
     ultra = {
       {"kitty", "vimwiki", "LG ULTRAWIDE", layoutMetrics.screenshot1, nil, nil}
+    },
+    dell = {
+      {"kitty", "vimwiki", "DELL U2715H", layoutMetrics.screenshot1, nil, nil}
     }
   }
 }
@@ -91,11 +94,16 @@ end)
 -- fill out layouts as above
 -- hide everything else
 function ext.app.applyLayout(layout)
-  local screen = 'internal'
-  if internalDisplay() == nil then
-    screen = 'ultra'
-  end
   local log = hs.logger.new('mylog', 'debug')
+  local screen = 'internal'
+  local ms = hs.screen.primaryScreen()
+  log.i(ms)
+  if ms:name() == 'LG ULTRAWIDE' then
+    screen = 'ultra'
+  elseif ms:name() == 'DELL U2715H' then
+    screen = 'dell'
+  end
+  log.i(screen)
 
   -- hide non-matching apps
   for key, app in pairs(hs.application.runningApplications()) do
@@ -241,6 +249,10 @@ hs.hotkey.bind(mash_screen, 'c', function() ext.app.setGrid('rightTwoThirds', 'r
 
 hs.hotkey.bind(mash_screen, 'g', function() ext.app.setLayout(layoutMetrics.screenshot1) end)
 
+-- global operations
+hs.hotkey.bind(mash_screen, ';', function() hs.grid.snap(hs.window.focusedWindow()) end)
+hs.hotkey.bind(mash_screen, "'", function() hs.fnutil.map(hs.window.visibleWindows(), hs.grid.snap) end)
+
 -- hyper key mash
 local mash_apps = {"cmd", "alt", "ctrl", "shift"}
 
@@ -256,7 +268,7 @@ hs.fnutils.each({
   { key = "v", app = "/Users/mjw/.config/kitty/start.sh", windowApp = "kitty", window = "vimwiki" },
   { key = "t", app = "/Users/mjw/.config/kitty/taskw.sh", windowApp = "kitty", window = "taskw" },
   { key = "d", app = "Dash" },
-  { key = "q", app = "Sequel" },
+  { key = "q", app = "TablePlus" },
   { key = "n", app = "Notes" },
   { key = "c", app = "Calendar" },
   { key = "w", app = "WhatsApp" },
@@ -318,14 +330,16 @@ function ext.app.forceLaunchOrFocus(appName, object)
 end
 
 function ext.app.showBundleID()
-  -- local frontmostApp = hs.application.frontmostApplication()
-  -- local frontmostApp = hs.screen:name()
+  local frontmostApp = hs.application.frontmostApplication()
+  local frontmostApp = hs.screen:name()
+end
+
+function ext.app.showScreenID()
   local ms = hs.screen.primaryScreen()
   hs.alert.show(ms:name())
 end
 
--- hs.hotkey.bind(mash_screen, 'b', function() ext.app.showBundleID() end)
-hs.hotkey.bind(mash_screen, 'b', function() ext.app.showBundleID() end)
+hs.hotkey.bind(mash_screen, 'b', function() ext.app.showScreeID() end)
 
 -- Reload Configuration
 --- http://www.hammerspoon.org/go/#fancyreload

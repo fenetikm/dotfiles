@@ -18,6 +18,23 @@ def php_braces(snip):
         snip.rv += snip.mkline("")
         snip.rv += "{"
 
+def convert_tokens(snip):
+    # n = snip.buffer[snip.line].split('<token>', 1)[0]
+    tokens = snip.v.text.split('<token>')
+    i = 0
+    body = ''
+    for t in tokens:
+        if i == 0:
+            body = t
+        else:
+            if i == len(tokens) - 1:
+                body += "$0" + t
+            else:
+                body += "$" + str(i) + t
+        i = i + 1
+    snip.buffer[snip.line] = ''
+    snip.expand_anon(body)
+
 endglobal
 
 snippet vd "var_dump"
@@ -31,6 +48,10 @@ endsnippet
 
 snippet pr "print_r"
 print_r($0)
+endsnippet
+
+snippet vdf "var dump to file_put_contents to temp file"
+file_put_contents('temp.txt', print_r($0, true), FILE_APPEND);
 endsnippet
 
 snippet tdo "TODO comment"
@@ -130,11 +151,20 @@ $form['$1'] = [
 $0
 endsnippet
 
-snippet const_description "Drupal const with description"
+snippet const "Drupal const with description"
 /**
  * ${1:Description}.
  */
 const $0
+endsnippet
+
+snippet var "PHP protected var with description"
+/**
+ * ${1:Description}
+ *
+ * @var $2
+ */
+${3:protected} $4
 endsnippet
 
 snippet var_protected_description "Drupal protected var with description"
@@ -333,13 +363,13 @@ array_filter($${2:array_to_filter}, function ($${3:item}) use ($${4:included}) {
 });
 endsnippet
 
-snippet array_map "PHP Array map"
+snippet arm "PHP Array map"
 array_map(function ($${2:item}) {
   return $0
 }, $${3:array_to_map});
 endsnippet
 
-snippet array_map_use "PHP Array map, use"
+snippet armu "PHP Array map, use"
 array_map(function ($${2:item}) use ($${3:included}) {
   return $0
 }, $${4:array_to_map});
@@ -432,6 +462,18 @@ public function ${1:name}(${2})`!p php_braces(snip)`
 }
 endsnippet
 
+snippet fnps "PHP public static function"
+public static function ${1:name}(${2})`!p php_braces(snip)`
+`!p php_indent(snip)`$0
+}
+endsnippet
+
+snippet fnpt "PHP public function test"
+public function test${1:name}(${2})`!p php_braces(snip)`
+`!p php_indent(snip)`$0
+}
+endsnippet
+
 snippet fnr "PHP protected function"
 protected function ${1:name}(${2})`!p php_braces(snip)`
 `!p php_indent(snip)`$0
@@ -457,37 +499,110 @@ foreach (${1:array} as ${2:key} => ${3:value})`!p php_braces(snip)`
 endsnippet
 
 snippet if "PHP if"
-if ($1)`!p php_braces(snip)`
+if ($1) {
 `!p php_indent(snip)`$0
 }
 endsnippet
 
 snippet ife "PHP if with else"
-if ($1)`!p php_braces(snip)`
+if ($1) {
 `!p php_indent(snip)`$2
-}
-else`!p php_braces(snip)`
+} else {
 `!p php_indent(snip)`$3
 }
 endsnippet
 
+snippet cc "Codeception comment"
+$I->comment('$0');
+endsnippet
+
+snippet cp "Codeception pause"
+$I->pause();
+endsnippet
+
+snippet ccp "Codeception comment and pause"
+$I->comment('$0');
+$I->pause();
+endsnippet
+
+snippet cw "Codeception wait"
+$I->getDefaultWaitTime()
+endsnippet
+
+snippet def "PHP switch default"
+default:
+`!p php_indent(snip)`// Do nothing
+`!p php_indent(snip)`break;
+endsnippet
+
 snippet ifr "PHP if with return"
-if ($1)`!p php_braces(snip)`
+if ($1) {
 `!p php_indent(snip)`return ${2:true}
 }
 endsnippet
 
 snippet ifi "PHP if with else if"
-if ($1)`!p php_braces(snip)`
+if ($1) {
 `!p php_indent(snip)`$2
+} elseif ($3) {
+`!p php_indent(snip)`$0
 }
-elseif ($3)`!p php_braces(snip)`
-`!p php_indent(snip)`$4
-}
+endsnippet
+
+pre_expand "convert_tokens"
+snippet vt "PHP replace tokens"
+endsnippet
+
+snippet doc "PHP empty docblock"
+/**
+ * $0
+ */
 endsnippet
 
 snippet doci "PHP Inheritdoc"
 /**
  * {@inheritdoc}
  */$0
+endsnippet
+
+snippet docv "PHP var doc"
+/**
+ * ${1:Description}
+ *
+ * @var $2
+ */
+endsnippet
+
+snippet db "CodeIgniter db statement"
+$this->db->$0
+endsnippet
+
+snippet dbs "CodeIgniter db select statement"
+$this->db->select('$0');
+endsnippet
+
+snippet dbf "CodeIgniter db from statement"
+$this->db->from('$0');
+endsnippet
+
+snippet dbw "CodeIgniter db where statement"
+$this->db->where($0);
+endsnippet
+
+snippet dbo "CodeIgniter db order by statement"
+$this->db->order_by($0);
+endsnippet
+
+snippet dbq "CodeIgniter db query get"
+$query = $this->db->get();$0
+endsnippet
+
+snippet exs "Experiment start comment"
+// ---
+// Experiment code start:
+endsnippet
+
+snippet exe "Experiment end comment"
+// Experiment code end.
+// ---
 endsnippet

@@ -23,3 +23,5 @@ setlocal foldexpr=MarkdownLevel()
 setlocal foldmethod=expr
 " set the foldlevel for index to 1
 au BufEnter index.md setlocal foldlevel=1
+
+nnoremap <silent> <localleader>o :!open '%'<cr>

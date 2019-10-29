@@ -1,17 +1,22 @@
 snippet date "Current date"
 `date +%Y-%m-%d`
 endsnippet
+
 snippet todo "Vimwiki add in todo section"
 ## Todo
 - [ ] $0
 endsnippet
 
-snippet file_vimwiki "Vimwiki default template"
+snippet t "Vimwiki todo box"
+- [ ] $0
+endsnippet
+
+snippet ft "Vimwiki default template"
 # `!p snip.rv = snip.fn.replace(".md", "")`
 $0
 endsnippet
 
-snippet file_todo_references "Vimwiki file with todo and references"
+snippet ftt "Vimwiki file with todo and references"
 # ${1:Title}
 
 ## Todo
@@ -24,7 +29,7 @@ snippet file_todo_references "Vimwiki file with todo and references"
 ## References
 endsnippet
 
-snippet file_references "Vimwiki file with references"
+snippet ftr "Vimwiki file with references"
 # ${1:Title}
 
 ## Ideas
@@ -33,31 +38,27 @@ snippet file_references "Vimwiki file with references"
 $0
 endsnippet
 
-snippet file_blank "Vimwiki file with title only"
+snippet ftb "Vimwiki file with title only"
 # ${1:Title}
 
 $0
 endsnippet
 
-snippet file_blog "Vimwiki file for blog post"
+snippet fb "Vimwiki blog post"
 ---
 Title: ${1:Title of blog post}
-Date: `date +%Y-%m-%d`
-Size: ${2:bite|snack|meal|banquet}
-Category: ${3:ideas|technology|code}
-Tags: $4
-Series: $5
-Published: ${6:true|false}
-Summary: $7
+Date: ${2:`date +%Y-%m-%d`}
+Size: ${3:bite|snack|meal|banquet}
+Category: ${4:ideas|technology|code}
+Tags: $5
+Series: $7
+Published: ${7:true|false}
+Summary: $8
 ---
 $0
 endsnippet
 
-snippet link "Vimwiki link"
-[${1:Title}](${2:Link})
-endsnippet
-
-snippet file_process "Vimwiki file with process"
+snippet ftp "Vimwiki file with process"
 # ${1:Title}
 
 ## Final process
@@ -66,7 +67,39 @@ snippet file_process "Vimwiki file with process"
 $0
 endsnippet
 
-snippet file_diary_schedule "Vimwiki file for diary with schedule"
+snippet d2 "Vimwiki short diary template"
+# Diary `date +%Y-%m-%d`
+## Work schedule
+Morning:     ${1:Timesheets}
+Mid-morning: ${2:.}
+Noon:        ${3:.}
+Arvo:        ${4:.}
+(Weekly reports on monday)
+
+## Gratitude
+1. ${5}
+2. ${6}
+3. ${7}
+
+## Thing to do today toward relationship
+${8}
+
+## Other daily thoughts (thoughts on?)
+$0
+endsnippet
+
+snippet validation "Validation template"
+## Validation
+Situation: ${1}
+What was the emotion/feeling: ${2}
+How does that make sense: ${3}
+What was their perception: ${4}
+What could ask to find out more about what they were feeling: ${5}
+What could I say to validate their feelings: ${6}
+Confidence in validation skills: ${7}
+endsnippet
+
+snippet d1 "Vimwiki diary template with schedule"
 # Diary `date +%Y-%m-%d`
 ## Work Schedule
 8:00  ${1:Timesheets, planning}
@@ -99,7 +132,7 @@ snippet file_diary_schedule "Vimwiki file for diary with schedule"
 $0
 endsnippet
 
-snippet review_weekly "Vimwiki weekly review"
+snippet review "Vimwiki weekly review"
 ## Review
 ### Categories
 Sleep $1
