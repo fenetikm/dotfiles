@@ -7,6 +7,7 @@
 
 [core]
 	excludesfile = /Users/mjw/.gitignore_global
+	pager = diff-so-fancy | less --tabs=4 -RFX
 
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
@@ -73,6 +74,9 @@
   gn = goodness
   gnc = goodness --cached
 
+  # logging, used in flog command
+  ll =  log --graph --format='%C(3)%h%Creset%C(1)%d%Creset - %C(4)(%ar)%Creset %s %C(4)<%an>%Creset'
+
   # Fancy logging.
   #   h = head
   #   hp = head with patch
@@ -88,3 +92,5 @@
   l = "!. ~/.githelpers && pretty_git_log"
   la = !git l --all
 	dsf = "!f() { [ -z \"$GIT_PREFIX\" ] || cd \"$GIT_PREFIX\" && git diff --color \"$@\" | diff-so-fancy  | less --tabs=4 -RFX; }; f"
+[init]
+	templatedir = ~/.git_template

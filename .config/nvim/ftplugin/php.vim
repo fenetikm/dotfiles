@@ -1,4 +1,4 @@
-inoremap <c-l> <space>=><space>
+inoremap <c-.> <space>=><space>
 
 "splitjoin settings
 let b:splitjoin_trailing_comma=1

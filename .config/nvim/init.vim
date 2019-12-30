@@ -7,13 +7,15 @@ set nocompatible " disable compatibility with vi
 set scrolloff=5 "set number of lines to show above and below cursor
 set sidescrolloff=5 " same as scrolloff, but for columns
 filetype plugin indent on "use indentation scripts per filetype
-set history=9999 "number of lines of history
+set history=999 "number of lines of history
 set cursorline "highlight the line the cursor is on
 set clipboard=unnamed "for copy and paste, anonymous register aliased to * register
 set autoread "set to auto read when a file is changed from the outside
 set report=0 "Always report line changes
 set mouse=nv " mouse only enabled in normal and visual
 set noshowcmd "hide the command showing in the status
+set nrformats= "force decimal-based arithmetic
+set termguicolors "24bitcolors
 
 let mapleader = "\<Space>" "set variable mapleader
 let g:mapleader = "\<Space>" "set global variable mapleader see http://stackoverflow.com/a/15685904
@@ -41,6 +43,7 @@ set cmdheight=2 "height of the command bar
 set laststatus=2 "always show status line
 set backspace=eol,start,indent "delete over end of line, autoindent, start of insert
 set whichwrap+=<,>,h,l,[,] "wrap with cursor keys and h and l
+" set nowrapscan "don't wrap search scanning
 
 " Search {{{ "
 
@@ -53,14 +56,15 @@ set inccommand=nosplit "incremental replace
 set magic "regex magic, more useable
 set showmatch "show matching brackets when text indicator is over them
 set mat=2 "how many tenths of a second to blink when matching brackets
+set gdefault "substitute all in line or everywhere depending
 
 " }}} Search "
 
 set noerrorbells "no annoying beeps
 set novisualbell "no screen flashes on errors
 set t_vb= "no screen flashes
-set timeoutlen=2000 "timeout for leader key
-set ttimeoutlen=10 "timeout for key code delays
+set timeoutlen=1000 "timeout for leader key
+set ttimeoutlen=5 "timeout for key code delays
 set noshowmode "hide showing which mode we are in, the status bar is fine
 
 set fcs=vert:│ " Solid line for vsplit separator
@@ -92,6 +96,8 @@ set smarttab "be smart about using tabs, delete that many spaces when appropriat
 set shiftwidth=2 "how far to shift with <,>
 set tabstop=2 "how many columns does a tab count for
 set lbr "enable linebreaking
+set breakindent "indent lines that are broken
+set breakindentopt=shift:1 "set the indent shift to one space
 set tw=500 "set textwidth to 500 to auto linebreak with really long lines
 set autoindent "copy indentation from line above
 "set smartindent "indent if not handled by plugins, disabled since plugins!
@@ -127,10 +133,10 @@ set shortmess+=a                      " use abbreviations in messages eg. `[RO]`
 set shortmess+=o                      " overwrite file-written messages
 set shortmess+=t                      " truncate file messages at start
 
-set synmaxcol=800                     " Don't try to highlight lines longer than 800 characters.
+set synmaxcol=600                     " Don't try to highlight lines longer than 600 characters.
 
 if has('linebreak')
-  let &showbreak='↳ '                 " DOWNWARDS ARROW WITH TIP RIGHTWARDS (U+21B3, UTF-8: E2 86 B3)
+  let &showbreak='↳'                 " DOWNWARDS ARROW WITH TIP RIGHTWARDS (U+21B3, UTF-8: E2 86 B3)
 endif
 
 if has('virtualedit')
@@ -148,9 +154,8 @@ let g:python_host_prog = '/usr/local/bin/python2'
 " turn on matchit which extends % key matching
 runtime macros/matchit.vim
 
-"set the max time to update
-"300ms
-set updatetime=300
+"set the max time to update 200ms, gitgutter mainly
+set updatetime=200
 
 " }}} End General options
 " Filetypes {{{
@@ -187,6 +192,28 @@ au FileType vimwiki setlocal tw=0
 "fzf
 au FileType fzf setlocal nonu nornu
 
+au FileType help setlocal nonumber norelativenumber
+
+" Toggle relative and normal numbers depending on active or not
+function! SetNumbers(s)
+  let fname = expand('%:t')
+  if fname != '' && &ft != 'help' && &ft != 'nerdtree' && &ft != 'fzf'
+    if a:s == 'on'
+      setlocal relativenumber
+    else
+      setlocal norelativenumber
+    endif
+  else
+    setlocal norelativenumber
+  endif
+endfunction
+
+" turn off relativenumber in non active window
+augroup BgHighlight
+    autocmd!
+    autocmd WinEnter,FocusGained * call SetNumbers('on')
+    autocmd WinLeave,FocusLost * call SetNumbers('off')
+augroup END
 
 " }}} End Filetypes
 " Buffer handling {{{
@@ -205,7 +232,10 @@ autocmd InsertLeave,WinEnter * set cursorline
 autocmd InsertEnter,WinLeave * set nocursorline
 
 " Reload when gaining focus
-au FocusGained,BufEnter * :silent! !
+autocmd FocusGained,BufEnter * :silent! !
+
+" auto resize on size change
+autocmd VimResized * wincmd =
 
 "refresh screen that turns off highlights, fix syntax highlight etc.
 
@@ -389,9 +419,10 @@ Plug 'SirVer/ultisnips', { 'on': [] } "ultisnips snippets
 " Plug 'honza/vim-snippets' "snippets library
 Plug 'tpope/vim-dispatch' "async dispatching
 Plug 'radenling/vim-dispatch-neovim' "dispatch for neovim
-Plug 'ludovicchabant/vim-gutentags' "tag generation
+Plug 'skywind3000/asyncrun.vim' "async runner
+" Plug 'ludovicchabant/vim-gutentags' "tag generation
 " Plug 'easymotion/vim-easymotion' "vimperator style jumping around
-Plug 'justinmk/vim-sneak' "like easy motion
+" Plug 'justinmk/vim-sneak' "like easy motion
 Plug 'embear/vim-localvimrc' "local vimrc
 Plug 'dbakker/vim-projectroot' "project root stuff
 Plug 'cohama/lexima.vim' "auto closing pairs
@@ -403,10 +434,10 @@ Plug 'benmills/vimux' "Interact with tmux from vim
 Plug 'tpope/vim-unimpaired', { 'on': [] } "Various dual pair commands
 Plug 'tpope/vim-repeat' "Repeat plugin commands
 Plug 'ConradIrwin/vim-bracketed-paste' "auto set paste nopaste
-Plug 'vimwiki/vimwiki'  "Wiki for vim
+" Plug 'vimwiki/vimwiki'  "Wiki for vim
 " Plug 'tbabej/taskwiki' "taskwarrior integration
 " Plug 'blindFS/vim-taskwarrior' "taskwarrior management
-Plug 'powerman/vim-plugin-AnsiEsc' "improve colour support for graphs
+" Plug 'powerman/vim-plugin-AnsiEsc' "improve colour support for graphs
 Plug 'tpope/vim-abolish' "abbreviation generation
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } "Undo tree
 Plug 'junegunn/goyo.vim' "distraction free writing
@@ -415,6 +446,7 @@ Plug 'junegunn/goyo.vim' "distraction free writing
 Plug 'machakann/vim-highlightedyank' "highlight the last yanked item
 Plug 'rhysd/clever-f.vim' "clever fFtT
 Plug 'chaoren/vim-wordmotion' "Expand the definition of what a word is
+Plug 'christoomey/vim-tmux-navigator' "navigate betwenn tmux splits and vim together
 
 augroup load_ultisnips
   autocmd!
@@ -478,14 +510,16 @@ Plug 'wincent/loupe' "nicer search highlighting
 Plug 'wincent/ferret' "multi file search
 Plug '/usr/local/opt/fzf' "fzf
 Plug 'junegunn/fzf.vim' "fuzzy finder stuff
+Plug 'nelstrom/vim-visual-star-search' "use * in visual mode to search
+Plug 'jesseleite/vim-agriculture' "pass things through to rg
 
 " }}} End Search, Fuzzy Finding
 " Syntax {{{
 
 Plug 'sheerun/vim-polyglot' "syntax for a lot of types
 " Plug 'ap/vim-css-color' "css color preview
-Plug 'lilydjwg/colorizer' "colorize text, works with background inactive / active stuff
-" Plug ''
+" Plug 'lilydjwg/colorizer' "colorize text, works with background inactive / active stuff
+Plug 'norcalli/nvim-colorizer.lua' "better colorizer?
 
 " Plug 'pangloss/vim-javascript', { 'for': 'javascript' } "javascript syntax
 " Plug 'mxw/vim-jsx' "jsx syntax support
@@ -532,6 +566,7 @@ Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] } "Al
 " Plug 'Konfekt/FastFold' "fastfolding and fold custom objects
 Plug 'mattn/emmet-vim' "expansion of html/css to full tags
 Plug 'jpalardy/vim-slime' "send output from buffer to tmux / repl
+Plug 'kkoomen/vim-doge' "documentation generator
 
 augroup load_targets
   autocmd!
@@ -709,30 +744,18 @@ function! FloatingFZF()
 endfunction
 
 "Default Ag command with addition of changing color
-command! -bang -nargs=* Ag
-  \ call fzf#vim#ag(<q-args>, '--color-path "38;5;241" --color-match "38;5;254" --color-line-number "38;5;254"', g:fzf_layout)
+" command! -bang -nargs=* Ag
+"   \ call fzf#vim#ag(<q-args>, '--color-path "38;5;241" --color-match "38;5;254" --color-line-number "38;5;254"', g:fzf_layout)
 
 " Ag all files
-command! -bang -nargs=* AgAll
-  \ call fzf#vim#ag(<q-args>, '--color-path "38;5;241" --color-match "38;5;254" --color-line-number "38;5;254;" -a', g:fzf_layout)
+" command! -bang -nargs=* AgAll
+"   \ call fzf#vim#ag(<q-args>, '--color-path "38;5;241" --color-match "38;5;254" --color-line-number "38;5;254;" -a', g:fzf_layout)
 
 "don't jump to an open buffer, reopen
 let g:fzf_buffers_jump=0
 
-" Add in custom :Find command which will use ripgrep
-" --column: Show column number
-" --line-number: Show line number
-" --no-heading: Do not show file headings in results
-" --fixed-strings: Search term as a literal string
-" --ignore-case: Case insensitive search
-" --no-ignore: Do not respect .gitignore, etc...
-" --hidden: Search hidden files and folders
-" --follow: Follow symlinks
-" --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
-" --color: Search color options
-command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
 " command! -bang -nargs=* AFiles call fzf#vim#grep('rg --no-heading --fixed-strings --ignore-case --no-ignore --hidden --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
-command! -bang -nargs=* AFiles call fzf#vim#grep('rg --files --hidden --follow  --glob "!.git/*" '.shellescape(<q-args>), 1, <bang>0)
+command! -bang -nargs=* AllFiles call fzf#vim#grep('fd --hidden --no-ignore --type f '.shellescape(<q-args>), 1, {'options': '--no-bold --color=hl:7,hl+:3'})
 
 " command! -bang -nargs=* FilesDir call fzf#vim#files(<q-args>, <bang>0)
 
@@ -787,7 +810,7 @@ function! s:ProcessMyCommand(l)
 endfunction
 
 "Pull in from *.cmd files from current directory and home nvim config directory.
-command! -bang -nargs=* MyCommands call fzf#run({'sink': function('<sid>ProcessMyCommand'), 'source': 'cat '.$HOME.'/.config/nvim/*.cmd *.cmd 2>/dev/null'})
+" command! -bang -nargs=* MyCommands call fzf#run({'sink': function('<sid>ProcessMyCommand'), 'source': 'cat '.$HOME.'/.config/nvim/*.cmd *.cmd 2>/dev/null'})
 " not using this any more
 " nnoremap <c-c> :MyCommands<cr>
 
@@ -821,7 +844,6 @@ function! IsNERDTreeOpen()
 endfunction
 
 "map ctrl-e to show nerdtree
-"@todo fix this so that if no % (e.g. startify) then it still works
 function! OpenNERD()
   let fname = expand('%:t')
   if bufname('') == 'Startify'
@@ -832,11 +854,7 @@ function! OpenNERD()
     execute 'NERDTreeFind'
   endif
 endfunction
-" map <silent> <C-e> :NERDTreeToggle %<CR>
-map <silent> <C-e> :call OpenNERD()<cr>
-
-" Switch to the directory of the open buffer
-nnoremap <silent> <leader>cd :NERDTreeFind<cr>
+noremap <silent> <c-e> :call OpenNERD()<cr>
 
 "width
 let g:NERDTreeWinSize=40
@@ -871,6 +889,10 @@ let g:NERDTreeIndicatorMapCustom = {
     \ }
 
 let NERDTreeIgnore=['\.git']
+
+" turn off aggressive updating of git status
+let g:NERDTreeUpdateOnCursorHold = 0
+let g:NERDTreeUpdateOnWrite      = 0
 
 " }}} End NERDTree
 " ListToggle {{{
@@ -946,17 +968,12 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 nnoremap <leader>ga :Git add %:p<cr><cr>
 nnoremap <leader>gs :Gstatus<cr>
-" nnoremap <leader>gc :Gcommit -v -q<cr>
-" nnoremap <leader>gt :Gcommit -v -q %:p<cr>
-nnoremap <leader>gd :Gvdiff<cr>
-" nnoremap <leader>ge :Gedit<cr>
+nnoremap <leader>gd :Gvdiffsplit!<cr>
 nnoremap <leader>gr :Gread<cr>
-" nnoremap <leader>gw :Gwrite<cr><cr>
 nnoremap <leader>gl :Glog<cr>
 nnoremap <leader>gp :Gpush<cr>
 nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gm :Gmerge<cr>
-" nnoremap <leader>go :Git checkout<leader>
 
 function! QuickCommitMessage()
   if &ft == 'todo'
@@ -976,8 +993,8 @@ let g:gitgutter_map_keys = 0
 nnoremap <leader>gh :GitGutterStageHunk<cr>
 
 "pair mapping for hunks
-nmap ]c <Plug>GitGutterNextHunk
-nmap [c <Plug>GitGutterPrevHunk
+nmap ]c <Plug>(GitGutterNextHunk)
+nmap [c <Plug>(GitGutterPrevHunk)
 
 "signs to use
 let g:gitgutter_sign_added = '+'
@@ -985,6 +1002,12 @@ let g:gitgutter_sign_modified = '~'
 let g:gitgutter_sign_removed = ''
 let g:gitgutter_sign_modified_removed = '·'
 let g:gitgutter_async = 1
+
+"merging mappings
+nnoremap <c-left> :diffget //2<cr>
+nnoremap <c-right> :diffget //3<cr>
+nnoremap <c-up> [c
+nnoremap <c-down> ]c
 
 " }}} End Fugitive
 " Tag plugins {{{
@@ -1034,9 +1057,9 @@ function! IPhpExpandClass()
     call feedkeys('a',  'n')
 endfunction
 
-autocmd FileType php noremap <leader>pu :call PhpInsertUse()<cr>
-autocmd FileType php noremap <leader>pe :call PhpExpandClass()<cr>
-autocmd FileType php noremap <leader>pa :PHPExpandFQCNAbsolute<cr>
+autocmd FileType php noremap <localleader>pu :call PhpInsertUse()<cr>
+autocmd FileType php noremap <localleader>pe :call PhpExpandClass()<cr>
+autocmd FileType php noremap <localleader>pa :PHPExpandFQCNAbsolute<cr>
 
 "sort the use statements after inserting
 let g:php_namespace_sort_after_insert=1
@@ -1176,11 +1199,11 @@ let g:localvimrc_name=['.lvimrc'] "name of the local vimrc
 " }}} End Local vimrc
 " Testing {{{
 
-"mnemonic run
-nnoremap <leader>rr :TestLast<cr>
-nnoremap <leader>rf :TestFile<cr>
-nnoremap <leader>rn :TestNearest<cr>
-nnoremap <leader>rs :TestSuite<cr>
+"mnemonic 'ok'
+nnoremap <leader>oo :TestLast<cr>
+nnoremap <leader>of :TestFile<cr>
+nnoremap <leader>on :TestNearest<cr>
+nnoremap <leader>os :TestSuite<cr>
 
 " rest of this is in autoload/vim-test.vim
 function! CustomVimuxStrategy(cmd)
@@ -1307,34 +1330,32 @@ let g:tcomment_maps=0
 let g:polyglot_disabled = ['yaml']
 " }}} "
 " Vimwiki and Markdown {{{ "
-let wiki_1 = {}
-let wiki_1.path = '~/vimwiki'
-" let wiki_1.nested_syntaxes = {'php': 'php', 'json': 'json'}
-let wiki_1.syntax = 'markdown'
-let wiki_1.ext = '.md'
-let wiki_1.conceallevel = 0
-let g:vimwiki_list = [wiki_1]
-let g:vimwiki_global_ext = 0
+" let wiki_1 = {}
+" let wiki_1.path = '~/vimwiki'
+" let wiki_1.syntax = 'markdown'
+" let wiki_1.ext = '.md'
+" let wiki_1.conceallevel = 0
+" let g:vimwiki_list = [wiki_1]
+" let g:vimwiki_global_ext = 0
 
 " list remapping
-map <leader>lc <Plug>VimwikiRemoveSingleCB
-map <leader>ll <Plug>VimwikiToggleListItem
-map <leader>lt :call ShiftTodoDone()<cr>
+" map <leader>lc <Plug>VimwikiRemoveSingleCB
+" map <leader>ll <Plug>VimwikiToggleListItem
+" map <leader>lt :call ShiftTodoDone()<cr>
 
 "don't override tab so deoplete works
-nmap <leader>wn <Plug>VimwikiNextLink
-nmap <leader>wp <Plug>VimwikiPrevLink
+" nmap <leader>wn <Plug>VimwikiNextLink
+" nmap <leader>wp <Plug>VimwikiPrevLink
 "disable table mapping too to make this work
-let g:vimwiki_table_mappings = 0
+" let g:vimwiki_table_mappings = 0
 
 "remap enter, leave folding stuff as is
 " have now reverted folding expansion to c-cr
 " nmap <leader>wl <Plug>VimwikiFollowLink
 " vmap <leader>wl <Plug>VimwikiFollowLink
-nmap <leader>wr <Plug>VimwikiDeleteLink
+" nmap <leader>wr <Plug>VimwikiDeleteLink
 
-nmap <leader>wd <Plug>VimwikiMakeDiaryNote
-
+" nmap <leader>wd <Plug>VimwikiMakeDiaryNote
 
 "remove mapping VimwikiReturn
 " inoremap <F20> VimwikiReturn
@@ -1393,7 +1414,9 @@ inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 nnoremap <leader>u :UndotreeToggle<cr>
 " }}} Undotree "
 " Colorizer {{{ "
-let g:colorizer_startup=0
+" let g:colorizer_startup=0
+" lua require 'colorizer'.setup()
+lua require 'colorizer'.setup { 'css'; 'javascript'; html = { mode = 'foreground'; } }
 " }}} Colorizer "
 " ExpandRegion --------------------------------------------------- {{{
 
@@ -1505,6 +1528,19 @@ nmap dw de
 nmap cw ce
 
 " }}} End Wordmotion
+" Doge --------------------------------------------------- {{{
+let g:doge_mapping='<LocalLeader>d'
+let g:doge_mapping_comment_jump_forward='<c-j>'
+let g:doge_mapping_comment_jump_backward='<c-k>'
+let g:doge_comment_jump_modes=['i','s']
+
+" }}} End Doge
+" AsyncRun --------------------------------------------------- {{{
+
+"Auto open the quickfix with a height when starting asyncrun
+let g:asyncrun_open=8
+
+" }}} End AsyncRun
 
 " }}} End Plugin settings
 " Mappings {{{
@@ -1521,10 +1557,15 @@ map! <F13> <c-cr>
 " map <F14> <s-cr>
 " map! <F14> <s-cr>
 
-" control-minus
+" control-slash
 set <F17>=[31~
-map <F17> <c-_>
-map! <F17> <c-_>
+
+" control-period
+set <F19>=[33~
+map <F19> <c-.>
+map! <F19> <c-.>
+
+" control-[ is now f20 via karabiner elements
 
 " commenting
 nnoremap <F17><F17> :TComment<cr>
@@ -1545,19 +1586,33 @@ inoremap <c-e> <c-o>$
 
 " insert rocket
 " inoremap <c-l> <space>=><space>
+"
+"completion shortcuts
+"complete with tags
+inoremap <c-]> <c-x><c-]>
+"omni / language completion
+inoremap <c-space> <c-x><c-o>
+"buffer completion
+inoremap <c-b> <c-x><c-p>
+"dictionary completion
+inoremap <c-d> <c-x><c-k>
+"file path completion
+inoremap <c-f> <c-x><c-f>
+"line completion, conflicts with php rocket
+inoremap <c-l> <c-x><c-l>
 
 " }}} End Insert mode mappings
 " Easy file opening [leader e*]{{{
 
-"ev to edit vimrc, sv to source vimrc
-nmap <silent> <leader>sv :so $MYVIMRC <bar>exe 'normal! zvzz'<cr>
+"ev to edit vimrc, vv to source vimrc
+nnoremap <silent> <leader>vv :so $MYVIMRC <bar>exe 'normal! zvzz'<cr>
 
 "quick editing straight open or split
 function! OpenOrSplit(filename)
   if bufname('') == 'Startify' || bufname('') == ''
-    execute 'edit' a:filename | exe 'normal! zvzz'
+    execute 'edit' a:filename | execute 'normal! zvzz'
   else
-    execute 'vsplit' a:filename | exe 'normal! zvzz'
+    execute 'vsplit' a:filename | execute 'normal! zvzz'
   endif
 endfunction
 nnoremap <leader>ev :call OpenOrSplit($MYVIMRC)<cr>
@@ -1625,6 +1680,22 @@ nnoremap <silent> <leader>tz :setlocal spell! spelllang=en_au<cr>
 "toggle cursor column
 nnoremap <silent> <leader>to :setlocal nocuc!<cr>
 
+"toggle colorizer
+nnoremap <leader>tc :call ToggleColorizer()<cr>
+
+function! ToggleColorizer()
+  if !exists("g:cz_on")
+    let g:cz_on=1
+  endif
+  if g:cz_on == 0
+    ColorizerAttachToBuffer
+    let g:cz_on = 1
+  else
+    ColorizerDetachFromBuffer
+    let g:cz_on = 0
+  endif
+endfunction
+
 "toggle color column
 function! SetColorColumn()
   if !exists("g:cc_on")
@@ -1657,11 +1728,7 @@ nnoremap <silent> <leader>t- :setlocal cursorline!<cr>
 
 "default files
 nnoremap <silent> <c-p> :Files<cr>
-
-nnoremap <silent> <leader>cc :Commands<cr>
-
-"all files
-nnoremap <silent> <leader>ff :Files<cr>
+nnoremap <silent> <leader>ff :AllFiles<cr>
 
 "other stuff
 nnoremap <silent> <leader>fh :History<cr>
@@ -1669,9 +1736,9 @@ nnoremap <silent> <leader>fc :Commands<cr>
 nnoremap <silent> <leader>fm :Maps<cr>
 nnoremap <silent> <leader>T :BTags<cr>
 nnoremap <silent> <leader>ft :Tags<cr>
+noremap <silent> <c-t> :Tags<cr>
 nnoremap <silent> <leader>fb :Buffers<cr>
 nnoremap <silent> <leader>fl :BLines<cr>
-nnoremap <silent> <leader>fll :Lines<cr>
 
 "search through help files
 nnoremap <silent> <leader>? :Helptags!<cr>
@@ -1684,62 +1751,72 @@ nnoremap <silent> <leader>/ :History/<cr>
 " }}} Finding "
 " Searching and replacing [leader s*] {{{ "
 
-function! GetVisualSelection()
-    let [line_start, column_start] = getpos("'<")[1:2]
-    let [line_end, column_end] = getpos("'>")[1:2]
-    let lines = getline(line_start, line_end)
-    echom line_start
-    echom line_end
+" replace current word, then can replace next with n . etc.
+nnoremap <silent> <leader>c :let @/='\<'.expand('<cword>').'\>'<CR>cgn
+xnoremap <silent> <leader>c "sy:let @/=@s<CR>cgn
 
-    if len(lines) == 0
-        return ""
-    endif
+" search and replace current word in current 'paragraph'
+" nnoremap <leader>r :'{,'}s/\<<C-r>=expand('<cword>')<CR>\>/
 
-    let lines[-1] = lines[-1][:column_end - (&selection == "inclusive" ? 1 : 2)]
-    let lines[0] = lines[0][column_start - 1:]
+" search and replace current word in whole buffer
+nnoremap <silent> <leader>r :%s/\<<C-r>=expand('<cword>')<CR>\>/
 
-    return join(lines, "\n")
+" return a representation of the selected text
+" suitable for use as a search pattern
+function! GetSelection()
+    let old_reg = getreg("v")
+    normal! gv"vy
+    let raw_search = getreg("v")
+    call setreg("v", old_reg)
+    return substitute(escape(raw_search, '\/.*$^~[]'), "\n", '\\n', "g")
 endfunction
 
-function! GetVisual() range 
-    let reg_save = getreg('"') 
-    let regtype_save = getregtype('"') 
-    let cb_save = &clipboard 
-    set clipboard& 
-    normal! ""gvy 
-    let selection = getreg('"') 
-    call setreg('"', reg_save, regtype_save) 
-    let &clipboard = cb_save 
-    return selection 
-endfunction 
+" visual replace in current buffer
+xnoremap <expr> <leader>r v:count > 0 ? ":\<C-u>s/\<C-r>=GetSelection()\<CR>//g\<Left>\<Left>" : ":\<C-u>%s/\<C-r>=GetSelection()\<CR>//g\<Left>\<Left>"
 
-"wip
-function! VisualUltisnips() abort
-    let l:selection = GetVisualSelection()
-    " normal gvdd
-    normal! gvdd
-    exe "normal! O"
-    call UltiSnips#Anon(l:selection, '')
-endfunction
-command! VisualUltisnips :call VisualUltisnips()
-vnoremap <leader>su :<c-u>call VisualUltisnips()<cr>
+let g:FerretMap=0
 
-"searching maps
-nnoremap <silent> <leader>ss :Ag<space>
-nnoremap <silent> <leader>sa :AgAll<space>
-nnoremap <silent> <leader>sk :AgAll <c-r><c-w><cr>
-vnoremap <silent><leader>sk <Esc>:AgAll <C-R>=GetVisualSelection()<CR><CR>
+let g:agriculture#rg_options='--colors "path:fg:239" --colors "match:fg:252" --colors "line:fg:254"'
+let g:agriculture#fzf_extra_options='--no-bold --color=hl:7,hl+:3'
 
-"needs work but for search and replace
-nnoremap <leader>sw <Plug>(FerretAckWord)
-nnoremap <leader>sr <Plug>(FerretAcks)
+" nnoremap <leader>s :Rg<space>
+nmap <leader>s <Plug>RgRawSearch
+nmap <leader>S <Plug>RgRawAllSearch
+xmap <leader>s <Plug>RgRawVisualSelection<cr>
+nmap <silent> <leader>k <Plug>RgRawWordUnderCursor<cr>
+nmap <silent> <leader>K <Plug>RgRawAllWordUnderCursor<cr>
+
+"replace across files
+nmap <silent> <leader>R <Plug>(FerretAcks)
+
+"highlight matches in place with g*
+nnoremap <silent> g* :let @/='\<'.expand('<cword>').'\>'<CR>
+xnoremap <silent> g* "sy:let @/=@s<CR>
 
 " }}} Searching and replacing [leader s*] "
 " Pairs ][ {{{ "
+
+" c-] for in to tags, c-[ for out, free up <c-t>
+" set <F18>=[34~
+" set <F18>=[17;2~
+nnoremap <F18> <c-t>
+"apparently this is f18 in tmux?
+nnoremap <S-F6> <c-t>
+
+"tools for mapping:
+"- showkey
+"- insert mode, then <c-v> then type the key
+
 " }}} Pairs "
 
 " yank to p register
 vnoremap <c-y> "py
+
+" yank to end of line, just like shit-d, shift-c
+noremap <s-y> y$
+
+"Redo for shift-u
+noremap U <c-r>
 
 "preview mappings
 nnoremap <leader>vt :PreviewTag<cr>
@@ -1747,8 +1824,6 @@ nnoremap <leader>vt :PreviewTag<cr>
 "treat long lines as break lines, but don't mess with the count for relative numbering
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
-" map j gj
-" map k gk
 
 " Keep search matches in the middle of the window.
 nnoremap n nzzzv
@@ -1777,8 +1852,8 @@ function! PHPFold(close) abort
     normal! za
   endif
 endfunction
-nnoremap zp :call PHPFold(0)<cr>
-nnoremap zP :call PHPFold(1)<cr>
+nnoremap zp :silent! call PHPFold(0)<cr>
+nnoremap zP :silent! call PHPFold(1)<cr>
 
 " Folds navigation
 nnoremap [z zk
@@ -1798,15 +1873,24 @@ xnoremap <  <gv
 xnoremap >  >gv
 
 "format in function / block
-nnoremap <leader>b =if
+function FormatBlock()
+  call feedkeys('=iB')
+endfunction
+nnoremap <leader>= :call FormatBlock()<cr>
+
+"yanking and pasting from a register with indent
+"can these be made shorter?
+nnoremap <leader>y "uyy
+nnoremap <leader>d "udd
+nnoremap <leader>p "up=iB
+nnoremap <leader>P "uP=iB
+
+"visual mode
+xnoremap <leader>y "uyy
+xnoremap <leader>d "udd
 
 "map alternate file switching to leader leader
 nnoremap <leader><leader> <c-^>
-
-"remap visual for put and get
-xnoremap dp :diffput<cr>
-xnoremap do :diffget<cr>
-nnoremap du :diffupdate<cr>
 
 "easier begin and end of line
 nnoremap <s-h> ^
@@ -1842,12 +1926,26 @@ vmap <C-v> <Plug>(expand_region_shrink)
 "refresh chrome
 " nnoremap <silent> <leader>r :!chrome-cli reload<cr><cr>
 
-" hooray for programmable keyboards
+" hooray for programmable keyboards, navigation of quick / location
 nnoremap <Down> :lnext<cr>
 nnoremap <Up> :lprevious<cr>
 nnoremap <Right> :cnext<cr>
 nnoremap <Left> :cprevious<cr>
 
+"sensible increment / decrement, the default is mapped
+nnoremap + <C-a>
+nnoremap - <C-x>
+
+"for visual selections, will create incremental list when all 0 on each line
+xnoremap + g<C-a>
+xnoremap - g<C-x>
+
+"quick enter command mode
+noremap ; :
+nnoremap q; q:
+
+" to unlearn it... will use it for something else later mebe
+noremap : <nop>
 
 " }}} End Mappings
 " Abbreviations {{{
@@ -2018,8 +2116,6 @@ endfunction
 " }}} End Statusline
 " Colors {{{
 
-"24bit color
-set termguicolors
 
 "dark
 set background=dark
@@ -2038,41 +2134,3 @@ set t_SR=[4\ q
 set t_SR=[2\ q
 
 " }}} End Colors
-
-let g:blog_api_key = $BLOGAPIKEY
-function! s:PostLoad(l)
-  let id = split(a:l, '\[')
-  let id = split(id[1], '\]')
-  let id = id[0]
-  execute 'new | only'
-  execute 'r ! wget --header="api-key: '.g:blog_api_key.'" -q -O - mwblog.test/front-matter/fetch/id/'.id. ' | tr -d "\r"'
-  execute 'set ft=markdown'
-endfunction
-
-command! -bang -nargs=* PostLoad call fzf#run({'sink': function('<sid>PostLoad'), 'source': 'wget --header="api-key: '.g:blog_api_key.'" -q -O - mwblog.test/front-matter/list'})
-
-function! s:PostSend()
-  execute '% ! curl -X POST -H "api-key: '.g:blog_api_key.'" --data-binary @- http://mwblog.test/front-matter/update'
-endfunction
-command! PostSend :call <sid>PostSend()
-
-"new blog post
-function NewBlogPost()
-  call inputsave()
-  let s:FileName = input('File name for post (.md): ')
-  call inputrestore()
-  let s:FullFile = '/Users/mjw/vimwiki/Blog/' . s:FileName
-  if !empty(glob(s:FullFile))
-    echoe "\nFile exists."
-    return
-  endif
-  execute 'new | only'
-  execute 'set ft=vimwiki'
-  execute 'w ' . s:FullFile
-  call feedkeys('ifb')
-  call feedkeys("\<c-j>", 'x')
-endfunction
-command! NewBlogPost :call NewBlogPost()
-
-" Tag completion
-inoremap <expr> <c-x><c-t> fzf#vim#complete('wget --header="api-key: '.g:blog_api_key.'" -q -O - mwblog.test/front-matter/tags')
