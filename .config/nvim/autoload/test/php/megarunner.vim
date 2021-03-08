@@ -32,7 +32,7 @@ function! test#php#megarunner#build_position(type, position) abort
     let testname = s:nearest_test(a:position)
     let filename = a:position['file']
     if g:php_test_runner_type ==? 'unit'
-      if !empty(testname) | let filename = '--method ' . shellescape('::' . testname, 1) . ' ' . filename | endif
+      if !empty(testname) | let filename = '--method ' . shellescape(':' . testname, 1) . ' ' . filename | endif
     else
       if !empty(testname) | let filename .= ':' . testname | endif
     endif

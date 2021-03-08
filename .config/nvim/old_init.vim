@@ -2,6 +2,7 @@
 " Author: Michael Welford.
 
 " General Options: {{{
+"
 
 set nocompatible " disable compatibility with vi
 set scrolloff=5 "set number of lines to show above and below cursor

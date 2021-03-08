@@ -80,6 +80,7 @@ function s:BlogNew(...)
   let s:FullFile = g:blog_path . arg
   if !empty(glob(s:FullFile))
     echoe "\nFile exists."
+    "open it then?
     return
   endif
   execute 'new | only'
@@ -94,3 +95,5 @@ command! -nargs=* BlogNew call <sid>BlogNew(<f-args>)
 
 " Tag completion
 inoremap <expr> <c-x><c-t> fzf#vim#complete('wget --header="api-key: '.g:blog_api_key.'" -q -O - '.g:blog_url.'/front-matter/tags')
+
+" Series completion? better would be some kind of context completion
