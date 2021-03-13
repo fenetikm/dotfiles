@@ -3,93 +3,11 @@
 
 source ~/.config/nvim/general/settings.vim
 source ~/.config/nvim/general/folding.vim
+source ~/.config/nvim/general/filetypes.vim
+source ~/.config/nvim/general/auto_buffers.vim
 
-" set python3 host program location
 let g:python3_host_prog = '/usr/local/bin/python3'
 
-" Filetypes {{{
-
-" Drupal / PHP --------------------------------------------------- {{{
-
-if has("autocmd")
-    augroup module
-        autocmd BufRead,BufNewFile *.module set filetype=php
-        autocmd BufRead,BufNewFile *.theme set filetype=php
-        autocmd BufRead,BufNewFile *.install set filetype=php
-        autocmd BufRead,BufNewFile *.test set filetype=php
-        autocmd BufRead,BufNewFile *.inc set filetype=php
-        autocmd BufRead,BufNewFile *.profile set filetype=php
-        autocmd BufRead,BufNewFile *.view set filetype=php
-        autocmd BufRead,BufNewFile *.php set filetype=php
-    augroup END
-endif
-
-" }}} End Drupal / PHP
-
-"actionscript/flash files. RIP.
-au BufNewFile,BufRead *.as set filetype=actionscript
-
-"json
-au FileType json setlocal shiftwidth=4 tabstop=4
-
-"quickfix
-au FileType qf setlocal nonumber colorcolumn=
-
-"vimwiki
-au FileType vimwiki setlocal tw=0
-
-"markdown
-au FileType markdown setlocal conceallevel=0
-
-"fzf
-au FileType fzf setlocal nonu nornu
-
-au FileType help setlocal nonumber norelativenumber
-
-" Toggle relative and normal numbers depending on active or not
-function! SetNumbers(s)
-  let fname = expand('%:t')
-  if fname != '' && &ft != 'help' && &ft != 'nerdtree' && &ft != 'fzf'
-    if a:s == 'on'
-      setlocal relativenumber
-    else
-      setlocal norelativenumber
-    endif
-  else
-    setlocal norelativenumber
-  endif
-endfunction
-
-" turn off relativenumber in non active window
-augroup BgHighlight
-    autocmd!
-    autocmd WinEnter,FocusGained * call SetNumbers('on')
-    autocmd WinLeave,FocusLost * call SetNumbers('off')
-augroup END
-
-" }}} End Filetypes
-" Buffer handling {{{
-
-" Make sure Vim returns to the same line when you reopen a file.
-autocmd BufReadPost *
-    \ if line("'\"") > 0 && line("'\"") <= line("$") |
-    \     execute 'normal! g`"zvzz' |
-    \ endif
-
-" Remember info about open buffers on close
-set viminfo^=%
-
-"turn off the cursorline when not in a window
-autocmd InsertLeave,WinEnter * set cursorline
-autocmd InsertEnter,WinLeave * set nocursorline
-
-" Reload when gaining focus
-autocmd FocusGained,BufEnter * :silent! !
-
-" auto resize on size change
-autocmd VimResized * wincmd =
-
-" }}} End Buffer handling
 " Helper functions {{{
 
 function! ExecuteMacroOverVisualRange()
