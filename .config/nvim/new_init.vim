@@ -5,6 +5,7 @@ source ~/.config/nvim/general/settings.vim
 source ~/.config/nvim/general/folding.vim
 source ~/.config/nvim/general/filetypes.vim
 source ~/.config/nvim/general/auto_buffers.vim
+source ~/.config/nvim/general/commands.vim
 
 let g:python3_host_prog = '/usr/local/bin/python3'
 
@@ -15,113 +16,6 @@ function! ExecuteMacroOverVisualRange()
   execute ":'<,'>normal @".nr2char(getchar())
 endfunction
 xnoremap @ :<c-u>call ExecuteMacroOverVisualRange()<CR>
-
-function! TrimWhiteSpace()
-  %s/\s\+$//e
-endfunction
-command! TrimWhiteSpace :call TrimWhiteSpace()
-
-function! SearchWordWithAg()
-  execute 'Ag' expand('<cword>')
-endfunction
-
-" Thanks gary. Renames current file.
-function! RenameFile()
-  let old_name = expand('%')
-  let new_name = input('New file name: ', expand('%'), 'file')
-  if new_name != '' && new_name != old_name
-    exec ':saveas ' . new_name
-    exec ':silent !rm ' . old_name
-    redraw!
-  endif
-endfunction
-command! RenameFile :call RenameFile()
-
-"Again thanks gary. Remove stupid fancy characters.
-function! RemoveFancyCharacters()
-  let typo = {}
-  let typo["“"] = '"'
-  let typo["”"] = '"'
-  let typo["‘"] = "'"
-  let typo["’"] = "'"
-  let typo["–"] = '--'
-  let typo["—"] = '---'
-  let typo["…"] = '...'
-  :exe ":%s/".join(keys(typo), '\|').'/\=typo[submatch(0)]/ge'
-endfunction
-command! RemoveFancyCharacters :call RemoveFancyCharacters()
-
-function! RemoveWhiteSpace()
-  %s/\s*$//
-  ''
-endfunction
-command! RemoveWhiteSpace :call RemoveWhiteSpace()
-
-function! DeleteInactiveBufs()
-  "From tabpagebuflist() help, get a list of all buffers in all tabs
-  let tablist = []
-  for i in range(tabpagenr('$'))
-    call extend(tablist, tabpagebuflist(i + 1))
-  endfor
-
-  "Below originally inspired by Hara Krishna Dara and Keith Roberts
-  "http://tech.groups.yahoo.com/group/vim/message/56425
-  let nWipeouts = 0
-  for i in range(1, bufnr('$'))
-    if bufexists(i) && !getbufvar(i,"&mod") && index(tablist, i) == -1
-      "bufno exists AND isn't modified AND isn't in the list of buffers open in windows and tabs
-      silent exec 'bwipeout' i
-      let nWipeouts = nWipeouts + 1
-    endif
-  endfor
-  echomsg nWipeouts . ' buffer(s) wiped out'
-endfunction
-command! Bdi :call DeleteInactiveBufs()
-command! DeleteInactiveBuffers :call DeleteInactiveBufs()
-
-" Function to start profiling commmands
-function! StartProfile()
-  profile start profile.log
-  profile func *
-  profile file *
-endfunction
-command! StartProfile call StartProfile()
-
-function! StopProfile()
-  profile stop
-endfunction
-command! StopProfile call StopProfile()
-
-function! ToggleVerbose()
-    if !&verbose
-        set verbosefile=~/.config/nvim/log/verbose.log
-        set verbose=15
-    else
-        set verbose=0
-        set verbosefile=
-    endif
-endfunction
-command! ToggleVerbose call ToggleVerbose()
-
-"Get the Drupal root
-function! DrupalRoot()
-  " This now does the trick.
-  return projectroot#guess()
-  " path containing the current file
-  let path = expand('%:p:h')
-  " position of '/app/'
-  let app_pos = match(path, '/app')
-  if app_pos == -1
-    return ''
-  endif
-  return strpart(path, 0, app_pos)
-endfunction
-command! DrupalRoot call DrupalRoot()
-
-function! ToggleSyntax()
-   if exists("g:syntax_on") | syntax off | else | syntax enable | endif
-endfunction
-command! ToggleSyntax call ToggleSyntax()
 
 " }}} End Helper functions
 " Plugins: {{{
