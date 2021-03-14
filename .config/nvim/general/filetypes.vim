@@ -35,26 +35,3 @@ au FileType markdown setlocal conceallevel=0
 au FileType fzf setlocal nonu nornu
 
 au FileType help setlocal nonumber norelativenumber
-
-" Toggle relative and normal numbers depending on active or not
-function! SetNumbers(s)
-  let fname = expand('%:t')
-  if fname != '' && &ft != 'help' && &ft != 'nerdtree' && &ft != 'fzf'
-    if a:s == 'on'
-      setlocal relativenumber
-    else
-      setlocal norelativenumber
-    endif
-  else
-    setlocal norelativenumber
-  endif
-endfunction
-
-" turn off relativenumber in non active window
-augroup BgHighlight
-    autocmd!
-    autocmd WinEnter,FocusGained * call SetNumbers('on')
-    autocmd WinLeave,FocusLost * call SetNumbers('off')
-augroup END
-
-" }}} End Filetypes

@@ -8,203 +8,15 @@ source ~/.config/nvim/general/settings.vim
 source ~/.config/nvim/general/folding.vim
 source ~/.config/nvim/general/filetypes.vim
 source ~/.config/nvim/general/auto_buffers.vim
+source ~/.config/nvim/general/functions.vim
 source ~/.config/nvim/general/commands.vim
+
+" TODO additional plugin settings
+" Note that files in plugin directory would have already loaded
 
 " TODO
 source ~/.config/nvim/keys/mappings.vim
 
-
-" Helper functions {{{
-
-function! ExecuteMacroOverVisualRange()
-  echo "@".getcmdline()
-  execute ":'<,'>normal @".nr2char(getchar())
-endfunction
-xnoremap @ :<c-u>call ExecuteMacroOverVisualRange()<CR>
-
-" }}} End Helper functions
-" Plugin settings {{{
-
-" Tag plugins {{{
-
-"tagbar
-" nmap <leader>tt :TagbarToggle<cr>
-let g:tagbar_iconchars = ['', '']
-" take preview window from vimrc set options
-let g:tagbar_previewwin_pos = ""
-
-" }}} End Tag plugins
-" PHP plugins {{{
-
-"php folding
-"let g:DisablePHPFoldingClass=1
-let g:PHPFoldingCollapsedSymbol='+'
-let g:PHPFoldingRepeatSymbol=''
-let g:PHPFoldingShowPercentage=0
-let g:phpDocIncludedPostfix=''
-
-let g:DisableAutoPHPFolding=1
-
-"php indenting
-let g:PHP_vintage_case_default_indent=1
-
-"php documenter
-" I think this is causing weird shit to happen sometimes with <space>p
-" inoremap <leader>pd <ESC>:call PhpDocSingle()<cr>i
-" nnoremap <leader>pd :call PhpDocSingle()<cr>
-" vnoremap <leader>pd :call PhpDocRange()<cr>
-
-"php namespace
-function! IPhpInsertUse()
-    call PhpInsertUse()
-    call feedkeys('a',  'n')
-endfunction
-
-function! IPhpExpandClass()
-    call PhpExpandClass()
-    call feedkeys('a',  'n')
-endfunction
-
-autocmd FileType php noremap <localleader>pu :call PhpInsertUse()<cr>
-autocmd FileType php noremap <localleader>pe :call PhpExpandClass()<cr>
-autocmd FileType php noremap <localleader>pa :PHPExpandFQCNAbsolute<cr>
-
-"sort the use statements after inserting
-let g:php_namespace_sort_after_insert=1
-
-"phpunitqf
-let g:phpunit_cmd='/usr/local/bin/phpunit'
-
-"documenter
-let g:pdv_template_dir = "/Users/mjw/.config/nvim/plugged/pdv/templates_snip"
-
-"refactoring
-" turn this off and just use our custom command list
-let g:vim_php_refactoring_use_default_mapping=0
-
-"disable php manual online shortcut
-let g:php_manual_online_search_shortcut = ''
-
-function! UpdatePhpDocIfExists()
-  normal! k
-  if getline('.') =~ '/'
-      normal! V%d
-  else
-      normal! j
-  endif
-  call PhpDocSingle()
-  normal! k^%k$
-  if getline('.') =~ ';'
-      exe "normal! $svoid"
-  endif
-endfunction
-
-" phpactor omni
-" autocmd FileType php setlocal omnifunc=phpactor#Complete
-
-" enable echodoc to show function signatures
-autocmd FileType php :EchoDocEnable
-
-let g:phpactorOmniAutoClassImport = v:true
-let g:phpactorOmniError = v:true
-
-"php syntax
-"disable html inside of php syntax highlighting
-let g:php_html_load=0
-
-" For UltiSnips
-" 0 is braces on the same line
-" 1 is braces below
-let g:php_brace_style=0
-
-" For UltiSnips
-" Number of spaces to indent in PHP
-let g:php_indent=2
-
-" }}} End PHP plugins
-" Debug plugins {{{
-
-"debugging
-"path_maps should be replace in a project .lvimrc
-let g:vdebug_options = {
-    \    'port' : 9000,
-    \    'timeout' : 20,
-    \    'server' : '',
-    \    'on_close' : 'stop',
-    \    'break_on_open' : 1,
-    \    'ide_key' : '',
-    \    'debug_window_level' : 0,
-    \    'debug_file_level' : 0,
-    \    'debug_file' : '',
-    \    'path_maps' : '',
-    \    'watch_window_style' : 'compact',
-    \    'marker_default' : '⬦',
-    \    'marker_closed_tree' : '▸',
-    \    'marker_open_tree' : '▾',
-    \    'sign_breakpoint' : '▷',
-    \    'sign_current' : '▶',
-    \    'continuous_mode'  : 1,
-    \    'background_listener' : 1,
-    \    'auto_start' : 1,
-    \    'window_commands' : {
-    \        'DebuggerWatch' : 'vertical belowright new',
-    \        'DebuggerStack' : 'belowright new',
-    \        'DebuggerStatus' : 'belowright new'
-    \    },
-    \    'window_arrangement' : ['DebuggerWatch', 'DebuggerStack', 'DebuggerStatus']
-    \}
-
-"defaults
-let g:vdebug_keymap = {
-    \    "run" : "<F5>",
-    \    "run_to_cursor" : "<F9>",
-    \    "step_over" : "<F2>",
-    \    "step_into" : "<F3>",
-    \    "step_out" : "<F4>",
-    \    "close" : "<F6>",
-    \    "detach" : "<F7>",
-    \    "set_breakpoint" : "<F10>",
-    \    "get_context" : "<F11>",
-    \    "eval_under_cursor" : "<F12>",
-    \    "eval_visual" : "<Leader>e",
-    \}
-
-let g:vdebug_features = {
-    \   "max_depth": "2048"
-    \}
-
-" nmap <leader>xrd :call RemapDebug()<cr>
-
-" }}} End Debug plugins
-" Vimux {{{
-
-"percentage size
-let g:VimuxHeight="32"
-
-"set pane to open on right
-let g:VimuxOrientation = 'h'
-
-" nnoremap <leader>vp :VimuxPromptCommand<cr>
-" nnoremap <leader>vx :VimuxCloseRunner<cr>
-" nnoremap <leader>vo :VimuxOpenPane<cr>
-" nnoremap <leader>vl :VimuxRunLastCommand<cr>
-nnoremap <leader>vl :call VimuxSendKeys("!! C-m C-m")<cr>
-
-" let g:VimuxRunnerIndex=3
-
-" }}} End Vimux
-" Splitjoin {{{
-
-"check the ftplugin settings for specific settings
-
-" }}} End Splitjoin
-" Local vimrc {{{
-
-let g:localvimrc_ask=0 "don't ask to load local version
-let g:localvimrc_sandbox=0 "don't load in sandbox (security)
-let g:localvimrc_name=['.lvimrc'] "name of the local vimrc
-
-" }}} End Local vimrc
 " Testing {{{
 
 "mnemonic 'ok'
@@ -382,29 +194,7 @@ if !exists('g:context_filetype#same_filetypes')
   let g:context_filetype#same_filetypes = {}
 endif
 
-"vista settings
-" let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
-" let g:vista_sidebar_width = 26
-" let g:vista_executive_for = {
-"   \ 'php': 'coc',
-"   \ }
-
-" let g:vista#renderer#enable_icon = 1
-
 " let g:context_filetype#same_filetypes.yaml = 'yaml.ansible,ansible'
-
-let g:deoplete#enable_at_startup = 0
-" this changes the ultisnips matching to get really short ones and use fuzzy matching
-" call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
-let g:deoplete#ignore_sources = {'_': ['tag']}
-" let g:deoplete#sources = {}
-" let g:deoplete#sources.php = ['around', 'member', 'buffer', 'ultisnips']
-" let g:deoplete#sources.php = ['member', 'buffer']
-" let g:deoplete#sources.php = ['member', 'buffer']
-" let g:deoplete#sources.text = ['ultisnips', 'buffer', 'ultisnips', 'dictionary']
-let g:deoplete#auto_complete_delay=50
-" Use smartcase.
-let g:deoplete#enable_smart_case = 1
 
 " stop insertion, match with the longest common match, still show if one option
 " set completeopt=longest,menuone

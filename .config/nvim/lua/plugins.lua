@@ -7,7 +7,7 @@ return require('packer').startup(function()
   use {'tpope/vim-dispatch', opt = true, cmd = {'Dispatch', 'Make', 'Focus', 'Start'}}
 
   -- Project management
-  use 'embear/vim-localvimrc' -- local vimrc
+  use {'embear/vim-localvimrc', config = [[require('config.localvimrc')]]} -- local vimrc
   use 'dbakker/vim-projectroot' -- find the project root
 
   -- Matching
@@ -66,7 +66,7 @@ return require('packer').startup(function()
 
   -- Columns TODO replace with gitsigns
   use 'airblade/vim-gitgutter' --place git changes in the gutter
-  -- use {'kshenoy/vim-signature', config = [[require('config.signature')]]} --marks handling
+  use {'kshenoy/vim-signature', config = [[require('config.signature')]]} --marks handling
 
   -- Guides
   use 'nathanaelkane/vim-indent-guides'
@@ -103,10 +103,10 @@ return require('packer').startup(function()
   use 'kana/vim-textobj-entire'
 
   -- PHP stuff
-  use {'2072/PHP-Indenting-for-VIm', ft = {'php'}} --updated indenting
+  use {'2072/PHP-Indenting-for-VIm', ft = {'php'}, config = [[require('config.phpindent')]]} --updated indenting
   use {'arnaud-lb/vim-php-namespace', ft = {'php'}} --insert use statements automatically
   use {'sahibalejandro/vim-php', ft = {'php'}} --insert absolute FQCN
-  use {'fenetikm/phpfolding.vim', ft = {'php'}} --php folding
+  use {'fenetikm/phpfolding.vim', ft = {'php'}, config = [[require('config.phpfolding')]]} --php folding
   use {'alvan/vim-php-manual', ft = {'php'}} --php manual
   use {'fenetikm/vim-textobj-function', ft = {'php'}} --function textobj with php
 
