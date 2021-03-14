@@ -108,9 +108,6 @@ set fileformat=unix "default fileformat
 "set the max time to update 200ms, gitgutter mainly
 set updatetime=200
 
-" turn on matchit which extends % key matching
-runtime macros/matchit.vim
-
 " Wildmenu {{{ "
 
 set wildmenu "turn on wildmenu, commandline completion
