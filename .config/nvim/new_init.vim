@@ -55,77 +55,6 @@ let g:easy_align_bypass_fold = 1
 let g:easy_align_ignore_groups = []
 
 " }}} End EasyAlign
-" Buftabline {{{
-" turn on separators
-let g:buftabline_separators=1
-
-" }}} End Buftabline
-" Loupe {{{
-
-"turn off insertion of \v
-let g:LoupeVeryMagic=0
-
-" }}} End Loupe
-" Devicons {{{
-
-"enable on nerdtree
-let g:webdevicons_enable_nerdtree=1
-let g:WebDevIconsUnicodeDecorateFileNodes=0
-
-" hide the brackets, not useful
-let g:webdevicons_conceal_nerdtree_brackets=1
-" single width for icons
-let g:WebDevIconsUnicodeGlyphDoubleWidth=0
-
-" show the folder glpyh
-let g:WebDevIconsUnicodeDecorateFolderNodes=1
-let g:DevIconsEnableFoldersOpenClose=1
-
-let NERDTreeDirArrowExpandable = ' ' " make arrows invisible
-let NERDTreeDirArrowCollapsible = ' ' " make arrows invisible
-let NERTreeNodeEdelimiter=' '
-
-"avoid the system call to detect OS
-let g:WebDevIconsOS = 'Darwin'
-
-augroup devicons_nerdtree
-    autocmd FileType nerdtree setlocal list
-    autocmd FileType nerdtree setlocal nolist
-augroup END
-
-" after a re-source, fix syntax matching issues (concealing brackets):
-if exists('g:loaded_webdevicons')
-  "check for nerdtree loaded
-  if exists('g:NERTTreeIgnore')
-    call webdevicons#refresh()
-  endif
-endif
-
-" }}} End Webdevicons
-" phpactor {{{
-
-"omnicompletion
-" autocmd FileType php setlocal omnifunc=phpactor#Complete
-"
-" autocmd FileType php LanguageClientStart
-" autocmd FileType php set omnifunc=LanguageClient#complete
-
-" }}} End phpactor
-" Javascript Plugins {{{
-
-"highlight jsx in .js files too.
-let g:jsx_ext_required = 0
-
-" }}} End Javascript Plugins
-" Indent guide {{{ "
-
-" disable automatic colors, will use colorscheme settings
-let g:indent_guides_auto_colors=0
-
-"size to be one space
-let g:indent_guides_guide_size=1
-
-" }}} Indent guide "
 " Ale {{{ "
 let g:ale_javascript_eslint_use_global = 0
 
@@ -143,44 +72,6 @@ let g:ale_sign_info=''
 let g:ale_sign_warning=''
 
 " }}} Ale "
-" tcomment {{{ "
-" let g:tcomment_maps=0
-let g:tcomment#blank_lines=0
-let g:tcomment#strip_on_uncomment=2
-let g:tcomment_mapleader1='<F17>'
-" }}} tcomment "
-" Vimwiki and Markdown {{{ "
-" let wiki_1 = {}
-" let wiki_1.path = '~/vimwiki'
-" let wiki_1.syntax = 'markdown'
-" let wiki_1.ext = '.md'
-" let wiki_1.conceallevel = 0
-" let g:vimwiki_list = [wiki_1]
-" let g:vimwiki_global_ext = 0
-
-" list remapping
-" map <leader>lc <Plug>VimwikiRemoveSingleCB
-" map <leader>ll <Plug>VimwikiToggleListItem
-" map <leader>lt :call ShiftTodoDone()<cr>
-
-"don't override tab so deoplete works
-" nmap <leader>wn <Plug>VimwikiNextLink
-" nmap <leader>wp <Plug>VimwikiPrevLink
-"disable table mapping too to make this work
-" let g:vimwiki_table_mappings = 0
-
-"remap enter, leave folding stuff as is
-" have now reverted folding expansion to c-cr
-" nmap <leader>wl <Plug>VimwikiFollowLink
-" vmap <leader>wl <Plug>VimwikiFollowLink
-" nmap <leader>wr <Plug>VimwikiDeleteLink
-
-" nmap <leader>wd <Plug>VimwikiMakeDiaryNote
-
-"remove mapping VimwikiReturn
-" inoremap <F20> VimwikiReturn
-
-" }}}  "
 " Completion {{{
 
 " disabled to try coc

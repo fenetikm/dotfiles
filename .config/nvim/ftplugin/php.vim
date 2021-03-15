@@ -29,7 +29,7 @@ let g:phpunit_cmd='/usr/local/bin/phpunit'
 let g:php_manual_online_search_shortcut = ''
 
 " enable echodoc to show function signatures
-autocmd FileType php :EchoDocEnable
+" autocmd FileType php :EchoDocEnable
 
 "php syntax
 "disable html inside of php syntax highlighting

@@ -84,6 +84,7 @@ _G.packer_plugins = {
     path = "/Users/mjw/.local/share/nvim/site/pack/packer/start/lexima.vim"
   },
   loupe = {
+    config = { "require('config.loupe')" },
     loaded = true,
     path = "/Users/mjw/.local/share/nvim/site/pack/packer/start/loupe"
   },
@@ -117,10 +118,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/mjw/.local/share/nvim/site/pack/packer/start/nvim-treesitter"
   },
-  ["nvim-web-devicons"] = {
-    loaded = true,
-    path = "/Users/mjw/.local/share/nvim/site/pack/packer/start/nvim-web-devicons"
-  },
   ["packer.nvim"] = {
     loaded = true,
     path = "/Users/mjw/.local/share/nvim/site/pack/packer/start/packer.nvim"
@@ -150,6 +147,7 @@ _G.packer_plugins = {
     path = "/Users/mjw/.local/share/nvim/site/pack/packer/opt/targets.vim"
   },
   tcomment_vim = {
+    config = { "require('config.comment')" },
     loaded = false,
     needs_bufread = false,
     path = "/Users/mjw/.local/share/nvim/site/pack/packer/opt/tcomment_vim"
@@ -167,6 +165,11 @@ _G.packer_plugins = {
   ["vim-agriculture"] = {
     loaded = true,
     path = "/Users/mjw/.local/share/nvim/site/pack/packer/start/vim-agriculture"
+  },
+  ["vim-devicons"] = {
+    loaded = false,
+    needs_bufread = false,
+    path = "/Users/mjw/.local/share/nvim/site/pack/packer/opt/vim-devicons"
   },
   ["vim-dispatch"] = {
     commands = { "Dispatch", "Make", "Focus", "Start" },
@@ -203,6 +206,7 @@ _G.packer_plugins = {
     path = "/Users/mjw/.local/share/nvim/site/pack/packer/start/vim-highlightedyank"
   },
   ["vim-indent-guides"] = {
+    config = { "require('config.indent')" },
     loaded = true,
     path = "/Users/mjw/.local/share/nvim/site/pack/packer/start/vim-indent-guides"
   },
@@ -329,38 +333,45 @@ _G.packer_plugins = {
   }
 }
 
+-- Setup for: vim-devicons
+require('config.devicons')
+vim.cmd [[packadd vim-devicons]]
 -- Setup for: vim-matchup
 require('config.matchup')
 vim.cmd [[packadd vim-matchup]]
+-- Config for: loupe
+require('config.loupe')
 -- Config for: vim-localvimrc
 require('config.localvimrc')
 -- Config for: vim-signature
 require('config.signature')
+-- Config for: vim-indent-guides
+require('config.indent')
 
 -- Command lazy-loads
-vim.cmd [[command! -nargs=* -range -bang -complete=file Make lua require("packer.load")({'vim-dispatch'}, { cmd = "Make", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
-vim.cmd [[command! -nargs=* -range -bang -complete=file Focus lua require("packer.load")({'vim-dispatch'}, { cmd = "Focus", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
+vim.cmd [[command! -nargs=* -range -bang -complete=file Gmerge lua require("packer.load")({'vim-fugitive'}, { cmd = "Gmerge", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 vim.cmd [[command! -nargs=* -range -bang -complete=file Start lua require("packer.load")({'vim-dispatch'}, { cmd = "Start", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
+vim.cmd [[command! -nargs=* -range -bang -complete=file Focus lua require("packer.load")({'vim-dispatch'}, { cmd = "Focus", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
+vim.cmd [[command! -nargs=* -range -bang -complete=file Gstatus lua require("packer.load")({'vim-fugitive'}, { cmd = "Gstatus", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
+vim.cmd [[command! -nargs=* -range -bang -complete=file Gdiff lua require("packer.load")({'vim-fugitive'}, { cmd = "Gdiff", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 vim.cmd [[command! -nargs=* -range -bang -complete=file Glog lua require("packer.load")({'vim-fugitive'}, { cmd = "Glog", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 vim.cmd [[command! -nargs=* -range -bang -complete=file Gblame lua require("packer.load")({'vim-fugitive'}, { cmd = "Gblame", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 vim.cmd [[command! -nargs=* -range -bang -complete=file Gvdiff lua require("packer.load")({'vim-fugitive'}, { cmd = "Gvdiff", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 vim.cmd [[command! -nargs=* -range -bang -complete=file Gread lua require("packer.load")({'vim-fugitive'}, { cmd = "Gread", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
-vim.cmd [[command! -nargs=* -range -bang -complete=file Gmerge lua require("packer.load")({'vim-fugitive'}, { cmd = "Gmerge", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
-vim.cmd [[command! -nargs=* -range -bang -complete=file EasyAlign lua require("packer.load")({'vim-easy-align'}, { cmd = "EasyAlign", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
+vim.cmd [[command! -nargs=* -range -bang -complete=file Dispatch lua require("packer.load")({'vim-dispatch'}, { cmd = "Dispatch", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
+vim.cmd [[command! -nargs=* -range -bang -complete=file Make lua require("packer.load")({'vim-dispatch'}, { cmd = "Make", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 vim.cmd [[command! -nargs=* -range -bang -complete=file NERDTreeToggle lua require("packer.load")({'nerdtree-git-plugin'}, { cmd = "NERDTreeToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 vim.cmd [[command! -nargs=* -range -bang -complete=file NERDTreeFind lua require("packer.load")({'nerdtree-git-plugin'}, { cmd = "NERDTreeFind", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
-vim.cmd [[command! -nargs=* -range -bang -complete=file Gdiff lua require("packer.load")({'vim-fugitive'}, { cmd = "Gdiff", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
-vim.cmd [[command! -nargs=* -range -bang -complete=file Gstatus lua require("packer.load")({'vim-fugitive'}, { cmd = "Gstatus", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
-vim.cmd [[command! -nargs=* -range -bang -complete=file Dispatch lua require("packer.load")({'vim-dispatch'}, { cmd = "Dispatch", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
+vim.cmd [[command! -nargs=* -range -bang -complete=file EasyAlign lua require("packer.load")({'vim-easy-align'}, { cmd = "EasyAlign", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 vim.cmd [[au FileType html ++once lua require("packer.load")({'MatchTag'}, { ft = "html" }, _G.packer_plugins)]]
-vim.cmd [[au FileType php ++once lua require("packer.load")({'vim-php', 'phpfolding.vim', 'vim-php-manual', 'PHP-Indenting-for-VIm', 'vim-textobj-function', 'splitjoin.vim', 'vim-php-namespace'}, { ft = "php" }, _G.packer_plugins)]]
+vim.cmd [[au FileType php ++once lua require("packer.load")({'vim-php-manual', 'vim-textobj-function', 'PHP-Indenting-for-VIm', 'splitjoin.vim', 'vim-php-namespace', 'vim-php', 'phpfolding.vim'}, { ft = "php" }, _G.packer_plugins)]]
   -- Event lazy-loads
+vim.cmd [[au VimEnter * ++once lua require("packer.load")({'tcomment_vim', 'vim-unimpaired', 'targets.vim'}, { event = "VimEnter *" }, _G.packer_plugins)]]
 vim.cmd [[au InsertEnter * ++once lua require("packer.load")({'ultisnips'}, { event = "InsertEnter *" }, _G.packer_plugins)]]
-vim.cmd [[au VimEnter * ++once lua require("packer.load")({'tcomment_vim', 'targets.vim', 'vim-unimpaired'}, { event = "VimEnter *" }, _G.packer_plugins)]]
 vim.cmd("augroup END")
 END
 

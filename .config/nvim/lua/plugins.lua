@@ -25,7 +25,7 @@ return require('packer').startup(function()
   use 'janko-m/vim-test' --Test runner
 
   -- Commenting
-  use {'tomtom/tcomment_vim', event = {'VimEnter'}}
+  use {'tomtom/tcomment_vim', event = {'VimEnter'}, config = [[require('config.comment')]]}
 
   -- Selection
   use 'terryma/vim-expand-region' --expand region useful for selection
@@ -48,13 +48,14 @@ return require('packer').startup(function()
 
   -- Files
   use 'pbrisbin/vim-mkdir' --save file in directory, don't fail
+  -- TODO replace with nvim tree
   use 'scrooloose/nerdtree' --file tree explorer
   use {'Xuyuanp/nerdtree-git-plugin', cmd = {'NERDTreeToggle', 'NERDTreeFind'}} --nerdtree git plugin
-  use 'kyazdani42/nvim-web-devicons' --icons
+  use {'ryanoasis/vim-devicons', setup = [[require('config.devicons')]]} --icons
 
   -- Search
   use 'BurntSushi/ripgrep' --ripgrep support, neuron wants it
-  use 'wincent/loupe' --nicer search highlighting
+  use {'wincent/loupe', config = [[require('config.loupe')]]} --nicer search highlighting
   use 'wincent/ferret' --multi file search
   use '/usr/local/opt/fzf' --fzf
   use 'junegunn/fzf.vim' --fuzzy finder stuff
@@ -69,7 +70,7 @@ return require('packer').startup(function()
   use {'kshenoy/vim-signature', config = [[require('config.signature')]]} --marks handling
 
   -- Guides
-  use 'nathanaelkane/vim-indent-guides'
+  use {'nathanaelkane/vim-indent-guides', cmd = {'IndentGuidesToggle'}, config = [[require('config.indent')]]}
 
   -- Formatting
   use {'junegunn/vim-easy-align', cmd = {'EasyAlign'}}
