@@ -20,67 +20,6 @@ source ~/.config/nvim/keys/toggle.vim
 source ~/.config/nvim/keys/searchreplace.vim
 source ~/.config/nvim/keys/mappings.vim
 
-" Completion {{{
-if !exists('g:context_filetype#same_filetypes')
-  let g:context_filetype#same_filetypes = {}
-endif
-
-" stop insertion, match with the longest common match, still show if one option
-" set completeopt=longest,menuone
-
-" tab to go forward
-inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-
-" shift tab to go backwards
-inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
-
-" }}} End Deoplete
-" nvim-compe {{{
-" deoplete setting
-" set completeopt=longest,menuone
-set completeopt=menuone,noselect
-
-" from the README, need to check them out
-let g:compe = {}
-let g:compe.enabled = v:true
-let g:compe.autocomplete = v:true
-let g:compe.debug = v:false
-let g:compe.min_length = 1
-let g:compe.preselect = 'enable'
-let g:compe.throttle_time = 80
-let g:compe.source_timeout = 200
-let g:compe.incomplete_delay = 400
-let g:compe.max_abbr_width = 100
-let g:compe.max_kind_width = 100
-let g:compe.max_menu_width = 100
-let g:compe.documentation = v:true
-
-let g:compe.source = {}
-let g:compe.source.path = v:true
-let g:compe.source.buffer = v:true
-" let g:compe.source.calc = v:true
-" let g:compe.source.vsnip = v:true
-let g:compe.source.ultisnips = v:true
-let g:compe.source.nvim_lsp = v:true
-" let g:compe.source.nvim_lua = v:true
-let g:compe.source.spell = v:true
-" let g:compe.source.tags = v:true
-" let g:compe.source.snippets_nvim = v:true
-let g:compe.source.treesitter = v:true
-let g:compe.source.omni = v:true
-
-" because of lexima
-inoremap <silent><expr> <C-Space> compe#complete()
-inoremap <silent><expr> <CR>      compe#confirm(lexima#expand('<LT>CR>', 'i'))
-inoremap <silent><expr> <C-e>     compe#close('<C-e>')
-inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
-inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
-
-"filetype specific setups
-
-" }}} nvim-compe
-
-" EasyMotion, Sneak, Snipe etc. --------------------------------------------------- {{{
 " Markdown --------------------------------------------------- {{{
 
 " let g:mkdx#settings = { 'map': { 'enable': 0 },
@@ -277,18 +216,7 @@ endfunction
 nnoremap zp :silent! call PHPFold(0)<cr>
 nnoremap zP :silent! call PHPFold(1)<cr>
 
-"visual mode pressing * or # searches for the current selection
-vnoremap <silent> * :call VisualSelection('f')<cr>
-vnoremap <silent> # :call VisualSelection('b')<cr>
 
-"remap ` to '
-"` jumps to the line and column marked with ma
-nnoremap ' `
-nnoremap ` '
-
-"get the selection back after indenting
-xnoremap <  <gv
-xnoremap >  >gv
 
 "format in function / block
 function FormatBlock()
@@ -296,84 +224,7 @@ function FormatBlock()
 endfunction
 nnoremap <leader>= :call FormatBlock()<cr>
 
-"yanking and pasting from a register with indent
-"can these be made shorter?
-nnoremap <leader>y "uyy
-nnoremap <leader>d "udd
-nnoremap <leader>p "up=iB
-nnoremap <leader>P "uP=iB
-
-"visual mode
-xnoremap <leader>y "uyy
-xnoremap <leader>d "ud
-
-"map alternate file switching to leader leader
-nnoremap <leader><leader> <c-^>
-
-"easier begin and end of line
-nnoremap <s-h> ^
-vnoremap <s-h> ^
-nnoremap <s-l> $
-vnoremap <s-l> $
-
-"close the preview window with leader z
-nmap <leader>z :pclose<cr>
-
-" Use CTRL-S for saving, also in Insert mode
-noremap <c-s> :update<cr>
-vnoremap <c-s> <c-c>:update<cr>
-inoremap <c-s> <c-o>:update<cr>
-
-" quit all
-nnoremap ZQ :qa!<cr>
-
-" map w!! to sudo save
-cmap w!! w !sudo tee % >/dev/null
-
-"fast quit, fast write
-noremap <C-q> :quit<cr>
-nnoremap <c-x> :wq!<cr>
-
-"disable accidental Ex mode
-nnoremap Q <nop>
-
-"this breaks things... somewhere
-map <c-,> nop
-
-"region expanding
-vmap v <Plug>(expand_region_expand)
-vmap <C-v> <Plug>(expand_region_shrink)
-
-"refresh chrome
-" nnoremap <silent> <leader>r :!chrome-cli reload<cr><cr>
-
-" hooray for programmable keyboards, navigation of quick / location
-nnoremap <Down> :lnext<cr>
-nnoremap <Up> :lprevious<cr>
-nnoremap <Right> :cnext<cr>
-nnoremap <Left> :cprevious<cr>
-
-"sensible increment / decrement, the default is mapped
-nnoremap + <C-a>
-nnoremap - <C-x>
-
-"for visual selections, will create incremental list when all 0 on each line
-xnoremap + g<C-a>
-xnoremap - g<C-x>
-
-"quick enter command mode
-noremap ; :
-nnoremap q; q:
-
-" to unlearn it... will use it for something else later mebe
-noremap : <nop>
-
 " }}} End Mappings
-" Abbreviations {{{
-
-autocmd FileType php inoremap ,ec <?php echo  ?><left><left><left>
-
-" }}} End Abbreviations
 
 " Colors {{{
 
@@ -414,39 +265,9 @@ function! s:NewDiaryEntry()
 endfunction
 command! NewDiaryEntry call <sid>NewDiaryEntry()
 
-"Toggles stuff, with fallback tree
-"Toggle values
-"Could also toggle if($thing) => if(!$thing)
-function! s:MegaToggle()
-  let word = expand("<cword>")
-  let line = getline('.')
-  "this might be better to do matching on the line?
-  "match on word
-  if word =~ 'true\|false\|1\|0\|yes\|no'
-    echom 'match'
-    return
-  endif
-  " match on checkbox
-  if line =~ '-\s\[\(\s\|x\|X\|\-\)\]'
-    echom 'mcb'
-    return
-  endif
-  "on fold? don't think that is going to work?
-  " let linenr = line(".") + 1
-  " let foldnr = foldclosed(linenr)
-  " let foldlev = foldlevel(linenr)
-  " echom foldnr
-  " echom foldlev
-  echom 'nope'
-endfunction
-command! MegaToggle call <sid>MegaToggle()
-
 " Match @done
 syntax match myDone '@\cdone'
 highlight link myDone Done
-
-" autocmd ColorScheme * highlight! link SignColumn LineNr
-" highlight! link SignColumn LineNr
 
 " After this file is sourced, plugin code will be evaluated.
 " See ~/.vim/after for files evaluated after that.
