@@ -1,3 +1,4 @@
+" TODO get this out of `plugin`
 " match splitting to ctrl-w splitting
 let g:fzf_action = {
   \ 'ctrl-s': 'split',

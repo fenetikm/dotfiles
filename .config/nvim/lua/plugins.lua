@@ -22,13 +22,13 @@ return require('packer').startup(function()
   use {'tpope/vim-fugitive', cmd = {'Gstatus', 'Gdiff', 'Glog', 'Gblame', 'Gvdiff', 'Gread', 'Gmerge'}}
 
   -- Testing
-  use 'janko-m/vim-test' --Test runner
+  use {'janko-m/vim-test', cmd = {'TestLast', 'TestFile', 'TestNearest', 'TestSuite'}, config = [[require('config.testing')]]} --Test runner
 
   -- Commenting
   use {'tomtom/tcomment_vim', event = {'VimEnter'}, config = [[require('config.comment')]]}
 
   -- Selection
-  use 'terryma/vim-expand-region' --expand region useful for selection
+  use {'terryma/vim-expand-region', config = [[require('config.expand')]]} --expand region useful for selection
 
   -- Spelling, thesaurus etc.
   use 'tpope/vim-abolish'
@@ -38,10 +38,11 @@ return require('packer').startup(function()
 
   -- Writing and focus
   use 'junegunn/goyo.vim' --distraction free writing
-  use 'machakann/vim-highlightedyank' --highlight the last yanked item
+  -- TODO think this is in neovim?
+  use {'machakann/vim-highlightedyank', config = [[require('config.Highlightedyank')]]} --highlight the last yanked item
 
   -- Motion
-  use 'rhysd/clever-f.vim' --clever fFtT 
+  use {'rhysd/clever-f.vim', config = [[require('config.clever-f')]]} --clever fFtT 
   use 'chaoren/vim-wordmotion' --Expand the definition of what a word is
   use 'christoomey/vim-tmux-navigator' --navigate betwenn tmux splits and vim together
   use {'wellle/targets.vim', event = {'VimEnter'}} --Additional target text objects
@@ -73,13 +74,13 @@ return require('packer').startup(function()
   use {'nathanaelkane/vim-indent-guides', cmd = {'IndentGuidesToggle'}, config = [[require('config.indent')]]}
 
   -- Formatting
-  use {'junegunn/vim-easy-align', cmd = {'EasyAlign'}}
+  use {'junegunn/vim-easy-align', cmd = {'EasyAlign'}, config = [[require('config.easyalign')]]}
 
   -- Documentation
-  use 'kkoomen/vim-doge'
+  use {'kkoomen/vim-doge', config = [[require('config.doge')]]}
 
   -- Repl
-  use 'jpalardy/vim-slime' --send output from buffer to tmux / repl
+  use {'jpalardy/vim-slime', config = [[require('config.slime')]]} --send output from buffer to tmux / repl
 
   -- Completion
   use 'hrsh7th/nvim-compe'
@@ -94,7 +95,7 @@ return require('packer').startup(function()
   use 'sheerun/vim-polyglot' --syntax for a lot of types
   use 'plasticboy/vim-markdown' --markdown syntax
   use 'StanAngeloff/php.vim' --php syntax
-  use 'norcalli/nvim-colorizer.lua' --set the background of colour values
+  use {'norcalli/nvim-colorizer.lua', setup = [[require('config.colorizer')]]} --set the background of colour values
 
   -- Text objects
   use 'kana/vim-textobj-user'
@@ -112,7 +113,7 @@ return require('packer').startup(function()
   use {'fenetikm/vim-textobj-function', ft = {'php'}} --function textobj with php
 
   -- Uncategorised
-  use 'dkarter/bullets.vim' --smart bullet support
+  use {'dkarter/bullets.vim', config = [[require('config.bullets')]]} --smart bullet support
   use {'Sirver/ultisnips', event = {'InsertEnter'}} -- Snippets
   use {'tpope/vim-unimpaired', event = {'VimEnter'}} --Various dual pair commands
   use 'tpope/vim-repeat' --Repeat plugin commands

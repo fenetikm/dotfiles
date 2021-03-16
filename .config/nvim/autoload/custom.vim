@@ -93,3 +93,54 @@ function! custom#variables() abort
     endif
   endfor
 endfunction
+
+function! custom#togglecolorizer()
+  if !exists("g:cz_on")
+    let g:cz_on=1
+  endif
+  if g:cz_on == 0
+    ColorizerAttachToBuffer
+    let g:cz_on = 1
+  else
+    ColorizerDetachFromBuffer
+    let g:cz_on = 0
+  endif
+endfunction
+
+function! custom#SetColorColumn()
+  if !exists("g:cc_on")
+    let g:cc_on=1
+  endif
+  if g:cc_on == 1
+    setlocal cc=81
+    let g:cc_on=0
+  else
+    setlocal cc=
+    let g:cc_on=1
+  endif
+endfunction
+
+" This gem will let one run a leader from a command e.g: NormLead ev
+function! custom#ExecuteLeader(suffix)
+  let l:leader = get(g:,"mapleader","\\")
+  if l:leader == ' '
+    let l:leader = '1' . l:leader
+  endif
+  execute "normal ".l:leader.a:suffix
+endfunction
+
+function! custom#ToggleWindowHorizontalVerticalSplit()
+  if !exists('t:splitType')
+    let t:splitType = 'vertical'
+  endif
+
+  if t:splitType == 'vertical' " is vertical switch to horizontal
+    windo wincmd K
+    let t:splitType = 'horizontal'
+
+  else " is horizontal switch to vertical
+    windo wincmd H
+    let t:splitType = 'vertical'
+  endif
+endfunction
+

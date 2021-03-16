@@ -11,3 +11,5 @@ command! StopProfile call custom#stopprofile()
 
 command! ToggleVerbose call custom#toggleverbose()
 command! ToggleSyntax call custom#togglesyntax()
+
+command! -nargs=1 NormLead call custom#ExecuteLeader(<f-args>)

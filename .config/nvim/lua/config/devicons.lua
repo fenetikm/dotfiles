@@ -17,7 +17,7 @@ g.WebDevIconsOS = 'Darwin'
 
 vim.cmd [[autocmd FileType nerdtree setlocal list]]
 vim.cmd [[autocmd FileType nerdtree setlocal nolist]]
-vim.cmd[[
+vim.cmd [[
 " after a re-source, fix syntax matching issues (concealing brackets):
 if exists('g:loaded_webdevicons')
   "check for nerdtree loaded
