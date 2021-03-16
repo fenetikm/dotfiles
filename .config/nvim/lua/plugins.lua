@@ -83,7 +83,7 @@ return require('packer').startup(function()
   use {'jpalardy/vim-slime', config = [[require('config.slime')]]} --send output from buffer to tmux / repl
 
   -- Completion
-  use 'hrsh7th/nvim-compe'
+  use {'hrsh7th/nvim-compe', config = [[require('config.compe')]]}
 
   -- LSP
   use 'neovim/nvim-lspconfig' --LSP configuration

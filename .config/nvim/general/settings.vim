@@ -138,3 +138,4 @@ set gdefault "substitute all in line or everywhere depending
 
 " }}} Search "
 
+set completeopt=menuone,noselect
