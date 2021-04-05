@@ -4,6 +4,7 @@
 let g:python3_host_prog = '/usr/local/bin/python3'
 
 luafile ~/.config/nvim/lua/plugins.lua
+luafile ~/.config/nvim/lua/config/lsp.lua
 source ~/.config/nvim/general/settings.vim
 source ~/.config/nvim/general/folding.vim
 source ~/.config/nvim/general/filetypes.vim
@@ -78,66 +79,6 @@ endfunc
 command! NewZettel call NewZettel()
 
 " }}} End Neuron
-"
-" treesitter {{{
-
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  highlight = {
-    enable = true,              -- false will disable the whole extension
-    disable = { "c", "php" },  -- list of language that will be disabled
-  },
-}
-EOF
-
-func! Node()
-lua <<EOF
-ts_utils = require 'nvim-treesitter.ts_utils'
-print(ts_utils.get_node_at_cursor())
-EOF
-endfunc
-command! ShowNode call Node()
-
-lua <<EOF
-local ts_utils = require 'nvim-treesitter.ts_utils'
-EOF
-" }}} treesitter
-" lsp {{{
-
-lua << EOF
-local nvim_lsp = require'lspconfig'
-
-local on_attach = function(client)
-end
-
-nvim_lsp.intelephense.setup({ on_attach=on_attach })
-
--- Enable diagnostics
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = true,
-    signs = true,
-    update_in_insert = true,
-  }
-)
-EOF
-
-" have a fixed column for the diagnostics to appear in
-" this removes the jitter when warnings/errors flow in
-set signcolumn=yes
-
-" Set updatetime for CursorHold
-" 300ms of no cursor movement to trigger CursorHold
-set updatetime=300
-" Show diagnostic popup on cursor hover
-autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
-
-" Goto previous/next diagnostic warning/error
-nnoremap <silent> g[ <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-nnoremap <silent> g] <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
-
-" }}}
 
 " Mappings {{{
 
@@ -216,8 +157,6 @@ endfunction
 nnoremap zp :silent! call PHPFold(0)<cr>
 nnoremap zP :silent! call PHPFold(1)<cr>
 
-
-
 "format in function / block
 function FormatBlock()
   call feedkeys('=iB')
@@ -232,8 +171,6 @@ nnoremap <leader>= :call FormatBlock()<cr>
 set background=dark
 
 " falcon settings
-let g:falcon_lightline = 1
-let g:lightline.colorscheme='falcon'
 let g:falcon_background = 0
 let g:falcon_inactive = 1
 

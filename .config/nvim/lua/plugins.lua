@@ -3,6 +3,9 @@ return require('packer').startup(function()
   -- Packer can manage itself as an optional plugin
   use 'wbthomason/packer.nvim'
 
+  -- Colors
+  use '~/Documents/Work/internal/vim/colors/falcon'
+
   -- Running
   use {'tpope/vim-dispatch', opt = true, cmd = {'Dispatch', 'Make', 'Focus', 'Start'}}
 
@@ -12,8 +15,10 @@ return require('packer').startup(function()
 
   -- Matching
   use 'cohama/lexima.vim' -- auto closing pairs
-  use {'machakann/vim-sandwich', {'andymass/vim-matchup', setup = [[require('config.matchup')]]}} 
+  use 'machakann/vim-sandwich'
   use {'gregsexton/MatchTag', ft = {'html'}} --html tag matching
+  -- TODO fix this, makes vim files slow to switch between buffers, probably needs better config
+  --use {'andymass/vim-matchup', setup = [[require('config.matchup')]]}
 
   -- Text manipulation
   use {'AndrewRadev/splitjoin.vim', ft = {'php'}} -- convert single/multi line code expressions
@@ -38,7 +43,7 @@ return require('packer').startup(function()
 
   -- Writing and focus
   use 'junegunn/goyo.vim' --distraction free writing
-  -- TODO think this is in neovim?
+  -- TODO think this is in neovim? e.g. https://oroques.dev/notes/neovim-init/
   use {'machakann/vim-highlightedyank', config = [[require('config.Highlightedyank')]]} --highlight the last yanked item
 
   -- Motion
@@ -64,10 +69,16 @@ return require('packer').startup(function()
   use 'jesseleite/vim-agriculture' --pass things through to rg
 
   -- Statusline TODO replace with galaxyline
+  use {
+    'glepnir/galaxyline.nvim',
+    branch = 'main',
+      config = [[require('config.galaxyline')]],
+      requires = {'kyazdani42/nvim-web-devicons', opt = true}
+  }
   -- use 'itchyny/lightline.vim' --statusline handling
 
-  -- Columns TODO replace with gitsigns
-  use 'airblade/vim-gitgutter' --place git changes in the gutter
+  -- Columns
+  use {'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' }, config = [[require('config.gitsigns')]]}
   use {'kshenoy/vim-signature', config = [[require('config.signature')]]} --marks handling
 
   -- Guides
@@ -82,20 +93,34 @@ return require('packer').startup(function()
   -- Repl
   use {'jpalardy/vim-slime', config = [[require('config.slime')]]} --send output from buffer to tmux / repl
 
+  -- Snippets
+  use {'Sirver/ultisnips', config = [[require('config.ultisnips')]]} -- Snippets
+
+  -- LSP
+  use 'onsails/lspkind-nvim'
+  use 'neovim/nvim-lspconfig'
+  use 'nvim-lua/lsp-status.nvim'
+  -- use {
+  --     'nvim-treesitter/nvim-treesitter',
+  --     requires = {
+  --       'nvim-treesitter/nvim-treesitter-refactor', 'nvim-treesitter/nvim-treesitter-textobjects'
+  --     },
+  --     config = [[require('config.treesitter')]]}
+  -- use 'thomasfaingnaert/vim-lsp-ultisnips' --ultisnips in LSP
+
   -- Completion
   use {'hrsh7th/nvim-compe', config = [[require('config.compe')]]}
 
-  -- LSP
-  use 'neovim/nvim-lspconfig' --LSP configuration
-  use 'thomasfaingnaert/vim-lsp-ultisnips' --ultisnips in LSP
-
   -- Syntax
-  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'} -- Treesitter
   vim.g.polyglot_disabled = {'yaml', 'markdown', 'php'}
   use 'sheerun/vim-polyglot' --syntax for a lot of types
   use 'plasticboy/vim-markdown' --markdown syntax
   use 'StanAngeloff/php.vim' --php syntax
-  use {'norcalli/nvim-colorizer.lua', setup = [[require('config.colorizer')]]} --set the background of colour values
+  use {
+    'norcalli/nvim-colorizer.lua',
+    ft = {'css', 'javascript', 'vim', 'html', 'yaml'},
+    config = [[require('colorizer').setup {'css', 'javascript', 'vim', 'html', 'yaml'}]]
+  }
 
   -- Text objects
   use 'kana/vim-textobj-user'
@@ -114,7 +139,6 @@ return require('packer').startup(function()
 
   -- Uncategorised
   use {'dkarter/bullets.vim', config = [[require('config.bullets')]]} --smart bullet support
-  use {'Sirver/ultisnips', event = {'InsertEnter'}} -- Snippets
   use {'tpope/vim-unimpaired', event = {'VimEnter'}} --Various dual pair commands
   use 'tpope/vim-repeat' --Repeat plugin commands
   use 'Valloric/ListToggle' --Toggle quickfix and location lists
@@ -125,9 +149,6 @@ return require('packer').startup(function()
   -- TODO replace with nvim version
   use 'fiatjaf/neuron.vim' --zettel management
 
-  -- Colors
-  use '~/Documents/Work/internal/vim/colors/falcon'
-
   -- Not enabled for now, see if we miss it in a month's time
   --use 'majutsushi/tagbar'
   --use 'skywind3000/vim-preview' --preview window commands
@@ -135,5 +156,12 @@ return require('packer').startup(function()
   --use 'tpope/vim-projectionist' --navigation and alternates
   --use 'mattn/emmet-vim' --expansion of html/css to full tags
   --use {'adoy/vim-php-refactoring-toolbox', ft = {'php'} } "php refactoring
+
+  -- Others TODO
+  -- peekaboo
+  -- fzf-lsp
+  -- telescope
+  -- dial
+  -- lspsaga
 
 end)

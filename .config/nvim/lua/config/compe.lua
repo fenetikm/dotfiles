@@ -1,24 +1,28 @@
 local map = require('config.utils').map
-vim.g.loaded_compe_treesitter = true
-vim.g.loaded_compe_snippets_nvim = true
-vim.g.loaded_compe_spell = true
-vim.g.loaded_compe_tags = true
-vim.g.loaded_compe_ultisnips = true
-vim.g.loaded_compe_vim_lsc = true
-vim.g.loaded_compe_vim_lsp = true
+
+vim.o.completeopt = "menuone,noselect"
 
 require('compe').setup {
   enabled = true,
   debug = false,
-  min_length = 1,
-  preselect = 'always',
+  min_length = 2,
+  preselect = 'enable',
+  throttle_time = 80,
+  source_timeout = 200,
+  incomplete_delay = 400,
+  max_abbr_width = 40,
+  max_kind_width = 100,
+  max_menu_width = 40,
+  documentation = true,
   autocomplete = true,
   source = {
-    ultisnips = true,
     path = true,
     buffer = true,
+    ultisnips = true,
     nvim_lsp = true,
-    nvim_lua = true
+    nvim_lua = true,
+    -- treesitter = true,
+    -- omni = true
     -- treesitter
     -- omni
     -- spell
@@ -29,13 +33,5 @@ require('compe').setup {
 }
 
 local opts = {noremap = true, silent = true, expr = true}
--- map('i', '<c-c>', [[compe#complete()]], opts)
--- map('i', '<cr>', [[compe#confirm('<cr>')]], opts)
--- map('i', '<c-e>', [[compe#close('<c-e>')]], opts)
-
---[[
-" because of lexima
-inoremap <silent><expr> <C-Space> compe#complete()
-inoremap <silent><expr> <CR>      compe#confirm(lexima#expand('<LT>CR>', 'i'))
-inoremap <silent><expr> <C-e>     compe#close('<C-e>')
-]]
+map('i', '<c-space>', [[compe#complete()]], opts)
+map('i', '<cr>', [[compe#confirm(lexima#expand('<lt>cr>', 'i'))]], opts)

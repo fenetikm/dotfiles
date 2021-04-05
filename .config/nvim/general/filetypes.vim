@@ -35,3 +35,5 @@ au FileType markdown setlocal conceallevel=0
 au FileType fzf setlocal nonu nornu
 
 au FileType help setlocal nonumber norelativenumber
+
+au FileType lua setlocal shiftwidth=2 tabstop=2
