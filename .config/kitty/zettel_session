@@ -1,0 +1,3 @@
+cd ~/zettelkasten
+title zettel
+launch /bin/zsh -c "nvim index.md; /bin/zsh"

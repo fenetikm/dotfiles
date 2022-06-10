@@ -1,0 +1,3 @@
+cd ~/vimwiki
+title taskw
+launch /bin/zsh -c "/usr/local/bin/task; /bin/zsh"

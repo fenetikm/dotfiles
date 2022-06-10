@@ -1,0 +1,3 @@
+cd ~/vimwiki
+title vimwiki
+launch /bin/zsh -c "nvim index.md; /bin/zsh"
