@@ -1,3 +1,4 @@
+echom 'statusline'
 "@todo override filename formatting to italic.
 "@todo disable stuff on the right for NERDTree
 "make modified a different colour

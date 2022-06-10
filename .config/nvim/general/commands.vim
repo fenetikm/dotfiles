@@ -1,15 +1,15 @@
-command! RenameFile :call custom#renamefile()
+command! RenameFile :call custom#RenameFile()
 
-command! TrimWhiteSpace :call custom#trimwhitespace()
-command! RemoveFancyCharacters :call custom#removefancycharacters()
+command! TrimWhiteSpace :call custom#TrimWhiteSpace()
+command! RemoveFancyCharacters :call custom#RemoveFancyCharacters()
 
-command! Bdi :call custom#deleteinactivebufs()
-command! DeleteInactiveBuffers :call custom#deleteinactivebufs()
+command! Bdi :call custom#DeleteInactiveBufs()
+command! DeleteInactiveBuffers :call custom#DeleteInactiveBufs()
 
-command! StartProfile call custom#startprofile()
-command! StopProfile call custom#stopprofile()
+command! StartProfile call custom#StartProfile()
+command! StopProfile call custom#StopProfile()
 
-command! ToggleVerbose call custom#toggleverbose()
-command! ToggleSyntax call custom#togglesyntax()
+command! ToggleVerbose call custom#ToggleVerbose()
+command! ToggleSyntax call custom#ToggleSyntax()
 
 command! -nargs=1 NormLead call custom#ExecuteLeader(<f-args>)

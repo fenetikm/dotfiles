@@ -73,6 +73,7 @@ set fillchars+=fold:
 set ruler "show column/row/line number position
 set number "show line numbers
 set relativenumber "set to relative number mode
+set signcolumn=yes "always have room for a sign by default
 set cmdheight=2 "height of the command bar
 set laststatus=2 "always show status line
 set backspace=eol,start,indent "delete over end of line, autoindent, start of insert
@@ -105,10 +106,11 @@ if has('virtualedit')
   set virtualedit=block               " allow cursor to move where there is no text in visual block mode
 endif
 
-set fileformat=unix "default fileformat
+set fileformat=unix                   "default fileformat
 
-"set the max time to update 200ms, gitgutter mainly
-set updatetime=200
+set updatetime=200                    "set the max time to update 200ms, gitgutter mainly
+
+set pumblend=5                        "make the pop up menu slightly transparent
 
 " Wildmenu {{{ "
 

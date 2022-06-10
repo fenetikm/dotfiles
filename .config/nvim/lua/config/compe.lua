@@ -32,6 +32,9 @@ require('compe').setup {
   }
 }
 
+vim.g.lexima_no_default_rules = true
+vim.cmd[[call lexima#set_default_rules()]]
+
 local opts = {noremap = true, silent = true, expr = true}
 map('i', '<c-space>', [[compe#complete()]], opts)
 map('i', '<cr>', [[compe#confirm(lexima#expand('<lt>cr>', 'i'))]], opts)

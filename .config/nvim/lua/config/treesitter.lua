@@ -3,9 +3,13 @@ ts_configs.setup {
   ensure_installed = {
     'bash', 'c', 'cpp', 'css', 'go', 'html',
     'javascript', 'json', 'lua', 'python',
-    'rust', 'toml', 'typescript'
+    'rust', 'toml', 'typescript', 'elixir', 'php'
   },
-  highlight = {enable = true, use_languagetree = true},
+  highlight = {
+    enable = true,
+    -- enable = true,
+    disable = {'php', 'css', 'javascript'},
+  },
   indent = {enable = false},
   incremental_selection = {
     enable = true,
@@ -16,11 +20,11 @@ ts_configs.setup {
       node_decremental = 'grm'
     }
   },
-  refactor = {
-    smart_rename = {enable = true, keymaps = {smart_rename = "grr"}},
-    highlight_definitions = {enable = true}
-    -- highlight_current_scope = { enable = true }
-  },
+  -- refactor = {
+  --   smart_rename = {enable = true, keymaps = {smart_rename = "grr"}},
+  --   highlight_definitions = {enable = true}
+  --   -- highlight_current_scope = { enable = true }
+  -- },
   textobjects = {
     select = {
       enable = true,

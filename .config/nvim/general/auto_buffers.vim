@@ -1,7 +1,7 @@
 " Toggle relative and normal numbers depending on active or not
 function! SetNumbers(s)
   let fname = expand('%:t')
-  if fname != '' && &ft != 'help' && &ft != 'nerdtree' && &ft != 'fzf'
+  if fname != '' && &ft != 'help' && &ft != 'nerdtree' && &ft != 'fzf' && &ft != 'NvimTree' && &ft != 'qf'
     if a:s == 'on'
       setlocal relativenumber
     else

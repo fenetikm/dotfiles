@@ -1,3 +1,4 @@
+echom 'plug'
 " vim-plug: Vim plugin manager
 " ============================
 "

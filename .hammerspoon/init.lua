@@ -1,10 +1,11 @@
 -- @todo hide everything except top window
 -- @todo center something
+-- @todo snap new windows to closest grid
 ext = {
   app = {},
 }
 
--- moom replacement
+-- keys used to trigger screen management
 local mash_screen = {"cmd", "alt", "ctrl"}
 
 -- initial settings
@@ -36,6 +37,7 @@ local grid = {
   fullScreen = '0,0 12x12',
   centeredHuge = '2,1 8x10',
   centeredBig = '3,2 6x8',
+  focus = '3,1 6x10'
 }
 
 local layoutMetrics = {
@@ -57,8 +59,8 @@ local layouts = {
       {"kitty", "kitty", "Color LCD", layoutMetrics.rightHalf, nil, nil}
     },
     ultra = {
-      {"Google Chrome", nil, "LG ULTRAWIDE", layoutMetrics.leftThird, nil, nil},
-      {"kitty", "kitty", "LG ULTRAWIDE", layoutMetrics.rightTwoThirds, nil, nil}
+      {"Google Chrome", nil, "LG ULTRAWIDE", grid.leftThird, nil, nil},
+      {"kitty", "kitty", "LG ULTRAWIDE", grid.rightTwoThirds, nil, nil}
     }
   },
   {
@@ -80,6 +82,18 @@ local layouts = {
     },
     dell = {
       {"kitty", "vimwiki", "DELL U2715H", layoutMetrics.screenshot1, nil, nil}
+    }
+  },
+  {
+    key = '4',
+    internal = {
+    },
+    ultra = {
+      {"kitty", "vimwiki", "LG ULTRAWIDE", layoutMetrics.leftThird, nil, nil},
+      {"Google Chrome", nil, "LG ULTRAWIDE", layoutMetrics.middleThird, nil, nil},
+      {"Finder", nil, "LG ULTRAWIDE", layoutMetrics.rightThird, nil, nil}
+    },
+    dell = {
     }
   }
 }
@@ -104,32 +118,36 @@ function ext.app.applyLayout(layout)
     screen = 'dell'
   end
   log.i(screen)
+  log.i(layout)
 
   -- hide non-matching apps
   for key, app in pairs(hs.application.runningApplications()) do
+    local appIndex = -1
     local match = false
     local winMatch = false
     -- @todo how to handle apps such as kitty / kitty_2?
-    for _, settings in pairs(layout[screen]) do
+    for ai, settings in pairs(layout[screen]) do
       log.i(app:name())
       if app:name() == settings[1] then
-        log.i('match')
         for w, wins in pairs(app:allWindows()) do
           log.i(wins:title())
         end
-        match = true;
+        match = true
+        appIndex = ai
       end
     end
     if match == false then
-      log.i('hide')
-      -- app:hide()
+      app:hide()
     else
-      log.i('unhide')
       app:unhide()
+      for w, wins in pairs(app:allWindows()) do
+        hs.grid.set(wins, layout[screen][appIndex][4])
+        -- hs.grid.set(w, grid[layout[screen[3]]])
+      end
     end
   end
 
-  hs.layout.apply(layout[screen])
+  -- hs.layout.apply(layout[screen])
 end
 
 -- taken from wincent https://github.com/wincent/wincent/blob/master/roles/dotfiles/files/.hammerspoon/init.lua
@@ -209,6 +227,7 @@ hs.hotkey.bind(mash_screen, 'f', chain({
   grid.fullScreen,
   grid.centeredHuge,
   grid.centeredBig,
+  grid.focus,
 }))
 
 -- bind key to set a specific grid layout
@@ -231,6 +250,24 @@ function ext.app.setLayout(rect)
   win:setFrame(rect)
 end
 
+function runYabai()
+  -- return hs.execute("/usr/local/bin/yabai " .. cmd)
+  hs.execute("/usr/local/bin/yabai -m window --focus west")
+  -- return hs.execute("/usr/local/bin/yabai -m window --grid 1:3:0:0:2:1")
+end
+
+-- cmd ref: https://github.com/koekeishiya/dotfiles/blob/master/skhd/skhdrc
+
+function stopYabai()
+  hs.execute("")
+end
+
+function startYabai()
+end
+
+-- yabai commands
+-- hs.hotkey.bind(mash_screen, 'q', function () runYabai() end)
+
 -- 1 row, halves
 hs.hotkey.bind(mash_screen, 'q', function() ext.app.setGrid('leftHalf', 'leftHalf', 'leftHalf', 1) end)
 hs.hotkey.bind(mash_screen, 'w', function() ext.app.setGrid('rightHalf', 'rightHalf', 'rightHalf', 1) end)
@@ -250,8 +287,8 @@ hs.hotkey.bind(mash_screen, 'c', function() ext.app.setGrid('rightTwoThirds', 'r
 hs.hotkey.bind(mash_screen, 'g', function() ext.app.setLayout(layoutMetrics.screenshot1) end)
 
 -- global operations
-hs.hotkey.bind(mash_screen, ';', function() hs.grid.snap(hs.window.focusedWindow()) end)
-hs.hotkey.bind(mash_screen, "'", function() hs.fnutil.map(hs.window.visibleWindows(), hs.grid.snap) end)
+-- hs.hotkey.bind(mash_screen, ';', function() hs.grid.snap(hs.window.focusedWindow()) end)
+-- hs.hotkey.bind(mash_screen, "'", function() hs.fnutil.map(hs.window.visibleWindows(), hs.grid.snap) end)
 
 -- hyper key mash
 local mash_apps = {"cmd", "alt", "ctrl", "shift"}
@@ -259,24 +296,23 @@ local mash_apps = {"cmd", "alt", "ctrl", "shift"}
 -- https://github.com/digitalbase/hammerspoon/blob/master/init.lua
 hs.fnutils.each({
   { key = "b", app = "Thunderbird" },
-  { key = "f", app = "Path Finder" },
+  { key = "f", app = "Finder" },
   { key = "s", app = "Slack" },
   { key = "g", app = "Google Chrome" },
   { key = "x", app = "Firefox" },
-  { key = "space", app = "kitty" },
-  { key = "m", app = "Mail" },
-  { key = "v", app = "/Users/mjw/.config/kitty/start.sh", windowApp = "kitty", window = "vimwiki" },
-  { key = "t", app = "/Users/mjw/.config/kitty/taskw.sh", windowApp = "kitty", window = "taskw" },
+  { key = "space", app = "Kitty" },
+  { key = "e", app = "Mail" },
+  { key = "w", app = "/Users/mjw/.config/kitty/wiki.sh", windowApp = "kitty", window = "wiki" },
+  { key = "z", app = "/Users/mjw/.config/kitty/zettel.sh", windowApp = "kitty", window = "zettel" },
   { key = "d", app = "Dash" },
   { key = "q", app = "TablePlus" },
   { key = "n", app = "Notes" },
   { key = "c", app = "Calendar" },
-  { key = "w", app = "WhatsApp" },
-  { key = "e", app = "Microsoft Excel" },
-  { key = "p", app = "Preview" },
-  { key = "1", app = "Messages" },
-  { key = "3", app = "activeCollabTimer3" },
-  { key = "i", app = "iTunes" },
+  -- { key = "p", app = "Preview" },
+  { key = "return", app = "Omnifocus" },
+  { key = "o", app = "Obsidian" },
+  { key = "m", app = "Messages" },
+  { key = "i", app = "Music" },
 }, function(object)
     hs.hotkey.bind(mash_apps, object.key, function() ext.app.forceLaunchOrFocus(object.app, object) end)
 end)
@@ -285,11 +321,15 @@ end)
 hs.hotkey.bind(mash_apps, 'l', function() hs.caffeinate.systemSleep() end)
 
 function ext.app.forceLaunchOrFocus(appName, object)
+  local log = hs.logger.new('mylog', 'debug')
+  -- log.i(appName)
   -- if a window is specified then use that to try to focus by first
   if (object.windowApp) then
     for key, app in pairs(hs.application.runningApplications()) do
+      log.i(app:name())
       if (app:name() == object.windowApp) then
         for w, wins in pairs(app:allWindows()) do
+          log.i(wins:title())
           if (wins:title() == object.window) then
             wins:focus()
             return
@@ -303,7 +343,9 @@ function ext.app.forceLaunchOrFocus(appName, object)
   hs.application.launchOrFocus(appName)
 
   -- clear timer if exists
-  if ext.cache.launchTimer then ext.cache.launchTimer:stop() end
+  if ext.cache.launchTime ~= nil then
+    if ext.cache.launchTimer then ext.cache.launchTimer:stop() end
+  end
 
   -- wait 500ms for window to appear and try hard to show the window
   ext.cache.launchTimer = hs.timer.doAfter(0.5, function()
@@ -331,7 +373,7 @@ end
 
 function ext.app.showBundleID()
   local frontmostApp = hs.application.frontmostApplication()
-  local frontmostApp = hs.screen:name()
+  hs.alert.show(frontmostApp:title())
 end
 
 function ext.app.showScreenID()
@@ -339,7 +381,7 @@ function ext.app.showScreenID()
   hs.alert.show(ms:name())
 end
 
-hs.hotkey.bind(mash_screen, 'b', function() ext.app.showScreeID() end)
+hs.hotkey.bind(mash_screen, 'b', function() ext.app.showBundleID() end)
 
 -- Reload Configuration
 --- http://www.hammerspoon.org/go/#fancyreload
@@ -355,6 +397,39 @@ function reloadConfig(files)
         hs.alert.show("Hammerspoon config loaded")
     end
 end
+
+-- https://stackoverflow.com/questions/19326368/iterate-over-lines-including-blank-lines
+function magiclines(s)
+  if s:sub(-1)~="\n" then s=s.."\n" end
+  return s:gmatch("(.-)\n")
+end
+
+-- Snip current highlight
+hs.hotkey.bind(mash_screen, 'y', function()
+  local win = hs.window.focusedWindow()
+
+  -- get the window title
+  local title = win:title()
+  -- get the highlighted item
+  hs.eventtap.keyStroke('command', 'c')
+  local highlight = hs.pasteboard.readString()
+  local quote = ""
+  for line in magiclines(highlight) do
+    quote = quote .. "> " .. line .. "\n"
+  end
+  -- get the URL
+  hs.eventtap.keyStroke('command', 'l')
+  hs.eventtap.keyStroke('command', 'c')
+  local url = hs.pasteboard.readString()
+  --
+  local template = string.format([[%s
+%s
+[%s](%s)]], title, quote, title, url)
+  -- format and send to drafts
+  -- @todo what to do here?
+  hs.urlevent.openURL("drafts://x-callback-url/create?tag=links&text=" .. hs.http.encodeForQuery(template))
+  hs.notify.show("Snipped!", "The snippet has been sent to Drafts", "")
+end)
 
 hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
 hs.alert.show("Hammerspoon config loaded")

@@ -23,4 +23,27 @@ local function map(modes, lhs, rhs, opts)
   for _, mode in ipairs(modes) do map_key(mode, lhs, rhs, opts) end
 end
 
+string.lpad = function(str, len, char)
+  if char == nil then char = ' ' end
+  return str .. string.rep(char, len - #str)
+end
+
+string.rpad = function(str, len, char)
+  if char == nil then char = ' ' end
+  return string.rep(char, len - #str) .. str
+end
+
+string.trim = function(str)
+  return (str:gsub("^%s*(.-)%s*$", "%1"))
+end
+
+table.contains = function(table, val)
+  for index, value in ipairs(table) do
+    if value == val then
+      return true
+    end
+  end
+  return false
+end
+
 return {opt = opt, autocmd = autocmd, map = map}

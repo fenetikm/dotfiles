@@ -1,5 +1,5 @@
 " Thanks gary. Renames current file.
-function! custom#renamefile()
+function! custom#RenameFile()
   let old_name = expand('%')
   let new_name = input('New file name: ', expand('%'), 'file')
   if new_name != '' && new_name != old_name
@@ -9,12 +9,41 @@ function! custom#renamefile()
   endif
 endfunction
 
-function! custom#trimwhitespace()
+" Trim the white space from a file
+function! custom#TrimWhiteSpace()
   %s/\s\+$//e
 endfunction
 
+" Insert text at the cursor
+function! custom#InsertText(text)
+  let cur_line_num = line('.')
+  let cur_col_num = col('.')
+  let orig_line = getline('.')
+  let modified_line =
+      \ strpart(orig_line, 0, cur_col_num - 1)
+      \ . a:text
+      \ . strpart(orig_line, cur_col_num - 1)
+  " Replace the current line with the modified line.
+  call setline(cur_line_num, modified_line)
+  " Place cursor on the last character of the inserted text.
+  call cursor(cur_line_num, cur_col_num + strlen(a:text))
+endfunction
+
+" Get the current visual selection
+function! custom#GetVisualSelection()
+  let [line_start, column_start] = getpos("'<")[1:2]
+  let [line_end, column_end] = getpos("'>")[1:2]
+  let lines = getline(line_start, line_end)
+  if len(lines) == 0
+      return ''
+  endif
+  let lines[-1] = lines[-1][: column_end - (&selection == 'inclusive' ? 1 : 2)]
+  let lines[0] = lines[0][column_start - 1:]
+  return join(lines, "\n")
+endfunction
+
 "Again thanks gary. Remove stupid fancy characters.
-function! custom#removefancycharacters()
+function! custom#RemoveFancyCharacters()
   let typo = {}
   let typo["“"] = '"'
   let typo["”"] = '"'
@@ -26,7 +55,8 @@ function! custom#removefancycharacters()
   :exe ":%s/".join(keys(typo), '\|').'/\=typo[submatch(0)]/ge'
 endfunction
 
-function! custom#deleteinactivebufs()
+" Delete inactive (not visible) buffers
+function! custom#DeleteInactiveBufs()
   "From tabpagebuflist() help, get a list of all buffers in all tabs
   let tablist = []
   for i in range(tabpagenr('$'))
@@ -47,17 +77,19 @@ function! custom#deleteinactivebufs()
 endfunction
 
 " Function to start profiling commmands
-function! custom#startprofile()
+function! custom#StartProfile()
   profile start ~/.config/nvim/start_profile.log
   profile func *
   profile file *
 endfunction
 
-function! custom#stopprofile()
+" Stop the profiling
+function! custom#StopProfile()
   profile stop
 endfunction
 
-function! custom#toggleverbose()
+" Verbose logging of what is currently going on
+function! custom#ToggleVerbose()
     if !&verbose
         set verbosefile=~/.config/nvim/verbose.log
         set verbose=15
@@ -67,11 +99,13 @@ function! custom#toggleverbose()
     endif
 endfunction
 
-function! custom#togglesyntax()
+" Toggle syntax highlighting
+function! custom#ToggleSyntax()
    if exists("g:syntax_on") | syntax off | else | syntax enable | endif
 endfunction
 
 " Thanks to wincent for this.
+" This puts all your zsh directory hashes in $xxx var links
 function! custom#variables() abort
   " Set up shortcut variables for "hash -d" directories.
   let l:dirs=system(
@@ -94,7 +128,7 @@ function! custom#variables() abort
   endfor
 endfunction
 
-function! custom#togglecolorizer()
+function! custom#ToggleColorizer()
   if !exists("g:cz_on")
     let g:cz_on=1
   endif
@@ -129,6 +163,7 @@ function! custom#ExecuteLeader(suffix)
   execute "normal ".l:leader.a:suffix
 endfunction
 
+" Flip a window from horizontal to veritcal and vice versa
 function! custom#ToggleWindowHorizontalVerticalSplit()
   if !exists('t:splitType')
     let t:splitType = 'vertical'
@@ -143,4 +178,3 @@ function! custom#ToggleWindowHorizontalVerticalSplit()
     let t:splitType = 'vertical'
   endif
 endfunction
-

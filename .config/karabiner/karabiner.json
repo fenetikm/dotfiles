@@ -84,6 +84,44 @@
                         ]
                     },
                     {
+                        "description": "Unmap wifi sysdiagnose (Command + Shift + Option + Control + w)",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "w",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "command",
+                                            "control",
+                                            "option",
+                                            "shift"
+                                        ]
+                                    }
+                                },
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Unmap sysdiagnose (Command + Shift + Option + Control + period)",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "period",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "command",
+                                            "control",
+                                            "option",
+                                            "shift"
+                                        ]
+                                    }
+                                },
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Control + [ to F18",
                         "manipulators": [
                             {
@@ -98,6 +136,64 @@
                                 "to": [
                                     {
                                         "key_code": "f18"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Left shift alone to left parens",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "left_shift",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "9",
+                                        "modifiers": [
+                                            "left_shift"
+                                        ]
+                                    }
+                                ],
+                                "to": [
+                                    {
+                                        "key_code": "left_shift"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Right shift alone to right parens",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "right_shift",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "0",
+                                        "modifiers": [
+                                            "right_shift"
+                                        ]
+                                    }
+                                ],
+                                "to": [
+                                    {
+                                        "key_code": "right_shift"
                                     }
                                 ],
                                 "type": "basic"
@@ -199,14 +295,14 @@
                         ]
                     },
                     {
-                        "description": "Change Left Control to Escape when used alone, or Left Control when held down, only for alt drop",
+                        "description": "Change Left Control to Escape when used alone, or Left Control when held down, only for q1",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
                                         "identifiers": [
                                             {
-                                                "vendor_id": 1240
+                                                "vendor_id": 13364
                                             }
                                         ],
                                         "type": "device_if"
@@ -236,21 +332,21 @@
                         ]
                     },
                     {
-                        "description": "Change Return to Control when used as modifier, Return when used alone, only for alt drop",
+                        "description": "Change Left Control to Escape when used alone, or Left Control when held down, only for fjell",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
                                         "identifiers": [
                                             {
-                                                "vendor_id": 1240
+                                                "vendor_id": 25986
                                             }
                                         ],
                                         "type": "device_if"
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "return_or_enter",
+                                    "key_code": "left_control",
                                     "modifiers": {
                                         "optional": [
                                             "any"
@@ -259,18 +355,50 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "right_control",
+                                        "key_code": "left_control",
                                         "lazy": true
                                     }
                                 ],
                                 "to_if_alone": [
                                     {
-                                        "key_code": "return_or_enter"
+                                        "key_code": "escape"
                                     }
                                 ],
-                                "to_if_held_down": [
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Change Left Control to Escape when used alone, or Left Control when held down, only for maja",
+                        "manipulators": [
+                            {
+                                "conditions": [
                                     {
-                                        "key_code": "return_or_enter"
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 19266
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "left_control",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_control",
+                                        "lazy": true
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "escape"
                                     }
                                 ],
                                 "type": "basic"
@@ -345,6 +473,40 @@
                                 "type": "basic"
                             }
                         ]
+                    },
+                    {
+                        "description" : "Control p/n to up/down in Obsidian",
+                        "manipulators" : [ {
+                            "from" : {
+                                "key_code" : "p",
+                                "modifiers" : {
+                                    "mandatory" : [ "left_control" ]
+                                }
+                            },
+                            "to" : [ {
+                                "key_code" : "up_arrow"
+                            } ],
+                            "conditions" : [ {
+                                "type" : "frontmost_application_if",
+                                "bundle_identifiers" : [ "^md\\.obsidian$" ]
+                            } ],
+                            "type" : "basic"
+                        }, {
+                        "from" : {
+                            "key_code" : "n",
+                            "modifiers" : {
+                                "mandatory" : [ "left_control" ]
+                            }
+                        },
+                        "to" : [ {
+                            "key_code" : "down_arrow"
+                        } ],
+                        "conditions" : [ {
+                            "type" : "frontmost_application_if",
+                            "bundle_identifiers" : [ "^md\\.obsidian$" ]
+                        } ],
+                        "type" : "basic"
+                        } ]
                     }
                 ]
             },

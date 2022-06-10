@@ -1,5 +1,5 @@
 nnoremap <leader>ga :Git add %:p<cr><cr>
-nnoremap <leader>gs :Gstatus<cr>
+nnoremap <silent> <leader>gs :Git<cr>
 nnoremap <leader>gd :Gvdiffsplit!<cr>
 nnoremap <leader>gr :Gread<cr>
 nnoremap <leader>gl :Glog<cr>
@@ -20,21 +20,21 @@ endfunction
 nnoremap <leader>gg :Gwrite<cr>:call QuickCommitMessage()<cr>
 
 " disable gitgutter default keys
-let g:gitgutter_map_keys = 0
+" let g:gitgutter_map_keys = 0
 
 " stage a hunk via gitgutter
 " nnoremap <leader>gh :GitGutterStageHunk<cr>
 
 "pair mapping for hunks
-nmap ]c <Plug>(GitGutterNextHunk)
-nmap [c <Plug>(GitGutterPrevHunk)
+" nmap ]c <Plug>(GitGutterNextHunk)
+" nmap [c <Plug>(GitGutterPrevHunk)
 
 "signs to use
-let g:gitgutter_sign_added = '+'
-let g:gitgutter_sign_modified = '~'
-let g:gitgutter_sign_removed = ''
-let g:gitgutter_sign_modified_removed = '·'
-let g:gitgutter_async = 1
+" let g:gitgutter_sign_added = '+'
+" let g:gitgutter_sign_modified = '~'
+" let g:gitgutter_sign_removed = ''
+" let g:gitgutter_sign_modified_removed = '·'
+" let g:gitgutter_async = 1
 
 "merging mappings
 nnoremap <c-left> :diffget //2<cr>

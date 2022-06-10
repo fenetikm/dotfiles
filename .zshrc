@@ -1,5 +1,6 @@
 # disable the update prompt
 DISABLE_UPDATE_PROMPT=true
+DISABLE_AUTO_TITLE=true
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
@@ -10,7 +11,7 @@ PROMPT_LEAN_VIMODE_FORMAT="%F{10}  %f"
 PROMPT_LEAN_TMUX=''
 PROMPT_LEAN_COLOR1='249'
 PROMPT_LEAN_COLOR2='245'
-PROMPT_LEAN_COLOR3='207'
+PROMPT_LEAN_COLOR3='#8859FF'
 PROMPT_LEAN_GIT_STYLE='FAT'
 PROMPT_LEAN_SEP=''
 PROMPT_LEAN_SYMBOL='==>'
@@ -58,6 +59,7 @@ setopt ALWAYS_TO_END
 setopt COMPLETE_IN_WORD
 unsetopt FLOW_CONTROL
 unsetopt MENU_COMPLETE
+# activate menu (using tab) selection
 zstyle ':completion:*:*:*:*:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|=*' 'l:|=* r:|=*'
 zstyle ':completion::complete:*' use-cache 1
@@ -65,11 +67,15 @@ zstyle ':completion::complete:*' cache-path $ZSH_CACHE_DIR
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 
-# darkish grey suggestion colour
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
+# formatting
+zstyle ':completion:*:descriptions' format "$fg[yellow]%B--- %d%b"
+zstyle ':completion:*:messages' format '%d'
+zstyle ':completion:*:warnings' format "$fg[red]No matches for:$reset_color %d"
+zstyle ':completion:*:corrections' format '%B%d (errors: %e)%b'
+
 # complete the suggestion
 bindkey '^E' autosuggest-accept
-# run the suggestion now
+# run the suggestion now (ctrl-enter)
 bindkey '^[[25~' autosuggest-execute
 
 # history options
@@ -96,7 +102,7 @@ alias reload="source ~/.zshrc"
 # directory hashes
 # to use: e.g. cd ~aa
 source ~/.config/zsh/directory_hashes.zsh
-alias e='exa -algB'
+alias e='exa -algB --group-directories-first'
 alias et='exa -algB --tree'
 alias cat='bat'
 alias c='bat'
@@ -132,16 +138,17 @@ alias -g T="| tail"
 alias -g TL="| tail -20"
 alias -g C="| wc -l"
 alias -g G="| grep"
+# Preview via fzf, edit with enter
+alias -g P="| fzf --preview 'bat --color=always --line-range :500 {}' --bind 'enter:execute(nvim {})'"
 
 # git aliases
 alias gs='git s'
 alias gd='git di'
 alias gl='git l'
-alias gffp='git flow feature publish'
-alias gffs='git flow feature start'
 alias gp='git push'
 alias gb='git branch'
 alias g='_f() { if [[ $# == 0 ]]; then git status --short --branch; else git "$@"; fi }; _f'
+alias gmd='git merge dev'
 
 # git dotfiles management
 alias y='yadm'
@@ -182,14 +189,33 @@ alias vboxr='vboxmanage list runningvms'
 #docker
 alias docker-restart="osascript -e 'quit app \"Docker\"' && open -a Docker"
 
+alias emu='/Users/mjw/Library/Android/sdk/emulator/emulator'
+alias adb='/Users/mjw/Library/Android/sdk/platform-tools/adb'
+
 #specific ssh
 alias wallissh='ssh -p 2223 root@103.21.48.192'
-alias redyssh='ssh theoryz4@122.129.219.79 -p 2022 -i id_dsa'
+# alias redyssh='ssh theoryz4@122.129.219.79 -p 2022 -i id_dsa'
+alias redyssh='ssh theoryz4@122.129.220.5 -p 5123 -i /Users/mjw/.ssh/id_dsa'
 
 #ranger
 alias r='ranger'
 
 alias ..='cd ..'
+
+#zettelkasten, search for a zettel by title
+alias zo='neuron -d ~z search | xargs nvim'
+alias zn='cd ~z && v -c "call NewZettel(1)"'
+alias zi='cd ~z && v index.md'
+alias zupgrade='nix-env -if https://github.com/srid/neuron/archive/master.tar.gz'
+
+#hugo
+hugo-new-post () {
+  hugo new posts/"$1".md --editor nvim
+}
+alias hn='hugo-new-post'
+
+#love framework
+alias love="/Applications/love.app/Contents/MacOS/love"
 
 # find up the directory hierarchy
 find-up () {
@@ -209,7 +235,16 @@ run-drush () {
 alias dr2='run-drush'
 alias dbd='rb db:dump --path="dump.sql" --sed=gsed --dirty'
 alias dbl='rb db:load --path="dump.sql"'
+alias dbd2='rb db:dump --path="dump2.sql" --sed=gsed --dirty'
+alias dbl2='rb db:load --path="dump2.sql"'
+alias dbd3='rb db:dump --path="dump3.sql" --sed=gsed --dirty'
+alias dbl3='rb db:load --path="dump3.sql"'
 alias dblp='rb db:load --path="patient.sql"'
+alias pcload='(cd ~pcp && rb db:load)'
+alias pcup='docker-compose -f misc/docker/docker-compose.yml up -d'
+alias pcdown='docker container stop $(docker container ls -aq)'
+
+alias n='neuron'
 
 # add in looking for the command down the tree...
 # the idea begin:
@@ -248,15 +283,32 @@ stty start undef stop undef
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# setup fasd
-eval "$(fasd --init auto)"
-
-# fasd z replacement using fzf
-do_z() {
-  local dir
-  dir="$(fasd -Rdl "$1" | fzf --bind 'ctrl-j:down,ctrl-k:up' -1 -0 --no-sort +m)" && cd "${dir}" || return 1
+# Use fd and fzf to get the args to a command.
+# Works only with zsh
+# Examples:
+# f mv # To move files. You can write the destination after selecting the files.
+# f 'echo Selected:'
+# f 'echo Selected music:' --extension mp3
+# fm rm # To rm files in current directory
+f() {
+    sels=( "${(@f)$(fd "${fd_default[@]}" "${@:2}"| fzf)}" )
+    test -n "$sels" && print -z -- "$1 ${sels[@]:q:q}"
 }
-alias z="do_z"
+
+# Like f, but not recursive.
+fm() f "$@" --max-depth 1
+
+# using ripgrep combined with preview
+# find-in-file - usage: fif <searchTerm>
+fif() {
+  if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
+  rg --files-with-matches --no-messages "$1" | fzf --bind "enter:execute(nvim {})" --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}"
+}
+
+fifa() {
+  if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
+  rg --no-ignore --files-with-matches --no-messages "$1" | fzf --bind "enter:execute(nvim {})" --preview "highlight -O ansi -l {} 2> /dev/null | rg --no-ignore --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --no-ignore --ignore-case --pretty --context 10 '$1' {}"
+}
 
 # fzf for checking out a branch
 fzf_git_checkout() {
@@ -289,6 +341,31 @@ fzf_git_log() {
     fi
 }
 alias fgl="fzf_git_log"
+
+fstash() {
+  local out q k sha
+  while out=$(
+    git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" |
+    fzf --ansi --no-sort --query="$q" --print-query \
+        --expect=ctrl-d,ctrl-b);
+  do
+    mapfile -t out <<< "$out"
+    q="${out[0]}"
+    k="${out[1]}"
+    sha="${out[-1]}"
+    sha="${sha%% *}"
+    [[ -z "$sha" ]] && continue
+    if [[ "$k" == 'ctrl-d' ]]; then
+      git diff $sha
+    elif [[ "$k" == 'ctrl-b' ]]; then
+      git stash branch "stash-$sha" $sha
+      break;
+    else
+      git stash show -p $sha
+    fi
+  done
+}
+alias fs='fstash'
 
 # fzf find a file by name and edit
 fzf_find_edit() {
@@ -349,9 +426,14 @@ export GOPATH="/Users/mjw/go"
 export OCPATH="/Users/mjw/.minishift/cache/oc/v3.9.0/darwin"
 export PATH="$GOPATH/bin:$OCPATH:$PATH"
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+export PATH=/Users/mjw/.nix-profile/bin:$PATH
 
 # ripgrep configufation
 export RIPGREP_CONFIG_PATH="/Users/mjw/.rgrc"
+
+# all files
+alias rga="rg --no-ignore"
+alias fda="fd --hidden --no-ignore"
 
 #load nvm
 export NVM_DIR="/Users/mjw/.nvm"
@@ -385,5 +467,22 @@ source ~/.zsh_plugins.sh
 #zsh-history-substring-search key bindings
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
-export PATH="/usr/local/opt/php@7.3/bin:$PATH"
-export PATH="/usr/local/opt/php@7.3/sbin:$PATH"
+export PATH="/usr/local/opt/php@8.0/bin:$PATH"
+export PATH="/usr/local/opt/php@8.0/sbin:$PATH"
+
+source /Users/mjw/Library/Preferences/org.dystroy.broot/launcher/bash/br
+
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#787882'
+ZSH_HIGHLIGHT_STYLES[command]='fg=#DFDFE5'
+ZSH_HIGHLIGHT_STYLES[alias]='fg=#DFDFE5,bold'
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=#DDCFBF'
+ZSH_HIGHLIGHT_STYLES[suffix-alias]='fg=#FF761A'
+if [ -e /Users/mjw/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/mjw/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+# todo: add in fcommit to commit in git
+# switchPhp() {
+#   brew unlink php@$1 && brew link php@$2
+# }
+
+alias luamake=/Users/mjw/tmp/lua-language-server/3rd/luamake/luamake
