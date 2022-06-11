@@ -17,13 +17,13 @@ PROMPT_LEAN_SEP=''
 PROMPT_LEAN_SYMBOL='==>'
 # PROMPT_LEAN_PATH_SED='s/Documents\/Work/\$/g'
 PROMPT_LEAN_PATH_SED=''
-source ~/.config/zsh/lean/lean.plugin.zsh
+source $HOME/.config/zsh/lean/lean.plugin.zsh
 
 # exa colours
-source ~/Documents/Work/internal/vim/colors/falcon/exa/EXA_COLORS
+source $HOME/Documents/Work/internal/vim/colors/falcon/exa/EXA_COLORS
 
 # zsh falcon colouring
-source ~/Documents/Work/internal/vim/colors/falcon/zsh/falcon.zsh
+source $HOME/Documents/Work/internal/vim/colors/falcon/zsh/falcon.zsh
 
 # User configuration.
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
@@ -170,7 +170,7 @@ alias jo="~/.config/zsh/jira.zsh 'jira open'"
 alias ja="~/.config/zsh/jira.zsh 'jira all_mine'"
 
 # Taskwarrior aliases
-source ~/.config/task/commands.zsh
+# source ~/.config/task/commands.zsh
 
 # vagrant exec binstubs
 alias vr='vbin/robo'
@@ -189,13 +189,13 @@ alias vboxr='vboxmanage list runningvms'
 #docker
 alias docker-restart="osascript -e 'quit app \"Docker\"' && open -a Docker"
 
-alias emu='/Users/mjw/Library/Android/sdk/emulator/emulator'
-alias adb='/Users/mjw/Library/Android/sdk/platform-tools/adb'
+alias emu='$HOME/Library/Android/sdk/emulator/emulator'
+alias adb='$HOME/Library/Android/sdk/platform-tools/adb'
 
 #specific ssh
 alias wallissh='ssh -p 2223 root@103.21.48.192'
 # alias redyssh='ssh theoryz4@122.129.219.79 -p 2022 -i id_dsa'
-alias redyssh='ssh theoryz4@122.129.220.5 -p 5123 -i /Users/mjw/.ssh/id_dsa'
+alias redyssh='ssh theoryz4@122.129.220.5 -p 5123 -i $HOME/.ssh/id_dsa'
 
 #ranger
 alias r='ranger'
@@ -422,21 +422,21 @@ set_cursor_color() {
 }
 
 export PATH="/usr/local/opt/ncurses/bin:$PATH"
-export GOPATH="/Users/mjw/go"
-export OCPATH="/Users/mjw/.minishift/cache/oc/v3.9.0/darwin"
+export GOPATH="$HOME/go"
+export OCPATH="$HOME/.minishift/cache/oc/v3.9.0/darwin"
 export PATH="$GOPATH/bin:$OCPATH:$PATH"
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-export PATH=/Users/mjw/.nix-profile/bin:$PATH
+export PATH=$HOME/.nix-profile/bin:$PATH
 
 # ripgrep configufation
-export RIPGREP_CONFIG_PATH="/Users/mjw/.rgrc"
+export RIPGREP_CONFIG_PATH="$HOME/.rgrc"
 
 # all files
 alias rga="rg --no-ignore"
 alias fda="fd --hidden --no-ignore"
 
 #load nvm
-export NVM_DIR="/Users/mjw/.nvm"
+export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
 lpass_export() {
@@ -457,7 +457,7 @@ local_export() {
       export "$key"
   done <<< "$KEYS"
 }
-local_export
+# local_export
 
 source <(antibody init)
 source ~/.zsh_plugins.sh
@@ -470,7 +470,7 @@ bindkey '^[[B' history-substring-search-down
 export PATH="/usr/local/opt/php@8.0/bin:$PATH"
 export PATH="/usr/local/opt/php@8.0/sbin:$PATH"
 
-source /Users/mjw/Library/Preferences/org.dystroy.broot/launcher/bash/br
+# source /Users/mjw/Library/Preferences/org.dystroy.broot/launcher/bash/br
 
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#787882'
@@ -478,11 +478,11 @@ ZSH_HIGHLIGHT_STYLES[command]='fg=#DFDFE5'
 ZSH_HIGHLIGHT_STYLES[alias]='fg=#DFDFE5,bold'
 ZSH_HIGHLIGHT_STYLES[builtin]='fg=#DDCFBF'
 ZSH_HIGHLIGHT_STYLES[suffix-alias]='fg=#FF761A'
-if [ -e /Users/mjw/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/mjw/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+# if [ -e /Users/mjw/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/mjw/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
 # todo: add in fcommit to commit in git
 # switchPhp() {
 #   brew unlink php@$1 && brew link php@$2
 # }
 
-alias luamake=/Users/mjw/tmp/lua-language-server/3rd/luamake/luamake
+alias luamake=$HOME/tmp/lua-language-server/3rd/luamake/luamake
