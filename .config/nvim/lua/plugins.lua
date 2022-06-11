@@ -4,7 +4,8 @@ return require('packer').startup(function()
   use 'wbthomason/packer.nvim'
 
   -- Colors
-  use '~/Documents/Work/internal/vim/colors/falcon'
+  -- use '~/Documents/Work/internal/vim/colors/falcon'
+  use 'fenetikm/falcon'
 
   -- Running
   use {'tpope/vim-dispatch', opt = true, cmd = {'Dispatch', 'Make', 'Focus', 'Start'}}
