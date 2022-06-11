@@ -474,10 +474,10 @@ export PATH="/usr/local/opt/php@8.0/sbin:$PATH"
 
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#787882'
-ZSH_HIGHLIGHT_STYLES[command]='fg=#DFDFE5'
-ZSH_HIGHLIGHT_STYLES[alias]='fg=#DFDFE5,bold'
-ZSH_HIGHLIGHT_STYLES[builtin]='fg=#DDCFBF'
-ZSH_HIGHLIGHT_STYLES[suffix-alias]='fg=#FF761A'
+# ZSH_HIGHLIGHT_STYLES[command]='fg=#DFDFE5'
+# ZSH_HIGHLIGHT_STYLES[alias]='fg=#DFDFE5,bold'
+# ZSH_HIGHLIGHT_STYLES[builtin]='fg=#DDCFBF'
+# ZSH_HIGHLIGHT_STYLES[suffix-alias]='fg=#FF761A'
 # if [ -e /Users/mjw/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/mjw/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
 # todo: add in fcommit to commit in git
