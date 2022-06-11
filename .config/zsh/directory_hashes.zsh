@@ -1,0 +1,31 @@
+#!/bin/bash
+
+hash -d uuu=~/Documents/Work/UofA
+hash -d uaa=~/Documents/Work/UofA/aa/vms/aaa
+hash -d usc=~/Documents/Work/UofA/scholarships/ua-scholarships6
+hash -d ucs=~/Documents/Work/UofA/api/vms/ua-content-store
+hash -d uar=~/Documents/Work/UofA/arop/vms/ua-arop2
+hash -d ucc=~/Documents/Work/UofA/ccsp/vms/ua-ccsp
+hash -d ure=~/Documents/Work/UofA/refactor/vms/refactor
+hash -d ust=~/Documents/Work/UofA/stui/vms/ua-stui
+hash -d ubd=~/Documents/Work/UofA/bank_details/vms/ua-bank-details-1
+hash -d udm=~/Documents/Work/UofA/modules
+hash -d uha=~/Documents/Work/UofA/hakday/vms/haklab
+hash -d sys=~/Documents/Work/internal/vms/sys
+hash -d cusoon=~/Documents/Work/jubn_cusoon/vms/cusoon
+hash -d blog=~/Documents/Work/internal/vms/michaelwelford2
+hash -d blog2=~/Documents/Work/internal/blog/hugo/mwcom
+hash -d i=~/Documents/Work/internal
+hash -d w=~/Documents/Work
+hash -d docs=~/Documents
+hash -d down=~/Downloads
+hash -d p=~/Documents/personal
+hash -d wiki=~/vimwiki
+hash -d falcon=~/Documents/Work/internal/vim/colors/falcon
+hash -d pcp=~/Documents/Work/personify_care/repos/personify-care-platform
+hash -d pct=/Users/mjw/Documents/Work/personify_care/repos/personify-care-test
+hash -d pcw=/Users/mjw/Documents/Work/personify_care/repos/personify-care-web
+hash -d pc=~/Documents/Work/personify_care
+hash -d nv=~/.config/nvim
+hash -d z=~/zettelkasten
+hash -d iCloud=~/iCloud
