@@ -33,19 +33,22 @@ local snippet_capabilities = {
 }
 
 local lsp_mappings = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+  local bufmap = function(mode, lhs, rhs, opts)
+    vim.keymap.set(mode, lhs, rhs, opts)
+  end
 
   local opts = { noremap=true, silent=true }
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev({popup_opts = { border = "rounded" }})<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next({popup_opts = { border = "rounded" }})<CR>', opts)
-  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  bufmap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  bufmap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  bufmap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  bufmap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  bufmap('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
+  bufmap('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>', opts)
+  bufmap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev({popup_opts = { border = "rounded" }})<CR>', opts)
+  bufmap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next({popup_opts = { border = "rounded" }})<CR>', opts)
+  bufmap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  bufmap('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  bufmap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   -- buf_keymap(0, 'n', 'gTD', '<cmd>lua vim.lsp.buf.type_definition()<CR>', keymap_opts)
   -- buf_keymap(0, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', keymap_opts)
   -- buf_keymap(0, 'n', 'gA', '<cmd>lua vim.lsp.buf.code_action()<CR>', keymap_opts)
@@ -97,6 +100,7 @@ lsp.handlers["textDocument/publishDiagnostics"] = lsp.with(
 )
 
 lspconfig.tsserver.setup {
+  flags = { debounce_text_changes = 150 },
   on_attach = default_attach,
   capabilities = capabilities,
   cmd = { "typescript-language-server", "--stdio" },
@@ -105,6 +109,7 @@ lspconfig.tsserver.setup {
 }
 
 lspconfig.intelephense.setup {
+  flags = { debounce_text_changes = 150 },
   on_attach = default_attach,
   capabilities = capabilities,
   filetypes = { "php" },
@@ -210,6 +215,7 @@ lspconfig.intelephense.setup {
 }
 
 lspconfig.cssls.setup {
+  flags = { debounce_text_changes = 150 },
   capabilities = capabilities,
   on_attach = default_attach,
   root_dir = lspconfig.util.root_pattern(".projectroot", ".git", "composer.json")
@@ -218,21 +224,22 @@ lspconfig.cssls.setup {
 local servers = {'jsonls', 'bashls', 'html', 'vimls', 'yamlls'}
 for _, ilsp in ipairs(servers) do
   lspconfig[ilsp].setup {
+    flags = { debounce_text_changes = 150 },
     on_attach = default_attach,
     capabilities = capabilities
   }
 end
-
 
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
 lspconfig.sumneko_lua.setup {
+  flags = { debounce_text_changes = 150 },
   capabilities = capabilities,
-  cmd = {
-    '/Users/mjw/tmp/lua-language-server/bin/macOS/lua-language-server', '-E', '/Users/mjw/tmp/lua-language-server/main.lua'
-  },
+  -- cmd = {
+  --   '../tmp/lua-language-server/bin/lua-language-server', '-E', '../tmp/lua-language-server/main.lua'
+  -- },
   settings = {
     Lua = {
       runtime = {

@@ -426,6 +426,7 @@ export GOPATH="$HOME/go"
 export OCPATH="$HOME/.minishift/cache/oc/v3.9.0/darwin"
 export PATH="$GOPATH/bin:$OCPATH:$PATH"
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+export PATH=$HOME/tmp/lua-language-server/bin:$PATH
 export PATH=$HOME/.nix-profile/bin:$PATH
 
 # ripgrep configufation
