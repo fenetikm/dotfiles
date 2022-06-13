@@ -5,6 +5,8 @@ ext = {
   app = {},
 }
 
+hs.loadSpoon("URLDispatcher")
+
 -- keys used to trigger screen management
 local mash_screen = {"cmd", "alt", "ctrl"}
 
@@ -302,27 +304,42 @@ hs.fnutils.each({
   { key = "x", app = "Firefox" },
   { key = "space", app = "Kitty" },
   { key = "e", app = "Mail" },
-  { key = "w", app = "/Users/mjw/.config/kitty/wiki.sh", windowApp = "kitty", window = "wiki" },
-  { key = "z", app = "/Users/mjw/.config/kitty/zettel.sh", windowApp = "kitty", window = "zettel" },
+  { key = "p", url = "obsidian://open?vault=personal" },
   { key = "d", app = "Dash" },
   { key = "q", app = "TablePlus" },
   { key = "n", app = "Notes" },
   { key = "c", app = "Calendar" },
-  -- { key = "p", app = "Preview" },
   { key = "return", app = "Omnifocus" },
-  { key = "o", app = "Obsidian" },
+  { key = "z", url = "obsidian://open?vault=zettelkasten" },
   { key = "m", app = "Messages" },
   { key = "i", app = "Music" },
 }, function(object)
     hs.hotkey.bind(mash_apps, object.key, function() ext.app.forceLaunchOrFocus(object.app, object) end)
 end)
 
+function appID(app)
+  return hs.application.infoForBundlePath(app)['CFBundleIdentifier']
+end
+
+local obsidianApp = appID('/Applications/obsidian.app')
+local chromeApp = appID('/Applications/Google Chrome.app')
+
 -- map mash+l to lock screen
 hs.hotkey.bind(mash_apps, 'l', function() hs.caffeinate.systemSleep() end)
 
 function ext.app.forceLaunchOrFocus(appName, object)
   local log = hs.logger.new('mylog', 'debug')
-  -- log.i(appName)
+
+  if (object.url) then
+    spoon.URLDispatcher.url_patterns = {
+      {'obsidian:', obsidianApp},
+      {'https:', chromeApp},
+      {'http:', chromeApp}
+    }
+
+    spoon.URLDispatcher:dispatchURL('', '', '', object.url)
+  end
+
   -- if a window is specified then use that to try to focus by first
   if (object.windowApp) then
     for key, app in pairs(hs.application.runningApplications()) do
