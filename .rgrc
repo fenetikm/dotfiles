@@ -1,0 +1,5 @@
+--colors=match:fg:15
+--colors=line:fg:244
+--colors=path:fg:yellow
+--smart-case
+--max-columns=240
