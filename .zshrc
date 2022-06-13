@@ -95,6 +95,7 @@ alias lvr='ls -alR > /dev/null'
 
 alias mv='/bin/mv -i'
 alias rm='/bin/rm -i'
+alias srm='sudo /bin/rm -i'
 
 # reload
 alias reload="source ~/.zshrc"
@@ -109,9 +110,6 @@ alias c='bat'
 alias ping='prettyping'
 alias top='sudo htop'
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
-
-# keys
-alias uakeys='ssh-add ~/.ssh/uofa/keys/ua_lamp_docker/id_rsa && ssh-add ~/.ssh/uofa/keys/jenkins_deployment_key/id_rsa'
 
 run_vim_leader() {
   com="NormLead $1"
@@ -148,7 +146,6 @@ alias gl='git l'
 alias gp='git push'
 alias gb='git branch'
 alias g='_f() { if [[ $# == 0 ]]; then git status --short --branch; else git "$@"; fi }; _f'
-alias gmd='git merge dev'
 
 # git dotfiles management
 alias y='yadm'
@@ -156,27 +153,8 @@ alias y='yadm'
 # tmux aliases
 alias ms='~/.config/tmux/split.sh'
 alias mn='~/.config/tmux/new.sh'
-alias mnd='~/.config/tmux/drupal.sh'
-alias mnw='~/.config/tmux/tw.sh'
 alias mpc='~/.config/tmux/pc.sh'
-alias mtest='~/.config/tmux/testing.sh'
-alias ma='tmux attach -t'
 alias ml='tmux ls'
-
-#jira aliases
-alias j='jira'
-alias ji="~/.config/zsh/jira.zsh 'jira mine'"
-alias jo="~/.config/zsh/jira.zsh 'jira open'"
-alias ja="~/.config/zsh/jira.zsh 'jira all_mine'"
-
-# Taskwarrior aliases
-# source ~/.config/task/commands.zsh
-
-# vagrant exec binstubs
-alias vr='vbin/robo'
-alias vb='vbin/bash'
-alias vd='vbin/drush'
-alias vc='ls -alR > /dev/null && vbin/robo build:clean'
 
 # robo
 # alias rb='./vendor/bin/robo'
@@ -189,12 +167,7 @@ alias vboxr='vboxmanage list runningvms'
 #docker
 alias docker-restart="osascript -e 'quit app \"Docker\"' && open -a Docker"
 
-alias emu='$HOME/Library/Android/sdk/emulator/emulator'
-alias adb='$HOME/Library/Android/sdk/platform-tools/adb'
-
-#specific ssh
-alias wallissh='ssh -p 2223 root@103.21.48.192'
-# alias redyssh='ssh theoryz4@122.129.219.79 -p 2022 -i id_dsa'
+# ssh
 alias redyssh='ssh theoryz4@122.129.220.5 -p 5123 -i $HOME/.ssh/id_dsa'
 
 #ranger
@@ -221,12 +194,7 @@ find-up () {
   cd $SWD
 }
 
-run-drush () {
-  ssh -F .vagrant/ssh_config -q -t default "bash -l -c 'cd /vagrant/app && /home/vagrant/.composer/vendor/bin/drush $@'"
-}
-
 #rando
-alias dr2='run-drush'
 alias dbd='rb db:dump --path="dump.sql" --sed=gsed --dirty'
 alias dbl='rb db:load --path="dump.sql"'
 alias dbd2='rb db:dump --path="dump2.sql" --sed=gsed --dirty'
@@ -237,26 +205,6 @@ alias dblp='rb db:load --path="patient.sql"'
 alias pcload='(cd ~pcp && rb db:load)'
 alias pcup='docker-compose -f misc/docker/docker-compose.yml up -d'
 alias pcdown='docker container stop $(docker container ls -aq)'
-
-# add in looking for the command down the tree...
-# the idea begin:
-# use the vbin version if it exists, or
-# if in Vagrant directory do vagrant ssh -c, or
-# run it if command, or
-# throw error
-vbb () {
-  if [ -f vbin/$1 ]
-  then
-    vbin/$1
-  elif [ -f Vagrantfile ]
-  then
-    vagrant ssh -c "cd /vagrant && $1 ${@:2}"
-  else
-    echo "echo"
-  fi
-}
-
-alias dr='vbb bin/drush -r app'
 
 # function to toggle fg/bg on control z
 fancy-ctrl-z () {
@@ -418,8 +366,6 @@ export GOPATH="$HOME/go"
 export OCPATH="$HOME/.minishift/cache/oc/v3.9.0/darwin"
 export PATH="$GOPATH/bin:$OCPATH:$PATH"
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-export PATH=$HOME/tmp/lua-language-server/bin:$PATH
-export PATH=$HOME/.nix-profile/bin:$PATH
 
 # ripgrep configufation
 export RIPGREP_CONFIG_PATH="$HOME/.rgrc"
@@ -471,9 +417,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#787882'
 # ZSH_HIGHLIGHT_STYLES[alias]='fg=#DFDFE5,bold'
 # ZSH_HIGHLIGHT_STYLES[builtin]='fg=#DDCFBF'
 # ZSH_HIGHLIGHT_STYLES[suffix-alias]='fg=#FF761A'
-# if [ -e /Users/mjw/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/mjw/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
-# todo: add in fcommit to commit in git
 # switchPhp() {
 #   brew unlink php@$1 && brew link php@$2
 # }
