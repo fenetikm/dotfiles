@@ -202,12 +202,6 @@ alias r='ranger'
 
 alias ..='cd ..'
 
-#zettelkasten, search for a zettel by title
-alias zo='neuron -d ~z search | xargs nvim'
-alias zn='cd ~z && v -c "call NewZettel(1)"'
-alias zi='cd ~z && v index.md'
-alias zupgrade='nix-env -if https://github.com/srid/neuron/archive/master.tar.gz'
-
 #hugo
 hugo-new-post () {
   hugo new posts/"$1".md --editor nvim
@@ -243,8 +237,6 @@ alias dblp='rb db:load --path="patient.sql"'
 alias pcload='(cd ~pcp && rb db:load)'
 alias pcup='docker-compose -f misc/docker/docker-compose.yml up -d'
 alias pcdown='docker container stop $(docker container ls -aq)'
-
-alias n='neuron'
 
 # add in looking for the command down the tree...
 # the idea begin:
