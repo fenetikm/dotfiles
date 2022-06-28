@@ -399,7 +399,7 @@ local_export() {
 # local_export
 
 # source <(antibody init)
-source ~/.zsh_plugins.sh
+source $HOME/.zsh_plugins.zsh
 
 #zsh-history-substring-search key bindings
 bindkey '^[[A' history-substring-search-up
