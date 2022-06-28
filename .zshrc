@@ -398,18 +398,14 @@ local_export() {
 }
 # local_export
 
-source <(antibody init)
+# source <(antibody init)
 source ~/.zsh_plugins.sh
-# antibody bundle < ~/.zsh_plugins.txt
-# antibody bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.sh
 
 #zsh-history-substring-search key bindings
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 export PATH="/usr/local/opt/php@8.0/bin:$PATH"
 export PATH="/usr/local/opt/php@8.0/sbin:$PATH"
-
-# source /Users/mjw/Library/Preferences/org.dystroy.broot/launcher/bash/br
 
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#787882'

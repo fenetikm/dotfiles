@@ -187,7 +187,7 @@ return require('packer').startup(function()
   }
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
-  use {'glepnir/dashboard-nvim', setup = [[require('config.dash')]]}
+  use {'glepnir/dashboard-nvim', config = [[require('config.dash')]]}
 
   -- Not enabled for now, see if we miss it in a month's time
   --use 'majutsushi/tagbar'

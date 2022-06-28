@@ -1,21 +1,19 @@
 local g = vim.g
--- g.dashboard_preview_command = 'cat'
--- g.dashboard_preview_pipeline = 'lolcat -S 80 -p 10'
--- g.dashboard_preview_file = '~/.config/nvim/dashboard.txt'
-g.dashboard_preview_file_height = 17
-g.dashboard_preview_file_width = 80
-g.dashboard_disable_statusline = 1
-g.dashboard_custom_footer = { " " }
-g.dashboard_custom_section = {
-   a = { description = { "  Find File                 CTL p  " }, command = "Telescope find_files" },
-   b = { description = { "  Recents                   SPC f h" }, command = "Telescope oldfiles" },
-   c = { description = { "  Find Word                 SPC f w" }, command = "Telescope live_grep" },
-   d = { description = { "洛 New File                  SPC f n" }, command = "DashboardNewFile" },
-   e = { description = { "  Bookmarks                 SPC b m" }, command = "Telescope marks" },
-   f = { description = { "  Load Last Session         SPC l  " }, command = "SessionLoad" },
+local db = require("dashboard")
+db.preview_file_height = 18
+db.preview_file_width = 80
+db.hide_statusline = 1
+db.custom_footer = { " " }
+db.custom_center = {
+   { icon = "  ", desc = "Find File            ", shortcut = "CTL p  ", action = "Telescope find_files" },
+   { icon = "  ", desc = "Recents              ", shortcut = "SPC f h", action = "Telescope oldfiles" },
+   { icon = "  ", desc = "Find Word            ", shortcut = "SPC f w" , action = "Telescope live_grep" },
+   { icon = "洛 ", desc = "New File             ", shortcut = "SPC f n" , action = "DashboardNewFile" },
+   { icon = "  ", desc = "Bookmarks            ", shortcut = "SPC b m" , action = "Telescope marks" },
+   { icon = "  ", desc = "Load Last Session    ", shortcut = "SPC l  " , action = "SessionLoad" },
 }
-
-g.dashboard_custom_header = {
+db.custom_header = {
+"",
 "                             __                     ",
 "                  _ww   _a+\"D                       ",
 "          y#,  _r^ # _*^  y`                        ",
@@ -46,6 +44,9 @@ g.dashboard_custom_header = {
 "       .____awwmp_wNw#[w/`     ^#,      ~b___.      ",
 "        ` ^^^~^\"W___            ]Raaaamw~`^``^^~    ",
 "                  ^~\"~---~~~~~~`                    ",
+"",
+"",
+"",
 }
 
 local utils = require('telescope.utils')
@@ -56,15 +57,17 @@ local git_root, ret = utils.get_os_command_output({ "git", "rev-parse", "--show-
 local function get_dashboard_git_status()
   local git_cmd = {'git', 'status', '-s', '--', '.'}
   local output = utils.get_os_command_output(git_cmd)
-  set_var('dashboard_custom_footer', {'Git status', '', unpack(output)})
+  local db = require('dashboard')
+  set_var('db.custom_footer', {'Git status', '', unpack(output)})
 end
 
 if ret ~= 0 then
   local is_worktree = utils.get_os_command_output({ "git", "rev-parse", "--is-inside-work-tree" }, vim.loop.cwd())
+  local db = require('dashboard')
   if is_worktree[1] == "true" then
     get_dashboard_git_status()
   else
-    set_var('dashboard_custom_footer', {''})
+    set_var('db.custom_footer', {''})
   end
 else
     get_dashboard_git_status()
