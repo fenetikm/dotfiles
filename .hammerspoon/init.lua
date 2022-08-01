@@ -1,6 +1,7 @@
 -- @todo hide everything except top window
 -- @todo center something
 -- @todo snap new windows to closest grid
+-- @todo allow top half in a third
 ext = {
   app = {},
 }

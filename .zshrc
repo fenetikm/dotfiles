@@ -205,6 +205,7 @@ alias dblp='rb db:load --path="patient.sql"'
 alias pcload='(cd ~pcp && rb db:load)'
 alias pcup='docker-compose -f misc/docker/docker-compose.yml up -d'
 alias pcdown='docker container stop $(docker container ls -aq)'
+alias ytbest="youtube-dl -f bestvideo+bestaudio"
 
 # function to toggle fg/bg on control z
 fancy-ctrl-z () {
@@ -371,7 +372,7 @@ export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 export RIPGREP_CONFIG_PATH="$HOME/.rgrc"
 
 # all files
-alias rga="rg --no-ignore"
+alias rga="rg --hidden --no-ignore"
 alias fda="fd --hidden --no-ignore"
 
 #load nvm
