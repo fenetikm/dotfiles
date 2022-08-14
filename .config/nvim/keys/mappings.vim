@@ -53,13 +53,13 @@ xnoremap >  >gv
 "can these be made shorter? better?
 "TODO use these more? change?
 nnoremap <leader>y "uyy
-nnoremap <leader>d "udd
+" nnoremap <leader>d "udd
 nnoremap <leader>p "up=iB
 nnoremap <leader>P "uP=iB
 
 "visual mode
 xnoremap <leader>y "uyy
-xnoremap <leader>d "ud
+" xnoremap <leader>d "ud
 
 "easier begin and end of line
 nnoremap <s-h> ^

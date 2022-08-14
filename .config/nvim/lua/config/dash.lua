@@ -46,7 +46,7 @@ db.custom_header = {
 "                  ^~\"~---~~~~~~`                    ",
 "",
 "",
-"",
+""
 }
 
 local utils = require('telescope.utils')

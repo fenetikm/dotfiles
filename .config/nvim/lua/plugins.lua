@@ -162,7 +162,9 @@ return require('packer').startup(function()
   use {'fenetikm/vim-textobj-function', ft = {'php'}} --function textobj with php
 
   -- Debugging
-  --use {'mfussenegger/nvim-dap', config = [[require('config.dap')]]} --debug adaptor protocol
+  use {'mfussenegger/nvim-dap', config = [[require('config.dap')]]} --debug adaptor protocol
+  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+  use {'theHamsta/nvim-dap-virtual-text', requires = {"mfussenegger/nvim-dap"} }
 
   -- Uncategorised
   -- use {'nathom/filetype.nvim', config = [[require('config.filetype')]]} --replace default filetype with a faster version
