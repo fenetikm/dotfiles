@@ -155,6 +155,7 @@ alias ms='~/.config/tmux/split.sh'
 alias mn='~/.config/tmux/new.sh'
 alias mpc='~/.config/tmux/pc.sh'
 alias ml='tmux ls'
+alias ma='tmux attach-session'
 
 # robo
 # alias rb='./vendor/bin/robo'
