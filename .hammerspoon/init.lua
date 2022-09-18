@@ -303,7 +303,7 @@ hs.fnutils.each({
   { key = "s", app = "Slack" },
   { key = "g", app = "Google Chrome" },
   { key = "x", app = "Firefox" },
-  { key = "space", app = "Kitty" },
+  { key = "space", app = "/Applications/kitty.app/Contents/MacOS/kitty" },
   { key = "e", app = "Mail" },
   { key = "p", url = "obsidian://open?vault=personal" },
   { key = "d", app = "Dash" },
