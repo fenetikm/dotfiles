@@ -62,15 +62,15 @@ local lsp_mappings = function(client, bufnr)
 end
 
 local lsp_highlighting = function(client)
-  if client.resolved_capabilities.document_highlight then
-    vim.api.nvim_exec([[
-      augroup lsp_document_highlight
-        autocmd! * <buffer>
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-      augroup END
-    ]], false)
-  end
+  -- if client.resolved_capabilities.document_highlight then
+  --   vim.api.nvim_exec([[
+  --     augroup lsp_document_highlight
+  --       autocmd! * <buffer>
+  --       autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+  --       autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+  --     augroup END
+  --   ]], false)
+  -- end
 end
 
 local lsp_signature = function(client, bufnr)
@@ -116,6 +116,7 @@ lspconfig.intelephense.setup {
   filetypes = { "php" },
   root_dir = lspconfig.util.root_pattern(".git/", "composer.json"),
   settings = {
+    intelephense = {
       files = {
         exclude = {
           "**/.git/**",
@@ -125,8 +126,9 @@ lspconfig.intelephense.setup {
           "**/.DS_Store/**",
           "**/node_modules/**",
           "**/bower_components/**",
-          "**/vendor/**/{Tests,tests}/**",
           "**/_ci_phpunit_test/**",
+          "**/vendor/**/{Tests,tests}/**",
+          "**/tmp/**"
         }
       },
       completion = {
@@ -212,6 +214,7 @@ lspconfig.intelephense.setup {
         "zlib",
         "redis"
       }
+    }
   }
 }
 

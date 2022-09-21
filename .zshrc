@@ -160,6 +160,7 @@ alias ma='tmux attach-session'
 # robo
 # alias rb='./vendor/bin/robo'
 alias rb='~pcp/vendor/bin/robo'
+alias rbd='docker exec -it -w /app nginx-pc vendor/bin/robo'
 
 #virtual box
 alias vbox='vboxmanage'

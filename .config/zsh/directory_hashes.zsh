@@ -15,3 +15,4 @@ hash -d pc=~/Documents/Work/personify_care
 hash -d nv=~/.config/nvim
 hash -d z=~/zettelkasten
 hash -d icloud=~/iCloud
+hash -d yt=~/Downloads/yt
