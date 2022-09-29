@@ -101,8 +101,6 @@ local layouts = {
   }
 }
 
-local screenCount = #hs.screen.allScreens()
-
 hs.fnutils.each(layouts, function(object)
   hs.hotkey.bind(mash_screen, object.key, function() ext.app.applyLayout(object) end)
 end)
@@ -196,10 +194,10 @@ chain = (function(movements)
   end
 end)
 
-internalDisplay = (function()
+local internalDisplay = (function()
   -- Fun fact: this resolution matches both the 13" MacBook Air and the 15"
   -- (Retina) MacBook Pro.
-  return hs.screen.find('Color LCD')
+  return hs.screen.find('Built%-in')
 end)
 
 hs.hotkey.bind(mash_screen, 'up', chain({
@@ -233,19 +231,9 @@ hs.hotkey.bind(mash_screen, 'f', chain({
   grid.focus,
 }))
 
--- bind key to set a specific grid layout
--- internalKey: used on internal display, ultraKey on ultrawide screen
-function ext.app.setGrid(internalKey, ultraKey, dualKey, dualScreenIndex)
+function ext.app.setGrid(key)
   local win = hs.window.focusedWindow()
-  local internal = internalDisplay()
-  local dual = screenCount == 2
-  if dual then
-    hs.grid.set(win, grid[dualKey], hs.screen.allScreens()[dualScreenIndex])
-  elseif internal == nil then
-    hs.grid.set(win, grid[ultraKey])
-  else
-    hs.grid.set(win, grid[internalKey])
-  end
+  hs.grid.set(win, grid[key])
 end
 
 function ext.app.setLayout(rect)
@@ -253,41 +241,38 @@ function ext.app.setLayout(rect)
   win:setFrame(rect)
 end
 
-function runYabai()
-  -- return hs.execute("/usr/local/bin/yabai " .. cmd)
-  hs.execute("/usr/local/bin/yabai -m window --focus west")
-  -- return hs.execute("/usr/local/bin/yabai -m window --grid 1:3:0:0:2:1")
+function ext.app.moveToDisplay(displayIndex)
+  local displays = hs.screen.allScreens()
+  local win = hs.window.focusedWindow()
+  -- 2 should always be the builtin
+  if (displayIndex == 2 and displays[displayIndex]:name() ~= internalDisplay():name()) then
+    displayIndex = 1
+  elseif (displayIndex == 1 and displays[displayIndex]:name() == internalDisplay():name()) then
+    displayIndex = 2
+  end
+  win:moveToScreen(displays[displayIndex], false, true);
 end
-
--- cmd ref: https://github.com/koekeishiya/dotfiles/blob/master/skhd/skhdrc
-
-function stopYabai()
-  hs.execute("")
-end
-
-function startYabai()
-end
-
--- yabai commands
--- hs.hotkey.bind(mash_screen, 'q', function () runYabai() end)
 
 -- 1 row, halves
-hs.hotkey.bind(mash_screen, 'q', function() ext.app.setGrid('leftHalf', 'leftHalf', 'leftHalf', 1) end)
-hs.hotkey.bind(mash_screen, 'w', function() ext.app.setGrid('rightHalf', 'rightHalf', 'rightHalf', 1) end)
-hs.hotkey.bind(mash_screen, 'e', function() ext.app.setGrid('leftHalf', 'leftHalf', 'leftHalf', 2) end)
-hs.hotkey.bind(mash_screen, 'r', function() ext.app.setGrid('rightHalf', 'rightHalf', 'rightHalf', 2) end)
+hs.hotkey.bind(mash_screen, 'q', function() ext.app.setGrid('leftHalf') end)
+hs.hotkey.bind(mash_screen, 'w', function() ext.app.setGrid('rightHalf') end)
+hs.hotkey.bind(mash_screen, 'e', function() ext.app.setGrid('leftHalf') end)
+hs.hotkey.bind(mash_screen, 'r', function() ext.app.setGrid('rightHalf') end)
 
 -- 1 row, thirds
-hs.hotkey.bind(mash_screen, 'a', function() ext.app.setGrid('leftThird', 'leftThird', 'fullScreen', 1) end)
-hs.hotkey.bind(mash_screen, 's', function() ext.app.setGrid('middleVertical', 'middleVertical', 'fullScreen', 2) end)
-hs.hotkey.bind(mash_screen, 'd', function() ext.app.setGrid('rightThird', 'rightThird', '', 1) end)
+hs.hotkey.bind(mash_screen, 'a', function() ext.app.setGrid('leftThird') end)
+hs.hotkey.bind(mash_screen, 's', function() ext.app.setGrid('middleVertical') end)
+hs.hotkey.bind(mash_screen, 'd', function() ext.app.setGrid('rightThird') end)
 
 -- 1 row, two thirds
-hs.hotkey.bind(mash_screen, 'z', function() ext.app.setGrid('leftTwoThirds', 'leftTwoThirds', '', 1) end)
-hs.hotkey.bind(mash_screen, 'x', function() ext.app.setGrid('middleTwoThirds', 'middleTwoThirds', '', 1) end)
-hs.hotkey.bind(mash_screen, 'c', function() ext.app.setGrid('rightTwoThirds', 'rightTwoThirds', '', 1) end)
+hs.hotkey.bind(mash_screen, 'z', function() ext.app.setGrid('leftTwoThirds') end)
+hs.hotkey.bind(mash_screen, 'x', function() ext.app.setGrid('middleTwoThirds') end)
+hs.hotkey.bind(mash_screen, 'c', function() ext.app.setGrid('rightTwoThirds') end)
 
-hs.hotkey.bind(mash_screen, 'g', function() ext.app.setLayout(layoutMetrics.screenshot1) end)
+-- hs.hotkey.bind(mash_screen, 'g', function() ext.app.setLayout(layoutMetrics.screenshot1) end)
+
+hs.hotkey.bind(mash_screen, '1', function() ext.app.moveToDisplay(1) end)
+hs.hotkey.bind(mash_screen, '2', function() ext.app.moveToDisplay(2) end)
 
 -- global operations
 -- hs.hotkey.bind(mash_screen, ';', function() hs.grid.snap(hs.window.focusedWindow()) end)
@@ -298,22 +283,22 @@ local mash_apps = {"cmd", "alt", "ctrl", "shift"}
 
 -- https://github.com/digitalbase/hammerspoon/blob/master/init.lua
 hs.fnutils.each({
-  { key = "b", app = "Thunderbird" },
+  { key = "b", app = "Thunderbird", display = 2, size = 'fullScreen' },
   { key = "f", app = "Finder" },
-  { key = "s", app = "Slack" },
+  { key = "s", app = "Slack", display = 2, size = 'fullScreen' },
   { key = "g", app = "Google Chrome" },
-  { key = "x", app = "Firefox" },
+  { key = "x", app = "Brave Browser" },
   { key = "space", app = "/Applications/kitty.app/Contents/MacOS/kitty" },
-  { key = "e", app = "Mail" },
+  { key = "e", app = "Mail", display = 2, size = 'fullScreen' },
   { key = "p", url = "obsidian://open?vault=personal" },
   { key = "d", app = "Dash" },
-  { key = "q", app = "TablePlus" },
-  { key = "n", app = "Notes" },
-  { key = "c", app = "Calendar" },
-  { key = "return", app = "Omnifocus" },
+  { key = "q", app = "TablePlus", display = 2, size = 'fullScreen' },
+  { key = "n", app = "Notes", display = 2, size = 'fullScreen' },
+  { key = "c", app = "Calendar", display = 2, size = 'fullScreen' },
+  { key = "return", app = "Omnifocus", display = 1, size = 'focus' },
   { key = "z", url = "obsidian://open?vault=zettelkasten" },
-  { key = "m", app = "Messages" },
-  { key = "i", app = "Music" },
+  { key = "m", app = "Messages", display = 2, size = 'fullScreen' },
+  { key = "i", app = "Music", display = 2, size = 'fullScreen' },
 }, function(object)
     hs.hotkey.bind(mash_apps, object.key, function() ext.app.forceLaunchOrFocus(object.app, object) end)
 end)
@@ -322,6 +307,7 @@ function appID(app)
   return hs.application.infoForBundlePath(app)['CFBundleIdentifier']
 end
 
+-- apps for URL dispatching
 local obsidianApp = appID('/Applications/obsidian.app')
 local chromeApp = appID('/Applications/Google Chrome.app')
 
@@ -330,6 +316,7 @@ hs.hotkey.bind(mash_apps, 'l', function() hs.caffeinate.systemSleep() end)
 
 function ext.app.forceLaunchOrFocus(appName, object)
   local log = hs.logger.new('mylog', 'debug')
+  local screenCount = #hs.screen.allScreens()
 
   if (object.url) then
     spoon.URLDispatcher.url_patterns = {
@@ -341,52 +328,30 @@ function ext.app.forceLaunchOrFocus(appName, object)
     spoon.URLDispatcher:dispatchURL('', '', '', object.url)
   end
 
-  -- if a window is specified then use that to try to focus by first
-  if (object.windowApp) then
-    for key, app in pairs(hs.application.runningApplications()) do
-      log.i(app:name())
-      if (app:name() == object.windowApp) then
-        for w, wins in pairs(app:allWindows()) do
-          log.i(wins:title())
-          if (wins:title() == object.window) then
-            wins:focus()
-            return
-          end
-        end
-      end
-    end
-  end
-
   -- focus with hammerspoon
   hs.application.launchOrFocus(appName)
 
-  -- clear timer if exists
-  if ext.cache.launchTime ~= nil then
-    if ext.cache.launchTimer then ext.cache.launchTimer:stop() end
-  end
+  -- check display
+  if (object.display and screenCount == 2) then
+    local win = hs.window.focusedWindow()
+    local winScreen = win:screen():name()
+    local builtinScreen = hs.screen.find('Built%-in'):name()
+    if (object.display == 2 and winScreen ~= builtinScreen) then
+      ext.app.moveToDisplay(2)
+      ext.moveTimer = hs.timer.doAfter(0.1, function()
+        ext.app.setGrid(object.size)
+      end)
 
-  -- wait 500ms for window to appear and try hard to show the window
-  ext.cache.launchTimer = hs.timer.doAfter(0.5, function()
-    local frontmostApp     = hs.application.frontmostApplication()
-    local frontmostWindows = hs.fnutils.filter(frontmostApp:allWindows(), function(win) return win:isStandard() end)
+      return
+    elseif (object.display == 1 and winScreen == builtinScreen) then
+      ext.app.moveToDisplay(1)
+      ext.moveTimer = hs.timer.doAfter(0.1, function()
+        ext.app.setGrid(object.size)
+      end)
 
-    -- break if this app is not frontmost (when/why?)
-    if frontmostApp:title() ~= appName then
-      print('Expected app in front: ' .. appName .. ' got: ' .. frontmostApp:title())
       return
     end
-
-    if #frontmostWindows == 0 then
-      -- check if there's app name in window menu (Calendar, Messages, etc...)
-      if frontmostApp:findMenuItem({ 'Window', appName }) then
-        -- select it, usually moves to space with this window
-        frontmostApp:selectMenuItem({ 'Window', appName })
-      else
-        -- otherwise send cmd-n to create new window
-        hs.eventtap.keyStroke({ 'cmd' }, 'n')
-      end
-    end
-  end)
+  end
 end
 
 function ext.app.showBundleID()

@@ -17,7 +17,7 @@ nnoremap <silent> <leader>T <cmd>lua require'telescope.builtin'.current_buffer_t
 " noremap <silent> <c-t> :Tags<cr>
 " noremap <silent> <c-t> :Tags<cr>
 " nnoremap <silent> <c-t> <cmd>lua require'telescope.builtin'.tags(_G.falcon.get_full_theme({show_line = true}))<cr>
-nnoremap <silent> <c-t> <cmd>lua require'telescope.builtin'.tags{path_display = true, show_line = true}<cr>
+nnoremap <silent> <c-t> <cmd>lua require'telescope.builtin'.tags{path_display = {"smart"}, show_line = true}<cr>
 
 " nnoremap <silent> <leader>fb :Buffers<cr>
 nnoremap <silent> <leader>fb <cmd>lua require'telescope.builtin'.buffers(_G.falcon.get_simple_theme({}))<cr>
