@@ -1,4 +1,3 @@
-local g = vim.g
 local db = require("dashboard")
 db.preview_file_height = 18
 db.preview_file_width = 80

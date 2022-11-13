@@ -172,10 +172,20 @@ nnoremap <leader>= :call FormatBlock()<cr>
 set background=dark
 
 " falcon settings
-let g:falcon_background = 0
-let g:falcon_inactive = 0
+" let g:falcon_background = 0
+" let g:falcon_inactive = 0
+lua << EOF
+vim.g.falcon_settings = {
+  italic_comments = true,
+  bold = true,
+  undercurl = true,
+  underline_for_undercurl = false,
+  transparent_bg = false,
+  inactive_bg = false
+}
+EOF
 
-colorscheme falcon
+" colorscheme falcon
 
 " set cursors depending on mode
 set t_SI=[6\ q

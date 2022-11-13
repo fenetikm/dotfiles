@@ -5,7 +5,10 @@ return require('packer').startup(function()
 
   -- Colors
   -- use '~/Documents/Work/internal/vim/colors/falcon'
-  use 'fenetikm/falcon'
+  -- use 'fenetikm/falcon'
+  -- use {"adisen99/apprentice.nvim", requires = {"rktjmp/lush.nvim"}}
+  use "rktjmp/shipwright.nvim"
+  use {'~/Documents/Work/internal/vim/colors/falcon', requires = {"rktjmp/lush.nvim"}}
 
   -- Running
   use {'tpope/vim-dispatch', opt = true, cmd = {'Dispatch', 'Make', 'Focus', 'Start'}}
@@ -78,12 +81,12 @@ return require('packer').startup(function()
     requires = {'kyazdani42/nvim-web-devicons'}
   }
 
-  use {
-    'NTBBloodbath/galaxyline.nvim',
-    branch = 'main',
-      config = [[require('config.galaxyline')]],
-      requires = {'kyazdani42/nvim-web-devicons', opt = true}
-  }
+  -- use {
+  --   'NTBBloodbath/galaxyline.nvim',
+  --   branch = 'main',
+  --     config = [[require('config.galaxyline')]],
+  --     requires = {'kyazdani42/nvim-web-devicons', opt = true}
+  -- }
   -- use 'itchyny/lightline.vim' --statusline handling
 
   -- Columns

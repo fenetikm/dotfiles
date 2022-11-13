@@ -76,13 +76,13 @@ local falcon_theme = {
   },
 }
 
-_G.falcon = {}
-_G.falcon.get_full_theme = function(opts)
+_G.falcon_telescope = {}
+_G.falcon_telescope.get_full_theme = function(opts)
   local theme = falcon_theme
   return vim.tbl_deep_extend('force', theme, opts)
 end
 
-_G.falcon.get_simple_theme = function(opts)
+_G.falcon_telescope.get_simple_theme = function(opts)
   local theme = falcon_theme
   theme = vim.tbl_deep_extend('force', theme, opts)
   theme.preview = false
