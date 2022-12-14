@@ -81,12 +81,12 @@ return require('packer').startup(function()
     requires = {'kyazdani42/nvim-web-devicons'}
   }
 
-  -- use {
-  --   'NTBBloodbath/galaxyline.nvim',
-  --   branch = 'main',
-  --     config = [[require('plugins.galaxyline')]],
-  --     requires = {'kyazdani42/nvim-web-devicons', opt = true}
-  -- }
+  use {
+    'NTBBloodbath/galaxyline.nvim',
+    branch = 'main',
+      config = [[require('plugins.galaxyline')]],
+      requires = {'kyazdani42/nvim-web-devicons', opt = true}
+  }
   -- use 'itchyny/lightline.vim' --statusline handling
 
   -- Columns
@@ -114,7 +114,7 @@ return require('packer').startup(function()
   use 'neovim/nvim-lspconfig'
   use 'nvim-lua/lsp-status.nvim'
   use {'nvim-treesitter/nvim-treesitter', config = [[require('plugins.treesitter')]]}
-  -- use 'nvim-treesitter/playground'
+  use {'nvim-treesitter/playground', config = [[require('plugins.playground')]]}
   -- use {
   --     'nvim-treesitter/nvim-treesitter',
   --     requires = {
@@ -142,11 +142,7 @@ return require('packer').startup(function()
   use 'sheerun/vim-polyglot' --syntax for a lot of types
   use 'plasticboy/vim-markdown' --markdown syntax
   use 'StanAngeloff/php.vim' --php syntax
-  use {
-    'norcalli/nvim-colorizer.lua',
-    ft = {'css', 'html', 'yaml', 'less', 'scss'},
-    config = [[require('colorizer').setup {'css', 'html', 'yaml', 'less', 'scss'}]]
-  }
+  use {'norcalli/nvim-colorizer.lua', config = [[require('plugins.colorizer')]]}
 
   -- Text objects
   use 'kana/vim-textobj-user'

@@ -2,6 +2,8 @@
 -- @todo center something
 -- @todo snap new windows to closest grid
 -- @todo allow top half in a third
+-- @todo when first opening something, put it in desired place but don't on focus
+-- @todo layout method
 ext = {
   app = {},
 }
@@ -294,9 +296,14 @@ hs.fnutils.each({
   { key = "d", app = "Dash" },
   { key = "q", app = "TablePlus", display = 2, size = 'fullScreen' },
   { key = "n", app = "Notes", display = 2, size = 'fullScreen' },
-  { key = "c", app = "Calendar", display = 2, size = 'fullScreen' },
+  { key = "c", app = "Calendar"},
+  { key = "j", app = "Jira"},
+  { key = "k", app = "Bitbucket"},
+  { key = "o", app = "Confluence"},
+  { key = "r", app = "MetabaseReports"},
   { key = "return", app = "Omnifocus", display = 1, size = 'focus' },
   { key = "z", url = "obsidian://open?vault=zettelkasten" },
+  { key = "v", url = "obsidian://open?vault=PC" },
   { key = "m", app = "Messages", display = 2, size = 'fullScreen' },
   { key = "i", app = "Music", display = 2, size = 'fullScreen' },
 }, function(object)

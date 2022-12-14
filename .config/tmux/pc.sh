@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 CWD=$(pwd)
-SESSION_NAME="pc"
+SESSION_NAME="🐶"
 
 # detach from a tmux session if in one
 tmux detach > /dev/null
