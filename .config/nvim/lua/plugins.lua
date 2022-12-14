@@ -57,9 +57,8 @@ return require('packer').startup(function()
 
   -- Files
   use 'pbrisbin/vim-mkdir' --save file in directory, don't fail
-  -- TODO replace with nvim tree
   use {'kyazdani42/nvim-tree.lua', config = [[require('config.tree')]],
-      requires = {'kyazdani42/nvim-web-devicons', opt = true}}
+      requires = {'kyazdani42/nvim-web-devicons'}}
 
   -- use {'scrooloose/nerdtree', event = {'VimEnter'}, cmd = {'NERDTreeToggle', 'NERDTreeFind'}} --file tree explorer
   use {'Xuyuanp/nerdtree-git-plugin', cmd = {'NERDTreeToggle', 'NERDTreeFind'}} --nerdtree git plugin
