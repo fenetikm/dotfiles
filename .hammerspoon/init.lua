@@ -300,6 +300,7 @@ hs.fnutils.each({
   { key = "j", app = "Jira"},
   { key = "k", app = "Bitbucket"},
   { key = "o", app = "Confluence"},
+  { key = "r", app = "MetabaseReports"},
   { key = "return", app = "Omnifocus", display = 1, size = 'focus' },
   { key = "z", url = "obsidian://open?vault=zettelkasten" },
   { key = "v", url = "obsidian://open?vault=PC" },
