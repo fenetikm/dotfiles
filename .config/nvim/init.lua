@@ -38,7 +38,6 @@ vim.cmd([[
 ]])
 
 -- colour handling goes here
-
 vim.opt.background = 'dark'
 vim.g.colors_name = 'falcon'
 vim.g.falcon_settings = {
@@ -49,6 +48,7 @@ vim.g.falcon_settings = {
   transparent_bg = false,
   inactive_bg = false,
   lsp_background = true,
+  lsp_inverse = true,
   variation = 'zen',
 }
 
