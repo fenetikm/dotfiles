@@ -124,6 +124,9 @@ return require('packer').startup(function()
   -- use 'thomasfaingnaert/vim-lsp-ultisnips' --ultisnips in LSP
   use {'ray-x/lsp_signature.nvim'}
 
+  -- Show context when in a class, function etc.
+  use 'nvim-treesitter/nvim-treesitter-context'
+
   -- Completion
   -- use {'hrsh7th/nvim-compe', config = [[require('plugins.compe')]]}
   use {'hrsh7th/nvim-cmp', config = [[require('plugins.cmp')]]}
