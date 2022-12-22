@@ -74,6 +74,12 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["Comment.nvim"] = {
+    config = { "require('plugins.comment')" },
+    loaded = true,
+    path = "/Users/michael/.local/share/nvim/site/pack/packer/start/Comment.nvim",
+    url = "https://github.com/numToStr/Comment.nvim"
+  },
   ListToggle = {
     loaded = true,
     path = "/Users/michael/.local/share/nvim/site/pack/packer/start/ListToggle",
@@ -85,14 +91,6 @@ _G.packer_plugins = {
     only_cond = false,
     path = "/Users/michael/.local/share/nvim/site/pack/packer/opt/MatchTag",
     url = "https://github.com/gregsexton/MatchTag"
-  },
-  ["PHP-Indenting-for-VIm"] = {
-    config = { "require('plugins.phpindent')" },
-    loaded = false,
-    needs_bufread = false,
-    only_cond = false,
-    path = "/Users/michael/.local/share/nvim/site/pack/packer/opt/PHP-Indenting-for-VIm",
-    url = "https://github.com/2072/PHP-Indenting-for-VIm"
   },
   ["bullets.vim"] = {
     config = { "require('plugins.bullets')" },
@@ -279,6 +277,11 @@ _G.packer_plugins = {
     path = "/Users/michael/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
     url = "https://github.com/nvim-treesitter/nvim-treesitter"
   },
+  ["nvim-treesitter-context"] = {
+    loaded = true,
+    path = "/Users/michael/.local/share/nvim/site/pack/packer/start/nvim-treesitter-context",
+    url = "https://github.com/nvim-treesitter/nvim-treesitter-context"
+  },
   ["nvim-web-devicons"] = {
     loaded = true,
     path = "/Users/michael/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
@@ -341,12 +344,6 @@ _G.packer_plugins = {
     only_cond = false,
     path = "/Users/michael/.local/share/nvim/site/pack/packer/opt/targets.vim",
     url = "https://github.com/wellle/targets.vim"
-  },
-  tcomment_vim = {
-    config = { "require('plugins.comment')" },
-    loaded = true,
-    path = "/Users/michael/.local/share/nvim/site/pack/packer/start/tcomment_vim",
-    url = "https://github.com/tomtom/tcomment_vim"
   },
   ["telescope-fzf-native.nvim"] = {
     loaded = true,
@@ -418,12 +415,6 @@ _G.packer_plugins = {
     path = "/Users/michael/.local/share/nvim/site/pack/packer/opt/vim-fugitive",
     url = "https://github.com/tpope/vim-fugitive"
   },
-  ["vim-highlightedyank"] = {
-    config = { "require('plugins.Highlightedyank')" },
-    loaded = true,
-    path = "/Users/michael/.local/share/nvim/site/pack/packer/start/vim-highlightedyank",
-    url = "https://github.com/machakann/vim-highlightedyank"
-  },
   ["vim-localvimrc"] = {
     config = { "require('plugins.localvimrc')" },
     loaded = true,
@@ -440,26 +431,12 @@ _G.packer_plugins = {
     path = "/Users/michael/.local/share/nvim/site/pack/packer/start/vim-mkdir",
     url = "https://github.com/pbrisbin/vim-mkdir"
   },
-  ["vim-php"] = {
-    loaded = false,
-    needs_bufread = false,
-    only_cond = false,
-    path = "/Users/michael/.local/share/nvim/site/pack/packer/opt/vim-php",
-    url = "https://github.com/sahibalejandro/vim-php"
-  },
   ["vim-php-manual"] = {
     loaded = false,
     needs_bufread = true,
     only_cond = false,
     path = "/Users/michael/.local/share/nvim/site/pack/packer/opt/vim-php-manual",
     url = "https://github.com/alvan/vim-php-manual"
-  },
-  ["vim-php-namespace"] = {
-    loaded = false,
-    needs_bufread = false,
-    only_cond = false,
-    path = "/Users/michael/.local/share/nvim/site/pack/packer/opt/vim-php-namespace",
-    url = "https://github.com/arnaud-lb/vim-php-namespace"
   },
   ["vim-polyglot"] = {
     loaded = true,
@@ -520,13 +497,6 @@ _G.packer_plugins = {
     path = "/Users/michael/.local/share/nvim/site/pack/packer/start/vim-textobj-entire",
     url = "https://github.com/kana/vim-textobj-entire"
   },
-  ["vim-textobj-function"] = {
-    loaded = false,
-    needs_bufread = true,
-    only_cond = false,
-    path = "/Users/michael/.local/share/nvim/site/pack/packer/opt/vim-textobj-function",
-    url = "https://github.com/fenetikm/vim-textobj-function"
-  },
   ["vim-textobj-indent"] = {
     loaded = true,
     path = "/Users/michael/.local/share/nvim/site/pack/packer/start/vim-textobj-indent",
@@ -579,70 +549,6 @@ time([[Setup for vim-devicons]], false)
 time([[packadd for vim-devicons]], true)
 vim.cmd [[packadd vim-devicons]]
 time([[packadd for vim-devicons]], false)
--- Config for: ultisnips
-time([[Config for ultisnips]], true)
-require('plugins.ultisnips')
-time([[Config for ultisnips]], false)
--- Config for: bullets.vim
-time([[Config for bullets.vim]], true)
-require('plugins.bullets')
-time([[Config for bullets.vim]], false)
--- Config for: loupe
-time([[Config for loupe]], true)
-require('plugins.loupe')
-time([[Config for loupe]], false)
--- Config for: clever-f.vim
-time([[Config for clever-f.vim]], true)
-require('plugins.clever-f')
-time([[Config for clever-f.vim]], false)
--- Config for: playground
-time([[Config for playground]], true)
-require('plugins.playground')
-time([[Config for playground]], false)
--- Config for: vim-doge
-time([[Config for vim-doge]], true)
-require('plugins.doge')
-time([[Config for vim-doge]], false)
--- Config for: dashboard-nvim
-time([[Config for dashboard-nvim]], true)
-require('plugins.dash')
-time([[Config for dashboard-nvim]], false)
--- Config for: nvim-cmp
-time([[Config for nvim-cmp]], true)
-require('plugins.cmp')
-time([[Config for nvim-cmp]], false)
--- Config for: vim-signature
-time([[Config for vim-signature]], true)
-require('plugins.signature')
-time([[Config for vim-signature]], false)
--- Config for: nvim-colorizer.lua
-time([[Config for nvim-colorizer.lua]], true)
-require('plugins.colorizer')
-time([[Config for nvim-colorizer.lua]], false)
--- Config for: vim-expand-region
-time([[Config for vim-expand-region]], true)
-require('plugins.expand')
-time([[Config for vim-expand-region]], false)
--- Config for: nvim-dap
-time([[Config for nvim-dap]], true)
-require('plugins.dap')
-time([[Config for nvim-dap]], false)
--- Config for: vim-sneak
-time([[Config for vim-sneak]], true)
-require('plugins.sneak')
-time([[Config for vim-sneak]], false)
--- Config for: vim-slime
-time([[Config for vim-slime]], true)
-require('plugins.slime')
-time([[Config for vim-slime]], false)
--- Config for: galaxyline.nvim
-time([[Config for galaxyline.nvim]], true)
-require('plugins.galaxyline')
-time([[Config for galaxyline.nvim]], false)
--- Config for: vim-highlightedyank
-time([[Config for vim-highlightedyank]], true)
-require('plugins.Highlightedyank')
-time([[Config for vim-highlightedyank]], false)
 -- Config for: vim-test
 time([[Config for vim-test]], true)
 require('plugins.testing')
@@ -651,33 +557,135 @@ time([[Config for vim-test]], false)
 time([[Config for vim-localvimrc]], true)
 require('plugins.localvimrc')
 time([[Config for vim-localvimrc]], false)
--- Config for: indent-blankline.nvim
-time([[Config for indent-blankline.nvim]], true)
-require('plugins.indent_blankline')
-time([[Config for indent-blankline.nvim]], false)
--- Config for: tcomment_vim
-time([[Config for tcomment_vim]], true)
+-- Config for: Comment.nvim
+time([[Config for Comment.nvim]], true)
 require('plugins.comment')
-time([[Config for tcomment_vim]], false)
--- Config for: telescope.nvim
-time([[Config for telescope.nvim]], true)
-require('plugins.telescope')
-time([[Config for telescope.nvim]], false)
+time([[Config for Comment.nvim]], false)
+-- Config for: playground
+time([[Config for playground]], true)
+require('plugins.playground')
+time([[Config for playground]], false)
+-- Config for: nvim-cmp
+time([[Config for nvim-cmp]], true)
+require('plugins.cmp')
+time([[Config for nvim-cmp]], false)
+-- Config for: dashboard-nvim
+time([[Config for dashboard-nvim]], true)
+require('plugins.dash')
+time([[Config for dashboard-nvim]], false)
+-- Config for: nvim-colorizer.lua
+time([[Config for nvim-colorizer.lua]], true)
+require('plugins.colorizer')
+time([[Config for nvim-colorizer.lua]], false)
+-- Config for: nvim-dap
+time([[Config for nvim-dap]], true)
+require('plugins.dap')
+time([[Config for nvim-dap]], false)
+-- Config for: vim-sneak
+time([[Config for vim-sneak]], true)
+require('plugins.sneak')
+time([[Config for vim-sneak]], false)
+-- Config for: bullets.vim
+time([[Config for bullets.vim]], true)
+require('plugins.bullets')
+time([[Config for bullets.vim]], false)
+-- Config for: galaxyline.nvim
+time([[Config for galaxyline.nvim]], true)
+require('plugins.galaxyline')
+time([[Config for galaxyline.nvim]], false)
+-- Config for: clever-f.vim
+time([[Config for clever-f.vim]], true)
+require('plugins.clever-f')
+time([[Config for clever-f.vim]], false)
 -- Config for: gitsigns.nvim
 time([[Config for gitsigns.nvim]], true)
 require('plugins.gitsigns')
 time([[Config for gitsigns.nvim]], false)
+-- Config for: telescope.nvim
+time([[Config for telescope.nvim]], true)
+require('plugins.telescope')
+time([[Config for telescope.nvim]], false)
+-- Config for: vim-slime
+time([[Config for vim-slime]], true)
+require('plugins.slime')
+time([[Config for vim-slime]], false)
+-- Config for: ultisnips
+time([[Config for ultisnips]], true)
+require('plugins.ultisnips')
+time([[Config for ultisnips]], false)
+-- Config for: indent-blankline.nvim
+time([[Config for indent-blankline.nvim]], true)
+require('plugins.indent_blankline')
+time([[Config for indent-blankline.nvim]], false)
+-- Config for: vim-doge
+time([[Config for vim-doge]], true)
+require('plugins.doge')
+time([[Config for vim-doge]], false)
+-- Config for: vim-signature
+time([[Config for vim-signature]], true)
+require('plugins.signature')
+time([[Config for vim-signature]], false)
 -- Config for: nvim-treesitter
 time([[Config for nvim-treesitter]], true)
 require('plugins.treesitter')
 time([[Config for nvim-treesitter]], false)
+-- Config for: loupe
+time([[Config for loupe]], true)
+require('plugins.loupe')
+time([[Config for loupe]], false)
 -- Config for: nvim-tree.lua
 time([[Config for nvim-tree.lua]], true)
 require('plugins.tree')
 time([[Config for nvim-tree.lua]], false)
+-- Config for: vim-expand-region
+time([[Config for vim-expand-region]], true)
+require('plugins.expand')
+time([[Config for vim-expand-region]], false)
 
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)
+pcall(vim.api.nvim_create_user_command, 'Gstatus', function(cmdargs)
+          require('packer.load')({'vim-fugitive'}, { cmd = 'Gstatus', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
+        end,
+        {nargs = '*', range = true, bang = true, complete = function()
+          require('packer.load')({'vim-fugitive'}, { cmd = 'Gstatus' }, _G.packer_plugins)
+          return vim.fn.getcompletion('Gstatus ', 'cmdline')
+      end})
+pcall(vim.api.nvim_create_user_command, 'Gdiff', function(cmdargs)
+          require('packer.load')({'vim-fugitive'}, { cmd = 'Gdiff', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
+        end,
+        {nargs = '*', range = true, bang = true, complete = function()
+          require('packer.load')({'vim-fugitive'}, { cmd = 'Gdiff' }, _G.packer_plugins)
+          return vim.fn.getcompletion('Gdiff ', 'cmdline')
+      end})
+pcall(vim.api.nvim_create_user_command, 'Glog', function(cmdargs)
+          require('packer.load')({'vim-fugitive'}, { cmd = 'Glog', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
+        end,
+        {nargs = '*', range = true, bang = true, complete = function()
+          require('packer.load')({'vim-fugitive'}, { cmd = 'Glog' }, _G.packer_plugins)
+          return vim.fn.getcompletion('Glog ', 'cmdline')
+      end})
+pcall(vim.api.nvim_create_user_command, 'Git', function(cmdargs)
+          require('packer.load')({'vim-fugitive'}, { cmd = 'Git', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
+        end,
+        {nargs = '*', range = true, bang = true, complete = function()
+          require('packer.load')({'vim-fugitive'}, { cmd = 'Git' }, _G.packer_plugins)
+          return vim.fn.getcompletion('Git ', 'cmdline')
+      end})
+pcall(vim.api.nvim_create_user_command, 'G', function(cmdargs)
+          require('packer.load')({'vim-fugitive'}, { cmd = 'G', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
+        end,
+        {nargs = '*', range = true, bang = true, complete = function()
+          require('packer.load')({'vim-fugitive'}, { cmd = 'G' }, _G.packer_plugins)
+          return vim.fn.getcompletion('G ', 'cmdline')
+      end})
+pcall(vim.api.nvim_create_user_command, 'Make', function(cmdargs)
+          require('packer.load')({'vim-dispatch'}, { cmd = 'Make', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
+        end,
+        {nargs = '*', range = true, bang = true, complete = function()
+          require('packer.load')({'vim-dispatch'}, { cmd = 'Make' }, _G.packer_plugins)
+          return vim.fn.getcompletion('Make ', 'cmdline')
+      end})
 pcall(vim.api.nvim_create_user_command, 'Focus', function(cmdargs)
           require('packer.load')({'vim-dispatch'}, { cmd = 'Focus', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
         end,
@@ -720,6 +728,13 @@ pcall(vim.api.nvim_create_user_command, 'Gmerge', function(cmdargs)
           require('packer.load')({'vim-fugitive'}, { cmd = 'Gmerge' }, _G.packer_plugins)
           return vim.fn.getcompletion('Gmerge ', 'cmdline')
       end})
+pcall(vim.api.nvim_create_user_command, 'EasyAlign', function(cmdargs)
+          require('packer.load')({'vim-easy-align'}, { cmd = 'EasyAlign', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
+        end,
+        {nargs = '*', range = true, bang = true, complete = function()
+          require('packer.load')({'vim-easy-align'}, { cmd = 'EasyAlign' }, _G.packer_plugins)
+          return vim.fn.getcompletion('EasyAlign ', 'cmdline')
+      end})
 pcall(vim.api.nvim_create_user_command, 'NERDTreeFind', function(cmdargs)
           require('packer.load')({'nerdtree-git-plugin'}, { cmd = 'NERDTreeFind', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
         end,
@@ -734,61 +749,12 @@ pcall(vim.api.nvim_create_user_command, 'NERDTreeToggle', function(cmdargs)
           require('packer.load')({'nerdtree-git-plugin'}, { cmd = 'NERDTreeToggle' }, _G.packer_plugins)
           return vim.fn.getcompletion('NERDTreeToggle ', 'cmdline')
       end})
-pcall(vim.api.nvim_create_user_command, 'EasyAlign', function(cmdargs)
-          require('packer.load')({'vim-easy-align'}, { cmd = 'EasyAlign', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
-        end,
-        {nargs = '*', range = true, bang = true, complete = function()
-          require('packer.load')({'vim-easy-align'}, { cmd = 'EasyAlign' }, _G.packer_plugins)
-          return vim.fn.getcompletion('EasyAlign ', 'cmdline')
-      end})
-pcall(vim.api.nvim_create_user_command, 'Glog', function(cmdargs)
-          require('packer.load')({'vim-fugitive'}, { cmd = 'Glog', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
-        end,
-        {nargs = '*', range = true, bang = true, complete = function()
-          require('packer.load')({'vim-fugitive'}, { cmd = 'Glog' }, _G.packer_plugins)
-          return vim.fn.getcompletion('Glog ', 'cmdline')
-      end})
-pcall(vim.api.nvim_create_user_command, 'Gdiff', function(cmdargs)
-          require('packer.load')({'vim-fugitive'}, { cmd = 'Gdiff', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
-        end,
-        {nargs = '*', range = true, bang = true, complete = function()
-          require('packer.load')({'vim-fugitive'}, { cmd = 'Gdiff' }, _G.packer_plugins)
-          return vim.fn.getcompletion('Gdiff ', 'cmdline')
-      end})
-pcall(vim.api.nvim_create_user_command, 'Make', function(cmdargs)
-          require('packer.load')({'vim-dispatch'}, { cmd = 'Make', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
-        end,
-        {nargs = '*', range = true, bang = true, complete = function()
-          require('packer.load')({'vim-dispatch'}, { cmd = 'Make' }, _G.packer_plugins)
-          return vim.fn.getcompletion('Make ', 'cmdline')
-      end})
 pcall(vim.api.nvim_create_user_command, 'Dispatch', function(cmdargs)
           require('packer.load')({'vim-dispatch'}, { cmd = 'Dispatch', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
         end,
         {nargs = '*', range = true, bang = true, complete = function()
           require('packer.load')({'vim-dispatch'}, { cmd = 'Dispatch' }, _G.packer_plugins)
           return vim.fn.getcompletion('Dispatch ', 'cmdline')
-      end})
-pcall(vim.api.nvim_create_user_command, 'Git', function(cmdargs)
-          require('packer.load')({'vim-fugitive'}, { cmd = 'Git', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
-        end,
-        {nargs = '*', range = true, bang = true, complete = function()
-          require('packer.load')({'vim-fugitive'}, { cmd = 'Git' }, _G.packer_plugins)
-          return vim.fn.getcompletion('Git ', 'cmdline')
-      end})
-pcall(vim.api.nvim_create_user_command, 'G', function(cmdargs)
-          require('packer.load')({'vim-fugitive'}, { cmd = 'G', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
-        end,
-        {nargs = '*', range = true, bang = true, complete = function()
-          require('packer.load')({'vim-fugitive'}, { cmd = 'G' }, _G.packer_plugins)
-          return vim.fn.getcompletion('G ', 'cmdline')
-      end})
-pcall(vim.api.nvim_create_user_command, 'Gstatus', function(cmdargs)
-          require('packer.load')({'vim-fugitive'}, { cmd = 'Gstatus', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
-        end,
-        {nargs = '*', range = true, bang = true, complete = function()
-          require('packer.load')({'vim-fugitive'}, { cmd = 'Gstatus' }, _G.packer_plugins)
-          return vim.fn.getcompletion('Gstatus ', 'cmdline')
       end})
 time([[Defining lazy-load commands]], false)
 
@@ -797,7 +763,7 @@ vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
 vim.cmd [[au FileType html ++once lua require("packer.load")({'MatchTag'}, { ft = "html" }, _G.packer_plugins)]]
-vim.cmd [[au FileType php ++once lua require("packer.load")({'phpfolding.vim', 'splitjoin.vim', 'vim-php-manual', 'vim-php', 'PHP-Indenting-for-VIm', 'vim-php-namespace', 'vim-textobj-function'}, { ft = "php" }, _G.packer_plugins)]]
+vim.cmd [[au FileType php ++once lua require("packer.load")({'splitjoin.vim', 'phpfolding.vim', 'vim-php-manual'}, { ft = "php" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
   -- Event lazy-loads
 time([[Defining lazy-load event autocommands]], true)
