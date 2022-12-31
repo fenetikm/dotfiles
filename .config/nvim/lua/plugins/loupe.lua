@@ -1,0 +1,1 @@
+local g = vim.g

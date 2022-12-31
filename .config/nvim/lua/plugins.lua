@@ -34,8 +34,7 @@ return require('packer').startup(function()
   use {'janko-m/vim-test', config = [[require('plugins.testing')]]} --Test runner
 
   -- Commenting
-  --use {'tomtom/tcomment_vim', event = {'VimEnter'}, config = [[require('plugins.comment')]]}
-  use {'tomtom/tcomment_vim', config = [[require('plugins.comment')]]}
+  use {'numToStr/Comment.nvim', config = [[require('plugins.comment')]]}
 
   -- Selection
   use {'terryma/vim-expand-region', config = [[require('plugins.expand')]]} --expand region useful for selection
@@ -48,8 +47,6 @@ return require('packer').startup(function()
 
   -- Writing and focus
   use 'junegunn/goyo.vim' --distraction free writing
-  -- TODO think this is in neovim? e.g. https://oroques.dev/notes/neovim-init/
-  use {'machakann/vim-highlightedyank', config = [[require('plugins.Highlightedyank')]]} --highlight the last yanked item
 
   -- Motion
   use {'rhysd/clever-f.vim', config = [[require('plugins.clever-f')]]} --clever fFtT 
@@ -100,7 +97,6 @@ return require('packer').startup(function()
   use {'kshenoy/vim-signature', config = [[require('plugins.signature')]]} --marks handling
 
   -- Guides
-  -- use {'nathanaelkane/vim-indent-guides', cmd = {'IndentGuidesToggle'}, config = [[require('plugins.indent')]]}
   use {"lukas-reineke/indent-blankline.nvim", config = [[require('plugins.indent_blankline')]]}
 
   -- Formatting
@@ -134,17 +130,12 @@ return require('packer').startup(function()
   use 'nvim-lua/lsp-status.nvim'
   use {'nvim-treesitter/nvim-treesitter', config = [[require('plugins.treesitter')]]}
   use {'nvim-treesitter/playground', config = [[require('plugins.playground')]]}
-  -- use {
-  --     'nvim-treesitter/nvim-treesitter',
-  --     requires = {
-  --       'nvim-treesitter/nvim-treesitter-refactor', 'nvim-treesitter/nvim-treesitter-textobjects'
-  --     },
-  --     config = [[require('plugins.treesitter')]]}
-  -- use 'thomasfaingnaert/vim-lsp-ultisnips' --ultisnips in LSP
   use {'ray-x/lsp_signature.nvim'}
 
+  -- Show context when in a class, function etc.
+  use 'nvim-treesitter/nvim-treesitter-context'
+
   -- Completion
-  -- use {'hrsh7th/nvim-compe', config = [[require('plugins.compe')]]}
   use {'hrsh7th/nvim-cmp', config = [[require('plugins.cmp')]]}
   use 'hrsh7th/cmp-nvim-lsp'
   use 'hrsh7th/cmp-buffer'
@@ -171,12 +162,12 @@ return require('packer').startup(function()
   use 'kana/vim-textobj-entire'
 
   -- PHP stuff
-  use {'2072/PHP-Indenting-for-VIm', ft = {'php'}, config = [[require('plugins.phpindent')]]} --updated indenting
-  use {'arnaud-lb/vim-php-namespace', ft = {'php'}} --insert use statements automatically
-  use {'sahibalejandro/vim-php', ft = {'php'}} --insert absolute FQCN
+  -- use {'2072/PHP-Indenting-for-VIm', ft = {'php'}, config = [[require('plugins.phpindent')]]} --updated indenting
+  -- use {'arnaud-lb/vim-php-namespace', ft = {'php'}} --insert use statements automatically
+  -- use {'sahibalejandro/vim-php', ft = {'php'}} --insert absolute FQCN
   use {'fenetikm/phpfolding.vim', ft = {'php'}, config = [[require('plugins.phpfolding')]]} --php folding
   use {'alvan/vim-php-manual', ft = {'php'}} --php manual
-  use {'fenetikm/vim-textobj-function', ft = {'php'}} --function textobj with php
+  -- use {'fenetikm/vim-textobj-function', ft = {'php'}} --function textobj with php
 
   -- Java
   use {'mfussenegger/nvim-jdtls'}
@@ -197,9 +188,7 @@ return require('packer').startup(function()
   use 'machakann/vim-swap' --swap params around
   use 'rcarriga/nvim-notify'
 
-  -- TODO replace with nvim version
-  -- use 'fiatjaf/neuron.vim' --zettel management
-  -- use {'oberblastmeister/neuron.nvim', config = [[require('plugins.neuron')]], branch = 'unstable'}
+  -- Finding
   use 'nvim-lua/popup.nvim'
   use 'nvim-lua/plenary.nvim'
   use {
@@ -212,30 +201,22 @@ return require('packer').startup(function()
   use {'glepnir/dashboard-nvim', config = [[require('plugins.dash')]]}
 
   -- Not enabled for now, see if we miss it in a month's time
-  --use 'majutsushi/tagbar'
   --use 'skywind3000/vim-preview' --preview window commands
-  --use 'Shougo/echodoc.vim' --show completion signatures
   --use 'tpope/vim-projectionist' --navigation and alternates
   --use 'mattn/emmet-vim' --expansion of html/css to full tags
   --use {'adoy/vim-php-refactoring-toolbox', ft = {'php'} } "php refactoring
 
   -- Others TODO
   -- peekaboo
-  -- fzf-lsp
-  -- telescope
   -- dial: https://github.com/monaqa/dial.nvim, https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginconfig/dial.lua
   -- lspsaga
   -- nvim-autopairs: https://github.com/windwp/nvim-autopairs
   -- https://github.com/rhysd/vim-lsp-ale to get lsp and ale going
   -- which key nvim: https://github.com/folke/which-key.nvim
   -- https://github.com/ray-x/lsp_signature.nvim
-  -- https://github.com/lukas-reineke/indent-blankline.nvim
   -- https://github.com/gelguy/wilder.nvim better wild menu, neovim
   -- https://github.com/vhyrro/neorg
-  -- https://github.com/rcarriga/nvim-dap-ui
   -- https://github.com/rcarriga/vim-ultest
-  -- https://github.com/puremourning/vimspector
-  -- https://github.com/nvim-telescope/telescope-fzf-native.nvim
   -- some from https://neovimcraft.com/
   -- https://github.com/phaazon/hop.nvim
   -- stuff from https://github.com/CosmicNvim/CosmicNvim
@@ -244,6 +225,8 @@ return require('packer').startup(function()
   -- https://github.com/folke/trouble.nvim
   -- https://www.lunarvim.org/plugins/02-default-plugins.html and maybe some from extra
   -- https://github.com/Pocco81/TrueZen.nvim
+  -- https://github.com/nvim-pack/nvim-spectre
+  -- https://github.com/f-person/git-blame.nvim
   --
   -- plugin lists to look through:
   -- - https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginlist.lua

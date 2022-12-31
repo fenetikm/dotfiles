@@ -15,6 +15,11 @@ require ('keys.toggle')
 require ('keys.searchreplace')
 require ('keys.mappings')
 
+-- highlighted yank
+vim.cmd([[
+  au TextYankPost * lua vim.highlight.on_yank {higroup="HighlightedyankRegion", timeout=250, on_visual=true}
+]])
+
 -- markdown
 vim.cmd([[
   "highlight frontmatter
@@ -43,7 +48,7 @@ vim.cmd([[
 vim.opt.background = 'dark'
 vim.g.colors_name = 'falcon'
 vim.g.falcon_settings = {
-  italic_comments = true,
+  italic_comments = false,
   bold = true,
   undercurl = true,
   underline_for_undercurl = false,
