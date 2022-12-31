@@ -79,4 +79,3 @@ dap.configurations.php = {
     serverSourceRoot = '/app/application/'
   }
 }
-

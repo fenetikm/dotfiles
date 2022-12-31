@@ -3,15 +3,14 @@ ts_configs.setup {
   ensure_installed = {
     'bash', 'c', 'cpp', 'css', 'go', 'html',
     'javascript', 'json', 'lua', 'python',
-    'rust', 'toml', 'typescript', 'elixir', 'php'
+    'rust', 'toml', 'typescript', 'elixir', 'php', 'java'
   },
   highlight = {
     enable = true,
     -- enable = true,
     -- disable = {'php', 'css', 'javascript'},
-    additional_vim_regex_highlighting = false,
   },
-  indent = {enable = true},
+  indent = {enable = false},
   incremental_selection = {
     enable = true,
     keymaps = {
