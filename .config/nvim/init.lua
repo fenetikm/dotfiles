@@ -1,3 +1,5 @@
+require ('general.disable_builtin')
+
 require ('keys.escape')
 
 require ('plugins')

@@ -81,13 +81,19 @@ return require('packer').startup(function()
     requires = {'kyazdani42/nvim-web-devicons'}
   }
 
-  use {
-    'NTBBloodbath/galaxyline.nvim',
-    branch = 'main',
-      config = [[require('plugins.galaxyline')]],
-      requires = {'kyazdani42/nvim-web-devicons', opt = true}
-  }
+  -- use {
+  --   'NTBBloodbath/galaxyline.nvim',
+  --   branch = 'main',
+  --     config = [[require('plugins.galaxyline')]],
+  --     requires = {'kyazdani42/nvim-web-devicons', opt = true}
+  -- }
   -- use 'itchyny/lightline.vim' --statusline handling
+  -- Statusline
+  use {
+    'nvim-lualine/lualine.nvim',
+    config = [[require('plugins.lualine')]],
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+  }
 
   -- Columns
   use {'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' }, config = [[require('plugins.gitsigns')]]}
@@ -111,7 +117,20 @@ return require('packer').startup(function()
 
   -- LSP
   use 'onsails/lspkind-nvim'
-  use 'neovim/nvim-lspconfig'
+  use {
+      'neovim/nvim-lspconfig',
+      requires = {
+        -- Automatically install LSPs to stdpath for neovim
+        'williamboman/mason.nvim',
+        'williamboman/mason-lspconfig.nvim',
+
+        -- Useful status updates for LSP
+        'j-hui/fidget.nvim',
+
+        -- Additional lua configuration, makes nvim stuff amazing
+        'folke/neodev.nvim',
+      },
+    }
   use 'nvim-lua/lsp-status.nvim'
   use {'nvim-treesitter/nvim-treesitter', config = [[require('plugins.treesitter')]]}
   use {'nvim-treesitter/playground', config = [[require('plugins.playground')]]}
@@ -138,7 +157,7 @@ return require('packer').startup(function()
   -- uga-rosa/cmp-dictionary
 
   -- Syntax
-  vim.g.polyglot_disabled = {'yaml', 'markdown', 'php'}
+  vim.g.polyglot_disabled = {'yaml', 'markdown', 'php', 'java'}
   use 'sheerun/vim-polyglot' --syntax for a lot of types
   use 'plasticboy/vim-markdown' --markdown syntax
   use 'StanAngeloff/php.vim' --php syntax
@@ -158,6 +177,9 @@ return require('packer').startup(function()
   use {'fenetikm/phpfolding.vim', ft = {'php'}, config = [[require('plugins.phpfolding')]]} --php folding
   use {'alvan/vim-php-manual', ft = {'php'}} --php manual
   use {'fenetikm/vim-textobj-function', ft = {'php'}} --function textobj with php
+
+  -- Java
+  use {'mfussenegger/nvim-jdtls'}
 
   -- Debugging
   use {'mfussenegger/nvim-dap', config = [[require('plugins.dap')]]} --debug adaptor protocol

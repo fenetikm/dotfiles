@@ -426,6 +426,9 @@ bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 export PATH="/usr/local/opt/php@8.0/bin:$PATH"
 export PATH="/usr/local/opt/php@8.0/sbin:$PATH"
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk-19.0.1.jdk/Contents/Home"
+export PATH="/Library/Java/JavaVirtualMachines/jdk-19.0.1.jdk/Contents/Home:$PATH"
+export PATH="/Users/mjw/tmp/apache-maven/bin:$PATH"
 
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#787882'

@@ -16,3 +16,4 @@ hash -d nv=~/.config/nvim
 hash -d z=~/zettelkasten
 hash -d icloud=~/iCloud
 hash -d yt=~/Downloads/yt
+hash -d crafting=~/Documents/Work/internal/projects/interpreters/crafting
