@@ -10,15 +10,35 @@ ts_configs.setup {
     -- enable = true,
     -- disable = {'php', 'css', 'javascript'},
   },
-  indent = {enable = false},
+  indent = { enable = true, disable = { 'python' } },
   incremental_selection = {
     enable = true,
     keymaps = {
-      init_selection = 'gnn',
-      node_incremental = 'grn',
-      scope_incremental = 'grc',
-      node_decremental = 'grm'
+      init_selection = '<c-space>',
+      node_incremental = '<c-space>',
+      scope_incremental = 'gns',
+      node_decremental = '<c-backspace>',
     }
+  },
+  move = {
+    enable = true,
+    set_jumps = true, -- whether to set jumps in the jumplist
+    goto_next_start = {
+      [']m'] = '@function.outer',
+      [']]'] = '@class.outer',
+    },
+    goto_next_end = {
+      [']M'] = '@function.outer',
+      [']['] = '@class.outer',
+    },
+    goto_previous_start = {
+      ['[m'] = '@function.outer',
+      ['[['] = '@class.outer',
+    },
+    goto_previous_end = {
+      ['[M'] = '@function.outer',
+      ['[]'] = '@class.outer',
+    },
   },
   -- refactor = {
   --   smart_rename = {enable = true, keymaps = {smart_rename = "grr"}},
@@ -38,19 +58,10 @@ ts_configs.setup {
         -- or you use the queries from supported languages with textobjects.scm
         ['af'] = '@function.outer',
         ['if'] = '@function.inner',
-        ['aC'] = '@class.outer',
-        ['iC'] = '@class.inner',
-        ['ac'] = '@conditional.outer',
-        ['ic'] = '@conditional.inner',
-        ['ae'] = '@block.outer',
-        ['ie'] = '@block.inner',
-        ['al'] = '@loop.outer',
-        ['il'] = '@loop.inner',
-        ['is'] = '@statement.inner',
-        ['as'] = '@statement.outer',
-        ['ad'] = '@comment.outer',
-        ['am'] = '@call.outer',
-        ['im'] = '@call.inner'
+        ['ac'] = '@class.outer',
+        ['ic'] = '@class.inner',
+        ['aa'] = '@parameter.outer',
+        ['ia'] = '@parameter.inner',
       }
     }
   }

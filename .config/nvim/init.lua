@@ -15,10 +15,14 @@ require ('keys.toggle')
 require ('keys.searchreplace')
 require ('keys.mappings')
 
--- highlighted yank
-vim.cmd([[
-  au TextYankPost * lua vim.highlight.on_yank {higroup="HighlightedyankRegion", timeout=250, on_visual=true}
-]])
+local highlight_group = vim.api.nvim_create_augroup('HighlightedyankRegion', { clear = true })
+vim.api.nvim_create_autocmd('TextYankPost', {
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+  group = highlight_group,
+  pattern = '*',
+})
 
 -- markdown
 vim.cmd([[
