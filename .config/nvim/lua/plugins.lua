@@ -11,7 +11,7 @@ return require('packer').startup(function()
   use {'~/Documents/Work/internal/vim/colors/falcon', requires = {"rktjmp/lush.nvim"}}
 
   -- Running
-  use {'tpope/vim-dispatch', opt = true, cmd = {'Dispatch', 'Make', 'Focus', 'Start'}}
+  -- use {'tpope/vim-dispatch', opt = true, cmd = {'Dispatch', 'Make', 'Focus', 'Start'}}
 
   -- Project management
   use {'embear/vim-localvimrc', config = [[require('plugins.localvimrc')]]} -- local vimrc
@@ -25,7 +25,7 @@ return require('packer').startup(function()
   --use {'andymass/vim-matchup', setup = [[require('plugins.matchup')]]}
 
   -- Text manipulation
-  use {'AndrewRadev/splitjoin.vim', ft = {'php'}} -- convert single/multi line code expressions
+  -- use {'AndrewRadev/splitjoin.vim', ft = {'php'}} -- convert single/multi line code expressions
 
   -- Git
   use {'tpope/vim-fugitive', cmd = {'Git', 'G', 'Gstatus', 'Gdiff', 'Glog', 'Gblame', 'Gvdiff', 'Gread', 'Gmerge'}}
@@ -37,13 +37,13 @@ return require('packer').startup(function()
   use {'numToStr/Comment.nvim', config = [[require('plugins.comment')]]}
 
   -- Selection
-  use {'terryma/vim-expand-region', config = [[require('plugins.expand')]]} --expand region useful for selection
+  -- use {'terryma/vim-expand-region', config = [[require('plugins.expand')]]} --expand region useful for selection
 
   -- Spelling, thesaurus etc.
   use 'tpope/vim-abolish'
 
   -- Integration with other tools
-  use 'benmills/vimux' -- Interact with tmux from vim
+  -- use 'benmills/vimux' -- Interact with tmux from vim
 
   -- Writing and focus
   use 'junegunn/goyo.vim' --distraction free writing
@@ -53,7 +53,7 @@ return require('packer').startup(function()
   use 'chaoren/vim-wordmotion' --Expand the definition of what a word is
   use 'christoomey/vim-tmux-navigator' --navigate betwenn tmux splits and vim together
   use {'wellle/targets.vim', event = {'VimEnter'}} --Additional target text objects
-  use {'justinmk/vim-sneak', config = [[require('plugins.sneak')]]}
+  -- use {'justinmk/vim-sneak', config = [[require('plugins.sneak')]]}
 
   -- Files
   use 'pbrisbin/vim-mkdir' --save file in directory, don't fail
@@ -61,8 +61,8 @@ return require('packer').startup(function()
       requires = {'kyazdani42/nvim-web-devicons'}}
 
   -- use {'scrooloose/nerdtree', event = {'VimEnter'}, cmd = {'NERDTreeToggle', 'NERDTreeFind'}} --file tree explorer
-  use {'Xuyuanp/nerdtree-git-plugin', cmd = {'NERDTreeToggle', 'NERDTreeFind'}} --nerdtree git plugin
-  use {'ryanoasis/vim-devicons', setup = [[require('plugins.devicons')]]} --icons
+  -- use {'Xuyuanp/nerdtree-git-plugin', cmd = {'NERDTreeToggle', 'NERDTreeFind'}} --nerdtree git plugin
+  -- use {'ryanoasis/vim-devicons', setup = [[require('plugins.devicons')]]} --icons
 
   -- Search
   use 'BurntSushi/ripgrep' --ripgrep support, neuron and telescope want it
@@ -73,10 +73,10 @@ return require('packer').startup(function()
   use 'nelstrom/vim-visual-star-search' --use * in visual mode to search
   use 'jesseleite/vim-agriculture' --pass things through to rg
 
-  use {
-    'yamatsum/nvim-nonicons',
-    requires = {'kyazdani42/nvim-web-devicons'}
-  }
+  -- use {
+  --   'yamatsum/nvim-nonicons',
+  --   requires = {'kyazdani42/nvim-web-devicons'}
+  -- }
 
   -- use {
   --   'NTBBloodbath/galaxyline.nvim',
@@ -103,7 +103,7 @@ return require('packer').startup(function()
   use {'junegunn/vim-easy-align', cmd = {'EasyAlign'}, config = [[require('plugins.easyalign')]]}
 
   -- Documentation
-  use {'kkoomen/vim-doge', config = [[require('plugins.doge')]]}
+  -- use {'kkoomen/vim-doge', config = [[require('plugins.doge')]]}
 
   -- Repl
   use {'jpalardy/vim-slime', config = [[require('plugins.slime')]]} --send output from buffer to tmux / repl
@@ -126,6 +126,7 @@ return require('packer').startup(function()
         -- Additional lua configuration, makes nvim stuff amazing
         'folke/neodev.nvim',
       },
+      config = [[require('plugins.lsp')]]
     }
   use 'nvim-lua/lsp-status.nvim'
   use {'nvim-treesitter/nvim-treesitter', config = [[require('plugins.treesitter')]]}
@@ -148,10 +149,10 @@ return require('packer').startup(function()
   -- uga-rosa/cmp-dictionary
 
   -- Syntax
-  vim.g.polyglot_disabled = {'yaml', 'markdown', 'php', 'java'}
-  use 'sheerun/vim-polyglot' --syntax for a lot of types
+  -- vim.g.polyglot_disabled = {'yaml', 'markdown', 'php', 'java'}
+  -- use 'sheerun/vim-polyglot' --syntax for a lot of types
   use 'plasticboy/vim-markdown' --markdown syntax
-  use 'StanAngeloff/php.vim' --php syntax
+  -- use 'StanAngeloff/php.vim' --php syntax
   use {'norcalli/nvim-colorizer.lua', config = [[require('plugins.colorizer')]]}
 
   -- Text objects
@@ -184,8 +185,8 @@ return require('packer').startup(function()
   use 'tpope/vim-repeat' --Repeat plugin commands
   use 'Valloric/ListToggle' --Toggle quickfix and location lists
   -- use 'mhinz/vim-startify' -- Start up screen
-  use 'tyru/current-func-info.vim' --get the current function info
-  use 'machakann/vim-swap' --swap params around
+  -- use 'tyru/current-func-info.vim' --get the current function info
+  -- use 'machakann/vim-swap' --swap params around
   use 'rcarriga/nvim-notify'
 
   -- Finding
