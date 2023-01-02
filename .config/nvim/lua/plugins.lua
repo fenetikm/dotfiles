@@ -42,8 +42,8 @@ return require('packer').startup(function()
   -- Spelling, thesaurus etc.
   use 'tpope/vim-abolish'
 
-  -- Integration with other tools
-  -- use 'benmills/vimux' -- Interact with tmux from vim
+  -- Integration with other tools, used via testing
+  use 'benmills/vimux' -- Interact with tmux from vim
 
   -- Writing and focus
   use 'junegunn/goyo.vim' --distraction free writing
