@@ -18,7 +18,7 @@ require ('keys.mappings')
 local highlight_group = vim.api.nvim_create_augroup('HighlightedyankRegion', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
-    vim.highlight.on_yank()
+    vim.highlight.on_yank({'HighlightedyankRegion', 400})
   end,
   group = highlight_group,
   pattern = '*',
