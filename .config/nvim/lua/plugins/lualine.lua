@@ -102,7 +102,8 @@ local search_result = function()
     return ''
   end
   local searchcount = vim.fn.searchcount { maxcount = 9999 }
-  return last_search .. '(' .. searchcount.current .. '/' .. searchcount.total .. ')'
+  -- return last_search .. '(' .. searchcount.current .. '/' .. searchcount.total .. ')'
+  return '  ' .. '(' .. searchcount.current .. '/' .. searchcount.total .. ')'
 end
 
 local location_progress = function()
@@ -141,21 +142,6 @@ local current_path = function()
   end
 
   return path
-end
-
-local file_readonly = function()
-  if vim.bo.readonly == true then return ' ' end
-
-  return ''
-end
-
-local current_file_name = function()
-  local file = vim.fn.expand('%:t')
-  if vim.fn.empty(file) == 1 then return '' end
-  if string.len(file_readonly()) ~= 0 then return file .. file_readonly() end
-  if vim.bo.modifiable and vim.bo.modified then return file .. ' +' end
-
-  return file
 end
 
 local diagnostic_ok = function()
@@ -266,6 +252,11 @@ ins_a {
 ins_a {
   diagnostic_ok,
   color = { fg = colours.green.hex },
+}
+
+ins_a {
+  search_result,
+  color = { fg = colours.mid_gray.hex },
 }
 
 ins_x {
