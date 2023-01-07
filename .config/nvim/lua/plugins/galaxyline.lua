@@ -120,7 +120,7 @@ local file_is_modified = function()
 end
 
 local diagnostic_ok = function()
-  if vim.tbl_isempty(vim.lsp.buf_get_clients(0)) then return '-' end
+  if (#vim.lsp.get_active_clients()) == 0 then return '-' end
   local error = require('galaxyline.providers.diagnostic').get_diagnostic_error()
   local warn = require('galaxyline.providers.diagnostic').get_diagnostic_warn()
   if error == nil then
