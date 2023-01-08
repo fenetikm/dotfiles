@@ -19,7 +19,7 @@ return require('packer').startup(function()
   use 'machakann/vim-sandwich'
   use {'gregsexton/MatchTag', ft = {'html'}} --html tag matching
   -- TODO fix this, makes vim files slow to switch between buffers, probably needs better config
-  --use {'andymass/vim-matchup', setup = [[require('plugins.matchup')]]}
+  use {'andymass/vim-matchup', setup = [[require('plugins.matchup')]]}
 
   -- Text manipulation
   -- use {'AndrewRadev/splitjoin.vim', ft = {'php'}} -- convert single/multi line code expressions
