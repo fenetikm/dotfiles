@@ -113,9 +113,9 @@ local location_progress = function()
   local line_column = tostring(line) .. ':' .. lpad(tostring(column), 2, ' ')
   local perc = ''
   if line == 1 then
-    perc = ' Top'
+    perc = ' BoF'
   elseif line == total_lines then
-    perc = ' End'
+    perc = ' EoF'
   else
     perc = string.format(' %2d', math.floor(line / total_lines * 100)) .. '%%'
   end
