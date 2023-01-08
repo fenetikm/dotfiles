@@ -94,12 +94,7 @@ end
 lsp.handlers["textDocument/publishDiagnostics"] = lsp.with(
   lsp.diagnostic.on_publish_diagnostics, {
     underline = true,
-    -- virtual_text = { prefix = '' },
-    -- virtual_text = { prefix = 'כֿ' },
-    -- virtual_text = { prefix = '栗' },
-    -- virtual_text = { prefix = '_' },
     virtual_text = { prefix = '◢' },
-    -- virtual_text = { prefix = '◿' },
     signs = false,
     update_in_insert = false,
   }
@@ -230,7 +225,7 @@ lspconfig.cssls.setup {
   root_dir = lspconfig.util.root_pattern(".projectroot", ".git", "composer.json")
 }
 
-local servers = {'jsonls', 'bashls', 'html', 'vimls', 'yamlls', 'gopls'}
+local servers = {'jsonls', 'bashls', 'html', 'vimls', 'yamlls', 'gopls', 'pylsp'}
 for _, ilsp in ipairs(servers) do
   lspconfig[ilsp].setup {
     flags = { debounce_text_changes = 150 },

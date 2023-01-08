@@ -228,6 +228,8 @@ return require('packer').startup(function()
   -- https://github.com/Pocco81/TrueZen.nvim
   -- https://github.com/nvim-pack/nvim-spectre
   -- https://github.com/f-person/git-blame.nvim
+  -- https://github.com/lewis6991/impatient.nvim
+  -- https://github.com/ggandor/leap.nvim
   --
   -- plugin lists to look through:
   -- - https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginlist.lua

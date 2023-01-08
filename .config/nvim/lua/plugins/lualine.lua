@@ -102,8 +102,7 @@ local search_result = function()
     return ''
   end
   local searchcount = vim.fn.searchcount { maxcount = 9999 }
-  -- return last_search .. '(' .. searchcount.current .. '/' .. searchcount.total .. ')'
-  return '  ' .. '(' .. searchcount.current .. '/' .. searchcount.total .. ')'
+  return ' ' .. '(' .. searchcount.current .. '/' .. searchcount.total .. ')'
 end
 
 local location_progress = function()
@@ -126,6 +125,24 @@ local location_progress = function()
   local total_chars = string.len(tostring(total_lines))
   local line_width = total_chars + 4
   return rpad(line_column, line_width, ' ') .. perc
+end
+
+local check_encoding = function()
+  local encoding = vim.opt.fileencoding:get()
+  if encoding == 'utf-8' then
+    return ''
+  end
+
+  return encoding
+end
+
+local check_fileformat = function()
+  local format = vim.bo.fileformat
+  if format == 'unix' then
+    return ''
+  end
+
+  return format
 end
 
 local current_path = function()
@@ -170,14 +187,14 @@ local git_branch = function()
     return ' ' .. string.sub(branch_name, 1, 16).."..."
   end
 
-  return ' ' .. branch_name .. ' ┊'
+  return ' ' .. branch_name .. ' '
 end
 
 local mode_info = {
   c      = { fg = colours.yellow,      label = 'C'},
   cv     = { fg = colours.yellow,      label = 'C'},
-  i      = { fg = colours.red,         label = 'I'},
-  ic     = { fg = colours.red,         label = 'I'},
+  i      = { fg = colours.mid_red,     label = 'I'},
+  ic     = { fg = colours.mid_red,     label = 'I'},
   n      = { fg = colours.normal_gray, label = 'N'},
   r      = { fg = colours.orange,      label = 'R'},
   rm     = { fg = colours.orange,      label = 'R'},
@@ -220,11 +237,6 @@ ins_a {
   padding = { left = 1 },
 }
 
--- ins_a {
---   current_file_name,
---   color = { fg = colours.mid_gray_alt2.hex },
---   padding = { 0 },
--- }
 ins_a {
   'filename',
   symbols = {
@@ -236,7 +248,7 @@ ins_a {
 
 ins_a {
   function ()
-    return '┊'
+    return ''
   end,
   color = { fg = colours.mid_dark_gray.hex },
   padding = { left = 1 }
@@ -245,7 +257,8 @@ ins_a {
 ins_a {
   'diagnostics',
   sources = { 'nvim_diagnostic' },
-  symbols = { error = 'x', warn = '!', info = 'i', hint = '?' },
+  symbols = { error = '', warn = '', info = '', hint = '' },
+  colored = false,
   padding = { left = 1 },
 }
 
@@ -269,20 +282,22 @@ ins_x {
 }
 
 ins_x {
-  'filesize',
+  check_encoding,
   padding = { 0 },
   cond = conditions.buffer_not_empty
 }
 
 ins_x {
-  'fileformat',
+  check_fileformat,
+  padding = { 0 },
   cond = conditions.buffer_not_empty
 }
 
 ins_x {
   'filetype',
   colored = false,
-  cond = conditions.buffer_not_empty
+  cond = conditions.buffer_not_empty,
+  padding = { left = 0, right = 1 },
 }
 
 ins_x {
@@ -307,7 +322,7 @@ table.insert(config.inactive_sections.lualine_a, {
 
 table.insert(config.inactive_sections.lualine_x, {
   'location',
-  padding = { right = 0 }
+  padding = { right = 1 }
 })
 
 require'lualine'.setup(config)
