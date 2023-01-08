@@ -11,7 +11,6 @@ local config = {
         'NvimTree',
         'fugitive',
         'startify',
-        'nerdtree',
         'fugitiveblame',
         'qf',
       },
@@ -278,7 +277,7 @@ ins_x {
 
 ins_x {
   git_branch,
-  cond = conditions.check_git_workspace,
+  cond = conditions.check_git_workspace and conditions.hide_in_width,
 }
 
 ins_x {

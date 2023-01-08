@@ -10,9 +10,6 @@ return require('packer').startup(function()
   use "rktjmp/shipwright.nvim"
   use {'~/Documents/Work/internal/vim/colors/falcon', requires = {"rktjmp/lush.nvim"}}
 
-  -- Running
-  -- use {'tpope/vim-dispatch', opt = true, cmd = {'Dispatch', 'Make', 'Focus', 'Start'}}
-
   -- Project management
   use {'embear/vim-localvimrc', config = [[require('plugins.localvimrc')]]} -- local vimrc
   use 'dbakker/vim-projectroot' -- find the project root
@@ -60,10 +57,6 @@ return require('packer').startup(function()
   use {'kyazdani42/nvim-tree.lua', config = [[require('plugins.tree')]],
       requires = {'kyazdani42/nvim-web-devicons'}}
 
-  -- use {'scrooloose/nerdtree', event = {'VimEnter'}, cmd = {'NERDTreeToggle', 'NERDTreeFind'}} --file tree explorer
-  -- use {'Xuyuanp/nerdtree-git-plugin', cmd = {'NERDTreeToggle', 'NERDTreeFind'}} --nerdtree git plugin
-  -- use {'ryanoasis/vim-devicons', setup = [[require('plugins.devicons')]]} --icons
-
   -- Search
   use 'BurntSushi/ripgrep' --ripgrep support, neuron and telescope want it
   use {'wincent/loupe', config = [[require('plugins.loupe')]]} --nicer search highlighting
@@ -73,18 +66,6 @@ return require('packer').startup(function()
   use 'nelstrom/vim-visual-star-search' --use * in visual mode to search
   use 'jesseleite/vim-agriculture' --pass things through to rg
 
-  -- use {
-  --   'yamatsum/nvim-nonicons',
-  --   requires = {'kyazdani42/nvim-web-devicons'}
-  -- }
-
-  -- use {
-  --   'NTBBloodbath/galaxyline.nvim',
-  --   branch = 'main',
-  --     config = [[require('plugins.galaxyline')]],
-  --     requires = {'kyazdani42/nvim-web-devicons', opt = true}
-  -- }
-  -- use 'itchyny/lightline.vim' --statusline handling
   -- Statusline
   use {
     'nvim-lualine/lualine.nvim',
