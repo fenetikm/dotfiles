@@ -101,6 +101,9 @@ local search_result = function()
     return ''
   end
   local searchcount = vim.fn.searchcount { maxcount = 9999 }
+  if searchcount.total == 0 then
+    return ''
+  end
   return ' ' .. '(' .. searchcount.current .. '/' .. searchcount.total .. ')'
 end
 

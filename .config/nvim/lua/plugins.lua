@@ -211,6 +211,8 @@ return require('packer').startup(function()
   -- https://github.com/f-person/git-blame.nvim
   -- https://github.com/lewis6991/impatient.nvim
   -- https://github.com/ggandor/leap.nvim
+  -- https://github.com/s1n7ax/nvim-search-and-replace
+  -- https://github.com/L3MON4D3/LuaSnip
   --
   -- plugin lists to look through:
   -- - https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginlist.lua
