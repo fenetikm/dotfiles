@@ -2,40 +2,30 @@ vim.cmd([[
     " search / find
     nnoremap <c-p> <cmd>lua require'telescope.builtin'.find_files(_G.falcon_telescope.get_full_theme({}))<cr>
 
-    " nnoremap <silent> <c-p> :Files<cr>
-    " nnoremap <silent> <leader>ff :AllFiles<cr>
-
     "other stuff
-    " nnoremap <silent> <leader>fh :History<cr>
     nnoremap <silent> <leader>fh <cmd>lua require'telescope.builtin'.oldfiles(_G.falcon_telescope.get_full_theme({}))<cr>
-    " nnoremap <silent> <leader>fc :Commands<cr>
     nnoremap <silent> <leader>fc <cmd>lua require'telescope.builtin'.commands(_G.falcon_telescope.get_full_theme({}))<cr>
-    " nnoremap <silent> <leader>fm :Maps<cr>
     nnoremap <silent> <leader>fm <cmd>lua require'telescope.builtin'.keymaps(_G.falcon_telescope.get_simple_theme({}))<cr>
-    " nnoremap <silent> <leader>T :BTags<cr>
     nnoremap <silent> <leader>T <cmd>lua require'telescope.builtin'.current_buffer_tags(_G.falcon_telescope.get_simple_theme({}))<cr>
-    " nnoremap <silent> <leader>ft :Tags<cr>
-    " noremap <silent> <c-t> :Tags<cr>
-    " noremap <silent> <c-t> :Tags<cr>
-    " nnoremap <silent> <c-t> <cmd>lua require'telescope.builtin'.tags(_G.falcon_telescope.get_full_theme({show_line = true}))<cr>
     nnoremap <silent> <c-t> <cmd>lua require'telescope.builtin'.tags{path_display = {"smart"}, show_line = true}<cr>
 
-    " nnoremap <silent> <leader>fb :Buffers<cr>
+    "lsp
+    nnoremap <silent> <leader>fr <cmd>Telescope lsp_references<cr>
+    nnoremap <silent> <leader>fs <cmd>Telescope lsp_document_symbols<cr>
+    nnoremap <silent> <leader>fi <cmd>Telescope lsp_incoming_calls<cr>
+    nnoremap <silent> <leader>fo <cmd>Telescope lsp_outgoing_calls<cr>
+
     nnoremap <silent> <leader>fb <cmd>lua require'telescope.builtin'.buffers(_G.falcon_telescope.get_simple_theme({}))<cr>
-    " nnoremap <silent> <leader>fl :BLines<cr>
     nnoremap <silent> // <cmd>lua require'telescope.builtin'.current_buffer_fuzzy_find(_G.falcon_telescope.get_simple_theme({}))<cr>
-    " nnoremap <silent> // :BLines!<cr>
 
     "search through help files
-    " nnoremap <silent> <leader>? :Helptags!<cr>
     nnoremap <silent> <leader>? <cmd>lua require'telescope.builtin'.help_tags(_G.falcon_telescope.get_full_theme({}))<cr>
 
     "search through command history
-    " nnoremap <silent> <leader>: :History:<cr>
     nnoremap <silent> <leader>: <cmd>lua require'telescope.builtin'.command_history(_G.falcon_telescope.get_simple_theme({}))<cr>
     "search through search history
-    " nnoremap <silent> <leader>/ :History/<cr>
     nnoremap <silent> <leader>/ <cmd>lua require'telescope.builtin'.search_history(_G.falcon_telescope.get_simple_theme({}))<cr>
+
 
     "replace
     " replace current word, then can replace next with n . etc.
