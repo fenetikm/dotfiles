@@ -1,3 +1,4 @@
+local home = os.getenv('HOME')
 
 local lsp_mappings = function(client, bufnr)
   local bufmap = function(mode, lhs, rhs, opts)
@@ -33,12 +34,12 @@ local my_attach = function(client, bufnr)
     require'jdtls.dap'.setup_dap_main_class_configs()
 end
 local config = {
-    cmd = {'/usr/local/Cellar/jdtls/1.18.0/bin/jdtls'},
+    cmd = {'/usr/local/Cellar/jdtls/1.19.0/bin/jdtls'},
     root_dir = vim.fs.dirname(vim.fs.find({'.gradlew', '.git', 'mvnw'}, { upward = true })[1]),
     on_attach = my_attach,
     init_options = {
         bundles = {
-            vim.fn.glob("/Users/mjw/tmp/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar", 1)
+            vim.fn.glob(home .. "/tmp/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar", 1)
         },
     },
 }
