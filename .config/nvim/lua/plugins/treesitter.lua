@@ -10,15 +10,15 @@ ts_configs.setup {
     -- enable = true,
     -- disable = {'php', 'css', 'javascript'},
   },
-  indent = { enable = true, disable = { 'python' } },
+  indent = { enable = true },
   incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = '<c-space>',
-      node_incremental = '<c-space>',
-      scope_incremental = 'gns',
-      node_decremental = '<c-backspace>',
-    }
+    enable = false,
+    -- keymaps = {
+    --   init_selection = '<c-space>',
+    --   node_incremental = '<c-space>',
+    --   scope_incremental = 'gns',
+    --   node_decremental = '<c-backspace>',
+    -- }
   },
   move = {
     enable = true,

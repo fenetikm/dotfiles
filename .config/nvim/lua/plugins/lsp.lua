@@ -12,20 +12,6 @@ lsp_status.config {
 }
 lsp_status.register_progress()
 
--- local sign_define = vim.fn.sign_define
--- sign_define('DiagnosticSignError', {text = iconz.get("x"), texthl = 'DiagnosticError'})
--- sign_define('DiagnosticSignWarn', {text = iconz.get("alert"), texthl = 'DiagnosticWarn'})
--- sign_define('DiagnosticSignInfo', {text = ' ', texthl = 'DiagnosticInfo'})
--- sign_define('DiagnosticSignHint', {text = iconz.get("light-bulb"), texthl = 'DiagnosticHint'})
-
--- lspkind.init {symbol_map = kind_symbols}
--- lsp.handlers['textDocument/publishDiagnostics'] = with(lsp.diagnostic.on_publish_diagnostics, {
---   virtual_text = true,
---   signs = false,
---   update_in_insert = false,
---   underline = true
--- })
-
 local keymap_opts = {noremap = true, silent = true}
 
 local snippet_capabilities = {
@@ -50,15 +36,6 @@ local lsp_mappings = function(client, bufnr)
   bufmap('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   bufmap('n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   bufmap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  -- buf_keymap(0, 'n', 'gTD', '<cmd>lua vim.lsp.buf.type_definition()<CR>', keymap_opts)
-  -- buf_keymap(0, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', keymap_opts)
-  -- buf_keymap(0, 'n', 'gA', '<cmd>lua vim.lsp.buf.code_action()<CR>', keymap_opts)
-  -- buf_keymap(0, 'n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', keymap_opts)
-  -- buf_keymap(0, 'n', '<leader>E', '<cmd>lua vim.lsp.diagnostic.set_loclist()<cr>', keymap_opts)
-
-  -- what to set this to?
-  -- buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  -- buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 end
 
 local lsp_highlighting = function(client)

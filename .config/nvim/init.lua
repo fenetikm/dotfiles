@@ -15,13 +15,19 @@ require ('keys.toggle')
 require ('keys.searchreplace')
 require ('keys.mappings')
 
-local highlight_group = vim.api.nvim_create_augroup('HighlightedyankRegion', { clear = true })
-vim.api.nvim_create_autocmd('TextYankPost', {
-  callback = function()
-    vim.highlight.on_yank({'HighlightedyankRegion', 400})
-  end,
-  group = highlight_group,
-  pattern = '*',
+local augroup = vim.api.nvim_create_augroup
+local autocmd = vim.api.nvim_create_autocmd
+local yank_group = augroup('HighlightYank', {})
+
+autocmd('TextYankPost', {
+    group = yank_group,
+    pattern = '*',
+    callback = function()
+        vim.highlight.on_yank({
+            higroup = 'HighlightedyankRegion',
+            timeout = 400,
+        })
+    end,
 })
 
 -- markdown
@@ -58,8 +64,6 @@ vim.g.falcon_settings = {
   underline_for_undercurl = false,
   transparent_bg = false,
   inactive_bg = false,
-  lsp_background = true,
-  lsp_inverse = true,
   variation = 'zen',
 }
 

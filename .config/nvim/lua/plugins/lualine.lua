@@ -259,8 +259,13 @@ ins_a {
 ins_a {
   'diagnostics',
   sources = { 'nvim_diagnostic' },
-  symbols = { error = '', warn = '', info = '', hint = '' },
-  colored = false,
+  symbols = { error = '', warn = '▲', info = '', hint = '⚑' },
+  diagnostics_color = {
+    error = { fg = colours.mid_red.hex },
+    warn = { fg = colours.mid_gray.hex },
+    info = { fg = colours.mid_gray.hex },
+    hint = { fg = colours.mid_gray.hex },
+  },
   padding = { left = 1 },
 }
 

@@ -14,13 +14,13 @@ cmp.setup({
         -- require'snippy'.expand_snippet(args.body) -- For `snippy` users.
       end,
     },
-    mapping = {
-      ["<C-n>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
-      ["<C-p>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
-      ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-      ['<C-f>'] = cmp.mapping.scroll_docs(4),
-      ['<C-Space>'] = cmp.mapping.complete(),
-      ['<C-l>'] = function(fallback)
+    mapping = cmp.mapping.preset.insert({
+      ["<c-n>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior },
+      ["<c-p>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior },
+      ['<c-d>'] = cmp.mapping.scroll_docs(-4),
+      ['<c-u>'] = cmp.mapping.scroll_docs(4),
+      ['<c-space>'] = cmp.mapping.complete(),
+      ['<c-l>'] = function(fallback)
           if cmp.visible() then
             -- close, show line matches
             cmp.mapping.close()
@@ -29,7 +29,7 @@ cmp.setup({
             fallback()
           end
         end,
-      ['<C-e>'] = function(fallback)
+      ['<c-e>'] = function(fallback)
           if cmp.visible() then
             -- close and move to end
             cmp.mapping.close()
@@ -38,8 +38,8 @@ cmp.setup({
             fallback()
           end
         end,
-      ['<C-CR>'] = cmp.mapping.confirm({ select = true }),
-    },
+      ['<c-cr>'] = cmp.mapping.confirm({ select = true }),
+    }),
     sources = cmp.config.sources({
       { name = 'nvim_lua', max_item_count = 15 },
       { name = 'nvim_lsp', max_item_count = 15},

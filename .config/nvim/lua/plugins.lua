@@ -18,7 +18,6 @@ return require('packer').startup(function()
   use 'cohama/lexima.vim' -- auto closing pairs
   use 'machakann/vim-sandwich'
   use {'gregsexton/MatchTag', ft = {'html'}} --html tag matching
-  -- TODO fix this, makes vim files slow to switch between buffers, probably needs better config
   use {'andymass/vim-matchup', setup = [[require('plugins.matchup')]]}
 
   -- Text manipulation
@@ -214,6 +213,8 @@ return require('packer').startup(function()
   -- https://github.com/s1n7ax/nvim-search-and-replace
   -- https://github.com/L3MON4D3/LuaSnip
   -- https://github.com/chentoast/marks.nvim replacement for vim-signature, neovim
+  -- https://github.com/zbirenbaum/copilot.lua
+  -- https://github.com/zbirenbaum/copilot-cmp
   --
   -- plugin lists to look through:
   -- - https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginlist.lua
