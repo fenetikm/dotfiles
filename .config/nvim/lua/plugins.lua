@@ -67,7 +67,8 @@ return require('packer').startup(function()
 
   -- Statusline
   use {
-    'nvim-lualine/lualine.nvim',
+    -- 'nvim-lualine/lualine.nvim',
+    '~/Documents/Work/internal/vim/lualine.nvim',
     config = [[require('plugins.lualine')]],
     requires = { 'kyazdani42/nvim-web-devicons', opt = true }
   }
@@ -109,6 +110,7 @@ return require('packer').startup(function()
       config = [[require('plugins.lsp')]]
     }
   use 'nvim-lua/lsp-status.nvim'
+  use {'nvim-treesitter/nvim-treesitter-textobjects'}
   use {'nvim-treesitter/nvim-treesitter', config = [[require('plugins.treesitter')]]}
   use {'nvim-treesitter/playground', config = [[require('plugins.playground')]]}
   use {'ray-x/lsp_signature.nvim'}

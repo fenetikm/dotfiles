@@ -65,6 +65,7 @@ vim.g.falcon_settings = {
   transparent_bg = false,
   inactive_bg = false,
   variation = 'zen',
+  lsp_underline = 'errrr',
 }
 
 package.loaded['falcon'] = nil

@@ -195,8 +195,8 @@ end
 local mode_info = {
   c      = { fg = colours.yellow,      label = 'C'},
   cv     = { fg = colours.yellow,      label = 'C'},
-  i      = { fg = colours.mid_red,     label = 'I'},
-  ic     = { fg = colours.mid_red,     label = 'I'},
+  i      = { fg = colours.mid_green,     label = 'I'},
+  ic     = { fg = colours.mid_green,     label = 'I'},
   n      = { fg = colours.normal_gray, label = 'N'},
   r      = { fg = colours.orange,      label = 'R'},
   rm     = { fg = colours.orange,      label = 'R'},
@@ -260,6 +260,7 @@ ins_a {
   'diagnostics',
   sources = { 'nvim_diagnostic' },
   symbols = { error = '', warn = '▲', info = '', hint = '⚑' },
+  symbol_position = 'right',
   diagnostics_color = {
     error = { fg = colours.mid_red.hex },
     warn = { fg = colours.mid_gray.hex },
@@ -281,6 +282,7 @@ ins_a {
 
 ins_x {
   'diff',
+  symbol_position = 'right'
 }
 
 ins_x {
@@ -302,6 +304,7 @@ ins_x {
 
 ins_x {
   'filetype',
+  icons_enabled = false,
   colored = false,
   cond = conditions.buffer_not_empty,
   padding = { left = 0, right = 1 },
