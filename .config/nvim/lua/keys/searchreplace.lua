@@ -6,7 +6,8 @@ vim.cmd([[
     nnoremap <silent> <leader>fh <cmd>lua require'telescope.builtin'.oldfiles(_G.falcon_telescope.get_full_theme({}))<cr>
     nnoremap <silent> <leader>fc <cmd>lua require'telescope.builtin'.commands(_G.falcon_telescope.get_full_theme({}))<cr>
     nnoremap <silent> <leader>fm <cmd>lua require'telescope.builtin'.keymaps(_G.falcon_telescope.get_simple_theme({}))<cr>
-    nnoremap <silent> <leader>T <cmd>lua require'telescope.builtin'.current_buffer_tags(_G.falcon_telescope.get_simple_theme({}))<cr>
+    " nnoremap <silent> <leader>T <cmd>lua require'telescope.builtin'.current_buffer_tags(_G.falcon_telescope.get_simple_theme({}))<cr>
+    nnoremap <silent> <leader>T <cmd>Telescope lsp_document_symbols<cr>
     nnoremap <silent> <c-t> <cmd>lua require'telescope.builtin'.tags{path_display = {"smart"}, show_line = true}<cr>
 
     "lsp
@@ -14,6 +15,7 @@ vim.cmd([[
     nnoremap <silent> <leader>fs <cmd>Telescope lsp_document_symbols<cr>
     nnoremap <silent> <leader>fi <cmd>Telescope lsp_incoming_calls<cr>
     nnoremap <silent> <leader>fo <cmd>Telescope lsp_outgoing_calls<cr>
+    nnoremap <silent> <leader>fq <cmd>lua require'telescope.builtin'.quickfixhistory<cr>
 
     nnoremap <silent> <leader>fb <cmd>lua require'telescope.builtin'.buffers(_G.falcon_telescope.get_simple_theme({}))<cr>
     nnoremap <silent> // <cmd>lua require'telescope.builtin'.current_buffer_fuzzy_find(_G.falcon_telescope.get_simple_theme({}))<cr>

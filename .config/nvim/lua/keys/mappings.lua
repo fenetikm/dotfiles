@@ -133,13 +133,13 @@ vim.cmd([[
   "
   "completion shortcuts
   "complete with tags
-  inoremap <c-]> <c-x><c-]>
+  " inoremap <c-]> <c-x><c-]>
   "omni / language completion
-  inoremap <c-space> <c-x><c-o>
+  " inoremap <c-space> <c-x><c-o>
   "buffer completion
   "inoremap <c-b> <c-x><c-p>
   "file path completion
-  inoremap <c-f> <c-x><c-f>
+  " inoremap <c-f> <c-x><c-f>
   "line completion, conflicts with php rocket... not any more!
   inoremap <c-l> <c-x><c-l>
 
