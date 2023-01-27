@@ -10,7 +10,25 @@ local if_nil = vim.F.if_nil
 local alpha = require'alpha'
 local fortune = require'alpha.fortune'
 
-local calvin_array = {
+local escher_art = {
+[[              $$ $$$$$ $$                ]],
+[[              $$ $$$$$ $$                ]],
+[[             .$$ $$$$$ $$.               ]],
+[[             :$$ $$$$$ $$:               ]],
+[[             $$$ $$$$$ $$$               ]],
+[[             $$$ $$$$$ $$$               ]],
+[[            ,$$$ $$$$$ $$$.              ]],
+[[           ,$$$$ $$$$$ $$$$.             ]],
+[[          ,$$$$; $$$$$ :$$$$.            ]],
+[[         ,$$$$$  $$$$$  $$$$$.           ]],
+[[       ,$$$$$$'  $$$$$  `$$$$$$.         ]],
+[[     ,$$$$$$$'   $$$$$   `$$$$$$$.       ]],
+[[  ,s$$$$$$$'     $$$$$     `$$$$$$$s.    ]],
+[[$$$$$$$$$'       $$$$$       `$$$$$$$$$  ]],
+[[$$$$$Y'          $$$$$          `Y$$$$$  ]],
+}
+
+local calvin_art = {
   [[                             __                     ]],
   [[                  _ww   _a+"D                       ]],
   [[          y#,  _r^ # _*^  y`                        ]],
@@ -51,11 +69,11 @@ local function lineToStartGradient(lines)
   return out
 end
 
-local calvin_gradient = lineToStartGradient(calvin_array)
+local art_gradient = lineToStartGradient(escher_art)
 
 local function coloured_header()
   local lines = {}
-  for _, lineConfig in pairs(calvin_gradient) do
+  for _, lineConfig in pairs(art_gradient) do
     local hi = lineConfig.hi
     local line_chars = lineConfig.line
     local line = {
@@ -180,7 +198,7 @@ local mru_section = {
         {
             type = 'group',
             val = function()
-                return { mru(0, cdir, 7) }
+                return { mru(0, cdir, 10) }
             end,
             opts = { shrink_margin = false },
         },
@@ -198,8 +216,9 @@ local message = {
 
 local config = {
   layout = {
+    { type = 'padding', val = 2 },
     coloured_header(),
-    { type = 'padding', val = 1 },
+    { type = 'padding', val = 3 },
     mru_section,
     { type = 'padding', val = 1 },
     message,
