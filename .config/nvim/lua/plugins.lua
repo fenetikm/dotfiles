@@ -1,4 +1,5 @@
 vim.cmd [[packadd packer.nvim]]
+
 return require('packer').startup(function()
   -- Packer can manage itself as an optional plugin
   use 'wbthomason/packer.nvim'
@@ -181,7 +182,9 @@ return require('packer').startup(function()
   }
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
-  use {'glepnir/dashboard-nvim', config = [[require('plugins.dash')]]}
+  -- use {'glepnir/dashboard-nvim', config = [[require('plugins.dash')]]}
+
+  use {'goolord/alpha-nvim', config = [[require('plugins.alpha')]]}
 
   -- Not enabled for now, see if we miss it in a month's time
   --use 'skywind3000/vim-preview' --preview window commands
