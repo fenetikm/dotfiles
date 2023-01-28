@@ -8,7 +8,7 @@ ts_configs.setup {
   highlight = {
     enable = true,
     -- enable = true,
-    -- disable = {'php', 'css', 'javascript'},
+    disable = {'markdown'},
   },
   indent = { enable = true },
   incremental_selection = {
