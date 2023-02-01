@@ -1,10 +1,23 @@
+local bufmap = function(mode, lhs, rhs, opts)
+  vim.keymap.set(mode, lhs, rhs, opts)
+end
+local no = {noremap = true}
+local so = {silent = true}
+
+-- centering when jumping around methods
+bufmap('n', '[m', '[mzz', no)
+bufmap('n', ']m', ']mzz', no)
+
+-- yank to end of line, just like shit-d, shift-c
+bufmap('n', '<s-y>', 'y$', no)
+
 vim.cmd([[
   "centering when going between methods
-  nnoremap [m [mzz
-  nnoremap ]m ]mzz
+  " nnoremap [m [mzz
+  " nnoremap ]m ]mzz
 
   " yank to end of line, just like shit-d, shift-c
-  noremap <s-y> y$
+  " noremap <s-y> y$
 
   "Redo for shift-u
   noremap U <c-r>
@@ -128,19 +141,7 @@ vim.cmd([[
   "jump to end when inserting
   inoremap <c-e> <c-o>$
 
-  " insert rocket
-  " inoremap <c-l> <space>=><space>
-  "
-  "completion shortcuts
-  "complete with tags
-  " inoremap <c-]> <c-x><c-]>
-  "omni / language completion
-  " inoremap <c-space> <c-x><c-o>
-  "buffer completion
-  "inoremap <c-b> <c-x><c-p>
-  "file path completion
-  " inoremap <c-f> <c-x><c-f>
-  "line completion, conflicts with php rocket... not any more!
+  "line completion
   inoremap <c-l> <c-x><c-l>
 
   "ev to edit vimrc, eV to source vimrc

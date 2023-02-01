@@ -220,7 +220,7 @@ local config = {
     coloured_header(),
     { type = 'padding', val = 3 },
     mru_section,
-    { type = 'padding', val = 1 },
+    { type = 'padding', val = 3 },
     message,
   },
   opts = {
