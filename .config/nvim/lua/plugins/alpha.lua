@@ -224,26 +224,6 @@ local config = {
     message,
   },
   opts = {
-    setup = function()
-      vim.api.nvim_create_autocmd('User', {
-        pattern = 'AlphaReady',
-        desc = 'disable status, tabline and cmdline for alpha',
-        callback = function()
-          vim.go.laststatus = 0
-          vim.opt.showtabline = 0
-          vim.opt.cmdheight = 0
-        end,
-      })
-      vim.api.nvim_create_autocmd('BufUnload', {
-        buffer = 0,
-        desc = 'enable status, tabline and cmdline after alpha',
-        callback = function()
-          vim.go.laststatus = 3
-          vim.opt.showtabline = 2
-          vim.opt.cmdheight = 1
-        end,
-      })
-    end,
     margin = 5,
   },
 }

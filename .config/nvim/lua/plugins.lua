@@ -54,8 +54,7 @@ return require('packer').startup(function()
 
   -- Files
   use 'pbrisbin/vim-mkdir' --save file in directory, don't fail
-  use {'kyazdani42/nvim-tree.lua', config = [[require('plugins.tree')]],
-      requires = {'kyazdani42/nvim-web-devicons'}}
+  use {'kyazdani42/nvim-tree.lua', config = [[require('plugins.tree')]], requires = {'kyazdani42/nvim-web-devicons'}}
 
   -- Search
   use 'BurntSushi/ripgrep' --ripgrep support, neuron and telescope want it

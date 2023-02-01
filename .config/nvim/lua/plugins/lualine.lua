@@ -13,6 +13,7 @@ local config = {
         'startify',
         'fugitiveblame',
         'qf',
+        'alpha'
       },
       winbar = {},
     },
