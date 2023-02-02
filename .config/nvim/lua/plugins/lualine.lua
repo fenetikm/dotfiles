@@ -23,8 +23,8 @@ local config = {
         x = { fg = colours.mid_gray.hex, bg = colours.status.hex },
       },
       inactive = {
-        a = { fg = colours.mid_dark_gray.hex, bg = colours.inactive_status.hex, gui = 'italic' },
-        x = { fg = colours.mid_dark_gray.hex, bg = colours.inactive_status.hex, gui = 'italic' },
+        a = { fg = colours.mid_dark_gray.hex, bg = colours.bg.hex, gui = 'italic' },
+        x = { fg = colours.mid_dark_gray.hex, bg = colours.bg.hex, gui = 'italic' },
       },
     },
     ignore_focus = {
@@ -106,6 +106,13 @@ local search_result = function()
     return ''
   end
   return ' ' .. '(' .. searchcount.current .. '/' .. searchcount.total .. ')'
+end
+
+local location_short = function()
+  local line = vim.fn.line('.')
+  local column = vim.fn.col('.')
+
+  return line .. ':' .. column
 end
 
 local location_progress = function()
@@ -325,15 +332,56 @@ ins_x {
 }
 
 table.insert(config.inactive_sections.lualine_a, {
-  'filename',
-  symbols = {
-    readonly = ' ',
-  },
+  function ()
+    return '——'
+  end,
+  padding = {0},
 })
 
-table.insert(config.inactive_sections.lualine_x, {
-  'location',
-  padding = { right = 1 }
+table.insert(config.inactive_sections.lualine_a, {
+  'filename',
+  padding = {0}
 })
+
+table.insert(config.inactive_sections.lualine_a, {
+  function ()
+    local width = vim.fn.winwidth(0)
+    local filename = vim.fn.expand('%:t')
+    if filename == '' then
+      filename = '[No Name]'
+    end
+    local location = location_short()
+    local fill = ''
+    local adj = 0
+    if vim.bo.modified then
+      adj = adj + 4
+    end
+    if vim.bo.modifiable == false or vim.bo.readonly then
+      adj = adj + 4
+    end
+
+    for i = 1, (width - string.len(filename) - string.len(location) - 4 - adj) , 1 do
+      fill = fill .. '—'
+    end
+
+    return fill
+  end,
+  padding = {0}
+})
+
+table.insert(config.inactive_sections.lualine_a, {
+  function ()
+    return location_short()
+  end,
+  padding = {0}
+})
+
+table.insert(config.inactive_sections.lualine_a, {
+  function ()
+    return '——'
+  end,
+  padding = {0},
+})
+
 
 require'lualine'.setup(config)
