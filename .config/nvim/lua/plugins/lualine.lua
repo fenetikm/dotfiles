@@ -335,11 +335,13 @@ table.insert(config.inactive_sections.lualine_a, {
   function ()
     return '——'
   end,
+  color = { fg = colours.mid_dark_gray.hex },
   padding = {0},
 })
 
 table.insert(config.inactive_sections.lualine_a, {
   'filename',
+  color = { fg = colours.mid_gray.hex, gui = 'italic' },
   padding = {0}
 })
 
@@ -366,6 +368,7 @@ table.insert(config.inactive_sections.lualine_a, {
 
     return fill
   end,
+  color = { fg = colours.mid_dark_gray.hex },
   padding = {0}
 })
 
@@ -373,6 +376,7 @@ table.insert(config.inactive_sections.lualine_a, {
   function ()
     return location_short()
   end,
+  color = { fg = colours.mid_gray.hex, gui = 'italic' },
   padding = {0}
 })
 
@@ -380,6 +384,7 @@ table.insert(config.inactive_sections.lualine_a, {
   function ()
     return '——'
   end,
+  color = { fg = colours.mid_dark_gray.hex },
   padding = {0},
 })
 
