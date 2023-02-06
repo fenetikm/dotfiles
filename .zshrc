@@ -20,7 +20,7 @@ PROMPT_LEAN_PATH_SED=''
 source $HOME/.config/zsh/lean/lean.plugin.zsh
 
 # exa colours
-source $HOME/.local/share/nvim/site/pack/packer/start/falcon/exa/EXA_COLORS
+source $HOME/.local/share/nvim/site/pack/packer/start/falcon/exa/EXA_COLORS_ZEN
 
 # zsh falcon colouring
 source $HOME/.local/share/nvim/site/pack/packer/start/falcon/zsh/falcon.zsh
