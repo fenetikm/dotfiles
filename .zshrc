@@ -442,3 +442,6 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#787882'
 # }
 
 alias luamake=$HOME/tmp/lua-language-server/3rd/luamake/luamake
+
+# fasd setup
+eval "$(fasd --init auto)"

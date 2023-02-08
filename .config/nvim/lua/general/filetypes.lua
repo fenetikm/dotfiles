@@ -16,14 +16,16 @@ vim.cmd([[
 
     " }}} End Drupal / PHP
 
-    "json
     au FileType json setlocal shiftwidth=4 tabstop=4
 
     "quickfix
     au FileType qf setlocal nonumber colorcolumn=
 
-    "markdown
-    au FileType markdown setlocal conceallevel=0
+    au FileType text setlocal spell
+
+    au FileType gitcommit setlocal spell
+
+    au FileType markdown setlocal conceallevel=0 spell
 
     "fzf
     au FileType fzf setlocal nonu nornu
