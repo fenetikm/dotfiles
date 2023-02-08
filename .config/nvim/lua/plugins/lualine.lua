@@ -1,6 +1,13 @@
 local colours = require('falcon.colours')
 local width_threshold = 120
 
+local line_only = {
+  'fugitiveblame',
+  'qf',
+  'fugitive',
+  'NvimTree',
+}
+
 local config = {
   options = {
     icons_enabled = true,
@@ -8,11 +15,7 @@ local config = {
     section_separators = { left = '', right = ''},
     disabled_filetypes = {
       statusline = {
-        'NvimTree',
-        'fugitive',
         'startify',
-        'fugitiveblame',
-        'qf',
         'alpha'
       },
       winbar = {},
@@ -73,13 +76,33 @@ local conditions = {
     local gitdir = vim.fn.finddir('.git', filepath .. ';')
     return gitdir and #gitdir > 0 and #gitdir < #filepath
   end,
+  check_line_filetype = function()
+    local ft = vim.bo.filetype
+    for _, value in ipairs(line_only) do
+      if ft == value then
+        return false
+      end
+    end
+
+    return true
+  end
 }
 
-local function ins_a(component)
+local fill_line = function ()
+    local width = vim.fn.winwidth(0)
+  local fill = ''
+  for i = 1, width, 1 do
+    fill = fill .. '—'
+  end
+
+  return fill
+end
+
+local ins_a = function (component)
   table.insert(config.sections.lualine_a, component)
 end
 
-local function ins_x(component)
+local ins_x = function (component)
   table.insert(config.sections.lualine_x, component)
 end
 
@@ -231,6 +254,7 @@ ins_a {
   color = function ()
     return { fg = mode_info[vim.fn.mode()].fg.hex, gui = 'bold' }
   end,
+  cond = conditions.check_line_filetype,
 }
 
 ins_a {
@@ -239,12 +263,14 @@ ins_a {
   end,
   color = { fg = colours.mid_dark_gray.hex },
   padding = { 0 },
+  cond = conditions.check_line_filetype,
 }
 
 ins_a {
   current_path,
   color = { fg = colours.mid_gray.hex },
   padding = { left = 1 },
+  cond = conditions.check_line_filetype,
 }
 
 ins_a {
@@ -254,6 +280,7 @@ ins_a {
   },
   color = { fg = colours.mid_gray_alt2.hex },
   padding = { 0 },
+  cond = conditions.check_line_filetype,
 }
 
 ins_a {
@@ -261,7 +288,8 @@ ins_a {
     return ''
   end,
   color = { fg = colours.mid_dark_gray.hex },
-  padding = { left = 1 }
+  padding = { left = 1 },
+  cond = conditions.check_line_filetype,
 }
 
 ins_a {
@@ -276,46 +304,60 @@ ins_a {
     hint = { fg = colours.mid_gray.hex },
   },
   padding = { left = 1 },
+  cond = conditions.check_line_filetype,
 }
 
 ins_a {
   diagnostic_ok,
   color = { fg = colours.green.hex },
+  cond = conditions.check_line_filetype,
 }
 
 ins_a {
   search_result,
   color = { fg = colours.mid_gray.hex },
+  cond = conditions.check_line_filetype,
+}
+
+ins_a {
+  fill_line,
+  color = { fg = colours.mid_dark_gray.hex, bg = colours.bg.hex },
+  padding = {0},
+  cond = function ()
+    local in_line_list = conditions.check_line_filetype()
+    return not in_line_list
+  end
 }
 
 ins_x {
   'diff',
-  symbol_position = 'right'
+  symbol_position = 'right',
+  cond = conditions.check_line_filetype,
 }
 
 ins_x {
   git_branch,
-  cond = conditions.check_git_workspace and conditions.hide_in_width,
+  cond = conditions.check_git_workspace and conditions.hide_in_width and conditions.check_line_filetype,
 }
 
 ins_x {
   check_encoding,
   padding = { 0 },
-  cond = conditions.buffer_not_empty
+  cond = conditions.buffer_not_empty and conditions.check_line_filetype,
 }
 
 ins_x {
   check_fileformat,
   padding = { 0 },
-  cond = conditions.buffer_not_empty
+  cond = conditions.buffer_not_empty and conditions.check_line_filetype,
 }
 
 ins_x {
   'filetype',
   icons_enabled = false,
   colored = false,
-  cond = conditions.buffer_not_empty,
   padding = { left = 0, right = 1 },
+  cond = conditions.buffer_not_empty and conditions.check_line_filetype,
 }
 
 ins_x {
@@ -324,11 +366,13 @@ ins_x {
   end,
   color = { fg = colours.mid_dark_gray.hex },
   padding = {0},
+  cond = conditions.check_line_filetype,
 }
 
 ins_x {
   location_progress,
   padding = {0},
+  cond = conditions.check_line_filetype,
 }
 
 table.insert(config.inactive_sections.lualine_a, {
@@ -337,12 +381,14 @@ table.insert(config.inactive_sections.lualine_a, {
   end,
   color = { fg = colours.mid_dark_gray.hex },
   padding = {0},
+  cond = conditions.check_line_filetype,
 })
 
 table.insert(config.inactive_sections.lualine_a, {
   'filename',
   color = { fg = colours.mid_gray.hex, gui = 'italic' },
-  padding = {0}
+  padding = {0},
+  cond = conditions.check_line_filetype,
 })
 
 table.insert(config.inactive_sections.lualine_a, {
@@ -369,7 +415,8 @@ table.insert(config.inactive_sections.lualine_a, {
     return fill
   end,
   color = { fg = colours.mid_dark_gray.hex },
-  padding = {0}
+  padding = {0},
+  cond = conditions.check_line_filetype,
 })
 
 table.insert(config.inactive_sections.lualine_a, {
@@ -377,7 +424,8 @@ table.insert(config.inactive_sections.lualine_a, {
     return location_short()
   end,
   color = { fg = colours.mid_gray.hex, gui = 'italic' },
-  padding = {0}
+  padding = {0},
+  cond = conditions.check_line_filetype,
 })
 
 table.insert(config.inactive_sections.lualine_a, {
@@ -386,7 +434,17 @@ table.insert(config.inactive_sections.lualine_a, {
   end,
   color = { fg = colours.mid_dark_gray.hex },
   padding = {0},
+  cond = conditions.check_line_filetype,
 })
 
+table.insert(config.inactive_sections.lualine_a, {
+  fill_line,
+  color = { fg = colours.mid_dark_gray.hex },
+  padding = {0},
+  cond = function ()
+    local in_line_list = conditions.check_line_filetype()
+    return not in_line_list
+  end
+})
 
 require'lualine'.setup(config)
