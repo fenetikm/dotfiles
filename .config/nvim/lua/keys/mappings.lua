@@ -11,6 +11,10 @@ bufmap('n', ']m', ']mzz', no)
 -- yank to end of line, just like shit-d, shift-c
 bufmap('n', '<s-y>', 'y$', no)
 
+-- move selection up and down, thanks prime
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
 vim.cmd([[
   "centering when going between methods
   " nnoremap [m [mzz

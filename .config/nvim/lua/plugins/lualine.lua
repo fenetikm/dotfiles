@@ -1,5 +1,6 @@
 local colours = require('falcon.colours')
 local width_threshold = 120
+local width_secondary_threshold = 90
 
 local line_only = {
   'fugitiveblame',
@@ -70,6 +71,9 @@ local conditions = {
   end,
   hide_in_width = function()
     return vim.fn.winwidth(0) > width_threshold
+  end,
+  hide_in_secondary_width = function()
+    return vim.fn.winwidth(0) > width_secondary_threshold
   end,
   check_git_workspace = function()
     local filepath = vim.fn.expand('%:p:h')
@@ -316,7 +320,7 @@ ins_a {
 ins_a {
   search_result,
   color = { fg = colours.mid_gray.hex },
-  cond = conditions.check_line_filetype,
+  cond = conditions.check_line_filetype and conditions.hide_in_secondary_width,
 }
 
 ins_a {
@@ -337,7 +341,7 @@ ins_x {
 
 ins_x {
   git_branch,
-  cond = conditions.check_git_workspace and conditions.hide_in_width and conditions.check_line_filetype,
+  cond = conditions.check_git_workspace and conditions.hide_in_secondary_width and conditions.check_line_filetype,
 }
 
 ins_x {
