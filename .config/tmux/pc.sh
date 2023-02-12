@@ -77,7 +77,7 @@ tmux split-window -h -l70
 
 tmux select-pane -t 2
 tmux send-keys "~pcp" C-m
-tmux send-keys "figlet -f roman Ready! | lolcat -t" C-m
+tmux send-keys "clear && figlet -f roman Ready! | lolcat -t" C-m
 tmux select-pane -t 1
 tmux send-keys "~pcp" C-m
 tmux send-keys "v" C-m
