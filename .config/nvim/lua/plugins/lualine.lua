@@ -1,3 +1,5 @@
+-- TODO:
+-- make the [+] a different colour?
 local colours = require('falcon.colours')
 local width_threshold = 120
 local width_secondary_threshold = 90
