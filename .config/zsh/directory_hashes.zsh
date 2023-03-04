@@ -8,6 +8,7 @@ hash -d docs=~/Documents
 hash -d down=~/Downloads
 hash -d p=~/Documents/personal
 hash -d falcon=~/Documents/Work/internal/vim/colors/falcon
+hash -d pc=~/Documents/Work/personify_care
 hash -d pcp=~/Documents/Work/personify_care/repos/personify-care-platform
 hash -d pct=~/Documents/Work/personify_care/repos/personify-care-test
 hash -d pcw=~/Documents/Work/personify_care/repos/personify-care-web

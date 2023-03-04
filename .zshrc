@@ -207,7 +207,8 @@ alias dblp='rb db:load --path="patient.sql"'
 alias pcload='(cd ~pcp && rb db:load)'
 alias pcup='docker-compose -f misc/docker/docker-compose.yml up -d'
 alias pcdown='docker container stop $(docker container ls -aq)'
-alias ytbest="youtube-dl -f bestvideo+bestaudio --merge-output-format=mkv"
+# alias ytbest="youtube-dl -f bestvideo+bestaudio --merge-output-format=mkv"
+alias ytbest="yt-dlp -f bestvideo+bestaudio --merge-output-format=mkv"
 
 # function to toggle fg/bg on control z
 fancy-ctrl-z () {

@@ -71,6 +71,12 @@ vim.g.falcon_settings = {
 package.loaded['falcon'] = nil
 require('lush')(require('falcon').setup())
 
+-- for trying the vim generated colours
+-- vim.cmd([[
+--   colorscheme falcon
+--   set termguicolors
+-- ]])
+
 vim.cmd([[
   " set cursors depending on mode
   set t_SI=[6\ q
