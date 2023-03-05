@@ -34,7 +34,7 @@ local my_attach = function(client, bufnr)
     require'jdtls.dap'.setup_dap_main_class_configs()
 end
 local config = {
-    cmd = {'/usr/local/Cellar/jdtls/1.19.0/bin/jdtls'},
+    cmd = {'/usr/local/bin/jdtls'},
     root_dir = vim.fs.dirname(vim.fs.find({'.gradlew', '.git', 'mvnw'}, { upward = true })[1]),
     on_attach = my_attach,
     init_options = {

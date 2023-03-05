@@ -3,7 +3,8 @@ ts_configs.setup {
   ensure_installed = {
     'bash', 'c', 'cpp', 'css', 'go', 'html',
     'javascript', 'json', 'lua', 'python',
-    'rust', 'toml', 'typescript', 'elixir', 'php', 'java'
+    'rust', 'toml', 'typescript', 'elixir', 'php', 'java',
+    'ruby', 'twig'
   },
   highlight = {
     enable = true,

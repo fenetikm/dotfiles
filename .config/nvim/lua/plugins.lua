@@ -6,7 +6,7 @@ return require('packer').startup(function()
 
   -- Colors
   -- use '~/Documents/Work/internal/vim/colors/falcon/master'
-  -- use 'rktjmp/lush.nvim'
+  use 'rktjmp/lush.nvim'
   -- use 'fenetikm/falcon'
   -- use {"adisen99/apprentice.nvim", requires = {"rktjmp/lush.nvim"}}
   use "rktjmp/shipwright.nvim"
