@@ -63,7 +63,7 @@ vim.g.falcon_settings = {
   undercurl = true,
   underline_for_undercurl = false,
   transparent_bg = false,
-  inactive_bg = false,
+  inactive_bg = true,
   variation = 'zen',
   lsp_underline = 'errrr',
 }
