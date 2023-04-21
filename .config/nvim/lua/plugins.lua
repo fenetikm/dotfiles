@@ -47,7 +47,7 @@ return require('packer').startup(function()
   use 'junegunn/goyo.vim' --distraction free writing
 
   -- Motion
-  use {'rhysd/clever-f.vim', config = [[require('plugins.clever-f')]]} --clever fFtT 
+  use {'rhysd/clever-f.vim', config = [[require('plugins.clever-f')]]} --clever fFtT
   use 'chaoren/vim-wordmotion' --Expand the definition of what a word is
   use 'christoomey/vim-tmux-navigator' --navigate betwenn tmux splits and vim together
   use {'wellle/targets.vim', event = {'VimEnter'}} --Additional target text objects

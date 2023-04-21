@@ -55,17 +55,12 @@ vim.cmd([[
 ]])
 
 -- colour handling goes here
-vim.opt.background = 'dark'
-vim.g.colors_name = 'falcon'
 vim.g.falcon_settings = {
   italic_comments = false,
-  bold = true,
-  undercurl = true,
-  underline_for_undercurl = false,
   transparent_bg = false,
   inactive_bg = true,
-  variation = 'zen',
   lsp_underline = 'errrr',
+  variation = 'modern',
 }
 
 package.loaded['falcon'] = nil
