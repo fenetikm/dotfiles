@@ -36,6 +36,7 @@ local lsp_mappings = function(client, bufnr)
   bufmap('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   bufmap('n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   bufmap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  bufmap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 end
 
 local lsp_highlighting = function(client)
@@ -90,6 +91,9 @@ lspconfig.intelephense.setup {
   flags = { debounce_text_changes = 150 },
   on_attach = default_attach,
   capabilities = capabilities,
+  init_options = {
+    licenceKey = os.getenv('HOME') .. '/.config/intelephense.txt'
+  },
   filetypes = { "php" },
   root_dir = lspconfig.util.root_pattern(".git/", "composer.json"),
   settings = {
