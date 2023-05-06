@@ -8,16 +8,20 @@ tree.setup {
   },
   renderer = {
     icons = {
-      webdev_colors = false
+      webdev_colors = false,
+      show = {
+        file = false,
+        folder = true,
+        folder_arrow = false,
+        git = true,
+      },
     },
-  }
+    highlight_opened_files = "name",
+    indent_markers = {
+      enable = false,
+    },
+  },
 }
-
-g.nvim_tree_width = 35
-g.nvim_tree_show_icons = {git = 1, folders = 1, files = 0}
-g.nvim_tree_indent_markers = 1
-g.nvim_tree_highlight_opened_files = 2
-g.nvim_tree_add_trailing = 1
 
 local options = {silent = true, noremap = true}
 map({'n'}, '<c-e>', ':NvimTreeFindFileToggle<cr>', options)
