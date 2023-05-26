@@ -2,12 +2,40 @@ local dap = require('dap')
 
 -- https://github.com/tjdevries/config_manager/blob/master/xdg_config/nvim/after/plugin/dap.lua
 
-vim.fn.sign_define('DapBreakpoint', {text='ﭥ', texthl='', linehl='', numhl=''})
-vim.fn.sign_define('DapBreakpointCondition', {text='ﭦ', texthl='', linehl='', numhl=''})
-vim.fn.sign_define('DapStopped', {text='', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapBreakpoint', {text='●', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapBreakpointCondition', {text='◆', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapStopped', {text='▶', texthl='', linehl='', numhl=''})
 
 local dapui = require("dapui")
-dapui.setup()
+dapui.setup({
+  layouts = { {
+      elements = { {
+          id = "scopes",
+          size = 0.45
+        }, {
+          id = "breakpoints",
+          size = 0.15
+        }, {
+          id = "stacks",
+          size = 0.20
+        }, {
+          id = "watches",
+          size = 0.20
+        } },
+      position = "left",
+      size = 60
+    }, {
+      elements = { {
+          id = "repl",
+          size = 0.5
+        }, {
+          id = "console",
+          size = 0.5
+        } },
+      position = "bottom",
+      size = 8
+    } },
+})
 
 dap.listeners.after.event_initialized["dapui_config"] = function()
   dapui.open()
@@ -50,6 +78,7 @@ map("<leader>d]", require("dap").step_into, "step into")
 map("<leader>dv", require("dap").step_over, "step over")
 map("<leader>do", require("dap").step_out, "step out")
 map("<leader>ds", require("dap").continue, "start / continue")
+map("<leader>d<space>", require("dap").run_to_cursor, "start / continue")
 map("<leader>db", require("dap").toggle_breakpoint, "toggle breakpoint")
 map("<leader>dB", function()
   require("dap").set_breakpoint(vim.fn.input "[DAP] Condition > ")
@@ -73,7 +102,7 @@ dap.configurations.php = {
     type = 'php',
     request = 'launch',
     name = 'Listen for Xdebug',
-    port = 9000,
+    port = 9003,
     log = true,
     localSourceRoot = '/Users/michael/Documents/Work/personify_care/repos/personify-care-platform/application/',
     serverSourceRoot = '/app/application/'

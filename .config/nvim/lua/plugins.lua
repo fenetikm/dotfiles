@@ -220,6 +220,7 @@ return require('packer').startup(function()
   -- https://github.com/chentoast/marks.nvim replacement for vim-signature, neovim
   -- https://github.com/zbirenbaum/copilot.lua
   -- https://github.com/zbirenbaum/copilot-cmp
+  -- https://github.com/folke/neodev.nvim for development
   --
   -- plugin lists to look through:
   -- - https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginlist.lua
