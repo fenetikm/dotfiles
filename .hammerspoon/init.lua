@@ -325,6 +325,7 @@ function ext.app.forceLaunchOrFocus(appName, object)
   local log = hs.logger.new('mylog', 'debug')
   local screenCount = #hs.screen.allScreens()
 
+  -- allow using urls to open specific apps
   if (object.url) then
     spoon.URLDispatcher.url_patterns = {
       {'obsidian:', obsidianApp},

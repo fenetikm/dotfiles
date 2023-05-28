@@ -1,0 +1,3 @@
+cd ~blog
+title blog
+launch /bin/zsh -c "~/.config/tmux/blog.sh; /bin/zsh"
