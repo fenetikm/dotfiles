@@ -182,6 +182,14 @@ hugo-new-post () {
   hugo new posts/"$1".md --editor nvim
 }
 alias hn='hugo-new-post'
+hugo-open-post() {
+  nvim `find content -name '*.md' | fzf --no-multi --preview 'bat --color=always --line-range :500 {}'`
+}
+alias ho="hugo-open-post"
+hugo-open-latest() {
+  nvim $(find ~blog/content -name '*.md' -type f -exec stat -lt \"%Y-%m-%d\" {} \+ | cut -d' ' -f6- | sort -n | tail -1 | cut -d' ' -f2-)
+}
+alias hl="hugo-open-latest"
 
 #love framework
 alias love="/Applications/love.app/Contents/MacOS/love"
