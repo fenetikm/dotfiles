@@ -183,7 +183,7 @@ hugo-new-post () {
 }
 alias hn='hugo-new-post'
 hugo-open-post() {
-  nvim `find content -name '*.md' | fzf --no-multi --preview 'bat --color=always --line-range :500 {}'`
+  nvim $(find content -name '*.md' | fzf --no-multi --preview 'bat --color=always --line-range :500 {}')
 }
 alias ho="hugo-open-post"
 hugo-open-latest() {
