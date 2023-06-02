@@ -283,6 +283,12 @@ hs.hotkey.bind(mash_screen, '2', function() ext.app.moveToDisplay(2) end)
 -- hyper key mash
 local mash_apps = {"cmd", "alt", "ctrl", "shift"}
 
+local homeDir = '/Users/michael'
+local dirAtt = hs.fs.attributes(homeDir)
+if (dirAtt == nil) then
+  homeDir = '/Users/mjw'
+end
+
 -- https://github.com/digitalbase/hammerspoon/blob/master/init.lua
 hs.fnutils.each({
   { key = "b", app = "Thunderbird", display = 2, size = 'fullScreen' },
@@ -293,7 +299,7 @@ hs.fnutils.each({
   { key = "space", app = "/Applications/kitty.app/Contents/MacOS/kitty" },
   { key = "e", app = "Mail", display = 2, size = 'fullScreen' },
   { key = "p", url = "obsidian://open?vault=personal" },
-  { key = "d", app = "Dash" },
+  { key = "d", app = homeDir .. "/.config/kitty/blog.sh", title = "blog", name = "kitty" },
   { key = "q", app = "TablePlus", display = 2, size = 'fullScreen' },
   { key = "n", app = "Notes", display = 2, size = 'fullScreen' },
   { key = "c", app = "Calendar"},
@@ -334,6 +340,21 @@ function ext.app.forceLaunchOrFocus(appName, object)
     }
 
     spoon.URLDispatcher:dispatchURL('', '', '', object.url)
+  end
+
+  -- in the case of something having a title, need to see if it's running and switch via activate
+  if (object.title) then
+    for _, app in pairs(hs.application.runningApplications()) do
+      if app:name() == object.name then
+        for _, wins in pairs(app:allWindows()) do
+          if wins:title() == object.title then
+            app:activate()
+
+            return
+          end
+        end
+      end
+    end
   end
 
   -- focus with hammerspoon

@@ -1,37 +1,36 @@
 #!/bin/zsh
 
 CWD=$(pwd)
-SESSION_NAME="blog"
-
-# detach from a tmux session if in one
-tmux detach > /dev/null
+BLOG_SESSION_NAME="blog"
 
 # Create a new session, -d means detached itself
 set -- $(stty size) # $1 = rows $2 = columns
-tmux new-session -d -s $SESSION_NAME -x "$2" -y "$(($1 - 1))" -n 'edit'
+tmux new-session -d -s $BLOG_SESSION_NAME -x "$2" -y "$(($1 - 1))" -n 'edit'
 
-# Don't need the following, rename at the end
-tmux new-window -t $SESSION_NAME:2 -n 'server'
-tmux new-window -t $SESSION_NAME:3 -n 'admin'
+tmux new-window -t $BLOG_SESSION_NAME:2 -n 'server'
+tmux new-window -t $BLOG_SESSION_NAME:3 -n 'admin'
 
-## Admin Window
-tmux select-window -t $SESSION_NAME:3
-tmux select-pane -t 1
+## Main Window
+tmux select-window -t $BLOG_SESSION_NAME:1
+tmux rename-window 'edit'
 tmux send-keys "~blog" C-m
+# load last edited markdown file in content folder
+tmux send-keys "hl" C-m
 
 ## Server Window
-tmux select-window -t $SESSION_NAME:2
+tmux select-window -t $BLOG_SESSION_NAME:2
 tmux select-pane -t 1
 tmux send-keys "~blog" C-m
 tmux send-keys 'hugo server -D -F' C-m
 
-## Main Window
-tmux select-window -t $SESSION_NAME:1
+## Admin Window
+tmux select-window -t $BLOG_SESSION_NAME:3
 tmux select-pane -t 1
-tmux rename-window 'edit'
-tmux send-keys "~blog"
-# load last edited markdown file in content foldeR
-tumx send-keys "v `find ./content -name '*.md' -type f -exec stat -lt "%Y-%m-%d" {} \+ | cut -d' ' -f6- | sort -n | tail -1 | cut -d' ' -f2-`" C-m
+tmux send-keys "~blog" C-m
+tmux send-keys "v ./themes/falcon/assets/sass/main.scss" C-m
+
+# switch back to first window
+tmux select-window -t $BLOG_SESSION_NAME:1
 
 # Finally attach to it
-tmux attach -t $SESSION_NAME
+tmux attach -t $BLOG_SESSION_NAME

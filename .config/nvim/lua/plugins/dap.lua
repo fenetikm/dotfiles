@@ -2,9 +2,9 @@ local dap = require('dap')
 
 -- https://github.com/tjdevries/config_manager/blob/master/xdg_config/nvim/after/plugin/dap.lua
 
-vim.fn.sign_define('DapBreakpoint', {text='●', texthl='', linehl='', numhl=''})
-vim.fn.sign_define('DapBreakpointCondition', {text='◆', texthl='', linehl='', numhl=''})
-vim.fn.sign_define('DapStopped', {text='▶', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapBreakpoint', {text='●', texthl='DapBreakpoint', linehl='', numhl=''})
+vim.fn.sign_define('DapBreakpointCondition', {text='◆', texthl='DapBreakpointCondition', linehl='', numhl=''})
+vim.fn.sign_define('DapStopped', {text='▶', texthl='DapStopped', linehl='', numhl=''})
 
 local dapui = require("dapui")
 dapui.setup({
