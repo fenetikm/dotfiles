@@ -26,13 +26,9 @@ tmux send-keys 'hugo server -D -F' C-m
 
 ## Admin Window
 tmux select-window -t $BLOG_SESSION_NAME:3
-tmux split-window -h -l50%
-tmux select-pane -t 2
-tmux send-keys "~blog" C-m
-tmux send-keys "v ./themes/falcon/assets/sass/main.scss" C-m
 tmux select-pane -t 1
 tmux send-keys "~blog" C-m
-tmux send-keys "v" C-m
+tmux send-keys "v ./themes/falcon/assets/sass/main.scss" C-m
 
 # switch back to first window
 tmux select-window -t $BLOG_SESSION_NAME:1
