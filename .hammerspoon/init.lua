@@ -3,7 +3,6 @@
 -- @todo snap new windows to closest grid
 -- @todo allow top half in a third
 -- @todo when first opening something, put it in desired place but don't on focus
--- @todo layout method
 ext = {
   app = {},
 }
@@ -12,6 +11,9 @@ hs.loadSpoon("URLDispatcher")
 
 -- keys used to trigger screen management
 local mash_screen = {"cmd", "alt", "ctrl"}
+
+-- hyper key mash
+local mash_apps = {"cmd", "alt", "ctrl", "shift"}
 
 -- initial settings
 hs.grid.setGrid('12x12') -- allows us to place on quarters, thirds and halves
@@ -58,7 +60,7 @@ local layoutMetrics = {
 -- Application name, window title or window object or function
 local layouts = {
   {
-    key = '3', -- blog
+    key = '1', -- blog
     internal = {
       {"Blog View", nil, "Color LCD", grid.rightHalf, nil, nil},
       {"kitty", "blog", "Color LCD", grid.leftHalf, nil, nil}
@@ -67,24 +69,13 @@ local layouts = {
       {"Blog View", nil, "LG ULTRAWIDE", grid.leftThird, nil, nil},
       {"kitty", "blog", "LG ULTRAWIDE", grid.rightTwoThirds, nil, nil}
     }
-  },
-  {
-    key = '4',
-    internal = {
-    },
-    ultra = {
-      {"kitty", "vimwiki", "LG ULTRAWIDE", layoutMetrics.screenshot1, nil, nil}
-    },
-    dell = {
-      {"kitty", "vimwiki", "DELL U2715H", layoutMetrics.screenshot1, nil, nil}
-    }
   }
 }
 
 local glog = hs.logger.new('mylog', 'debug')
 
 hs.fnutils.each(layouts, function(object)
-  hs.hotkey.bind(mash_screen, object.key, function() ext.app.applyLayout(object) end)
+  hs.hotkey.bind(mash_apps, object.key, function() ext.app.applyLayout(object) end)
 end)
 
 -- @todo
@@ -264,8 +255,6 @@ hs.hotkey.bind(mash_screen, '2', function() ext.app.moveToDisplay(2) end)
 -- hs.hotkey.bind(mash_screen, ';', function() hs.grid.snap(hs.window.focusedWindow()) end)
 -- hs.hotkey.bind(mash_screen, "'", function() hs.fnutil.map(hs.window.visibleWindows(), hs.grid.snap) end)
 
--- hyper key mash
-local mash_apps = {"cmd", "alt", "ctrl", "shift"}
 
 local homeDir = '/Users/michael'
 local dirAtt = hs.fs.attributes(homeDir)
