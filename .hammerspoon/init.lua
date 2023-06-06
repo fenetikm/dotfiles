@@ -58,28 +58,18 @@ local layoutMetrics = {
 -- Application name, window title or window object or function
 local layouts = {
   {
-    key = '1',
+    key = '3', -- blog
     internal = {
-      {"Google Chrome", nil, "Color LCD", layoutMetrics.leftHalf, nil, nil},
-      {"kitty", "kitty", "Color LCD", layoutMetrics.rightHalf, nil, nil}
+      {"Blog View", nil, "Color LCD", grid.rightHalf, nil, nil},
+      {"kitty", "blog", "Color LCD", grid.leftHalf, nil, nil}
     },
     ultra = {
-      {"Google Chrome", nil, "LG ULTRAWIDE", grid.leftThird, nil, nil},
-      {"kitty", "kitty", "LG ULTRAWIDE", grid.rightTwoThirds, nil, nil}
+      {"Blog View", nil, "LG ULTRAWIDE", grid.leftThird, nil, nil},
+      {"kitty", "blog", "LG ULTRAWIDE", grid.rightTwoThirds, nil, nil}
     }
   },
   {
-    key = '2',
-    internal = {
-      {"Google Chrome", nil, "Color LCD", layoutMetrics.leftHalf, nil, nil},
-      {"kitty", "kitty", "Color LCD", layoutMetrics.rightHalf, nil, nil}
-    },
-    ultra = {
-      {"kitty", "vimwiki", "LG ULTRAWIDE", layoutMetrics.middleThird, nil, nil}
-    }
-  },
-  {
-    key = '3',
+    key = '4',
     internal = {
     },
     ultra = {
@@ -88,20 +78,10 @@ local layouts = {
     dell = {
       {"kitty", "vimwiki", "DELL U2715H", layoutMetrics.screenshot1, nil, nil}
     }
-  },
-  {
-    key = '4',
-    internal = {
-    },
-    ultra = {
-      {"kitty", "vimwiki", "LG ULTRAWIDE", layoutMetrics.leftThird, nil, nil},
-      {"Google Chrome", nil, "LG ULTRAWIDE", layoutMetrics.middleThird, nil, nil},
-      {"Finder", nil, "LG ULTRAWIDE", layoutMetrics.rightThird, nil, nil}
-    },
-    dell = {
-    }
   }
 }
+
+local glog = hs.logger.new('mylog', 'debug')
 
 hs.fnutils.each(layouts, function(object)
   hs.hotkey.bind(mash_screen, object.key, function() ext.app.applyLayout(object) end)
@@ -114,43 +94,47 @@ function ext.app.applyLayout(layout)
   local log = hs.logger.new('mylog', 'debug')
   local screen = 'internal'
   local ms = hs.screen.primaryScreen()
-  log.i(ms)
   if ms:name() == 'LG ULTRAWIDE' then
     screen = 'ultra'
   elseif ms:name() == 'DELL U2715H' then
     screen = 'dell'
   end
-  log.i(screen)
-  log.i(layout)
 
-  -- hide non-matching apps
+  -- hide everything, @fixme
   for key, app in pairs(hs.application.runningApplications()) do
-    local appIndex = -1
+    app:hide()
+  end
+  -- now show the matches
+  for key, app in pairs(hs.application.runningApplications()) do
     local match = false
     local winMatch = false
-    -- @todo how to handle apps such as kitty / kitty_2?
     for ai, settings in pairs(layout[screen]) do
-      log.i(app:name())
       if app:name() == settings[1] then
-        for w, wins in pairs(app:allWindows()) do
-          log.i(wins:title())
+        if settings[2] == nil then
+          app:unhide()
+
+          for w, wins in pairs(app:allWindows()) do
+            hs.grid.set(wins, layout[screen][ai][4])
+          end
+
+          break
         end
-        match = true
-        appIndex = ai
-      end
-    end
-    if match == false then
-      app:hide()
-    else
-      app:unhide()
-      for w, wins in pairs(app:allWindows()) do
-        hs.grid.set(wins, layout[screen][appIndex][4])
-        -- hs.grid.set(w, grid[layout[screen[3]]])
+        for w, wins in pairs(app:allWindows()) do
+          if wins:title() == settings[2] then
+            app:unhide()
+            for w, wins in pairs(app:allWindows()) do
+              hs.grid.set(wins, layout[screen][ai][4])
+            end
+            winMatch = true
+            break
+          end
+        end
+        if winMatch then
+          break
+        end
       end
     end
   end
-
-  -- hs.layout.apply(layout[screen])
 end
 
 -- taken from wincent https://github.com/wincent/wincent/blob/master/roles/dotfiles/files/.hammerspoon/init.lua
