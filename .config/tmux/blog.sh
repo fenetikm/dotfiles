@@ -14,6 +14,7 @@ tmux new-window -t $BLOG_SESSION_NAME:3 -n 'admin'
 tmux select-window -t $BLOG_SESSION_NAME:1
 tmux rename-window 'edit'
 tmux send-keys "~blog" C-m
+tmux send-keys "git pull" C-m
 # load last edited markdown file in content folder
 tmux send-keys "hl" C-m
 
