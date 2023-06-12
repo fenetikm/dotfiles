@@ -44,7 +44,9 @@ local grid = {
   fullScreen = '0,0 12x12',
   centeredHuge = '2,1 8x10',
   centeredBig = '3,2 6x8',
-  focus = '3,1 6x10'
+  focus = '3,1 6x10',
+  leftFocus = '3,1 3x10',
+  rightFocus = '6,1 3x10',
 }
 
 local layoutMetrics = {
@@ -66,8 +68,8 @@ local layouts = {
       {"kitty", "blog", "Color LCD", grid.leftHalf, nil, nil}
     },
     ultra = {
-      {"Blog View", nil, "LG ULTRAWIDE", grid.leftThird, nil, nil},
-      {"kitty", "blog", "LG ULTRAWIDE", grid.rightTwoThirds, nil, nil}
+      {"Blog View", nil, "LG ULTRAWIDE", grid.rightFocus, nil, nil},
+      {"kitty", "blog", "LG ULTRAWIDE", grid.leftFocus, nil, nil}
     }
   }
 }
@@ -95,6 +97,7 @@ function ext.app.applyLayout(layout)
   for key, app in pairs(hs.application.runningApplications()) do
     app:hide()
   end
+
   -- now show the matches
   for key, app in pairs(hs.application.runningApplications()) do
     local match = false
@@ -104,22 +107,25 @@ function ext.app.applyLayout(layout)
         if settings[2] == nil then
           app:unhide()
 
-          for w, wins in pairs(app:allWindows()) do
+          for _, wins in pairs(app:allWindows()) do
             hs.grid.set(wins, layout[screen][ai][4])
           end
 
           break
         end
-        for w, wins in pairs(app:allWindows()) do
+        for _, wins in pairs(app:allWindows()) do
           if wins:title() == settings[2] then
             app:unhide()
-            for w, wins in pairs(app:allWindows()) do
-              hs.grid.set(wins, layout[screen][ai][4])
+
+            for _, wins2 in pairs(app:allWindows()) do
+              hs.grid.set(wins2, layout[screen][ai][4])
             end
+
             winMatch = true
             break
           end
         end
+
         if winMatch then
           break
         end
