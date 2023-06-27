@@ -515,18 +515,58 @@ time([[Setup for vim-matchup]], false)
 time([[packadd for vim-matchup]], true)
 vim.cmd [[packadd vim-matchup]]
 time([[packadd for vim-matchup]], false)
+-- Config for: clever-f.vim
+time([[Config for clever-f.vim]], true)
+require('plugins.clever-f')
+time([[Config for clever-f.vim]], false)
+-- Config for: vim-test
+time([[Config for vim-test]], true)
+require('plugins.testing')
+time([[Config for vim-test]], false)
+-- Config for: lualine.nvim
+time([[Config for lualine.nvim]], true)
+require('plugins.lualine')
+time([[Config for lualine.nvim]], false)
+-- Config for: vim-localvimrc
+time([[Config for vim-localvimrc]], true)
+require('plugins.localvimrc')
+time([[Config for vim-localvimrc]], false)
+-- Config for: playground
+time([[Config for playground]], true)
+require('plugins.playground')
+time([[Config for playground]], false)
+-- Config for: nvim-cmp
+time([[Config for nvim-cmp]], true)
+require('plugins.cmp')
+time([[Config for nvim-cmp]], false)
+-- Config for: nvim-colorizer.lua
+time([[Config for nvim-colorizer.lua]], true)
+require('plugins.colorizer')
+time([[Config for nvim-colorizer.lua]], false)
+-- Config for: nvim-dap
+time([[Config for nvim-dap]], true)
+require('plugins.dap')
+time([[Config for nvim-dap]], false)
 -- Config for: gitsigns.nvim
 time([[Config for gitsigns.nvim]], true)
 require('plugins.gitsigns')
 time([[Config for gitsigns.nvim]], false)
--- Config for: nvim-treesitter
-time([[Config for nvim-treesitter]], true)
-require('plugins.treesitter')
-time([[Config for nvim-treesitter]], false)
--- Config for: loupe
-time([[Config for loupe]], true)
-require('plugins.loupe')
-time([[Config for loupe]], false)
+-- Config for: vim-slime
+time([[Config for vim-slime]], true)
+require('plugins.slime')
+time([[Config for vim-slime]], false)
+-- Config for: telescope.nvim
+time([[Config for telescope.nvim]], true)
+require('plugins.telescope')
+time([[Config for telescope.nvim]], false)
+-- Config for: nvim-tree.lua
+time([[Config for nvim-tree.lua]], true)
+require('plugins.tree')
+time([[Config for nvim-tree.lua]], false)
+-- Config for: indent-blankline.nvim
+time([[Config for indent-blankline.nvim]], true)
+require('plugins.indent_blankline')
+time([[Config for indent-blankline.nvim]], false)
 -- Config for: Comment.nvim
 time([[Config for Comment.nvim]], true)
 require('plugins.comment')
@@ -535,87 +575,33 @@ time([[Config for Comment.nvim]], false)
 time([[Config for nvim-lspconfig]], true)
 require('plugins.lsp')
 time([[Config for nvim-lspconfig]], false)
--- Config for: playground
-time([[Config for playground]], true)
-require('plugins.playground')
-time([[Config for playground]], false)
--- Config for: bullets.vim
-time([[Config for bullets.vim]], true)
-require('plugins.bullets')
-time([[Config for bullets.vim]], false)
--- Config for: nvim-cmp
-time([[Config for nvim-cmp]], true)
-require('plugins.cmp')
-time([[Config for nvim-cmp]], false)
--- Config for: indent-blankline.nvim
-time([[Config for indent-blankline.nvim]], true)
-require('plugins.indent_blankline')
-time([[Config for indent-blankline.nvim]], false)
--- Config for: alpha-nvim
-time([[Config for alpha-nvim]], true)
-require('plugins.alpha')
-time([[Config for alpha-nvim]], false)
--- Config for: nvim-colorizer.lua
-time([[Config for nvim-colorizer.lua]], true)
-require('plugins.colorizer')
-time([[Config for nvim-colorizer.lua]], false)
--- Config for: nvim-tree.lua
-time([[Config for nvim-tree.lua]], true)
-require('plugins.tree')
-time([[Config for nvim-tree.lua]], false)
--- Config for: telescope.nvim
-time([[Config for telescope.nvim]], true)
-require('plugins.telescope')
-time([[Config for telescope.nvim]], false)
 -- Config for: ultisnips
 time([[Config for ultisnips]], true)
 require('plugins.ultisnips')
 time([[Config for ultisnips]], false)
--- Config for: vim-localvimrc
-time([[Config for vim-localvimrc]], true)
-require('plugins.localvimrc')
-time([[Config for vim-localvimrc]], false)
--- Config for: clever-f.vim
-time([[Config for clever-f.vim]], true)
-require('plugins.clever-f')
-time([[Config for clever-f.vim]], false)
--- Config for: vim-slime
-time([[Config for vim-slime]], true)
-require('plugins.slime')
-time([[Config for vim-slime]], false)
--- Config for: nvim-dap
-time([[Config for nvim-dap]], true)
-require('plugins.dap')
-time([[Config for nvim-dap]], false)
+-- Config for: loupe
+time([[Config for loupe]], true)
+require('plugins.loupe')
+time([[Config for loupe]], false)
+-- Config for: alpha-nvim
+time([[Config for alpha-nvim]], true)
+require('plugins.alpha')
+time([[Config for alpha-nvim]], false)
 -- Config for: vim-signature
 time([[Config for vim-signature]], true)
 require('plugins.signature')
 time([[Config for vim-signature]], false)
--- Config for: lualine.nvim
-time([[Config for lualine.nvim]], true)
-require('plugins.lualine')
-time([[Config for lualine.nvim]], false)
--- Config for: vim-test
-time([[Config for vim-test]], true)
-require('plugins.testing')
-time([[Config for vim-test]], false)
+-- Config for: bullets.vim
+time([[Config for bullets.vim]], true)
+require('plugins.bullets')
+time([[Config for bullets.vim]], false)
+-- Config for: nvim-treesitter
+time([[Config for nvim-treesitter]], true)
+require('plugins.treesitter')
+time([[Config for nvim-treesitter]], false)
 
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)
-pcall(vim.api.nvim_create_user_command, 'Gread', function(cmdargs)
-          require('packer.load')({'vim-fugitive'}, { cmd = 'Gread', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
-        end,
-        {nargs = '*', range = true, bang = true, complete = function()
-          require('packer.load')({'vim-fugitive'}, {}, _G.packer_plugins)
-          return vim.fn.getcompletion('Gread ', 'cmdline')
-      end})
-pcall(vim.api.nvim_create_user_command, 'Gmerge', function(cmdargs)
-          require('packer.load')({'vim-fugitive'}, { cmd = 'Gmerge', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
-        end,
-        {nargs = '*', range = true, bang = true, complete = function()
-          require('packer.load')({'vim-fugitive'}, {}, _G.packer_plugins)
-          return vim.fn.getcompletion('Gmerge ', 'cmdline')
-      end})
 pcall(vim.api.nvim_create_user_command, 'EasyAlign', function(cmdargs)
           require('packer.load')({'vim-easy-align'}, { cmd = 'EasyAlign', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
         end,
@@ -672,18 +658,32 @@ pcall(vim.api.nvim_create_user_command, 'Gvdiff', function(cmdargs)
           require('packer.load')({'vim-fugitive'}, {}, _G.packer_plugins)
           return vim.fn.getcompletion('Gvdiff ', 'cmdline')
       end})
+pcall(vim.api.nvim_create_user_command, 'Gread', function(cmdargs)
+          require('packer.load')({'vim-fugitive'}, { cmd = 'Gread', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
+        end,
+        {nargs = '*', range = true, bang = true, complete = function()
+          require('packer.load')({'vim-fugitive'}, {}, _G.packer_plugins)
+          return vim.fn.getcompletion('Gread ', 'cmdline')
+      end})
+pcall(vim.api.nvim_create_user_command, 'Gmerge', function(cmdargs)
+          require('packer.load')({'vim-fugitive'}, { cmd = 'Gmerge', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
+        end,
+        {nargs = '*', range = true, bang = true, complete = function()
+          require('packer.load')({'vim-fugitive'}, {}, _G.packer_plugins)
+          return vim.fn.getcompletion('Gmerge ', 'cmdline')
+      end})
 time([[Defining lazy-load commands]], false)
 
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType php ++once lua require("packer.load")({'vim-php-manual', 'phpfolding.vim'}, { ft = "php" }, _G.packer_plugins)]]
 vim.cmd [[au FileType html ++once lua require("packer.load")({'MatchTag'}, { ft = "html" }, _G.packer_plugins)]]
+vim.cmd [[au FileType php ++once lua require("packer.load")({'vim-php-manual', 'phpfolding.vim'}, { ft = "php" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
   -- Event lazy-loads
 time([[Defining lazy-load event autocommands]], true)
-vim.cmd [[au VimEnter * ++once lua require("packer.load")({'vim-unimpaired', 'targets.vim'}, { event = "VimEnter *" }, _G.packer_plugins)]]
+vim.cmd [[au VimEnter * ++once lua require("packer.load")({'targets.vim', 'vim-unimpaired'}, { event = "VimEnter *" }, _G.packer_plugins)]]
 time([[Defining lazy-load event autocommands]], false)
 vim.cmd("augroup END")
 
