@@ -15,7 +15,7 @@ gitsigns.setup {
     delay = 1000,
     ignore_whitespace = false,
   },
-  current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
+  current_line_blame_formatter = ' <author>, <author_time:%Y-%m-%d> - <summary>',
   on_attach = function(bufnr)
     local gs = package.loaded.gitsigns
 
@@ -56,5 +56,8 @@ gitsigns.setup {
     -- Text object
     map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
   end,
-  max_file_length = 40000
+  max_file_length = 40000,
+  yadm = {
+    enable = true
+  }
 }
