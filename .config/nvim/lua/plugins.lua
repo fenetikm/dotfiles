@@ -210,6 +210,7 @@ return require('packer').startup({function(use)
   -- https://github.com/gelguy/wilder.nvim better wild menu, neovim
   -- https://github.com/vhyrro/neorg
   -- https://github.com/rcarriga/vim-ultest
+  -- https://github.com/folke/todo-comments.nvim
   -- some from https://neovimcraft.com/
   -- https://github.com/phaazon/hop.nvim
   -- stuff from https://github.com/CosmicNvim/CosmicNvim
