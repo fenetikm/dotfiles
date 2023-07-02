@@ -1,6 +1,6 @@
 vim.cmd [[packadd packer.nvim]]
 
-return require('packer').startup(function()
+return require('packer').startup({function(use)
   -- Packer can manage itself as an optional plugin
   use 'wbthomason/packer.nvim'
 
@@ -26,10 +26,17 @@ return require('packer').startup(function()
   -- use {'AndrewRadev/splitjoin.vim', ft = {'php'}} -- convert single/multi line code expressions
 
   -- Git
-  use {'tpope/vim-fugitive', cmd = {'Git', 'G', 'Gstatus', 'Gdiff', 'Glog', 'Gblame', 'Gvdiff', 'Gread', 'Gmerge'}}
+  use {'tpope/vim-fugitive', cmd = {'Git', 'G', 'Gstatus', 'Gdiff', 'Glog', 'Gblame', 'Gvdiff', 'Gread', 'Gmerge', 'Gvdiffsplit', 'Gdiffsplit'}}
 
   -- Testing
   use {'janko-m/vim-test', config = [[require('plugins.testing')]]} --Test runner
+  -- Test coverage, note the setting of the python3 at the end for luarocks to work
+  use({
+    'andythigpen/nvim-coverage',
+    requires = 'nvim-lua/plenary.nvim',
+    rocks = { 'lua-xmlreader' },
+    config = [[require('plugins.coverage')]],
+  })
 
   -- Commenting
   use {'numToStr/Comment.nvim', config = [[require('plugins.comment')]]}
@@ -228,4 +235,8 @@ return require('packer').startup(function()
   -- dotfiles:
   -- - https://github.com/bluz71/dotfiles/blob/master/vim/lua/lsp-config.lua
 
-end)
+end, config = {
+  luarocks = {
+    python_cmd = 'python3' -- Set the python command to use for running hererocks
+  },
+}})

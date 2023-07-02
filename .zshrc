@@ -214,7 +214,7 @@ alias dbd3='rb db:dump --path="dump3.sql" --sed=gsed --dirty'
 alias dbl3='rb db:load --path="dump3.sql"'
 alias dblp='rb db:load --path="patient.sql"'
 alias pcload='(cd ~pcp && rb db:load)'
-alias pcup='docker-compose -f misc/docker/docker-compose.yml up -d'
+alias pcup='docker-compose -f misc/docker/docker-compose.yml -f misc/docker/docker-compose.override.yml up -d'
 alias pcdown='docker container stop $(docker container ls -aq)'
 # alias ytbest="youtube-dl -f bestvideo+bestaudio --merge-output-format=mkv"
 alias ytbest="yt-dlp -f bestvideo+bestaudio --merge-output-format=mkv"
