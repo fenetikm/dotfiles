@@ -212,6 +212,7 @@ hs.hotkey.bind(mash_screen, 'f', chain({
   grid.centeredHuge,
   grid.centeredBig,
   grid.focus,
+  grid.recording,
 }))
 
 function ext.app.setGrid(key)
@@ -252,7 +253,7 @@ hs.hotkey.bind(mash_screen, 'z', function() ext.app.setGrid('leftTwoThirds') end
 hs.hotkey.bind(mash_screen, 'x', function() ext.app.setGrid('middleTwoThirds') end)
 hs.hotkey.bind(mash_screen, 'c', function() ext.app.setGrid('rightTwoThirds') end)
 
--- hs.hotkey.bind(mash_screen, 'g', function() ext.app.setLayout(layoutMetrics.screenshot1) end)
+hs.hotkey.bind(mash_screen, '0', function() ext.app.setLayout({x=1280, y=320, w=1400, h=900}) end)
 
 hs.hotkey.bind(mash_screen, '1', function() ext.app.moveToDisplay(1) end)
 hs.hotkey.bind(mash_screen, '2', function() ext.app.moveToDisplay(2) end)
