@@ -171,6 +171,7 @@ alias docker-restart="osascript -e 'quit app \"Docker\"' && open -a Docker"
 
 # ssh
 alias redyssh='ssh theoryz4@122.129.220.5 -p 5123 -i $HOME/.ssh/id_dsa'
+alias ventrassh='ssh theoryz4@s03de.syd6.hostingplatform.net.au -p 2683 -i $HOME/.ssh/id_dsa'
 
 #ranger
 alias r='ranger'

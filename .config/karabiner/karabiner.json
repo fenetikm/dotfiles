@@ -100,7 +100,7 @@
                         ]
                     },
                     {
-                        "description": "Left arrow to Hyper (Command + Shift + Option + Control), left arrow when tapped, hiro",
+                        "description": "Left arrow to mash (Command + Option + Control), left arrow when tapped, hiro",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -464,6 +464,43 @@
                                         "identifiers": [
                                             {
                                                 "vendor_id": 19280
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "left_control",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_control",
+                                        "lazy": true
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "escape"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Change Left Control to Escape when used alone, or Left Control when held down, only for paragon",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "vendor_id": 35879
                                             }
                                         ],
                                         "type": "device_if"
