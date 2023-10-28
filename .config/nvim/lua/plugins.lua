@@ -3,7 +3,6 @@
 
 -- TODO:
 -- - mappings for testing
--- Telescope key mappings
 -- Other key mappings, put them in lazy config
 
 return {
@@ -42,7 +41,16 @@ return {
   {'andymass/vim-matchup', event = 'VeryLazy'},
 
   -- Git
-  {'tpope/vim-fugitive', event = 'VeryLazy'},
+  {
+    'tpope/vim-fugitive',
+    keys = {
+      {'<leader>gs', '<cmd>Git<cr>', silent = true, noremap = true},
+      {'<leader>gr', '<cmd>Gread<cr>', noremap = true},
+      {'<leader>gl', '<cmd>Git log<cr>', noremap = true},
+      {'<leader>gb', '<cmd>Git blame<cr>', noremap = true},
+      {'<leader>gd', '<cmd>Gvdiffsplit!<cr>', noremap = true},
+    }
+  },
 
   -- Testing
   {'janko-m/vim-test', event = 'VeryLazy'},
