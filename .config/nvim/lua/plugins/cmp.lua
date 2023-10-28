@@ -1,7 +1,15 @@
 return {
   {
     'hrsh7th/nvim-cmp',
+    version = false,
     event = 'InsertEnter',
+    dependencies = {
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-nvim-lua',
+      'quangnguyen30192/cmp-nvim-ultisnips',
+    },
     opts = function ()
       local lspkind = require('lspkind')
       lspkind.init()
@@ -67,8 +75,9 @@ return {
         }),
         formatting = {
           format = lspkind.cmp_format {
-            with_text = true,
+            mode = 'symbol_text',
             maxwidth = 30,
+            ellipsis_char = '...',
             menu = {
               buffer = '[Buf]',
               nvim_lsp = '[LSP]',
@@ -77,11 +86,6 @@ return {
               ultisnips = '[Snip]',
             }
           }
-          -- format = function(entry, vim_item)
-          --   vim_item.menu = entry:get_completion_item().detail
-          --   return vim_item
-          -- end
-          -- format = lspkind.cmp_format({with_text = false, maxwidth = 50})
         },
         sorting = {
           comparators = {
@@ -116,9 +120,4 @@ return {
       }
     end
   },
-  { 'hrsh7th/cmp-nvim-lsp', event = 'InsertEnter' },
-  { 'hrsh7th/cmp-buffer', event = 'InsertEnter' },
-  { 'hrsh7th/cmp-path', event = 'InsertEnter' },
-  { 'hrsh7th/cmp-nvim-lua', event = 'InsertEnter'},
-  {'quangnguyen30192/cmp-nvim-ultisnips', event = 'InsertEnter'}
 }

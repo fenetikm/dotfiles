@@ -12,6 +12,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- haven't yet worked out where to put these but here works
 vim.g.localvimrc_ask = 0
 vim.g.localvimrc_sandbox = 0
 
