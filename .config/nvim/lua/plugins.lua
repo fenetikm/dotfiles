@@ -1,10 +1,5 @@
 -- Notes:
 -- had to run `Lazy build ...` to get fzf native working
-
--- TODO:
--- - mappings for testing
--- Other key mappings, put them in lazy config
-
 return {
   -- Colours
   'rktjmp/lush.nvim',
@@ -28,17 +23,27 @@ return {
   },
 
   -- Project management
-  -- TODO
+  {
+    'dbakker/vim-projectroot'
+  },
+  {
+    'embear/vim-localvimrc',
+    config = function()
+      vim.g.localvimrc_ask = 0
+      vim.g.localvimrc_sandbox = 0
+      vim.g.localvimrc_name = {'.lvimrc'}
+    end
+  },
 
   -- Matching
   {
     'cohama/lexima.vim', event = 'VeryLazy' },-- auto closing pairs
-  { 'machakann/vim-sandwich', event = 'VimEnter'},
+  { 'machakann/vim-sandwich', event = 'VimEnter'}, --surround handling
   {
     'gregsexton/MatchTag',
     ft = {'html'}, --html tag matching
   },
-  {'andymass/vim-matchup', event = 'VeryLazy'},
+  {'andymass/vim-matchup', event = 'VimEnter'},
 
   -- Git
   {
@@ -53,7 +58,14 @@ return {
   },
 
   -- Testing
-  {'janko-m/vim-test', event = 'VeryLazy'},
+  {
+    'janko-m/vim-test',
+    keys = {
+      {'<leader>oo', '<cmd>TestLast<cr>', silent = true, noremap = true},
+      {'<leader>on', '<cmd>TestNearest<cr>', silent = true, noremap = true},
+      {'<leader>of', '<cmd>TestFile<cr>', silent = true, noremap = true},
+    }
+  },
 
   -- Spelling
   {'tpope/vim-abolish'},
