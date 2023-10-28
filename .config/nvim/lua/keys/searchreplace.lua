@@ -1,3 +1,39 @@
+local falcon_theme = {
+  theme = 'falcon',
+  layout_strategy = 'horizontal',
+  sorting_strategy = 'descending',
+  winblend = 5,
+  preview = true,
+  layout_config = {
+    preview_cutoff = 120,
+    width = 0.8,
+    height = 40,
+    prompt_position = "bottom"
+  },
+  prompt_title = '',
+  results_title = '',
+  prompt_prefix = '=> ',
+  border = true,
+  borderchars = {
+      prompt = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+      results = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+      preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+  },
+}
+
+_G.falcon_telescope = {}
+_G.falcon_telescope.get_full_theme = function(opts)
+  local theme = falcon_theme
+  return vim.tbl_deep_extend('force', theme, opts)
+end
+
+_G.falcon_telescope.get_simple_theme = function(opts)
+  local theme = falcon_theme
+  theme = vim.tbl_deep_extend('force', theme, opts)
+  theme.preview = false
+  return theme
+end
+
 vim.cmd([[
     " search / find
     nnoremap <c-p> <cmd>lua require'telescope.builtin'.find_files(_G.falcon_telescope.get_full_theme({}))<cr>

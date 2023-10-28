@@ -1,64 +1,77 @@
-local ts_configs = require('nvim-treesitter.configs')
-ts_configs.setup {
-  ensure_installed = {
-    'bash', 'c', 'cpp', 'css', 'go', 'html',
-    'javascript', 'json', 'lua', 'python',
-    'rust', 'toml', 'typescript', 'elixir', 'php', 'java',
-    'ruby', 'twig'
+return {
+  { 'nvim-treesitter/nvim-treesitter-textobjects', event = 'VeryLazy' },
+  {
+    'nvim-treesitter/nvim-treesitter',
+    config = function ()
+      local ts_configs = require('nvim-treesitter.configs')
+      ts_configs.setup {
+        ensure_installed = {
+          'bash', 'c', 'cpp', 'css', 'go', 'html',
+          'javascript', 'json', 'lua', 'python',
+          'rust', 'toml', 'typescript', 'elixir', 'php', 'java',
+          'ruby', 'twig'
+        },
+        highlight = {
+          enable = true,
+          -- enable = true,
+          disable = {'markdown'},
+        },
+        indent = { enable = true },
+        incremental_selection = {
+          enable = false,
+          -- keymaps = {
+          --   init_selection = '<c-space>',
+          --   node_incremental = '<c-space>',
+          --   scope_incremental = 'gns',
+          --   node_decremental = '<c-backspace>',
+          -- }
+        },
+        move = {
+          enable = true,
+          set_jumps = true, -- whether to set jumps in the jumplist
+          goto_next_start = {
+            [']m'] = '@function.outer',
+            [']]'] = '@class.outer',
+          },
+          goto_next_end = {
+            [']M'] = '@function.outer',
+            [']['] = '@class.outer',
+          },
+          goto_previous_start = {
+            ['[m'] = '@function.outer',
+            ['[['] = '@class.outer',
+          },
+          goto_previous_end = {
+            ['[M'] = '@function.outer',
+            ['[]'] = '@class.outer',
+          },
+        },
+        -- refactor = {
+        --   smart_rename = {enable = true, keymaps = {smart_rename = "grr"}},
+        --   highlight_definitions = {enable = true}
+        --   -- highlight_current_scope = { enable = true }
+        -- },
+        textobjects = {
+          select = {
+            enable = true,
+            lookahead = true,
+            keymaps = {
+              ['af'] = '@function.outer',
+              ['if'] = '@function.inner',
+              ['ac'] = '@class.outer',
+              ['ic'] = '@class.inner',
+              ['aa'] = '@parameter.outer',
+              ['ia'] = '@parameter.inner',
+            },
+            include_surrounding_whitespace = true,
+          }
+        }
+      }
+    end
   },
-  highlight = {
-    enable = true,
-    -- enable = true,
-    disable = {'markdown'},
+  {
+    'nvim-treesitter/playground',
+    key = '<c-b>',
   },
-  indent = { enable = true },
-  incremental_selection = {
-    enable = false,
-    -- keymaps = {
-    --   init_selection = '<c-space>',
-    --   node_incremental = '<c-space>',
-    --   scope_incremental = 'gns',
-    --   node_decremental = '<c-backspace>',
-    -- }
-  },
-  move = {
-    enable = true,
-    set_jumps = true, -- whether to set jumps in the jumplist
-    goto_next_start = {
-      [']m'] = '@function.outer',
-      [']]'] = '@class.outer',
-    },
-    goto_next_end = {
-      [']M'] = '@function.outer',
-      [']['] = '@class.outer',
-    },
-    goto_previous_start = {
-      ['[m'] = '@function.outer',
-      ['[['] = '@class.outer',
-    },
-    goto_previous_end = {
-      ['[M'] = '@function.outer',
-      ['[]'] = '@class.outer',
-    },
-  },
-  -- refactor = {
-  --   smart_rename = {enable = true, keymaps = {smart_rename = "grr"}},
-  --   highlight_definitions = {enable = true}
-  --   -- highlight_current_scope = { enable = true }
-  -- },
-  textobjects = {
-    select = {
-      enable = true,
-      lookahead = true,
-      keymaps = {
-        ['af'] = '@function.outer',
-        ['if'] = '@function.inner',
-        ['ac'] = '@class.outer',
-        ['ic'] = '@class.inner',
-        ['aa'] = '@parameter.outer',
-        ['ia'] = '@parameter.inner',
-      },
-      include_surrounding_whitespace = true,
-    }
-  }
+  {'nvim-treesitter/nvim-treesitter-context', event = 'VeryLazy'}
 }

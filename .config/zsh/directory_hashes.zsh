@@ -18,3 +18,5 @@ hash -d z=~/zettelkasten
 hash -d icloud=~/iCloud
 hash -d yt=~/Downloads/yt
 hash -d crafting=~/Documents/Work/internal/projects/interpreters/crafting
+hash -d ht=~/Documents/Work/internal/projects/hypetype
+hash -d htb=~/Documents/Work/internal/projects/hypetype/blog/hypetype
