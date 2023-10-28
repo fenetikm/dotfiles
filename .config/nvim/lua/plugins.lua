@@ -28,11 +28,7 @@ return {
   },
   {
     'embear/vim-localvimrc',
-    config = function()
-      vim.g.localvimrc_ask = 0
-      vim.g.localvimrc_sandbox = 0
-      vim.g.localvimrc_name = {'.lvimrc'}
-    end
+    lazy = false,
   },
 
   -- Matching
@@ -149,7 +145,16 @@ return {
   -- Syntax
   {
     'plasticboy/vim-markdown',
-    ft = {'markdown'}
+    ft = {'markdown'},
+    config = function()
+      vim.g.vim_markdown_frontmatter = 1
+      vim.g.vim_markdown_strikethrough = 1 --strikethrough support, with two tildes ~~
+      vim.g.vim_markdown_no_extensions_in_markdown = 1 --.md not required in links
+      vim.g.vim_markdown_auto_insert_bullets = 0 --disable new line bullets
+      vim.g.vim_markdown_new_list_item_indent = 0 --disable the indenting
+      vim.g.vim_markdown_autowrite = 1 --save file when following a link
+      vim.g.vim_markdown_folding_style_pythonic = 1
+    end
   },
   {
     'norcalli/nvim-colorizer.lua',
