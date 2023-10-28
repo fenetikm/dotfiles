@@ -15,6 +15,7 @@ return {
       lspkind.init()
       local cmp = require('cmp')
       local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+      vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
 
       return {
         completion = {
@@ -110,9 +111,6 @@ return {
             cmp.config.compare.order,
           },
         },
-        -- documentation = {
-        --   border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-        -- },
         experimental = {
           native_menu = false,
           ghost_text = true,
