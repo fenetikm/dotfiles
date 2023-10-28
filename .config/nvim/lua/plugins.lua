@@ -34,8 +34,17 @@ return {
 
   -- Matching
   {
-    'cohama/lexima.vim', event = 'VeryLazy' },-- auto closing pairs
-  { 'machakann/vim-sandwich', event = 'VimEnter'}, --surround handling
+    'echasnovski/mini.pairs',
+    event = 'VeryLazy',
+    version = false,
+    opts = {},
+  },-- auto closing pairs
+  {
+    'echasnovski/mini.surround',
+    event = 'VeryLazy',
+    version = false,
+    opts = {},
+  }, -- surround handling
   {
     'gregsexton/MatchTag',
     ft = {'html'}, --html tag matching
@@ -164,11 +173,34 @@ return {
   },
 
   -- Text objects
-  {'kana/vim-textobj-user', event = 'VeryLazy'},
-  {'kana/vim-textobj-line', dependencies = {'kana/vim-textobj-user'}, event = 'VeryLazy'},
-  {'kana/vim-textobj-indent', dependencies = {'kana/vim-textobj-user'}, event = 'VeryLazy'},
-  {'glts/vim-textobj-comment', dependencies = {'kana/vim-textobj-user'}, event = 'VeryLazy'},
-  {'kana/vim-textobj-entire', dependencies = {'kana/vim-textobj-user'}, event = 'VeryLazy'},
+  {
+    "echasnovski/mini.ai",
+    version = false,
+    event = "VeryLazy",
+    opts = function()
+      local ai = require("mini.ai")
+      return {
+        n_lines = 500,
+        custom_textobjects = {
+          o = ai.gen_spec.treesitter({
+            a = { "@block.outer", "@conditional.outer", "@loop.outer" },
+            i = { "@block.inner", "@conditional.inner", "@loop.inner" },
+          }, {}),
+          f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
+          c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {}),
+          t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },
+          e = function()
+            local from = { line = 1, col = 1 }
+            local to = {
+              line = vim.fn.line('$'),
+              col = math.max(vim.fn.getline('$'):len(), 1)
+            }
+            return { from = from, to = to }
+          end
+        },
+      }
+    end,
+  },
 
   -- Languages
   -- PHP

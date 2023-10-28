@@ -38,7 +38,4 @@ vim.cmd([[
 
   " auto resize on size change
   autocmd VimResized * wincmd =
-
-  " compile packer file on update
-  autocmd BufWritePost plugins.lua PackerCompile
 ]])
