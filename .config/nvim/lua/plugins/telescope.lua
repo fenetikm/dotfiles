@@ -1,13 +1,32 @@
-local function on_load(name, fn)
-  vim.api.nvim_create_autocmd("User", {
-    pattern = "LazyLoad",
-    callback = function(event)
-      if event.data == name then
-        fn(name)
-        return true
-      end
-    end,
-  })
+local falcon_theme = {
+  theme = 'falcon',
+  layout_strategy = 'horizontal',
+  sorting_strategy = 'descending',
+  winblend = 5,
+  preview = true,
+  layout_config = {
+    preview_cutoff = 120,
+    width = 0.8,
+    height = 40,
+    prompt_position = "bottom"
+  },
+  prompt_title = '',
+  results_title = '',
+  prompt_prefix = '=> ',
+  border = true,
+  borderchars = {
+      prompt = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+      results = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+      preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+  },
+}
+
+local simple_falcon_theme = vim.tbl_deep_extend('force', falcon_theme, {preview = false})
+
+_G.get_falcon_theme = function(opts)
+  local theme = falcon_theme
+  theme = vim.tbl_deep_extend('force', theme, opts)
+  return theme
 end
 
 return {
@@ -19,6 +38,24 @@ return {
     dependencies = {
       {'nvim-lua/plenary.nvim'},
       {'nvim-telescope/telescope-fzf-native.nvim', build = 'make'},
+    },
+    keys = {
+      {'<c-p>', "<cmd>lua require'telescope.builtin'.find_files(falcon_theme)<cr>", noremap = true, desc = 'Find files' },
+      {'<leader>fh', "<cmd>lua require'telescope.builtin'.oldfiles(falcon_theme)<cr>", silent = true, noremap = true, desc = 'Find old files'},
+      {'<leader>fc', "<cmd>lua require'telescope.builtin'.commands(falcon_theme)<cr>", silent = true, noremap = true, desc = 'Find commands'},
+      {'<leader>fm', "<cmd>lua require'telescope.builtin'.keymaps(simple_falcon_theme)<cr>", silent = true, noremap = true, desc = 'Find key maps'},
+      {'<leader>T', "<cmd>Telescope lsp_document_symbols<cr>", silent = true, noremap = true, desc = 'Find symbols'},
+      {'<c-t>', "<cmd>lua require'telescope.builtin'.tags{path_display = {'smart'}, show_line = true}<cr>", silent = true, noremap = true, desc = 'Find tags'},
+      {'<leader>fr', "<cmd>Telescope lsp_references<cr>", silent = true, noremap = true, desc = 'Find references'},
+      {'<leader>fq', "<cmd>lua require'telescope.builtin'.quickfixhistory<cr>", silent = true, noremap = true, desc = 'Find in quickfix history'},
+      {'<leader>fb', "<cmd>lua require'telescope.builtin'.buffers(simple_falcon_theme)<cr>", silent = true, noremap = true, desc = 'Find in buffers'},
+      {'//', "<cmd>lua require'telescope.builtin'.current_buffer_fuzzy_find(simple_falcon_theme)<cr>", silent = true, noremap = true, desc = 'Find buffer'},
+      {'<leader>?', "<cmd>lua require'telescope.builtin'.help_tags(simple_falcon_theme)<cr>", silent = true, noremap = true, desc = 'Find in help'},
+      {'<leader>:', "<cmd>lua require'telescope.builtin'.command_history(simple_falcon_theme)<cr>", silent = true, noremap = true, desc = 'Find in comand history'},
+      {'<leader>/', "<cmd>lua require'telescope.builtin'.search_history(simple_falcon_theme)<cr>", silent = true, noremap = true, desc = 'Find in comand history'},
+      {'<leader>s', "<cmd>lua require'telescope.builtin'.grep_string(get_falcon_theme({search = vim.fn.input('Search > ')}))<cr>", silent = true, desc = 'Search in files'},
+      {'<leader>S', "<cmd>lua require'telescope.builtin'.grep_string(get_falcon_theme({search = vim.fn.input('Search all > '), no_ignore = true, hidden = true}))<cr>", silent = true, desc = 'Search in all files'},
+      {'<leader>k', "<cmd>lua require'telescope.builtin'.grep_string(falcon_theme)<cr>", silent = true, desc = 'Search in files'},
     },
     config = function ()
       local actions = require('telescope.actions')
