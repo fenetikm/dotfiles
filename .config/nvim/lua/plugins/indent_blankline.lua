@@ -6,7 +6,9 @@ return {
       char = {'│', '┊'},
       highlight = {'IndentBlanklineIndent1', 'IndentBlanklineIndent1'},
     },
-    whitespace = { highlight = {'NonText'} },
+    whitespace = {
+      remove_blankline_trail = true,
+    },
     scope = { enabled = false },
     exclude = {
       filetypes = {
