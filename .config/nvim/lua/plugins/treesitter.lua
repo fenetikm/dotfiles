@@ -39,6 +39,9 @@ return {
           end
         end,
       },
+      {
+        'JoosepAlviste/nvim-ts-context-commentstring',
+      },
     },
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
     keys = {
@@ -54,6 +57,7 @@ return {
           'rust', 'toml', 'typescript', 'elixir', 'php', 'java',
           'ruby', 'twig'
         },
+        context_commentstring = { enable = true, enable_autocmd = false },
         highlight = {
           enable = true,
           disable = {'markdown'},
@@ -88,7 +92,7 @@ return {
   {
     'nvim-treesitter/playground',
     keys = {
-      {'<c-b', '<cmd>TSHighlightCapturesUnderCursor<cr>', silent = false, noremap = true}
+      {'<c-b>', '<cmd>TSHighlightCapturesUnderCursor<cr>', silent = false, noremap = true}
     },
   },
   {

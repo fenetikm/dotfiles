@@ -104,6 +104,17 @@ return {
   {'nelstrom/vim-visual-star-search', event = 'VeryLazy'}, --use * in visual mode to search
   {'jesseleite/vim-agriculture', event = 'VeryLazy'}, --pass things through to rg
 
+  -- Replace
+  {
+    "nvim-pack/nvim-spectre",
+    cmd = "Spectre",
+    opts = { open_cmd = "noswapfile vnew" },
+    -- stylua: ignore
+    keys = {
+      { '<leader>sr', function() require('spectre').open() end, desc = 'Replace in files' },
+    },
+  },
+
   -- Statusline, see lualine.lua file
 
   -- Sign column, see signs.lua file
@@ -242,3 +253,35 @@ return {
 
   -- Alpha see alpha.lua
 }
+
+--[[
+  -- From old list
+  -- https://github.com/gelguy/wilder.nvim better wild menu, neovim
+  -- https://github.com/vhyrro/neorg
+  -- https://github.com/rcarriga/vim-ultest
+  -- https://github.com/folke/todo-comments.nvim
+  -- some from https://neovimcraft.com/
+  -- https://github.com/phaazon/hop.nvim
+  -- stuff from https://github.com/CosmicNvim/CosmicNvim
+  -- https://github.com/jose-elias-alvarez/null-ls.nvim
+  -- https://github.com/folke/trouble.nvim
+  -- https://www.lunarvim.org/plugins/02-default-plugins.html and maybe some from extra
+  -- https://github.com/Pocco81/TrueZen.nvim
+  -- https://github.com/nvim-pack/nvim-spectre
+  -- https://github.com/f-person/git-blame.nvim
+  -- https://github.com/lewis6991/impatient.nvim
+  -- https://github.com/ggandor/leap.nvim
+  -- https://github.com/s1n7ax/nvim-search-and-replace
+  -- https://github.com/L3MON4D3/LuaSnip
+  -- https://github.com/chentoast/marks.nvim replacement for vim-signature, neovim
+  -- https://github.com/zbirenbaum/copilot.lua
+  -- https://github.com/zbirenbaum/copilot-cmp
+  -- https://github.com/folke/neodev.nvim for development
+  -- https://github.com/utilyre/barbecue.nvim
+  --
+  -- plugin lists to look through:
+  -- - https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginlist.lua
+  --
+  -- dotfiles:
+  -- - https://github.com/bluz71/dotfiles/blob/master/vim/lua/lsp-config.lua
+--]]
