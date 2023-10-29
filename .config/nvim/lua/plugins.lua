@@ -1,243 +1,212 @@
-vim.cmd [[packadd packer.nvim]]
-
-return require('packer').startup({function(use)
-  -- Packer can manage itself as an optional plugin
-  use 'wbthomason/packer.nvim'
-
-  -- Colors
-  -- use '~/Documents/Work/internal/vim/colors/falcon/master'
-  use 'rktjmp/lush.nvim'
-  -- use 'fenetikm/falcon'
-  -- use {"adisen99/apprentice.nvim", requires = {"rktjmp/lush.nvim"}}
-  use "rktjmp/shipwright.nvim"
-  use {'~/Documents/Work/internal/vim/colors/falcon', requires = {"rktjmp/lush.nvim"}}
+-- Notes:
+-- had to run `Lazy build ...` to get fzf native working
+-- updated to latest nerdfonts symbols
+return {
+  -- Colours
+  'rktjmp/lush.nvim',
+  { 'rktjmp/shipwright.nvim', cmd = 'Shipwright' },
+  {
+    dir = '~/Documents/Work/internal/vim/colors/falcon',
+    lazy = false,
+    priority = 1000,
+    dependencies = {'rktjmp/lush.nvim'},
+    config = function()
+      vim.g.falcon_settings = {
+        italic_comments = false,
+        transparent_bg = false,
+        inactive_bg = true,
+        lsp_underline = 'errrr',
+        variation = 'modern',
+      }
+      package.loaded['falcon'] = nil
+      require('lush')(require('falcon').setup())
+    end
+  },
 
   -- Project management
-  use {'embear/vim-localvimrc', config = [[require('plugins.localvimrc')]]} -- local vimrc
-  use 'dbakker/vim-projectroot' -- find the project root
+  {
+    'dbakker/vim-projectroot'
+  },
+  {
+    'embear/vim-localvimrc',
+    lazy = false,
+  },
 
   -- Matching
-  use 'cohama/lexima.vim' -- auto closing pairs
-  use 'machakann/vim-sandwich'
-  use {'gregsexton/MatchTag', ft = {'html'}} --html tag matching
-  use {'andymass/vim-matchup', setup = [[require('plugins.matchup')]]}
-
-  -- Text manipulation
-  -- use {'AndrewRadev/splitjoin.vim', ft = {'php'}} -- convert single/multi line code expressions
+  {
+    'cohama/lexima.vim', event = 'VeryLazy' },-- auto closing pairs
+  { 'machakann/vim-sandwich', event = 'VimEnter'}, --surround handling
+  {
+    'gregsexton/MatchTag',
+    ft = {'html'}, --html tag matching
+  },
+  {'andymass/vim-matchup', event = 'VimEnter'},
 
   -- Git
-  use {'tpope/vim-fugitive', cmd = {'Git', 'G', 'Gstatus', 'Gdiff', 'Glog', 'Gblame', 'Gvdiff', 'Gread', 'Gmerge', 'Gvdiffsplit', 'Gdiffsplit'}}
+  {
+    'tpope/vim-fugitive',
+    keys = {
+      {'<leader>gs', '<cmd>Git<cr>', silent = true, noremap = true},
+      {'<leader>gr', '<cmd>Gread<cr>', noremap = true},
+      {'<leader>gl', '<cmd>Git log<cr>', noremap = true},
+      {'<leader>gb', '<cmd>Git blame<cr>', noremap = true},
+      {'<leader>gd', '<cmd>Gvdiffsplit!<cr>', noremap = true},
+    }
+  },
 
   -- Testing
-  use {'janko-m/vim-test', config = [[require('plugins.testing')]]} --Test runner
-  -- Test coverage, note the setting of the python3 at the end for luarocks to work
-  use({
-    'andythigpen/nvim-coverage',
-    requires = 'nvim-lua/plenary.nvim',
-    rocks = { 'lua-xmlreader' },
-    config = [[require('plugins.coverage')]],
-  })
+  {
+    'janko-m/vim-test',
+    keys = {
+      {'<leader>oo', '<cmd>TestLast<cr>', silent = true, noremap = true},
+      {'<leader>on', '<cmd>TestNearest<cr>', silent = true, noremap = true},
+      {'<leader>of', '<cmd>TestFile<cr>', silent = true, noremap = true},
+    }
+  },
 
-  -- Commenting
-  use {'numToStr/Comment.nvim', config = [[require('plugins.comment')]]}
+  -- Spelling
+  {'tpope/vim-abolish'},
 
-  -- Selection
-  -- use {'terryma/vim-expand-region', config = [[require('plugins.expand')]]} --expand region useful for selection
+  -- TMUX
+  { 'benmills/vimux', event = 'VeryLazy'},
 
-  -- Spelling, thesaurus etc.
-  use 'tpope/vim-abolish'
-
-  -- Integration with other tools, used via testing
-  use 'benmills/vimux' -- Interact with tmux from vim
-
-  -- Writing and focus
-  use 'junegunn/goyo.vim' --distraction free writing
+  -- Distraction
+  {'junegunn/goyo.vim', event = 'VeryLazy'},
 
   -- Motion
-  use {'rhysd/clever-f.vim', config = [[require('plugins.clever-f')]]} --clever fFtT
-  use 'chaoren/vim-wordmotion' --Expand the definition of what a word is
-  use 'christoomey/vim-tmux-navigator' --navigate betwenn tmux splits and vim together
-  use {'wellle/targets.vim', event = {'VimEnter'}} --Additional target text objects
-  -- use {'justinmk/vim-sneak', config = [[require('plugins.sneak')]]}
-
-  -- Files
-  use 'pbrisbin/vim-mkdir' --save file in directory, don't fail
-  use {'kyazdani42/nvim-tree.lua', config = [[require('plugins.tree')]], requires = {'kyazdani42/nvim-web-devicons'}}
+  {
+    'rhysd/clever-f.vim',
+    config = function ()
+      vim.g.clever_f_across_no_line = 1
+      vim.g.clever_f_timeout_ms = 3000
+    end,
+    event = 'VimEnter',
+  },
+  { 'chaoren/vim-wordmotion', event = 'VeryLazy'},--Expand the definition of what a word is
+  { 'christoomey/vim-tmux-navigator', event = 'VeryLazy'},--navigate betwenn tmux splits and vim together
+  { 'wellle/targets.vim', event = 'VimEnter'},--Additional target text objects
 
   -- Search
-  use 'BurntSushi/ripgrep' --ripgrep support, neuron and telescope want it
-  use {'wincent/loupe', config = [[require('plugins.loupe')]]} --nicer search highlighting
-  use 'wincent/ferret' --multi file search
-  use '/usr/local/opt/fzf' --fzf
-  use 'junegunn/fzf.vim' --fuzzy finder stuff
-  use 'nelstrom/vim-visual-star-search' --use * in visual mode to search
-  use 'jesseleite/vim-agriculture' --pass things through to rg
+  {'BurntSushi/ripgrep', event = 'VeryLazy'}, --ripgrep support, neuron and telescope want it
+  {'wincent/loupe', event = 'VeryLazy'}, --nicer search highlighting
+  {'wincent/ferret', event = 'VeryLazy'}, --multi file search
+  {dir = '/usr/local/opt/fzf', event = 'VeryLazy'}, --fzf
+  {'junegunn/fzf.vim', event = 'VeryLazy'}, --fuzzy finder stuff
+  {'nelstrom/vim-visual-star-search', event = 'VeryLazy'}, --use * in visual mode to search
+  {'jesseleite/vim-agriculture', event = 'VeryLazy'}, --pass things through to rg
 
-  -- Statusline
-  use {
-    -- 'nvim-lualine/lualine.nvim',
-    '~/Documents/Work/internal/vim/lualine.nvim',
-    config = [[require('plugins.lualine')]],
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
-  }
+  -- Statusline, see lualine.lua file
 
-  -- Columns
-  use {'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' }, config = [[require('plugins.gitsigns')]]}
-  use {'kshenoy/vim-signature', config = [[require('plugins.signature')]]} --marks handling
+  -- Sign column, see signs.lua file
 
-  -- Guides
-  use {"lukas-reineke/indent-blankline.nvim", config = [[require('plugins.indent_blankline')]]}
+  -- Guides, see indent_blankline.lua file
 
   -- Formatting
-  use {'junegunn/vim-easy-align', cmd = {'EasyAlign'}, config = [[require('plugins.easyalign')]]}
-
-  -- Documentation
-  -- use {'kkoomen/vim-doge', config = [[require('plugins.doge')]]}
+  {
+    'junegunn/vim-easy-align',
+    cmd = {'EasyAlign'},
+    config = function ()
+      vim.g.easy_align_bypass_fold = 1
+      vim.g.easy_align_ignore_groups = {}
+    end
+  },
 
   -- Repl
-  use {'jpalardy/vim-slime', config = [[require('plugins.slime')]]} --send output from buffer to tmux / repl
+  {
+    'jpalardy/vim-slime',
+    event = 'VeryLazy',
+    config = function ()
+      vim.g.slime_target = 'tmux'
+      vim.g.slime_default_config = {
+            socket_name = 'default',
+            target_pane = '{right}'
+      }
+    end
+  }, --send output from buffer to tmux / repl
 
   -- Snippets
-  use {'Sirver/ultisnips', config = [[require('plugins.ultisnips')]]} -- Snippets
+  {
+    'Sirver/ultisnips',
+    event = 'VeryLazy',
+    config = function ()
+      vim.g.UltiSnipsSnippetsDir = "~/.config/nvim/UltiSnips"
+      vim.g.UltiSnipsEditSplit = "vertical"
+      vim.g.UltiSnipsExpandTrigger = "<c-j>"
+      vim.g.UltiSnipsJumpForwardTrigger = "<c-j>"
+      vim.g.UltiSnipsJumpBackwardTrigger = "<c-k>"
+    end
+  },
 
-  -- LSP
-  use 'onsails/lspkind-nvim'
-  use {
-      'neovim/nvim-lspconfig',
-      requires = {
-        -- Automatically install LSPs to stdpath for neovim
-        'williamboman/mason.nvim',
-        'williamboman/mason-lspconfig.nvim',
+  -- LSP see file lsp.lua
 
-        -- Useful status updates for LSP
-        'j-hui/fidget.nvim',
+  -- Treesitter see file treesitter.lua
 
-        -- Additional lua configuration, makes nvim stuff amazing
-        'folke/neodev.nvim',
-      },
-      config = [[require('plugins.lsp')]]
-    }
-  use 'nvim-lua/lsp-status.nvim'
-  use {'nvim-treesitter/nvim-treesitter-textobjects'}
-  use {'nvim-treesitter/nvim-treesitter', config = [[require('plugins.treesitter')]]}
-  use {'nvim-treesitter/playground', config = [[require('plugins.playground')]]}
-  use {'ray-x/lsp_signature.nvim'}
-
-  -- Show context when in a class, function etc.
-  use 'nvim-treesitter/nvim-treesitter-context'
-
-  -- Completion
-  use {'hrsh7th/nvim-cmp', config = [[require('plugins.cmp')]]}
-  use 'hrsh7th/cmp-nvim-lsp'
-  use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-path'
-  use 'hrsh7th/cmp-nvim-lua'
-  use {'quangnguyen30192/cmp-nvim-ultisnips'}
-  -- other source:
-  -- hrsh7th/cmp-emoji
-  -- hrsh7th/cmp-cmdline
-  -- uga-rosa/cmp-dictionary
+  -- cmp see file cmp.lua
 
   -- Syntax
-  -- vim.g.polyglot_disabled = {'yaml', 'markdown', 'php', 'java'}
-  -- use 'sheerun/vim-polyglot' --syntax for a lot of types
-  use 'plasticboy/vim-markdown' --markdown syntax
-  -- use 'StanAngeloff/php.vim' --php syntax
-  use {'norcalli/nvim-colorizer.lua', config = [[require('plugins.colorizer')]]}
+  {
+    'plasticboy/vim-markdown',
+    ft = {'markdown'},
+    config = function()
+      vim.g.vim_markdown_frontmatter = 1
+      vim.g.vim_markdown_strikethrough = 1 --strikethrough support, with two tildes ~~
+      vim.g.vim_markdown_no_extensions_in_markdown = 1 --.md not required in links
+      vim.g.vim_markdown_auto_insert_bullets = 0 --disable new line bullets
+      vim.g.vim_markdown_new_list_item_indent = 0 --disable the indenting
+      vim.g.vim_markdown_autowrite = 1 --save file when following a link
+      vim.g.vim_markdown_folding_style_pythonic = 1
+    end
+  },
+  {
+    'norcalli/nvim-colorizer.lua',
+    opts = { 'css', 'html' },
+    ft = { 'css', 'html' },
+  },
 
   -- Text objects
-  use 'kana/vim-textobj-user'
-  use 'kana/vim-textobj-line'
-  use 'kana/vim-textobj-indent'
-  use 'glts/vim-textobj-comment'
-  use 'kana/vim-textobj-entire'
+  {'kana/vim-textobj-user', event = 'VeryLazy'},
+  {'kana/vim-textobj-line', dependencies = {'kana/vim-textobj-user'}, event = 'VeryLazy'},
+  {'kana/vim-textobj-indent', dependencies = {'kana/vim-textobj-user'}, event = 'VeryLazy'},
+  {'glts/vim-textobj-comment', dependencies = {'kana/vim-textobj-user'}, event = 'VeryLazy'},
+  {'kana/vim-textobj-entire', dependencies = {'kana/vim-textobj-user'}, event = 'VeryLazy'},
 
-  -- PHP stuff
-  -- use {'2072/PHP-Indenting-for-VIm', ft = {'php'}, config = [[require('plugins.phpindent')]]} --updated indenting
-  -- use {'arnaud-lb/vim-php-namespace', ft = {'php'}} --insert use statements automatically
-  -- use {'sahibalejandro/vim-php', ft = {'php'}} --insert absolute FQCN
-  use {'fenetikm/phpfolding.vim', ft = {'php'}, config = [[require('plugins.phpfolding')]]} --php folding
-  use {'alvan/vim-php-manual', ft = {'php'}} --php manual
-  -- use {'fenetikm/vim-textobj-function', ft = {'php'}} --function textobj with php
+  -- Languages
+  -- PHP
+  {
+    'fenetikm/phpfolding.vim',
+    ft = {'php'},
+    config = function ()
+      vim.g.PHPFoldingCollapsedSymbol = '+'
+      vim.g.PHPFoldingRepeatSymbol = ''
+      vim.g.PHPFoldingShowPercentage = 0
+      vim.g.phpDocIncludedPostfix = ''
+      vim.g.DisableAutoPHPFolding = 1
+    end
+  },
+  {'alvan/vim-php-manual', ft = {'php'}}, --php manual
 
   -- Java
-  use {'mfussenegger/nvim-jdtls'}
+  {'mfussenegger/nvim-jdtls', ft = {'java'}},
 
-  -- Debugging
-  use {'mfussenegger/nvim-dap', config = [[require('plugins.dap')]]} --debug adaptor protocol
-  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
-  use {'theHamsta/nvim-dap-virtual-text', requires = {"mfussenegger/nvim-dap"} }
+  -- Debugging see debugging.lua
 
-  -- Uncategorised
-  -- use {'nathom/filetype.nvim', config = [[require('plugins.filetype')]]} --replace default filetype with a faster version
-  use {'dkarter/bullets.vim', config = [[require('plugins.bullets')]]} --smart bullet support
-  use {'tpope/vim-unimpaired', event = {'VimEnter'}} --Various dual pair commands
-  use 'tpope/vim-repeat' --Repeat plugin commands
-  use 'Valloric/ListToggle' --Toggle quickfix and location lists
-  -- use 'mhinz/vim-startify' -- Start up screen
-  -- use 'tyru/current-func-info.vim' --get the current function info
-  -- use 'machakann/vim-swap' --swap params around
-  use 'rcarriga/nvim-notify'
-
-  -- Finding
-  use 'nvim-lua/popup.nvim'
-  use 'nvim-lua/plenary.nvim'
-  use {
-    'nvim-telescope/telescope.nvim',
-    requires = { {'nvim-lua/plenary.nvim'} },
-    config = [[require('plugins.telescope')]]
-  }
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-
-  -- use {'glepnir/dashboard-nvim', config = [[require('plugins.dash')]]}
-
-  use {'goolord/alpha-nvim', config = [[require('plugins.alpha')]]}
-
-  -- Not enabled for now, see if we miss it in a month's time
-  --use 'skywind3000/vim-preview' --preview window commands
-  --use 'tpope/vim-projectionist' --navigation and alternates
-  --use 'mattn/emmet-vim' --expansion of html/css to full tags
-  --use {'adoy/vim-php-refactoring-toolbox', ft = {'php'} } "php refactoring
-
-  -- Others TODO
-  -- peekaboo
-  -- dial: https://github.com/monaqa/dial.nvim, https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginconfig/dial.lua
-  -- lspsaga
-  -- nvim-autopairs: https://github.com/windwp/nvim-autopairs
-  -- https://github.com/rhysd/vim-lsp-ale to get lsp and ale going
-  -- which key nvim: https://github.com/folke/which-key.nvim
-  -- https://github.com/ray-x/lsp_signature.nvim
-  -- https://github.com/gelguy/wilder.nvim better wild menu, neovim
-  -- https://github.com/vhyrro/neorg
-  -- https://github.com/rcarriga/vim-ultest
-  -- https://github.com/folke/todo-comments.nvim
-  -- some from https://neovimcraft.com/
-  -- https://github.com/phaazon/hop.nvim
-  -- stuff from https://github.com/CosmicNvim/CosmicNvim
-  -- https://github.com/goolord/alpha-nvim to replace dashboard
-  -- https://github.com/jose-elias-alvarez/null-ls.nvim
-  -- https://github.com/folke/trouble.nvim
-  -- https://www.lunarvim.org/plugins/02-default-plugins.html and maybe some from extra
-  -- https://github.com/Pocco81/TrueZen.nvim
-  -- https://github.com/nvim-pack/nvim-spectre
-  -- https://github.com/f-person/git-blame.nvim
-  -- https://github.com/lewis6991/impatient.nvim
-  -- https://github.com/ggandor/leap.nvim
-  -- https://github.com/s1n7ax/nvim-search-and-replace
-  -- https://github.com/L3MON4D3/LuaSnip
-  -- https://github.com/chentoast/marks.nvim replacement for vim-signature, neovim
-  -- https://github.com/zbirenbaum/copilot.lua
-  -- https://github.com/zbirenbaum/copilot-cmp
-  -- https://github.com/folke/neodev.nvim for development
-  --
-  -- plugin lists to look through:
-  -- - https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginlist.lua
-  --
-  -- dotfiles:
-  -- - https://github.com/bluz71/dotfiles/blob/master/vim/lua/lsp-config.lua
-
-end, config = {
-  luarocks = {
-    python_cmd = 'python3' -- Set the python command to use for running hererocks
+  -- Other
+  -- TODO shift this to the bottom
+  {
+    'dkarter/bullets.vim',
+    ft = {'markdown','text'},
+    config = function ()
+      vim.g.bullets_enabled_file_type = {markdown, text}
+      vim.g.bullets_enable_in_empty_buffers = 0
+      vim.g.bullets_pad_right = 0
+      vim.g.bullets_checkbox_markers = ' .oOX'
+    end
   },
-}})
+  {'tpope/vim-unimpaired', event = 'VimEnter'}, --Various dual pair commands
+  {'tpope/vim-repeat', event = 'VimEnter'}, --Repeat plugin commands
+  {'Valloric/ListToggle', event = 'VimEnter'}, --Toggle quickfix and location lists
+
+  -- Telescope see telescope.lua
+
+  -- Alpha see alpha.lua
+}

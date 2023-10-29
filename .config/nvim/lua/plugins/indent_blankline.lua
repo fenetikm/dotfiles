@@ -1,6 +1,31 @@
-require('indent_blankline').setup {
-  filetype = {'php', 'lua', 'yaml', 'javascript', 'json'},
-  show_first_indent_level = false,
-  char_list = {'│', '┊'},
-  char_highlight_list = {'IndentBlanklineIndent1', 'IndentBlanklineIndent1'},
+return {
+  'lukas-reineke/indent-blankline.nvim',
+  event = 'VeryLazy',
+  opts = {
+    indent = {
+      char = {'│', '┊'},
+      highlight = {'IndentBlanklineIndent1', 'IndentBlanklineIndent1'},
+    },
+    whitespace = {
+      remove_blankline_trail = true,
+    },
+    scope = { enabled = false },
+    exclude = {
+      filetypes = {
+        'help',
+        'alpha',
+        'dashboard',
+        'neo-tree',
+        'Trouble',
+        'trouble',
+        'lazy',
+        'mason',
+        'notify',
+        'toggleterm',
+        'lazyterm',
+        'NvimTree',
+      },
+    },
+  },
+  main = 'ibl',
 }

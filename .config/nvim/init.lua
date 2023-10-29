@@ -1,19 +1,35 @@
-require ('general.disable_builtin')
+-- bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/folke/lazy.nvim.git',
+    '--branch=stable', -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
 
-require ('keys.escape')
+-- haven't yet worked out where to put these but here works
+vim.g.localvimrc_ask = 0
+vim.g.localvimrc_sandbox = 0
 
-require ('plugins')
-require ('plugins.lsp')
+require('general.disable_builtin')
+require('keys.escape')
+require('general.settings')
 
-require ('general.settings')
-require ('general.folding')
-require ('general.filetypes')
-require ('general.auto_buffers')
-require ('general.commands')
+require('lazy').setup("plugins")
 
-require ('keys.toggle')
-require ('keys.searchreplace')
-require ('keys.mappings')
+require('general.folding')
+require('general.filetypes')
+require('general.auto_buffers')
+require('general.commands')
+
+require('keys.mappings')
+require('keys.toggle')
+require('keys.searchreplace')
 
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
@@ -29,48 +45,6 @@ autocmd('TextYankPost', {
         })
     end,
 })
-
--- markdown
-vim.cmd([[
-  "highlight frontmatter
-  let g:vim_markdown_frontmatter = 1
-
-  "strikethrough support, with two tildes ~~
-  let g:vim_markdown_strikethrough = 1
-
-  " .md not required in links
-  let g:vim_markdown_no_extensions_in_markdown = 1
-
-  " bullets and indenting is covered by bullets.vim
-  " disable new line bullets
-  let g:vim_markdown_auto_insert_bullets = 0
-
-  "disable the indenting
-  let g:vim_markdown_new_list_item_indent = 0
-
-  "save file when following a link
-  let g:vim_markdown_autowrite = 1
-
-  let g:vim_markdown_folding_style_pythonic = 1
-]])
-
--- colour handling goes here
-vim.g.falcon_settings = {
-  italic_comments = false,
-  transparent_bg = false,
-  inactive_bg = true,
-  lsp_underline = 'errrr',
-  variation = 'modern',
-}
-
-package.loaded['falcon'] = nil
-require('lush')(require('falcon').setup())
-
--- for trying the vim generated colours
--- vim.cmd([[
---   colorscheme falcon
---   set termguicolors
--- ]])
 
 vim.cmd([[
   " set cursors depending on mode

@@ -453,8 +453,4 @@ table.insert(config.inactive_sections.lualine_a, {
   end
 })
 
-return {
-  'nvim-lualine/lualine.nvim',
-  opts = config,
-  dependencies = { 'kyazdani42/nvim-web-devicons' }
-}
+require'lualine'.setup(config)

@@ -15,6 +15,9 @@ bufmap('n', '<s-y>', 'y$', no)
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
+-- vim.keymap.set('n', '<c-e>', ':NvimTreeFindFileToggle<cr>', {silent = true, noremap = true})
+vim.keymap.set('n', '<c-b>', ':TSHighlightCapturesUnderCursor<cr>', {silent = false, noremap = true})
+
 vim.cmd([[
   "centering when going between methods
   " nnoremap [m [mzz
