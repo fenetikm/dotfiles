@@ -166,7 +166,7 @@ vim.cmd([[
   nnoremap <leader>ed :call OpenOrSplit("~/.drush/aliases.drushrc.php")<cr>
   nnoremap <leader>et :call OpenOrSplit("~/.tmux.conf")<cr>
   nnoremap <leader>ek :call OpenOrSplit("~/.config/karabiner/karabiner.json")<cr>
-  nnoremap <leader>ey :call OpenOrSplit("~/Library/Preferences/kitty/kitty.conf")<cr>
+  nnoremap <leader>ey :call OpenOrSplit("~/.config/kitty/kitty.conf")<cr>
   nnoremap <leader>eh :call OpenOrSplit("~/.hammerspoon/init.lua")<cr>
   nnoremap <leader>ez :call OpenOrSplit("~/.zshrc")<cr>
   nnoremap <leader>eg :call OpenOrSplit("~/.gitconfig")<cr>
