@@ -34,8 +34,17 @@ return {
 
   -- Matching
   {
-    'cohama/lexima.vim', event = 'VeryLazy' },-- auto closing pairs
-  { 'machakann/vim-sandwich', event = 'VimEnter'}, --surround handling
+    'echasnovski/mini.pairs',
+    event = 'VeryLazy',
+    version = false,
+    opts = {},
+  },-- auto closing pairs
+  {
+    'echasnovski/mini.surround',
+    event = 'VeryLazy',
+    version = false,
+    opts = {},
+  }, -- surround handling
   {
     'gregsexton/MatchTag',
     ft = {'html'}, --html tag matching
@@ -84,7 +93,6 @@ return {
   },
   { 'chaoren/vim-wordmotion', event = 'VeryLazy'},--Expand the definition of what a word is
   { 'christoomey/vim-tmux-navigator', event = 'VeryLazy'},--navigate betwenn tmux splits and vim together
-  { 'wellle/targets.vim', event = 'VimEnter'},--Additional target text objects
 
   -- Search
   {'BurntSushi/ripgrep', event = 'VeryLazy'}, --ripgrep support, neuron and telescope want it
@@ -94,6 +102,17 @@ return {
   {'junegunn/fzf.vim', event = 'VeryLazy'}, --fuzzy finder stuff
   {'nelstrom/vim-visual-star-search', event = 'VeryLazy'}, --use * in visual mode to search
   {'jesseleite/vim-agriculture', event = 'VeryLazy'}, --pass things through to rg
+
+  -- Replace
+  {
+    "nvim-pack/nvim-spectre",
+    cmd = "Spectre",
+    opts = { open_cmd = "noswapfile vnew" },
+    -- stylua: ignore
+    keys = {
+      { '<leader>sr', function() require('spectre').open() end, desc = 'Replace in files' },
+    },
+  },
 
   -- Statusline, see lualine.lua file
 
@@ -164,11 +183,34 @@ return {
   },
 
   -- Text objects
-  {'kana/vim-textobj-user', event = 'VeryLazy'},
-  {'kana/vim-textobj-line', dependencies = {'kana/vim-textobj-user'}, event = 'VeryLazy'},
-  {'kana/vim-textobj-indent', dependencies = {'kana/vim-textobj-user'}, event = 'VeryLazy'},
-  {'glts/vim-textobj-comment', dependencies = {'kana/vim-textobj-user'}, event = 'VeryLazy'},
-  {'kana/vim-textobj-entire', dependencies = {'kana/vim-textobj-user'}, event = 'VeryLazy'},
+  {
+    "echasnovski/mini.ai",
+    version = false,
+    event = "VeryLazy",
+    opts = function()
+      local ai = require("mini.ai")
+      return {
+        n_lines = 500,
+        custom_textobjects = {
+          o = ai.gen_spec.treesitter({
+            a = { "@block.outer", "@conditional.outer", "@loop.outer" },
+            i = { "@block.inner", "@conditional.inner", "@loop.inner" },
+          }, {}),
+          f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
+          c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {}),
+          t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },
+          e = function()
+            local from = { line = 1, col = 1 }
+            local to = {
+              line = vim.fn.line('$'),
+              col = math.max(vim.fn.getline('$'):len(), 1)
+            }
+            return { from = from, to = to }
+          end
+        },
+      }
+    end,
+  },
 
   -- Languages
   -- PHP
@@ -204,9 +246,41 @@ return {
   },
   {'tpope/vim-unimpaired', event = 'VimEnter'}, --Various dual pair commands
   {'tpope/vim-repeat', event = 'VimEnter'}, --Repeat plugin commands
-  {'Valloric/ListToggle', event = 'VimEnter'}, --Toggle quickfix and location lists
+  {'Valloric/ListToggle', event = 'InsertEnter'}, --Toggle quickfix and location lists
 
   -- Telescope see telescope.lua
 
   -- Alpha see alpha.lua
 }
+
+--[[
+  -- From old list
+  -- https://github.com/gelguy/wilder.nvim better wild menu, neovim
+  -- https://github.com/vhyrro/neorg
+  -- https://github.com/rcarriga/vim-ultest
+  -- https://github.com/folke/todo-comments.nvim
+  -- some from https://neovimcraft.com/
+  -- https://github.com/phaazon/hop.nvim
+  -- stuff from https://github.com/CosmicNvim/CosmicNvim
+  -- https://github.com/jose-elias-alvarez/null-ls.nvim
+  -- https://github.com/folke/trouble.nvim
+  -- https://www.lunarvim.org/plugins/02-default-plugins.html and maybe some from extra
+  -- https://github.com/Pocco81/TrueZen.nvim
+  -- https://github.com/nvim-pack/nvim-spectre
+  -- https://github.com/f-person/git-blame.nvim
+  -- https://github.com/lewis6991/impatient.nvim
+  -- https://github.com/ggandor/leap.nvim
+  -- https://github.com/s1n7ax/nvim-search-and-replace
+  -- https://github.com/L3MON4D3/LuaSnip
+  -- https://github.com/chentoast/marks.nvim replacement for vim-signature, neovim
+  -- https://github.com/zbirenbaum/copilot.lua
+  -- https://github.com/zbirenbaum/copilot-cmp
+  -- https://github.com/folke/neodev.nvim for development
+  -- https://github.com/utilyre/barbecue.nvim
+  --
+  -- plugin lists to look through:
+  -- - https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginlist.lua
+  --
+  -- dotfiles:
+  -- - https://github.com/bluz71/dotfiles/blob/master/vim/lua/lsp-config.lua
+--]]

@@ -1,3 +1,5 @@
+require('general.disable_builtin')
+
 -- bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
@@ -16,7 +18,6 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.localvimrc_ask = 0
 vim.g.localvimrc_sandbox = 0
 
-require('general.disable_builtin')
 require('keys.escape')
 require('general.settings')
 
