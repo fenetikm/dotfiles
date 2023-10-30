@@ -15,25 +15,26 @@ bufmap('n', '<s-y>', 'y$', no)
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
--- vim.keymap.set('n', '<c-e>', ':NvimTreeFindFileToggle<cr>', {silent = true, noremap = true})
-vim.keymap.set('n', '<c-b>', ':TSHighlightCapturesUnderCursor<cr>', {silent = false, noremap = true})
-
 vim.cmd([[
-  "centering when going between methods
-  " nnoremap [m [mzz
-  " nnoremap ]m ]mzz
-
-  " yank to end of line, just like shit-d, shift-c
-  " noremap <s-y> y$
-
   "Redo for shift-u
   noremap U <c-r>
+
+  " Edit macro
+  nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
 
   "treat long lines as break lines, but don't mess with the count for relative numbering
   nnoremap <expr> j v:count ? 'j' : 'gj'
   nnoremap <expr> k v:count ? 'k' : 'gk'
 
-  " Keep search matches in the middle of the window.
+  " Keep search matches in the middle of the window, n goes forward, N goes back
+  " How to make this work?
+  " nnoremap <expr> n  'Nn'[v:searchforward] . 'zv'
+  " xnoremap <expr> n  'Nn'[v:searchforward]
+  " onoremap <expr> n  'Nn'[v:searchforward]
+  "
+  " nnoremap <expr> N  'nN'[v:searchforward] . 'zv'
+  " xnoremap <expr> N  'nN'[v:searchforward]
+  " onoremap <expr> N  'nN'[v:searchforward]
   nnoremap n nzzzv
   nnoremap N Nzzzv
 
