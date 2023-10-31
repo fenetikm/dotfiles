@@ -3,6 +3,18 @@ return {
     'mfussenegger/nvim-dap',
     keys = {
       {'<leader>db', function() require('dap').toggle_breakpoint() end, silent = true, desc = 'Toggle breakpoint'},
+      {'<leader>ds', function() require('dap').continue() end, silent = true, desc = 'Start / continue'},
+      {'<leader>dk', function() require('dap').step_back() end, silent = true, desc = 'Step back'},
+      {'<leader>dl', function() require('dap').step_into() end, silent = true, desc = 'Step into'},
+      {'<leader>dj', function() require('dap').step_over() end, silent = true, desc = 'Step over'},
+      {'<leader>dh', function() require('dap').step_out() end, silent = true, desc = 'Step out'},
+      {'<leader>d<space>', function() require('dap').run_to_cursor() end, silent = true, desc = 'Run to cursor'},
+      {'<leader>dt', function() require('dap').terminate() end, silent = true, desc = 'Terminate'},
+      {'<leader>dc', function() require('dap').clear_breakpoints() end, silent = true, desc = 'Clear breakpoints'},
+      {'<leader>dr', function() require('dap').repl.open() end, silent = true, desc = 'Open REPL'},
+      {'<leader>de', function() require('dap').eval() end, silent = true, desc = 'Evaluate'},
+      {'<leader>dE', function() require('dapui').eval(vim.fn.input('Expressions > ')) end, silent = true, desc = 'Expression'},
+      {'<leader>dB', function() require('dap').set_breakpoint(vim.fn.input('Condition > ')) end, silent = true, desc = 'Condition'},
     },
     dependencies = {
       {
@@ -74,31 +86,6 @@ return {
       dap.listeners.before.event_exited['dapui_config'] = function()
         dapui.close()
       end
-      local map = function(lhs, rhs, desc)
-        if desc then
-          desc = "[DAP] " .. desc
-        end
-
-        vim.keymap.set("n", lhs, rhs, { silent = true, desc = desc })
-      end
-
-      map("<leader>dk", require("dap").step_back, "step back")
-      map("<leader>dl", require("dap").step_into, "step into")
-      map("<leader>dj", require("dap").step_over, "step over")
-      map("<leader>dh", require("dap").step_out, "step out")
-      map("<leader>ds", require("dap").continue, "start / continue")
-      map("<leader>d<space>", require("dap").run_to_cursor, "start / continue")
-      map("<leader>db", require("dap").toggle_breakpoint, "toggle breakpoint")
-      map("<leader>dt", require("dap").terminate, "terminate")
-      map("<leader>dc", require("dap").clear_breakpoints, "clear breakpoints")
-      map("<leader>dB", function()
-        require("dap").set_breakpoint(vim.fn.input "[DAP] Condition > ")
-      end)
-      map("<leader>dr", require("dap").repl.open, "open repl")
-      map("<leader>de", require("dapui").eval)
-      map("<leader>dE", function()
-        require("dapui").eval(vim.fn.input "[DAP] Expression > ")
-      end)
 
       dap.adapters.php = {
         type = 'executable',
