@@ -1,3 +1,6 @@
+-- Todo:
+-- dap
+
 -- Notes:
 -- had to run `Lazy build ...` to get fzf native working
 -- updated to latest nerdfonts symbols
