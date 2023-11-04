@@ -9,13 +9,13 @@ return {
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-nvim-lua',
       'quangnguyen30192/cmp-nvim-ultisnips',
+      'amarakon/nvim-cmp-buffer-lines',
     },
     opts = function ()
       local lspkind = require('lspkind')
       lspkind.init()
       local cmp = require('cmp')
       local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
-      vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
 
       return {
         completion = {
@@ -59,7 +59,8 @@ return {
           { name = 'nvim_lua', max_item_count = 15 },
           { name = 'nvim_lsp', max_item_count = 15},
           { name = 'ultisnips', priority = 1, max_item_count  = 15}, -- For ultisnips users.
-        }, {
+        },
+        {
           { name = 'path', max_item_count = 15, keyword_length = 5 },
           {
             name = 'buffer',
@@ -73,6 +74,13 @@ return {
               return vim.tbl_keys(bufs)
             end
           },
+          {
+            name = 'buffer-lines',
+            option = {
+              leading_whitespace = false,
+            },
+            max_item_count = 5,
+          }
         }),
         formatting = {
           format = lspkind.cmp_format {
@@ -80,6 +88,7 @@ return {
             maxwidth = 30,
             ellipsis_char = '...',
             menu = {
+              ['buffer-lines'] = '[BfL]',
               buffer = '[Buf]',
               nvim_lsp = '[LSP]',
               nvim_lua = '[Lua]',
@@ -113,7 +122,9 @@ return {
         },
         experimental = {
           native_menu = false,
-          ghost_text = true,
+          ghost_text = {
+            hl_group = 'CmpGhostText'
+          }
         }
       }
     end

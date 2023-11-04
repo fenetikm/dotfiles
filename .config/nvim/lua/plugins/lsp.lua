@@ -7,31 +7,21 @@ return {
       -- Automatically install LSPs to stdpath for neovim
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
-
-      -- Useful status updates for LSP
       'j-hui/fidget.nvim',
-
-      -- Additional lua configuration, makes nvim stuff amazing
       'folke/neodev.nvim',
+      'ray-x/lsp_signature.nvim',
+      'nvim-lua/lsp-status.nvim',
     },
     config = function ()
       local lspconfig = require('lspconfig')
       local lsp_status = require('lsp-status')
       local lsp = vim.lsp
-      local buf_keymap = vim.api.nvim_buf_set_keymap
-      local cmd = vim.cmd
       local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
       lsp_status.config {
         current_function = true
       }
       lsp_status.register_progress()
-
-      local keymap_opts = {noremap = true, silent = true}
-
-      local snippet_capabilities = {
-        textDocument = {completion = {completionItem = {snippetSupport = true}}}
-      }
 
       local lsp_mappings = function(client, bufnr)
         local bufmap = function(mode, lhs, rhs, opts)
@@ -67,11 +57,7 @@ return {
       end
 
       local lsp_signature = function(client, bufnr)
-        require 'lsp_signature'.on_attach({
-            bind = true,
-            transparency = 5,
-            hint_enable = false,
-          }, bufnr)
+        require 'lsp_signature'.on_attach({hint_enable = false}, bufnr)
       end
 
       local default_attach = function(client, bufnr)
@@ -237,9 +223,6 @@ return {
       lspconfig.lua_ls.setup {
         flags = { debounce_text_changes = 150 },
         capabilities = capabilities,
-        -- cmd = {
-        --   '../tmp/lua-language-server/bin/lua-language-server', '-E', '../tmp/lua-language-server/main.lua'
-        -- },
         settings = {
           Lua = {
             runtime = {
@@ -263,7 +246,6 @@ return {
             },
           },
         },
-        -- root_dir = lspconfig.util.root_pattern(".git/"),
         on_attach = function(client, bufnr)
           lsp_mappings()
           lsp_highlighting(client)
@@ -271,13 +253,5 @@ return {
         end,
       }
     end
-  },
-  {
-    'nvim-lua/lsp-status.nvim',
-    event = 'VeryLazy',
-  },
-  {
-    'ray-x/lsp_signature.nvim',
-    event = 'VeryLazy',
   },
 }

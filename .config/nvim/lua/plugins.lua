@@ -153,7 +153,7 @@ return {
   -- Snippets
   {
     'Sirver/ultisnips',
-    event = 'VeryLazy',
+    event = 'VimEnter',
     config = function ()
       vim.g.UltiSnipsSnippetsDir = "~/.config/nvim/UltiSnips"
       vim.g.UltiSnipsEditSplit = "vertical"
@@ -187,6 +187,7 @@ return {
     'norcalli/nvim-colorizer.lua',
     opts = { 'css', 'html' },
     ft = { 'css', 'html' },
+    cmd = {'ColorizerAttachToBuffer', 'ColorizerToggle'}
   },
 
   -- Text objects
