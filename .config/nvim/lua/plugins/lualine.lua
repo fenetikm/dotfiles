@@ -213,7 +213,7 @@ local diagnostic_ok = function()
   error_count = count[vim.diagnostic.severity.ERROR]
   warning_count = count[vim.diagnostic.severity.WARN]
   if error_count == 0 and warning_count == 0 then
-    return ' '
+    return ' '
   end
 
   return ''
@@ -223,10 +223,10 @@ local git_branch = function()
   local branch_name = vim.b.gitsigns_head
   if branch_name == nil then return '' end
   if (string.len(branch_name) > 19 and vim.fn.winwidth(0) < width_threshold) then
-    return ' ' .. string.sub(branch_name, 1, 16).."..."
+    return ' ' .. string.sub(branch_name, 1, 16).."..."
   end
 
-  return ' ' .. branch_name .. ' '
+  return ' ' .. branch_name .. ' '
 end
 
 local mode_info = {
@@ -456,5 +456,6 @@ table.insert(config.inactive_sections.lualine_a, {
 return {
   'nvim-lualine/lualine.nvim',
   opts = config,
-  dependencies = { 'kyazdani42/nvim-web-devicons' }
+  dependencies = { 'kyazdani42/nvim-web-devicons' },
+  event = 'VimEnter',
 }

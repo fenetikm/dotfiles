@@ -1,3 +1,6 @@
+-- Todo:
+-- dap
+
 -- Notes:
 -- had to run `Lazy build ...` to get fzf native working
 -- updated to latest nerdfonts symbols
@@ -83,26 +86,40 @@ return {
   {'junegunn/goyo.vim', event = 'VeryLazy'},
 
   -- Motion
-  {
-    'rhysd/clever-f.vim',
-    config = function ()
-      vim.g.clever_f_across_no_line = 1
-      vim.g.clever_f_timeout_ms = 3000
-    end,
-    event = 'VimEnter',
-  },
   { 'chaoren/vim-wordmotion', event = 'VeryLazy'},--Expand the definition of what a word is
   { 'christoomey/vim-tmux-navigator', event = 'VeryLazy'},--navigate betwenn tmux splits and vim together
-  { 'wellle/targets.vim', event = 'VimEnter'},--Additional target text objects
 
   -- Search
   {'BurntSushi/ripgrep', event = 'VeryLazy'}, --ripgrep support, neuron and telescope want it
   {'wincent/loupe', event = 'VeryLazy'}, --nicer search highlighting
-  {'wincent/ferret', event = 'VeryLazy'}, --multi file search
+  -- {'wincent/ferret', event = 'VeryLazy'}, --multi file search
   {dir = '/usr/local/opt/fzf', event = 'VeryLazy'}, --fzf
   {'junegunn/fzf.vim', event = 'VeryLazy'}, --fuzzy finder stuff
   {'nelstrom/vim-visual-star-search', event = 'VeryLazy'}, --use * in visual mode to search
-  {'jesseleite/vim-agriculture', event = 'VeryLazy'}, --pass things through to rg
+  -- {'jesseleite/vim-agriculture', event = 'VeryLazy'}, --pass things through to rg
+  {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    opts = {},
+    keys = {
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+    },
+  },
+
+  -- Replace
+  {
+    "nvim-pack/nvim-spectre",
+    cmd = "Spectre",
+    opts = { open_cmd = "noswapfile vnew" },
+    -- stylua: ignore
+    keys = {
+      { '<leader>sr', function() require('spectre').open() end, desc = 'Replace in files' },
+    },
+  },
 
   -- Replace
   {
@@ -147,7 +164,7 @@ return {
   -- Snippets
   {
     'Sirver/ultisnips',
-    event = 'VeryLazy',
+    event = 'VimEnter',
     config = function ()
       vim.g.UltiSnipsSnippetsDir = "~/.config/nvim/UltiSnips"
       vim.g.UltiSnipsEditSplit = "vertical"
@@ -181,6 +198,7 @@ return {
     'norcalli/nvim-colorizer.lua',
     opts = { 'css', 'html' },
     ft = { 'css', 'html' },
+    cmd = {'ColorizerAttachToBuffer', 'ColorizerToggle'}
   },
 
   -- Text objects
@@ -191,7 +209,11 @@ return {
     opts = function()
       local ai = require("mini.ai")
       return {
-        n_lines = 500,
+        mappings = {
+          inside_last = '',
+          around_last = '',
+        },
+        n_lines = 100,
         custom_textobjects = {
           o = ai.gen_spec.treesitter({
             a = { "@block.outer", "@conditional.outer", "@loop.outer" },
@@ -200,14 +222,26 @@ return {
           f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
           c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {}),
           t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },
-          e = function()
+          e = function() --entire file
             local from = { line = 1, col = 1 }
             local to = {
               line = vim.fn.line('$'),
               col = math.max(vim.fn.getline('$'):len(), 1)
             }
             return { from = from, to = to }
-          end
+          end,
+          l = function() --current line, have to disable around/inside last which clashes
+            local current_line = vim.fn.line('.')
+            local from = {
+              line = current_line,
+              col = 1,
+            }
+            local to = {
+              line = current_line,
+              col = math.max(vim.fn.getline('.'):len(), 1)
+            }
+            return { from = from, to = to, vis_mode = 'V' }
+          end,
         },
       }
     end,
@@ -247,7 +281,7 @@ return {
   },
   {'tpope/vim-unimpaired', event = 'VimEnter'}, --Various dual pair commands
   {'tpope/vim-repeat', event = 'VimEnter'}, --Repeat plugin commands
-  {'Valloric/ListToggle', event = 'VimEnter'}, --Toggle quickfix and location lists
+  {'Valloric/ListToggle', event = 'InsertEnter'}, --Toggle quickfix and location lists
 
   -- Telescope see telescope.lua
 

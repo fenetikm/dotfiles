@@ -207,13 +207,12 @@ find-up () {
 }
 
 #rando
-alias dbd='rb db:dump --path="dump.sql" --sed=gsed --dirty'
-alias dbl='rb db:load --path="dump.sql"'
-alias dbd2='rb db:dump --path="dump2.sql" --sed=gsed --dirty'
-alias dbl2='rb db:load --path="dump2.sql"'
-alias dbd3='rb db:dump --path="dump3.sql" --sed=gsed --dirty'
-alias dbl3='rb db:load --path="dump3.sql"'
-alias dblp='rb db:load --path="patient.sql"'
+alias dbd='rb db:dump --path="tmp/dump.sql" --sed=gsed --dirty'
+alias dbl='rb db:load --path="tmp/dump.sql"'
+alias dbd2='rb db:dump --path="tmp/dump2.sql" --sed=gsed --dirty'
+alias dbl2='rb db:load --path="tmp/dump2.sql"'
+alias dbd3='rb db:dump --path="tmp/dump3.sql" --sed=gsed --dirty'
+alias dbl3='rb db:load --path="tmp/dump3.sql"'
 alias pcload='(cd ~pcp && rb db:load)'
 alias pcup='docker-compose -f misc/docker/docker-compose.yml -f misc/docker/docker-compose.override.yml up -d'
 alias pcdown='docker container stop $(docker container ls -aq)'
