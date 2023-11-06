@@ -42,7 +42,7 @@ vim.cmd([[
     " nmap <silent> <leader>K <Plug>RgRawAllWordUnderCursor<cr>
 
     "replace across files
-    nmap <silent> <leader>R <Plug>(FerretAcks)
+    " nmap <silent> <leader>R <Plug>(FerretAcks)
     " nmap <silent> <leader>
 
     "highlight matches in place with g*, doesn't work?
