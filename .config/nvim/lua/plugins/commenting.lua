@@ -2,6 +2,16 @@ return {
   {
     'numToStr/Comment.nvim',
     event = 'VimEnter',
+    keys = {
+      {'<F17>', function () require('Comment.api').toggle.linewise.current() end, desc = 'Toggle comment for line'},
+      {'<F17>', function ()
+         local esc = vim.api.nvim_replace_termcodes(
+              '<ESC>', true, false, true
+          )
+        vim.api.nvim_feedkeys(esc, 'nx', false)
+        require('Comment.api').toggle.linewise(vim.fn.visualmode())
+      end, mode = 'x', desc = 'Toggle comments visual mode'}
+    },
     dependencies = {
       'JoosepAlviste/nvim-ts-context-commentstring',
     },
