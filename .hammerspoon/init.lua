@@ -279,7 +279,7 @@ hs.fnutils.each({
   { key = "space", app = "/Applications/kitty.app/Contents/MacOS/kitty" },
   { key = "e", app = "Mail", display = 2, size = 'fullScreen' },
   { key = "p", url = "obsidian://open?vault=personal" },
-  { key = "d", app = homeDir .. "/.config/kitty/blog.sh", title = "blog", name = "kitty" },
+  -- { key = "d", app = homeDir .. "/.config/kitty/blog.sh", title = "blog", name = "kitty" },
   { key = "q", app = "TablePlus", display = 2, size = 'fullScreen' },
   { key = "n", app = "Notes", display = 2, size = 'fullScreen' },
   { key = "c", app = "Calendar"},
@@ -322,45 +322,58 @@ function ext.app.forceLaunchOrFocus(appName, object)
     spoon.URLDispatcher:dispatchURL('', '', '', object.url)
   end
 
+  -- only one thing had a title, blog, removed for now
   -- in the case of something having a title, need to see if it's running and switch via activate
-  if (object.title) then
-    for _, app in pairs(hs.application.runningApplications()) do
-      if app:name() == object.name then
-        for _, wins in pairs(app:allWindows()) do
-          if wins:title() == object.title then
-            app:activate()
+  -- if (object.title) then
+  --   for _, app in pairs(hs.application.runningApplications()) do
+  --     if app:name() == object.name then
+  --       for _, wins in pairs(app:allWindows()) do
+  --         if wins:title() == object.title then
+  --           app:activate()
+  --
+  --           return
+  --         end
+  --       end
+  --     end
+  --   end
+  -- end
 
-            return
-          end
-        end
-      end
+  -- first try to just swap to it, useful for coherence fake apps
+  local found = false
+  for _, app in pairs(hs.application.runningApplications()) do
+    if app:name() == object.app then
+      app:setFrontmost(true)
+      found = true
     end
   end
 
-  -- focus with hammerspoon
+  if found then
+   return
+  end
+
   hs.application.launchOrFocus(appName)
 
-  -- check display
-  if (object.display and screenCount == 2) then
-    local win = hs.window.focusedWindow()
-    local winScreen = win:screen():name()
-    local builtinScreen = hs.screen.find('Built%-in'):name()
-    if (object.display == 2 and winScreen ~= builtinScreen) then
-      ext.app.moveToDisplay(2)
-      ext.moveTimer = hs.timer.doAfter(0.1, function()
-        ext.app.setGrid(object.size)
-      end)
-
-      return
-    elseif (object.display == 1 and winScreen == builtinScreen) then
-      ext.app.moveToDisplay(1)
-      ext.moveTimer = hs.timer.doAfter(0.1, function()
-        ext.app.setGrid(object.size)
-      end)
-
-      return
-    end
-  end
+  -- check display, turned off, not smart enough
+  -- if (object.display and screenCount == 2) then
+  --   local win = hs.window.focusedWindow()
+  --   local winScreen = win:screen():name()
+  --   local builtinScreen = hs.screen.find('Built%-in'):name()
+  --   if (object.display == 2 and winScreen ~= builtinScreen) then
+  --     ext.app.moveToDisplay(2)
+  --     ext.moveTimer = hs.timer.doAfter(0.1, function()
+  --       ext.app.setGrid(object.size)
+  --     end)
+  --
+  --     return
+  --   elseif (object.display == 1 and winScreen == builtinScreen) then
+  --     ext.app.moveToDisplay(1)
+  --     ext.moveTimer = hs.timer.doAfter(0.1, function()
+  --       ext.app.setGrid(object.size)
+  --     end)
+  --
+  --     return
+  --   end
+  -- end
 end
 
 function ext.app.showBundleID()

@@ -157,8 +157,8 @@ return {
   -- Snippets
   {
     'Sirver/ultisnips',
-    event = 'VimEnter',
-    config = function ()
+    event = 'VeryLazy',
+    init = function ()
       vim.g.UltiSnipsSnippetsDir = "~/.config/nvim/UltiSnips"
       vim.g.UltiSnipsEditSplit = "vertical"
       vim.g.UltiSnipsExpandTrigger = "<c-j>"
