@@ -74,13 +74,13 @@ return {
               return vim.tbl_keys(bufs)
             end
           },
-          {
-            name = 'buffer-lines',
-            option = {
-              leading_whitespace = false,
-            },
-            max_item_count = 5,
-          }
+          -- {
+          --   name = 'buffer-lines',
+          --   option = {
+          --     leading_whitespace = false,
+          --   },
+          --   max_item_count = 5,
+          -- }
         }),
         formatting = {
           format = lspkind.cmp_format {
