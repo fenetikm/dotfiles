@@ -23,10 +23,10 @@ vim.cmd([[
     " visual replace in current buffer
     xnoremap <expr> <leader>r v:count > 0 ? ":\<C-u>s/\<C-r>=GetSelection()\<CR>//g\<Left>\<Left>" : ":\<C-u>%s/\<C-r>=GetSelection()\<CR>//g\<Left>\<Left>"
 
-    let g:FerretMap=0
+    " let g:FerretMap=0
 
-    let g:agriculture#rg_options='--colors "path:fg:239" --colors "match:fg:252" --colors "line:fg:254"'
-    let g:agriculture#fzf_extra_options='--no-bold --color=hl:7,hl+:3 --prompt="=> "'
+    " let g:agriculture#rg_options='--colors "path:fg:239" --colors "match:fg:252" --colors "line:fg:254"'
+    " let g:agriculture#fzf_extra_options='--no-bold --color=hl:7,hl+:3 --prompt="=> "'
 
     " nnoremap <leader>s :Rg<space>
     " nnoremap <silent> <leader>fg <cmd>lua require'telescope.builtin'.live_grep(_G.falcon_telescope.get_full_theme({}))<cr>
@@ -42,7 +42,7 @@ vim.cmd([[
     " nmap <silent> <leader>K <Plug>RgRawAllWordUnderCursor<cr>
 
     "replace across files
-    nmap <silent> <leader>R <Plug>(FerretAcks)
+    " nmap <silent> <leader>R <Plug>(FerretAcks)
     " nmap <silent> <leader>
 
     "highlight matches in place with g*, doesn't work?

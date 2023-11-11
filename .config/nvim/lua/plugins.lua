@@ -121,18 +121,7 @@ return {
     opts = { open_cmd = "noswapfile vnew" },
     -- stylua: ignore
     keys = {
-      { '<leader>sr', function() require('spectre').open() end, desc = 'Replace in files' },
-    },
-  },
-
-  -- Replace
-  {
-    "nvim-pack/nvim-spectre",
-    cmd = "Spectre",
-    opts = { open_cmd = "noswapfile vnew" },
-    -- stylua: ignore
-    keys = {
-      { '<leader>sr', function() require('spectre').open() end, desc = 'Replace in files' },
+      { '<leader>R', function() require('spectre').open() end, desc = 'Replace in files' },
     },
   },
 
@@ -168,8 +157,8 @@ return {
   -- Snippets
   {
     'Sirver/ultisnips',
-    event = 'VimEnter',
-    config = function ()
+    event = 'VeryLazy',
+    init = function ()
       vim.g.UltiSnipsSnippetsDir = "~/.config/nvim/UltiSnips"
       vim.g.UltiSnipsEditSplit = "vertical"
       vim.g.UltiSnipsExpandTrigger = "<c-j>"

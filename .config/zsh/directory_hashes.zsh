@@ -13,6 +13,7 @@ hash -d pcp=~/Documents/Work/personify_care/repos/personify-care-platform
 hash -d pct=~/Documents/Work/personify_care/repos/personify-care-test
 hash -d pcw=~/Documents/Work/personify_care/repos/personify-care-web
 hash -d pc=~/Documents/Work/personify_care
+hash -d pw=~/Documents/Work/personify_care/video/product_weekly/
 hash -d nv=~/.config/nvim
 hash -d z=~/zettelkasten
 hash -d icloud=~/iCloud
