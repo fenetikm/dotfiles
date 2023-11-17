@@ -2,7 +2,6 @@
 -- @todo center something
 -- @todo snap new windows to closest grid
 -- @todo allow top half in a third
--- @todo when first opening something, put it in desired place but don't on focus
 ext = {
   app = {},
 }
