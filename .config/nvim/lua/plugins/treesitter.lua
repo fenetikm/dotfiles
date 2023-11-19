@@ -39,9 +39,9 @@ return {
           end
         end,
       },
-      {
-        'JoosepAlviste/nvim-ts-context-commentstring',
-      },
+      -- {
+      --   'JoosepAlviste/nvim-ts-context-commentstring',
+      -- },
     },
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
     keys = {
@@ -57,7 +57,7 @@ return {
           'rust', 'toml', 'typescript', 'elixir', 'php', 'java',
           'ruby', 'twig'
         },
-        context_commentstring = { enable = true, enable_autocmd = false },
+        -- context_commentstring = { enable = true, enable_autocmd = false },
         highlight = {
           enable = true,
           disable = {'markdown'},
