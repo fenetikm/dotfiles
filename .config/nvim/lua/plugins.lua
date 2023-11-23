@@ -37,17 +37,17 @@ return {
 
   -- Matching
   {
-    'echasnovski/mini.pairs',
+    'echasnovski/mini.pairs', -- brackets, parens
     event = 'VeryLazy',
     version = false,
     opts = {},
-  },-- auto closing pairs
+  },
   {
-    'echasnovski/mini.surround',
+    'echasnovski/mini.surround', -- surrounding pairs
     event = 'VeryLazy',
     version = false,
     opts = {},
-  }, -- surround handling
+  },
   {
     'gregsexton/MatchTag',
     ft = {'html'}, --html tag matching
