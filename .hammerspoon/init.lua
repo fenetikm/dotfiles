@@ -341,6 +341,20 @@ function ext.app.forceLaunchOrFocus(appName, object)
   local found = false
   for _, app in pairs(hs.application.runningApplications()) do
     if app:name() == object.app then
+      -- handle minimized windows
+      local vis = false
+      local winCount = 0
+      for _, win in pairs(app:allWindows()) do
+        if not win:isMinimized() then
+          vis = true
+        end
+        winCount = winCount + 1
+      end
+      if not vis and winCount == 1 then
+        for _, win in pairs(app:allWindows()) do
+          win:unminimize()
+        end
+      end
       app:setFrontmost(true)
       found = true
     end
