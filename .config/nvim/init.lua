@@ -23,6 +23,10 @@ require('general.settings')
 
 require('lazy').setup("plugins",
   {
+    change_detection = {
+      enabled = false,
+      notify = false,
+    },
     performance = {
       rtp = {
         disabled_plugins = {
