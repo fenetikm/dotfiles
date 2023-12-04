@@ -10,7 +10,14 @@ return {
           )
         vim.api.nvim_feedkeys(esc, 'nx', false)
         require('Comment.api').toggle.linewise(vim.fn.visualmode())
-      end, mode = 'x', desc = 'Toggle comments visual mode'}
+      end, mode = 'x', desc = 'Toggle comments visual mode'},
+      {'gb', function ()
+         local esc = vim.api.nvim_replace_termcodes(
+              '<ESC>', true, false, true
+          )
+        vim.api.nvim_feedkeys(esc, 'nx', false)
+        require('Comment.api').toggle.blockwise(vim.fn.visualmode())
+      end, mode = 'x', desc = 'Toggle comments visual mode, block'}
     },
     dependencies = {
       'JoosepAlviste/nvim-ts-context-commentstring',
