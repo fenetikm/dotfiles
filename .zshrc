@@ -411,8 +411,8 @@ local_export() {
 }
 # local_export
 
-# zsh plugins using antidote
-source ${ZDOTDIR:-~}/.antidote/antidote.zsh
+# the following is via brew handling of antidote
+source /usr/local/opt/antidote/share/antidote/antidote.zsh
 antidote load
 
 #zsh-history-substring-search key bindings

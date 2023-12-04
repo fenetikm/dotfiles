@@ -57,6 +57,10 @@ return {
   -- Git
   {
     'tpope/vim-fugitive',
+    cmd = {
+      'Gvdiffsplit',
+      'Gdiffsplit'
+    },
     keys = {
       {'<leader>gs', '<cmd>Git<cr>', silent = true, noremap = true},
       {'<leader>gr', '<cmd>Gread<cr>', noremap = true},
