@@ -21,7 +21,29 @@ vim.g.localvimrc_sandbox = 0
 require('keys.escape')
 require('general.settings')
 
-require('lazy').setup("plugins")
+require('lazy').setup("plugins",
+  {
+    performance = {
+      rtp = {
+        disabled_plugins = {
+          'getscript',
+          'getscriptPlugin',
+          'gzip',
+          'matchit',
+          'matchparen',
+          'netrwPlugin',
+          'tar',
+          'tarPlugin',
+          'tutor',
+          'vimball',
+          'vimballPlugin',
+          'zip',
+          'zipPlugin',
+        }
+      }
+    }
+  }
+)
 
 require('general.folding')
 require('general.filetypes')

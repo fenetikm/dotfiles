@@ -3,6 +3,7 @@ local bufmap = function(mode, lhs, rhs, opts)
 end
 local no = {noremap = true}
 local so = {silent = true}
+local nso = {noremap = true, silent = true}
 
 -- centering when jumping around methods
 bufmap('n', '[m', '[mzz', no)
@@ -14,6 +15,8 @@ bufmap('n', '<s-y>', 'y$', no)
 -- move selection up and down, thanks prime
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
+bufmap('n', 'gx', [[:execute '!open ' . shellescape(expand('<cfile>'), 1)<CR>]], nso )
 
 vim.cmd([[
   "Redo for shift-u
