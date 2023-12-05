@@ -59,16 +59,21 @@ local layoutMetrics = {
 
 -- predefined layouts
 -- Application name, window title or window object or function
+-- @todo what about when there are multiple screens available? e.g. ultra left, internal right?
 local layouts = {
   {
-    key = '1', -- blog
-    internal = {
-      {"Blog View", nil, "Color LCD", grid.rightHalf, nil, nil},
-      {"kitty", "blog", "Color LCD", grid.leftHalf, nil, nil}
-    },
+    -- key = '1', -- blog
+    -- internal = {
+    --   {"Blog View", nil, "Color LCD", grid.rightHalf, nil, nil},
+    --   {"kitty", "blog", "Color LCD", grid.leftHalf, nil, nil}
+    -- },
+    -- ultra = {
+    --   {"Blog View", nil, "LG ULTRAWIDE", grid.rightFocus, nil, nil},
+    --   {"kitty", "blog", "LG ULTRAWIDE", grid.leftFocus, nil, nil}
+    -- }
+    key = '1',
     ultra = {
-      {"Blog View", nil, "LG ULTRAWIDE", grid.rightFocus, nil, nil},
-      {"kitty", "blog", "LG ULTRAWIDE", grid.leftFocus, nil, nil}
+
     }
   }
 }
@@ -211,7 +216,6 @@ hs.hotkey.bind(mash_screen, 'f', chain({
   grid.centeredHuge,
   grid.centeredBig,
   grid.focus,
-  grid.recording,
 }))
 
 function ext.app.setGrid(key)
@@ -252,10 +256,14 @@ hs.hotkey.bind(mash_screen, 'z', function() ext.app.setGrid('leftTwoThirds') end
 hs.hotkey.bind(mash_screen, 'x', function() ext.app.setGrid('middleTwoThirds') end)
 hs.hotkey.bind(mash_screen, 'c', function() ext.app.setGrid('rightTwoThirds') end)
 
+-- for recording stuffs
 hs.hotkey.bind(mash_screen, '0', function() ext.app.setLayout({x=1280, y=320, w=1400, h=900}) end)
 
 hs.hotkey.bind(mash_screen, '1', function() ext.app.moveToDisplay(1) end)
 hs.hotkey.bind(mash_screen, '2', function() ext.app.moveToDisplay(2) end)
+
+-- normal minimize doesn't work in every app
+hs.hotkey.bind(mash_screen, 'm', function() hs.window.focusedWindow():minimize() end)
 
 -- global operations
 -- hs.hotkey.bind(mash_screen, ';', function() hs.grid.snap(hs.window.focusedWindow()) end)
@@ -399,7 +407,7 @@ function ext.app.showScreenID()
   hs.alert.show(ms:name())
 end
 
-hs.hotkey.bind(mash_screen, 'b', function() ext.app.showBundleID() end)
+-- hs.hotkey.bind(mash_screen, 'b', function() ext.app.showBundleID() end)
 
 -- Reload Configuration
 --- http://www.hammerspoon.org/go/#fancyreload
