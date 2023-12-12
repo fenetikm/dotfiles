@@ -1,3 +1,52 @@
+local lsp_mappings = function(client, bufnr)
+  local bufmap = function(mode, lhs, rhs, opts)
+    vim.keymap.set(mode, lhs, rhs, opts)
+  end
+
+  local opts = { noremap=true, silent=true }
+  bufmap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  bufmap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  bufmap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  bufmap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  bufmap('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
+  bufmap('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>', opts)
+  bufmap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev({float = { border = "rounded" }})<CR>', opts)
+  bufmap('n', ']d', '<cmd>lua vim.diagnostic.goto_next({float = { border = "rounded" }})<CR>', opts)
+  bufmap('n', 'gh', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  bufmap('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  bufmap('n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  bufmap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  bufmap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+end
+
+local lsp_highlighting = function(client)
+  if client.server_capabilities.documentHighlightProvider then
+    vim.api.nvim_exec([[
+      augroup lsp_document_highlight
+        autocmd! * <buffer>
+        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+      augroup END
+    ]], false)
+  end
+end
+
+local lsp_signature = function(client, bufnr)
+  require 'lsp_signature'.on_attach({hint_enable = false}, bufnr)
+end
+
+local default_attach = function(client, bufnr)
+  lsp_mappings(client, bufnr)
+  lsp_highlighting(client)
+  lsp_signature(client, bufnr)
+  vim.diagnostic.config({
+    underline = true,
+    virtual_text = { prefix = '◢' },
+    signs = false,
+    update_in_insert = false,
+  })
+end
+
 return {
   { 'onsails/lspkind-nvim', event = 'VeryLazy' },
   {
@@ -22,62 +71,6 @@ return {
         current_function = true
       }
       lsp_status.register_progress()
-
-      local lsp_mappings = function(client, bufnr)
-        local bufmap = function(mode, lhs, rhs, opts)
-          vim.keymap.set(mode, lhs, rhs, opts)
-        end
-
-        local opts = { noremap=true, silent=true }
-        bufmap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-        bufmap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-        bufmap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-        bufmap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-        bufmap('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
-        bufmap('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>', opts)
-        bufmap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev({float = { border = "rounded" }})<CR>', opts)
-        bufmap('n', ']d', '<cmd>lua vim.diagnostic.goto_next({float = { border = "rounded" }})<CR>', opts)
-        bufmap('n', 'gh', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-        bufmap('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-        bufmap('n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-        bufmap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-        bufmap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-      end
-
-      local lsp_highlighting = function(client)
-        if client.server_capabilities.documentHighlightProvider then
-          vim.api.nvim_exec([[
-            augroup lsp_document_highlight
-              autocmd! * <buffer>
-              autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-              autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-            augroup END
-          ]], false)
-        end
-      end
-
-      local lsp_signature = function(client, bufnr)
-        require 'lsp_signature'.on_attach({hint_enable = false}, bufnr)
-      end
-
-      local default_attach = function(client, bufnr)
-        lsp_mappings(client, bufnr)
-        lsp_highlighting(client)
-        lsp_signature(client, bufnr)
-      end
-
-      local mapping_attach = function(client, bufnr)
-        lsp_mappings(client, bufnr)
-      end
-
-      lsp.handlers["textDocument/publishDiagnostics"] = lsp.with(
-        lsp.diagnostic.on_publish_diagnostics, {
-          underline = true,
-          virtual_text = { prefix = '◢' },
-          signs = false,
-          update_in_insert = false,
-        }
-      )
 
       lspconfig.tsserver.setup {
         flags = { debounce_text_changes = 150 },
@@ -254,4 +247,30 @@ return {
       }
     end
   },
+  {
+    'nvimtools/none-ls.nvim',
+    event = 'VeryLazy',
+    config = function ()
+      local null_ls = require('null-ls')
+      null_ls.setup({
+        sources = {
+          null_ls.builtins.diagnostics.vale.with({
+            filetypes = {'markdown'},
+          })
+        },
+        -- on_attach = default_attach,
+        on_attach = function (client, bufnr)
+          lsp_mappings(client, bufnr)
+          lsp_highlighting(client)
+          lsp_signature(client, bufnr)
+          vim.diagnostic.config({
+            virtual_text = false,
+            signs = false,
+            underline = true,
+          })
+        end
+      })
+    end,
+    opts = {},
+  }
 }
