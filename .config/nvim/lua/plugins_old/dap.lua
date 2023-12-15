@@ -108,5 +108,14 @@ dap.configurations.php = {
     log = true,
     localSourceRoot = '/Users/michael/Documents/Work/personify_care/repos/personify-care-platform/application/',
     serverSourceRoot = '/app/application/'
+  },
+  {
+    type = 'php',
+    request = 'launch',
+    name = 'Listen for Xdebug, Testing',
+    port = 8000,
+    log = true,
+    localSourceRoot = '/Users/michael/Documents/Work/personify_care/repos/personify-care-platform/application/',
+    serverSourceRoot = '/app/application/'
   }
 }

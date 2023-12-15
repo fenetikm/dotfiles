@@ -243,6 +243,12 @@ return {
           lsp_mappings()
           lsp_highlighting(client)
           lsp_signature(client, bufnr)
+          vim.diagnostic.config({
+            underline = true,
+            virtual_text = { prefix = '◢' },
+            signs = false,
+            update_in_insert = false,
+          })
         end,
       }
     end
