@@ -264,8 +264,11 @@ return {
 
   -- Debugging see debugging.lua
 
+  -- Telescope see telescope.lua
+
+  -- Alpha see alpha.lua
+
   -- Other
-  -- TODO shift this to the bottom
   {
     'dkarter/bullets.vim',
     ft = {'markdown','text'},
@@ -283,10 +286,6 @@ return {
   {'tpope/vim-unimpaired', event = 'VimEnter'}, --Various dual pair commands
   {'tpope/vim-repeat', event = 'VimEnter'}, --Repeat plugin commands
   {'Valloric/ListToggle', event = 'InsertEnter'}, --Toggle quickfix and location lists
-
-  -- Telescope see telescope.lua
-
-  -- Alpha see alpha.lua
 }
 
 --[[
@@ -299,7 +298,6 @@ return {
   -- https://github.com/phaazon/hop.nvim
   -- stuff from https://github.com/CosmicNvim/CosmicNvim
   -- https://github.com/jose-elias-alvarez/null-ls.nvim
-  -- https://github.com/folke/trouble.nvim
   -- https://www.lunarvim.org/plugins/02-default-plugins.html and maybe some from extra
   -- https://github.com/Pocco81/TrueZen.nvim
   -- https://github.com/nvim-pack/nvim-spectre
