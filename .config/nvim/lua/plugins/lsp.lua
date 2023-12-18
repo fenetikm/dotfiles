@@ -278,5 +278,20 @@ return {
       })
     end,
     opts = {},
+  },
+  {
+    'folke/trouble.nvim',
+    event = 'VeryLazy',
+    keys = {
+      {'<leader>x', '<cmd>TroubleToggle<cr>', silent = true, noremap = true},
+    },
+    opts = {
+      signs = {
+        error = '',
+        warning = '▲',
+        information = '',
+        hint = '⚑'
+      },
+    }
   }
 }

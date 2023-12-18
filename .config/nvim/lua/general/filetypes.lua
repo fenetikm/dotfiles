@@ -21,6 +21,8 @@ vim.cmd([[
     "quickfix
     au FileType qf setlocal nonumber colorcolumn=
 
+    au FileType Trouble setlocal nonumber norelativenumber
+
     au FileType dapui_scopes setlocal nonumber norelativenumber
 
     au FileType text setlocal spell

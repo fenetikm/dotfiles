@@ -9,6 +9,7 @@ local line_only = {
   'qf',
   'fugitive',
   'NvimTree',
+  'Trouble',
 }
 
 local config = {
