@@ -188,9 +188,13 @@ hugo-open-post() {
 hugo-open-latest() {
   nvim $(find ~blog/content -name '*.md' -type f -exec stat -lt \"%Y-%m-%d\" {} \+ | cut -d' ' -f6- | sort -n | tail -1 | cut -d' ' -f2-)
 }
+hugo-open-drafts() {
+  nvim $(hugo list drafts | cut -d"," -f1 | grep content | fzf --no-multi --preview 'bat --color=always --line-range :500 {}')
+}
 alias ho="hugo-open-post"
 alias hn='hugo-new-post'
 alias hl="hugo-open-latest"
+alias hd="hugo-open-drafts"
 alias hs="./save.sh"
 
 #love framework

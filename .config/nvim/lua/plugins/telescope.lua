@@ -83,6 +83,7 @@ return {
             i = {
               ['<c-s>'] = actions.select_horizontal,
               ['<c-cr>'] = entry_append,
+              ['<esc>'] = actions.close,
             },
           },
           winblend = 5,
