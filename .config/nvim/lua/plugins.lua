@@ -243,6 +243,14 @@ return {
       }
     end,
   },
+  {
+    'chrisgrieser/nvim-various-textobjs',
+    event = 'VeryLazy',
+    keys = {
+      {'ii', '<cmd>lua require("various-textobjs").indentation("inner", "inner")<cr>', mode = {"x", "o"}, silent = true},
+      {'ai', '<cmd>lua require("various-textobjs").indentation("outer", "inner")<cr>', mode = {"x", "o"}, silent = true},
+    }
+  },
 
   -- Languages
   -- PHP
@@ -311,6 +319,7 @@ return {
   -- https://github.com/zbirenbaum/copilot-cmp
   -- https://github.com/folke/neodev.nvim for development
   -- https://github.com/utilyre/barbecue.nvim
+  -- https://github.com/johmsalas/text-case.nvim
   --
   -- plugin lists to look through:
   -- - https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginlist.lua
