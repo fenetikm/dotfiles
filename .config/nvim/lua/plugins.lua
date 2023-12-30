@@ -1,6 +1,3 @@
--- Todo:
--- dap
-
 -- Notes:
 -- had to run `Lazy build ...` to get fzf native working
 -- updated to latest nerdfonts symbols
@@ -83,7 +80,7 @@ return {
   -- Spelling
   {'tpope/vim-abolish'},
 
-  -- TMUX
+  -- Tmux
   { 'benmills/vimux', event = 'VeryLazy'},
 
   -- Distraction
@@ -123,7 +120,6 @@ return {
     "nvim-pack/nvim-spectre",
     cmd = "Spectre",
     opts = { open_cmd = "noswapfile vnew" },
-    -- stylua: ignore
     keys = {
       { '<leader>R', function() require('spectre').open() end, desc = 'Replace in files' },
     },
@@ -294,6 +290,18 @@ return {
   {'tpope/vim-unimpaired', event = 'VimEnter'}, --Various dual pair commands
   {'tpope/vim-repeat', event = 'VimEnter'}, --Repeat plugin commands
   {'Valloric/ListToggle', event = 'InsertEnter'}, --Toggle quickfix and location lists
+  {
+    'rest-nvim/rest.nvim',
+    keys = {
+      { '<localleader>r', '<Plug>RestNvim', desc = 'Run reset request' }
+    },
+    dependencies = { { "nvim-lua/plenary.nvim" } },
+    config = function()
+      require("rest-nvim").setup({
+        -- options go here
+      })
+    end,
+  }
 }
 
 --[[
