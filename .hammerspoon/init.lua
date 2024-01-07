@@ -213,8 +213,6 @@ hs.hotkey.bind(mash_screen, 'left', chain({
 
 hs.hotkey.bind(mash_screen, 'f', chain({
   grid.fullScreen,
-  grid.centeredHuge,
-  grid.centeredBig,
   grid.focus,
 }))
 
