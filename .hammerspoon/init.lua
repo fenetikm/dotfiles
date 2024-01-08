@@ -257,6 +257,9 @@ hs.hotkey.bind(mash_screen, 'c', function() ext.app.setGrid('rightTwoThirds') en
 -- for recording stuffs
 hs.hotkey.bind(mash_screen, '0', function() ext.app.setLayout({x=1280, y=320, w=1400, h=900}) end)
 
+hs.hotkey.bind(mash_screen, 'space', function() ext.app.setGrid('focus') end)
+
+-- send to other display
 hs.hotkey.bind(mash_screen, '1', function() ext.app.moveToDisplay(1) end)
 hs.hotkey.bind(mash_screen, '2', function() ext.app.moveToDisplay(2) end)
 
