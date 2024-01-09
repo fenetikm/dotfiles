@@ -383,6 +383,7 @@ export GOPATH="$HOME/go"
 export OCPATH="$HOME/.minishift/cache/oc/v3.9.0/darwin"
 export PATH="$GOPATH/bin:$OCPATH:$PATH"
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+export PATH=/Applications/kitty.app/Contents/MacOS:$PATH
 
 # ripgrep configufation
 export RIPGREP_CONFIG_PATH="$HOME/.rgrc"

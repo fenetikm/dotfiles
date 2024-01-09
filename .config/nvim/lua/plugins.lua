@@ -51,21 +51,7 @@ return {
   },
   {'andymass/vim-matchup', event = 'VimEnter'},
 
-  -- Git
-  {
-    'tpope/vim-fugitive',
-    cmd = {
-      'Gvdiffsplit',
-      'Gdiffsplit'
-    },
-    keys = {
-      {'<leader>gs', '<cmd>Git<cr>', silent = true, noremap = true},
-      {'<leader>gr', '<cmd>Gread<cr>', noremap = true},
-      {'<leader>gl', '<cmd>Git log<cr>', noremap = true},
-      {'<leader>gb', '<cmd>Git blame<cr>', noremap = true},
-      {'<leader>gd', '<cmd>Gvdiffsplit!<cr>', noremap = true},
-    }
-  },
+  -- Git - see git.lua
 
   -- Testing
   {
@@ -175,7 +161,7 @@ return {
 
   -- Syntax
   {
-    'plasticboy/vim-markdown',
+    'preservim/vim-markdown',
     ft = {'markdown'},
     config = function()
       vim.g.vim_markdown_frontmatter = 1
@@ -290,7 +276,7 @@ return {
   {'tpope/vim-unimpaired', event = 'VimEnter'}, --Various dual pair commands
   {'tpope/vim-repeat', event = 'VimEnter'}, --Repeat plugin commands
   {'Valloric/ListToggle', event = 'InsertEnter'}, --Toggle quickfix and location lists
-  {
+  { -- REST client
     'rest-nvim/rest.nvim',
     keys = {
       { '<localleader>r', '<Plug>RestNvim', desc = 'Run reset request' }
@@ -301,6 +287,34 @@ return {
         -- options go here
       })
     end,
+  },
+  {
+    'folke/zen-mode.nvim',
+    keys = {
+      {'<leader>z', function() require('zen-mode').toggle() end},
+    },
+    opts = {
+      window = {
+        width = 90,
+        options = {
+          relativenumber = false,
+          number = false
+        }
+      },
+      plugins = {
+        tmux = { enabled = true }, -- hide the tmux statusline
+        kitty = { -- change the font size
+          enabled = true,
+          font = "+3",
+        },
+      },
+      on_open = function()
+        require('gitsigns').toggle_signs(false)
+      end,
+      on_close = function()
+        require('gitsigns').toggle_signs(true)
+      end,
+    }
   }
 }
 
@@ -328,6 +342,8 @@ return {
   -- https://github.com/folke/neodev.nvim for development
   -- https://github.com/utilyre/barbecue.nvim
   -- https://github.com/johmsalas/text-case.nvim
+  -- laytan/cloak.nvim - useful when streaming and you want to hide what is in a file if accidentally viewing it
+  -- https://github.com/stevearc/oil.nvim edit buffer to make directory changes
   --
   -- plugin lists to look through:
   -- - https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginlist.lua

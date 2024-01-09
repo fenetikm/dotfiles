@@ -97,7 +97,8 @@ vim.cmd([[
 
   "close the preview window with leader z
   "TODO never do this?
-  nmap <leader>z :pclose<cr>
+  " nmap <leader>z :pclose<cr>
+  " replaced with zenmode toggle
 
   " Use CTRL-S for saving, also in Insert mode
   noremap <silent> <c-s> :update!<cr>

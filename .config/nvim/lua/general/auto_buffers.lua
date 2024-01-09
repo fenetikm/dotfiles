@@ -14,11 +14,11 @@ vim.cmd([[
   endfunction
 
   " turn off relativenumber in non active window
-  augroup BgHighlight
-      autocmd!
-      autocmd WinEnter,FocusGained * call SetNumbers('on')
-      autocmd WinLeave,FocusLost * call SetNumbers('off')
-  augroup END
+  " augroup BgHighlight
+  "     autocmd!
+  "     autocmd WinEnter,FocusGained * call SetNumbers('on')
+  "     autocmd WinLeave,FocusLost * call SetNumbers('off')
+  " augroup END
 
   " Make sure Vim returns to the same line when you reopen a file.
   autocmd BufReadPost *
