@@ -170,7 +170,6 @@ alias vboxr='vboxmanage list runningvms'
 alias docker-restart="osascript -e 'quit app \"Docker\"' && open -a Docker"
 
 # ssh
-alias redyssh='ssh theoryz4@122.129.220.5 -p 5123 -i $HOME/.ssh/id_dsa'
 alias ventrassh='ssh theoryz4@s03de.syd6.hostingplatform.net.au -p 2683 -i $HOME/.ssh/id_dsa'
 
 #ranger
@@ -182,19 +181,32 @@ alias ..='cd ..'
 hugo-new-post () {
   hugo new posts/"$1".md --editor nvim
 }
+alias hn='hugo-new-post'
+
 hugo-open-post() {
   nvim $(find content -name '*.md' | fzf --no-multi --preview 'bat --color=always --line-range :500 {}')
 }
+alias ho="hugo-open-post"
+
 hugo-open-latest() {
   nvim $(find ~blog/content -name '*.md' -type f -exec stat -lt \"%Y-%m-%d\" {} \+ | cut -d' ' -f6- | sort -n | tail -1 | cut -d' ' -f2-)
 }
+alias hl="hugo-open-latest"
+
 hugo-open-drafts() {
   nvim $(hugo list drafts | cut -d"," -f1 | grep content | fzf --no-multi --preview 'bat --color=always --line-range :500 {}')
 }
-alias ho="hugo-open-post"
-alias hn='hugo-new-post'
-alias hl="hugo-open-latest"
 alias hd="hugo-open-drafts"
+
+hugo-convert-images() {
+  local CONVEE=$(find content -name '*.md' -not -name 'index.md' | fzf --no-multi --preview 'bat --color=always --line-range :500 {}' | awk -F '/' '{print $3}' | gsed -E 's/\.md//g')
+  mkdir "content/posts/$CONVEE"
+  #copy file to index.md
+  #rename original to a bak file
+  #create images directory
+}
+alias hi="hugo-convert-images"
+
 alias hs="./save.sh"
 
 #love framework
@@ -391,6 +403,9 @@ export RIPGREP_CONFIG_PATH="$HOME/.rgrc"
 # all files
 alias rga="rg --hidden --no-ignore"
 alias fda="fd --hidden --no-ignore"
+
+# kitty aliases
+alias ki="kitty +kitten icat --align=left" #view image
 
 #load nvm
 export NVM_DIR="$HOME/.nvm"

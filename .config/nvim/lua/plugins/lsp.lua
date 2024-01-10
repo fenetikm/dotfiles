@@ -8,7 +8,7 @@ local lsp_mappings = function(client, bufnr)
   bufmap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   bufmap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   bufmap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  bufmap('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
+  -- bufmap('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts) -- never use this?
   bufmap('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>', opts)
   bufmap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev({float = { border = "rounded" }})<CR>', opts)
   bufmap('n', ']d', '<cmd>lua vim.diagnostic.goto_next({float = { border = "rounded" }})<CR>', opts)
