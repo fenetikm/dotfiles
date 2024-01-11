@@ -342,6 +342,7 @@ return {
   -- https://github.com/folke/neodev.nvim for development
   -- https://github.com/utilyre/barbecue.nvim
   -- https://github.com/johmsalas/text-case.nvim
+  -- https://github.com/anuvyklack/hydra.nvim
   -- laytan/cloak.nvim - useful when streaming and you want to hide what is in a file if accidentally viewing it
   -- https://github.com/stevearc/oil.nvim edit buffer to make directory changes
   --

@@ -408,7 +408,7 @@ export RIPGREP_CONFIG_PATH="$HOME/.rgrc"
 alias rga="rg --hidden --no-ignore"
 alias fda="fd --hidden --no-ignore"
 
-# kitty aliases
+# kitty
 alias ki="kitty +kitten icat --align=left" #view image
 
 #load nvm
