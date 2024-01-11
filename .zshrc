@@ -198,14 +198,18 @@ hugo-open-drafts() {
 }
 alias hd="hugo-open-drafts"
 
-hugo-convert-images() {
-  local CONVEE=$(find content -name '*.md' -not -name 'index.md' | fzf --no-multi --preview 'bat --color=always --line-range :500 {}' | awk -F '/' '{print $3}' | gsed -E 's/\.md//g')
-  mkdir "content/posts/$CONVEE"
-  #copy file to index.md
-  #rename original to a bak file
-  #create images directory
+hugo-migrate-images() {
+  local CONV=$(find content/posts -name '*.md' -not -name 'index.md' | fzf --no-multi --preview 'bat --color=always --line-range :500 {}' | awk -F '/' '{print $3}' | gsed -E 's/\.md//g')
+  # it will be empty
+  if [[ "$CONV" != "" ]]; then
+    mkdir "content/posts/$CONV"
+    cp "content/posts/$CONV.md" "content/posts/$CONV.bak"
+    mv "content/posts/$CONV.md" "content/posts/$CONV/index.md"
+    mkdir "content/posts/$CONV/images"
+    echo "Migrated $CONV to having images."
+  fi
 }
-alias hi="hugo-convert-images"
+alias hi="hugo-migrate-images"
 
 alias hs="./save.sh"
 
