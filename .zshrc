@@ -206,7 +206,7 @@ hugo-migrate-images() {
     cp "content/posts/$CONV.md" "content/posts/$CONV.bak"
     mv "content/posts/$CONV.md" "content/posts/$CONV/index.md"
     mkdir "content/posts/$CONV/images"
-    echo "Migrated $CONV to having images."
+    echo "Migrated $CONV to support images."
   fi
 }
 alias hi="hugo-migrate-images"
