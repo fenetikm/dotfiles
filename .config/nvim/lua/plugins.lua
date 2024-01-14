@@ -288,8 +288,18 @@ return {
       })
     end,
   },
+
+  -- Writing
   {
     'folke/zen-mode.nvim',
+    dependencies = {
+      {
+        'folke/twilight.nvim',
+        opts = {
+          context = 20,
+        }
+      }
+    },
     keys = {
       {'<leader>z', function() require('zen-mode').toggle() end},
     },
@@ -315,7 +325,7 @@ return {
         require('gitsigns').toggle_signs(true)
       end,
     }
-  }
+  },
 }
 
 --[[

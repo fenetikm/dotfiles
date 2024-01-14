@@ -92,8 +92,3 @@ function s:BlogNew(...)
   call feedkeys("\<c-j>", 'x')
 endfunction
 command! -nargs=* BlogNew call <sid>BlogNew(<f-args>)
-
-" Tag completion
-inoremap <expr> <c-x><c-t> fzf#vim#complete('wget --header="api-key: '.g:blog_api_key.'" -q -O - '.g:blog_url.'/front-matter/tags')
-
-" Series completion? better would be some kind of context completion

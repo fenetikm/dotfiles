@@ -189,7 +189,7 @@ hugo-open-post() {
 alias ho="hugo-open-post"
 
 hugo-open-latest() {
-  nvim $(find ~blog/content -name '*.md' -type f -exec stat -lt \"%Y-%m-%d\" {} \+ | cut -d' ' -f6- | sort -n | tail -1 | cut -d' ' -f2-)
+  nvim $(git ls-files -z content | xargs -0 -n1 -I{} -- git log -1 --format="%ai {}" {} | sort -n | tail -1 | cut -d' ' -f4-)
 }
 alias hl="hugo-open-latest"
 
