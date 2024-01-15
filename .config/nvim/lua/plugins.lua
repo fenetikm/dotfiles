@@ -296,7 +296,7 @@ return {
       {
         'folke/twilight.nvim',
         opts = {
-          context = 20,
+          context = 16,
         }
       }
     },
@@ -312,8 +312,8 @@ return {
         }
       },
       plugins = {
-        tmux = { enabled = true }, -- hide the tmux statusline
-        kitty = { -- change the font size
+        tmux = { enabled = true },
+        kitty = {
           enabled = true,
           font = "+3",
         },

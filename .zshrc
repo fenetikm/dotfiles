@@ -199,7 +199,10 @@ hugo-open-drafts() {
 alias hd="hugo-open-drafts"
 
 hugo-migrate-images() {
-  local CONV=$(find content/posts -name '*.md' -not -name 'index.md' | fzf --no-multi --preview 'bat --color=always --line-range :500 {}' | awk -F '/' '{print $3}' | gsed -E 's/\.md//g')
+  local CONV="$1"
+  if [[ "$CONV" == "" ]]; then
+    CONV=$(find content/posts -name '*.md' -not -name 'index.md' | fzf --no-multi --preview 'bat --color=always --line-range :500 {}' | awk -F '/' '{print $3}' | gsed -E 's/\.md//g')
+  fi
   # it will be empty if it was cancelled
   if [[ "$CONV" != "" ]]; then
     mkdir "content/posts/$CONV"

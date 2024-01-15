@@ -69,6 +69,7 @@ vim.cmd([[
 
     set fillchars=vert:┃
     set fillchars+=fold:
+    set fillchars+=diff:╱
     " set fillchars+=fold:<space>
 
     set ruler "show column/row/line number position
