@@ -198,6 +198,7 @@ hugo-open-drafts() {
 }
 alias hd="hugo-open-drafts"
 
+#the below is also in .zshenv so it works in neovim shell command
 hugo-migrate-images() {
   local CONV="$1"
   if [[ "$CONV" == "" ]]; then

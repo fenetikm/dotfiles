@@ -29,7 +29,7 @@ vim.cmd([[
 
     au FileType gitcommit setlocal spell
 
-    au FileType markdown setlocal conceallevel=0 spell
+    au FileType markdown setlocal conceallevel=0
 
     "fzf
     au FileType fzf setlocal nonu nornu

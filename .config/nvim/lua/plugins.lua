@@ -284,7 +284,7 @@ return {
     dependencies = { { "nvim-lua/plenary.nvim" } },
     config = function()
       require("rest-nvim").setup({
-        -- options go here
+        result_split_in_place = true,
       })
     end,
   },
@@ -315,7 +315,7 @@ return {
         tmux = { enabled = true },
         kitty = {
           enabled = true,
-          font = "+3",
+          font = "+4",
         },
       },
       on_open = function()
