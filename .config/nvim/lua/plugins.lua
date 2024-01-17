@@ -296,7 +296,7 @@ return {
       {
         'folke/twilight.nvim',
         opts = {
-          context = 16,
+          context = 12,
         }
       }
     },
