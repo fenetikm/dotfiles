@@ -3,8 +3,8 @@ return {
     'numToStr/Comment.nvim',
     event = 'VimEnter',
     keys = {
-      {'<F17>', function () require('Comment.api').toggle.linewise.current() end, desc = 'Toggle comment for line'},
-      {'<F17>', function ()
+      {'<c-/>', function () require('Comment.api').toggle.linewise.current() end, desc = 'Toggle comment for line'},
+      {'<c-/>', function ()
          local esc = vim.api.nvim_replace_termcodes(
               '<ESC>', true, false, true
           )
@@ -28,11 +28,11 @@ return {
         sticky = true, ---Whether the cursor should stay at its position
         ignore = nil, ---Lines to be ignored while (un)comment
         toggler = { ---LHS of toggle mappings in NORMAL mode
-          line = '<F17>', ---Line-comment toggle keymap
+          line = '<c-/>', ---Line-comment toggle keymap
           block = 'gbc', ---Block-comment toggle keymap
         },
         opleader = { ---LHS of operator-pending mappings in NORMAL and VISUAL mode
-          line = '<F17>', ---Line-comment keymap
+          line = '<c-/>', ---Line-comment keymap
           block = 'gb', ---Block-comment keymap
         },
         extra = { ---LHS of extra mappings

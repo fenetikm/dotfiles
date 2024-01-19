@@ -38,16 +38,19 @@ return {
     dependencies = {
       {'nvim-lua/plenary.nvim'},
       {'nvim-telescope/telescope-fzf-native.nvim', build = 'make'},
+      {'nvim-telescope/telescope-symbols.nvim'}
     },
     keys = {
       {'<leader>,', '<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>', desc = 'Switch buffer'},
       {'<c-p>', "<cmd>lua require'telescope.builtin'.find_files(falcon_theme)<cr>", noremap = true, desc = 'Find files' },
+      {'<c-s-p>', "<cmd>lua require'telescope.builtin'.find_files(get_falcon_theme({hidden = true, no_ignore=true}))<cr>", noremap = true, desc = 'Find files' },
       {'<leader>fh', "<cmd>lua require'telescope.builtin'.oldfiles(falcon_theme)<cr>", silent = true, noremap = true, desc = 'Find old files'},
       {'<leader>fc', "<cmd>lua require'telescope.builtin'.commands(falcon_theme)<cr>", silent = true, noremap = true, desc = 'Find commands'},
       {'<leader>fm', "<cmd>lua require'telescope.builtin'.keymaps(simple_falcon_theme)<cr>", silent = true, noremap = true, desc = 'Find key maps'},
       {'<leader>T', "<cmd>Telescope lsp_document_symbols<cr>", silent = true, noremap = true, desc = 'Find symbols'},
-      {'<c-t>', "<cmd>lua require'telescope.builtin'.tags{path_display = {'smart'}, show_line = true}<cr>", silent = true, noremap = true, desc = 'Find tags'},
+      {'<c-t>', "<cmd>lua require'telescope.builtin'.tags(get_falcon_theme({show_line = true}))<cr>", silent = true, noremap = true, desc = 'Find tags'},
       {'<leader>fr', "<cmd>Telescope lsp_references<cr>", silent = true, noremap = true, desc = 'Find references'},
+      {'<leader>fs', "<cmd>lua require'telescope.builtin'.symbols{ sources = {'emoji', 'kaomoji', 'gitmoji'} }<cr>", silent = true, noremap = true, desc = 'Find symbols'},
       {'<leader>fq', "<cmd>lua require'telescope.builtin'.quickfixhistory<cr>", silent = true, noremap = true, desc = 'Find in quickfix history'},
       {'<leader>fb', "<cmd>lua require'telescope.builtin'.buffers(simple_falcon_theme)<cr>", silent = true, noremap = true, desc = 'Find in buffers'},
       {'//', "<cmd>lua require'telescope.builtin'.current_buffer_fuzzy_find(simple_falcon_theme)<cr>", silent = true, noremap = true, desc = 'Find buffer'},

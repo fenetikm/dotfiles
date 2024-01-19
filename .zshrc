@@ -76,7 +76,7 @@ zstyle ':completion:*:corrections' format '%B%d (errors: %e)%b'
 # complete the suggestion
 bindkey '^E' autosuggest-accept
 # run the suggestion now (ctrl-enter)
-bindkey '^[[25~' autosuggest-execute
+bindkey '^[[13;5u' autosuggest-execute
 
 # history options
 # save timestamp and duration
@@ -189,7 +189,7 @@ hugo-open-post() {
 alias ho="hugo-open-post"
 
 hugo-open-latest() {
-  nvim $(git ls-files -z content | xargs -0 -n1 -I{} -- git log -1 --format="%ai {}" {} | sort -n | tail -1 | cut -d' ' -f4-)
+nvim $(find content -name '*.md' -print0 | xargs -0 stat -f "%m %N" | sort -rn | head -1 | cut -f2- -d" ")
 }
 alias hl="hugo-open-latest"
 

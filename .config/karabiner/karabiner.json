@@ -214,27 +214,6 @@
                         ]
                     },
                     {
-                        "description": "Control + [ to F18",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "open_bracket",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "left_control"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "f18"
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
                         "description": "Right Option to Command + Option + Control, down arrow when tapped, fjell",
                         "manipulators": [
                             {
