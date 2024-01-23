@@ -8,13 +8,15 @@ return {
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-nvim-lua',
-      'quangnguyen30192/cmp-nvim-ultisnips',
+      -- 'quangnguyen30192/cmp-nvim-ultisnips',
+      'saadparwaiz1/cmp_luasnip',
       -- 'amarakon/nvim-cmp-buffer-lines',
     },
     opts = function ()
       local lspkind = require('lspkind')
       lspkind.init()
       local cmp = require('cmp')
+      local luasnip = require('luasnip')
       local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
       return {
@@ -24,8 +26,8 @@ return {
         snippet = {
           expand = function(args)
             -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-            -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-            vim.fn['UltiSnips#Anon'](args.body) -- For `ultisnips` users.
+            require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+            -- vim.fn['UltiSnips#Anon'](args.body) -- For `ultisnips` users.
             -- require'snippy'.expand_snippet(args.body) -- For `snippy` users.
           end,
         },
@@ -54,11 +56,21 @@ return {
               end
             end,
           ['<c-cr>'] = cmp.mapping.confirm({ select = true }),
+          ['<c-j'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              if luasnip.expand_or_jumpable() then
+                luasnip.expand_or_jump()
+              else
+                fallback()
+              end
+            end
+          end, {'i'})
         }),
         sources = cmp.config.sources({
           { name = 'nvim_lua', max_item_count = 15 },
           { name = 'nvim_lsp', max_item_count = 15},
-          { name = 'ultisnips', priority = 1, max_item_count  = 15},
+          -- { name = 'ultisnips', priority = 1, max_item_count  = 15},
+          { name = 'luasnip', priority = 1, max_item_count = 10 }, -- For luasnip users.
         },
         {
           { name = 'path', max_item_count = 15, keyword_length = 5 },
@@ -93,7 +105,8 @@ return {
               nvim_lsp = '[LSP]',
               nvim_lua = '[Lua]',
               path = '[Path]',
-              ultisnips = '[Snip]',
+              -- ultisnips = '[Snip]',
+              luasnip = '[Snip]',
             }
           }
         },

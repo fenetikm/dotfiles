@@ -177,7 +177,7 @@ vim.cmd([[
   nnoremap <leader>eg :call OpenOrSplit("~/.gitconfig")<cr>
   nnoremap <leader>ew :call OpenOrSplit("~/.taskrc")<cr>
   nnoremap <leader>er :call OpenOrSplit("~/.config/ranger/rc.conf")<cr>
-  nnoremap <leader>eu :UltiSnipsEdit<cr>
+  nnoremap <leader>eu :lua require'luasnip.loaders'.edit_snippet_files({edit = function(file) vim.cmd("vsp " .. file)end})<cr>
   nnoremap <leader>ep :call StartSlime()<cr>
 
   function! StartSlime()

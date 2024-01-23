@@ -18,6 +18,8 @@ tmux new-window -t $SESSION_NAME:2 -n 'php'
 tmux new-window -t $SESSION_NAME:3 -n 'aptible'
 tmux new-window -t $SESSION_NAME:4 -n 'nv'
 tmux new-window -t $SESSION_NAME:5 -n 'hammer'
+tmux new-window -t $SESSION_NAME:6 -n 'blog'
+tmux new-window -t $SESSION_NAME:7 -n 'blog-server'
 
 ## Test Window
 # tmux select-window -t $SESSION_NAME:2
@@ -69,6 +71,16 @@ tmux send-keys "~nv" C-m
 tmux select-window -t $SESSION_NAME:5
 tmux send-keys "~" C-m
 tmux send-keys "vl eh" C-m
+
+## Blog config
+tmux select-window -t $SESSION_NAME:6
+tmux send-keys "~blog" C-m
+tmux send-keys "hl" C-m
+
+## Blog server config
+tmux select-window -t $SESSION_NAME:7
+tmux send-keys "~blog" C-m
+tmux send-keys "hugo server -D -F" C-m
 
 ## Main Window
 tmux select-window -t $SESSION_NAME:1

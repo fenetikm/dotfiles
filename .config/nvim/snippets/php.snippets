@@ -1,0 +1,15 @@
+snippet vd "var_dump a variable"
+        var_dump($0);
+
+snippet fnp "PHP public function"
+        public function ${1:name}(${2})
+        {
+            $0
+        }
+
+snippet vdd "var_dump die;"
+        var_dump($0);
+        die;
+
+snippet vdf "var dump to file_put_contents to temp file"
+        file_put_contents('temp_alskjdflkjlkd.txt', print_r($0, true) . "\n", FILE_APPEND);
