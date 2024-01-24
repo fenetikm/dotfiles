@@ -156,44 +156,7 @@ return {
     end
   }, --send output from buffer to tmux / repl
 
-  -- Snippets
-  -- {
-  --   'Sirver/ultisnips',
-  --   event = 'VeryLazy',
-  --   init = function ()
-  --     vim.g.UltiSnipsSnippetsDir = "~/.config/nvim/UltiSnips"
-  --     vim.g.UltiSnipsEditSplit = "vertical"
-  --     vim.g.UltiSnipsExpandTrigger = "<c-j>"
-  --     vim.g.UltiSnipsJumpForwardTrigger = "<c-j>"
-  --     vim.g.UltiSnipsJumpBackwardTrigger = "<c-k>"
-  --   end
-  -- },
-  {
-    'L3MON4D3/LuaSnip',
-    version = 'v2.*',
-    event = 'VeryLazy',
-    opts = {
-      store_selection_keys = '<c-s-j>' --to store a visual selection to use in a snippet
-    },
-    init = function ()
-      local ls = require'luasnip'
-      require('luasnip.loaders.from_snipmate').lazy_load({paths = {'~/.config/nvim/snippets'}})
-      vim.keymap.set({'i'}, '<c-j>',
-        function()
-          if ls.expand_or_jumpable() then
-            ls.expand_or_jump(1)
-          end
-        end, {silent = true})
-      vim.keymap.set({'i', 's'}, '<c-j>',
-        function()
-          if ls.expand_or_jumpable() then
-            ls.expand_or_jump(1)
-          end
-        end,
-        {silent = true, desc = 'LuaSnip forward jump'})
-      vim.keymap.set({'i', 's'}, '<c-k>', function() ls.jump(-1) end, {silent = true, desc = 'LuaSnip backward jump'})
-    end
-  },
+  -- see luasnip.lua for snippets
 
   -- LSP see file lsp.lua
 
