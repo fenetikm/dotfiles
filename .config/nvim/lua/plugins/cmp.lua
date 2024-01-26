@@ -70,7 +70,7 @@ return {
           { name = 'nvim_lua', max_item_count = 15 },
           { name = 'nvim_lsp', max_item_count = 15},
           -- { name = 'ultisnips', priority = 1, max_item_count  = 15},
-          { name = 'luasnip', priority = 1, max_item_count = 10 }, -- For luasnip users.
+          { name = 'luasnip', priority = 1, max_item_count = 7 }, -- For luasnip users.
         },
         {
           { name = 'path', max_item_count = 15, keyword_length = 5 },
