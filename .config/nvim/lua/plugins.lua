@@ -274,7 +274,8 @@ return {
       vim.g.bullets_checkbox_markers = ' .oOX'
       vim.g.bullets_set_mappings = 0
       vim.g.bullets_custom_mappings = {
-        { 'imap', '<cr>', '<Plug>(bullets-newline)' }
+        { 'imap', '<cr>', '<Plug>(bullets-newline)' },
+        { 'nmap', '<cr>', '<Plug>(bullets-toggle-checkbox)' }
       }
     end
   },
