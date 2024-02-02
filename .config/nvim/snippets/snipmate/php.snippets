@@ -7,9 +7,26 @@ snippet fnp "PHP public function"
             $0
         }
 
+snippet fnv "PHP private function"
+        private function ${1:name}(${2})
+        {
+            $0
+        }
+
 snippet vdd "var_dump die;"
         var_dump($0);
         die;
 
 snippet vdf "var dump to file_put_contents to temp file"
         file_put_contents('temp_alskjdflkjlkd.txt', print_r($0, true) . "\n", FILE_APPEND);
+
+snippet doc "Basic doc block"
+        /**
+         * $0
+         */
+
+snippet at "Assert true"
+        \$this->assertTrue($0)
+
+snippet af "Assert false"
+        \$this->assertFalse($0)

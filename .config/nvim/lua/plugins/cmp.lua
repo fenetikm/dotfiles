@@ -11,6 +11,7 @@ return {
       -- 'quangnguyen30192/cmp-nvim-ultisnips',
       'saadparwaiz1/cmp_luasnip',
       -- 'amarakon/nvim-cmp-buffer-lines',
+      -- 'hrsh7th/cmp-nvim-lsp-signature-help', -- tends to give two windows then
     },
     opts = function ()
       local lspkind = require('lspkind')
@@ -37,15 +38,15 @@ return {
           ['<c-d>'] = cmp.mapping.scroll_docs(-4),
           ['<c-u>'] = cmp.mapping.scroll_docs(4),
           ['<c-space>'] = cmp.mapping.complete(),
-          ['<c-l>'] = function(fallback)
-              if cmp.visible() then
-                -- close, show line matches
-                cmp.mapping.close()
-                fallback()
-              else
-                fallback()
-              end
-            end,
+          -- ['<c-l>'] = function(fallback)
+          --     if cmp.visible() then
+          --       -- close, show line matches
+          --       cmp.mapping.close()
+          --       fallback()
+          --     else
+          --       fallback()
+          --     end
+          --   end,
           ['<c-e>'] = function(fallback)
               if cmp.visible() then
                 -- close and move to end
@@ -71,6 +72,7 @@ return {
           { name = 'nvim_lsp', max_item_count = 15},
           -- { name = 'ultisnips', priority = 1, max_item_count  = 15},
           { name = 'luasnip', priority = 1, max_item_count = 7 }, -- For luasnip users.
+          -- { name = 'nvim_lsp_signature_help'},
         },
         {
           { name = 'path', max_item_count = 15, keyword_length = 5 },
@@ -90,6 +92,7 @@ return {
           --   name = 'buffer-lines',
           --   option = {
           --     leading_whitespace = false,
+          --     max_size = 50, -- max filesize in KB
           --   },
           --   max_item_count = 5,
           -- }
