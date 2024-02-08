@@ -408,7 +408,7 @@ function ext.app.showScreenID()
   hs.alert.show(ms:name())
 end
 
-hs.hotkey.bind(mash_screen, 'b', function() ext.app.showBundleID() end)
+-- hs.hotkey.bind(mash_screen, 'b', function() ext.app.showBundleID() end)
 
 -- Reload Configuration
 --- http://www.hammerspoon.org/go/#fancyreload
