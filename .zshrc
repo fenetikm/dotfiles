@@ -167,7 +167,7 @@ alias vbox='vboxmanage'
 alias vboxr='vboxmanage list runningvms'
 
 #docker
-alias docker-restart="osascript -e 'quit app \"Docker\"' && open -a Docker"
+alias docker-restart="osascript -e 'quit app \"Docker\"'"
 
 # ssh
 alias ventrassh='ssh theoryz4@s03de.syd6.hostingplatform.net.au -p 2683 -i $HOME/.ssh/id_dsa'
