@@ -389,6 +389,7 @@ return {
   -- laytan/cloak.nvim - useful when streaming and you want to hide what is in a file if accidentally viewing it
   -- https://github.com/stevearc/oil.nvim edit buffer to make directory changes
   -- https://github.com/kevinhwang91/nvim-ufo
+  -- https://github.com/johmsalas/text-case.nvim
   --
   -- plugin lists to look through:
   -- - https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginlist.lua
