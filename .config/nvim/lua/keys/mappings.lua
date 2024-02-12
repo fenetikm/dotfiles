@@ -133,12 +133,13 @@ vim.cmd([[
   nnoremap <Left> :cprevious<cr>
 
   "sensible increment / decrement, the default is mapped
-  nnoremap + <C-a>
-  nnoremap - <C-x>
+  " replaced with dial.nvim mapping
+  " nnoremap + <C-a>
+  " nnoremap - <C-x>
 
   "for visual selections, will create incremental list when all 0 on each line
-  xnoremap + g<C-a>
-  xnoremap - g<C-x>
+  " xnoremap + g<C-a>
+  " xnoremap - g<C-x>
 
   "quick enter command mode
   noremap ; :

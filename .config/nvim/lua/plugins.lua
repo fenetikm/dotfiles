@@ -85,8 +85,8 @@ return {
   {'nelstrom/vim-visual-star-search', event = 'VeryLazy'}, --use * in visual mode to search
   -- {'jesseleite/vim-agriculture', event = 'VeryLazy'}, --pass things through to rg
   {
-    "folke/flash.nvim",
-    event = "VeryLazy",
+    'folke/flash.nvim',
+    event = 'VeryLazy',
     opts = {
       highlight = {
         backdrop = false
@@ -125,6 +125,33 @@ return {
     keys = {
       { '<leader>R', function() require('spectre').open() end, desc = 'Replace in files' },
     },
+  },
+  {
+    'monaqa/dial.nvim',
+    keys = {
+      {'+', '<Plug>(dial-increment)', desc = 'Increment value'},
+      {'-', '<Plug>(dial-decrement)', desc = 'Decrement value'},
+    },
+    config = function()
+      local augend = require('dial.augend')
+      require('dial.config').augends:register_group{
+        default = {
+          augend.integer.alias.decimal_int,
+          augend.date.alias['%Y-%m-%d'],
+          augend.constant.new{
+            elements = {'#', '##', '###', '####', '#####'},
+            word = true,
+            cyclic = true,
+          },
+          augend.constant.alias.bool,
+          augend.constant.new{
+            elements = {'False', 'True'},
+            word = true,
+            cyclic = true,
+          },
+        }
+      }
+    end,
   },
 
   -- Statusline, see lualine.lua file
