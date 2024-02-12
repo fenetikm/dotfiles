@@ -17,10 +17,11 @@ return {
           }
         }
       }
-
     })
+
     require('luasnip.loaders.from_snipmate').lazy_load({paths = {'~/.config/nvim/snippets/snipmate'}})
     require('luasnip.loaders.from_lua').lazy_load({paths = {'~/.config/nvim/snippets/LuaSnip'}})
+
     vim.keymap.set({'i', 's'}, '<c-j>',
       function()
         if ls.expand_or_jumpable() then

@@ -1,5 +1,8 @@
-snippet ls "Insert selected text inside link"
+snippet lt "Use selected text as title for link"
         [$TM_SELECTED_TEXT]($0)
+
+snippet lu "Use selected text as URL for link"
+        [$0]($TM_SELECTED_TEXT)
 
 snippet l "Create a new link"
         [$1]($2)
@@ -9,6 +12,11 @@ snippet c "Create a checkbox"
 
 snippet m "Comment block"
         <-- $0 -->
+
+snippet t "Table"
+        $1 | $2
+        ---|---
+        $3 | $4
 
 snippet outline "Blog post outline"
         <!--
