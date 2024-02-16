@@ -138,17 +138,14 @@ return {
         default = {
           augend.integer.alias.decimal_int,
           augend.date.alias['%Y-%m-%d'],
-          augend.constant.new{
-            elements = {'#', '##', '###', '####', '#####'},
-            word = true,
-            cyclic = true,
-          },
+          augend.misc.alias.markdown_header,
           augend.constant.alias.bool,
           augend.constant.new{
             elements = {'False', 'True'},
             word = true,
             cyclic = true,
           },
+          augend.paren.alias.quote,
         }
       }
     end,

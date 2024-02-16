@@ -11,7 +11,7 @@ local rep = require('luasnip.extras').rep
 
 return {
   s(
-    {trig = 'b', dscr = 'Code block'},
+    {trig = 'b', dscr = 'Create code block'},
     fmta(
       [[
         ```<>

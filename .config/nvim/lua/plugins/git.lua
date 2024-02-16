@@ -13,7 +13,7 @@ return {
   {
     'sindrets/diffview.nvim',
     keys = {
-      {'<leader>gd', '<cmd>DiffviewOpen dev<cr>', noremap = true},
+      {'<leader>gd', '<cmd>DiffviewOpen<cr>', noremap = true},
     },
     opts = {
       default_args = {

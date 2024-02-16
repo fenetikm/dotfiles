@@ -10,15 +10,18 @@ snippet l "Create a new link"
 snippet c "Create a checkbox"
         [ ]$0
 
-snippet m "Comment block"
+snippet m "Create an HTML comment block"
         <-- $0 -->
 
-snippet t "Table"
+snippet t "Create a table"
         $1 | $2
         ---|---
         $3 | $4
 
-snippet outline "Blog post outline"
+snippet contact "Insert link to contact"
+        [$1](/contact) $0
+
+snippet outline "Insert blog post cheklist and outline"
         <!--
         Checklist:
         - [ ] Outline
