@@ -270,7 +270,6 @@ hs.hotkey.bind(mash_screen, 'm', function() hs.window.focusedWindow():minimize()
 -- hs.hotkey.bind(mash_screen, ';', function() hs.grid.snap(hs.window.focusedWindow()) end)
 -- hs.hotkey.bind(mash_screen, "'", function() hs.fnutil.map(hs.window.visibleWindows(), hs.grid.snap) end)
 
-
 local homeDir = '/Users/michael'
 local dirAtt = hs.fs.attributes(homeDir)
 if (dirAtt == nil) then
