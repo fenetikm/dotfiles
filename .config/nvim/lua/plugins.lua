@@ -327,6 +327,9 @@ return {
         'folke/twilight.nvim',
         opts = {
           context = 12,
+          dimming = {
+            alpha = 0.5
+          }
         }
       }
     },
