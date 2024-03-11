@@ -153,6 +153,7 @@ alias y='yadm'
 # tmux aliases
 alias ms='~/.config/tmux/split.sh'
 alias mn='~/.config/tmux/new.sh'
+alias mnb='~/.config/tmux/new_blog.sh'
 alias mpc='~/.config/tmux/pc.sh'
 alias ml='tmux ls'
 alias ma='tmux attach-session'

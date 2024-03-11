@@ -80,7 +80,7 @@ tmux send-keys "hl" C-m
 ## Blog server config
 tmux select-window -t $SESSION_NAME:7
 tmux send-keys "~blog" C-m
-tmux send-keys "hugo server -D -F" C-m
+tmux send-keys "hugo server -D -F --navigateToChanged" C-m
 
 ## Main Window
 tmux select-window -t $SESSION_NAME:1
