@@ -4,19 +4,21 @@ local lsp_mappings = function(client, bufnr)
   end
 
   local opts = { noremap=true, silent=true }
-  bufmap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  bufmap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  bufmap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  bufmap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  bufmap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
+  bufmap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<cr>', opts)
+  bufmap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<cr>', opts)
+  bufmap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
   -- bufmap('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts) -- never use this?
   bufmap('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>', opts)
-  bufmap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev({float = { border = "rounded" }})<CR>', opts)
-  bufmap('n', ']d', '<cmd>lua vim.diagnostic.goto_next({float = { border = "rounded" }})<CR>', opts)
-  bufmap('n', 'gh', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  bufmap('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  bufmap('n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  bufmap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  bufmap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  bufmap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev({float = { border = "rounded" }})<cr>', opts)
+  bufmap('n', ']d', '<cmd>lua vim.diagnostic.goto_next({float = { border = "rounded" }})<cr>', opts)
+  bufmap('n', 'gh', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+  bufmap('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
+  bufmap('n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+  bufmap('n', '<leader>xd', '<cmd>lua vim.diagnostic.disable()<cr>', opts)
+  bufmap('n', '<leader>xe', '<cmd>lua vim.diagnostic.enable()<cr>', opts)
+  bufmap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<cr>', opts)
+  bufmap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
 end
 
 local lsp_highlighting = function(client)
@@ -283,7 +285,7 @@ return {
     'folke/trouble.nvim',
     event = 'VeryLazy',
     keys = {
-      {'<leader>x', '<cmd>TroubleToggle<cr>', silent = true, noremap = true},
+      {'<leader>xx', '<cmd>TroubleToggle<cr>', silent = true, noremap = true},
     },
     opts = {
       signs = {
