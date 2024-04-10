@@ -75,12 +75,14 @@ tmux send-keys "vl eh" C-m
 ## Blog config
 tmux select-window -t $SESSION_NAME:6
 tmux send-keys "~blog" C-m
+tmux send-keys "git pull" C-m
 tmux send-keys "hl" C-m
 
 ## Blog server config
 tmux select-window -t $SESSION_NAME:7
 tmux send-keys "~blog" C-m
-tmux send-keys "hugo server -D -F --navigateToChanged" C-m
+tmux send-keys "git pull" C-m
+tmux send-keys "hugo server -D -F --navigateToChanged --disableFastRender" C-m
 
 ## Main Window
 tmux select-window -t $SESSION_NAME:1

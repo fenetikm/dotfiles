@@ -26,10 +26,7 @@ return {
         },
         snippet = {
           expand = function(args)
-            -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-            require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-            -- vim.fn['UltiSnips#Anon'](args.body) -- For `ultisnips` users.
-            -- require'snippy'.expand_snippet(args.body) -- For `snippy` users.
+            require('luasnip').lsp_expand(args.body)
           end,
         },
         mapping = cmp.mapping.preset.insert({
@@ -79,8 +76,7 @@ return {
         sources = cmp.config.sources({
           { name = 'nvim_lua', max_item_count = 15 },
           { name = 'nvim_lsp', max_item_count = 15},
-          -- { name = 'ultisnips', priority = 1, max_item_count  = 15},
-          { name = 'luasnip', priority = 1, max_item_count = 7 }, -- For luasnip users.
+          { name = 'luasnip', priority = 1, max_item_count = 7 },
           -- { name = 'nvim_lsp_signature_help'},
         },
         {

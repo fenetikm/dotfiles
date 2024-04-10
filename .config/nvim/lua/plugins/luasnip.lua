@@ -28,7 +28,12 @@ return {
           ls.expand_or_jump()
         end
       end, {silent = true, desc = 'Expand or jump'})
-    vim.keymap.set({'i', 's'}, '<c-k>', function() ls.jump(-1) end, {silent = true, desc = 'LuaSnip backward jump'})
+    vim.keymap.set({'i', 's'}, '<c-k>',
+      function()
+        if ls.jumpable(-1) then
+          ls.jump(-1)
+        end
+      end, {silent = true, desc = 'LuaSnip backward jump'})
     vim.keymap.set({'i'}, '<c-l>',
       function()
         if ls.choice_active() then

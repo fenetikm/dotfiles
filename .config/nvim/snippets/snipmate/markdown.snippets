@@ -1,8 +1,17 @@
-snippet linkt "Use selected text as title for link"
+snippet t "Use selected text as title for link"
         [$TM_SELECTED_TEXT]($0)
 
-snippet linku "Use selected text as URL for link"
+snippet u "Use selected text as URL for link"
         [$0]($TM_SELECTED_TEXT)
+
+snippet bold "Make selected text bold"
+        **$TM_SELECTED_TEXT**
+
+snippet italic "Make selected text italic"
+        _$TM_SELECTED_TEXT_
+
+snippet strike "Strikethrough select text"
+        ~~$TM_SELECTED_TEXT~~
 
 snippet l "Create a new link"
         [$1]($2)

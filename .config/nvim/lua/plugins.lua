@@ -306,12 +306,25 @@ return {
   {'tpope/vim-unimpaired', event = 'VimEnter'}, --Various dual pair commands
   {'tpope/vim-repeat', event = 'VimEnter'}, --Repeat plugin commands
   {'Valloric/ListToggle', event = 'InsertEnter'}, --Toggle quickfix and location lists
+
+  {
+    "vhyrro/luarocks.nvim",
+    priority = 1000,
+    config = true,
+    opts = {
+      rocks = {  "lua-curl", "nvim-nio", "mimetypes", "xml2lua" }, -- Specify LuaRocks packages to install
+    },
+  },
   { -- REST client
     'rest-nvim/rest.nvim',
+    ft = 'http',
     keys = {
-      { '<localleader>r', '<Plug>RestNvim', desc = 'Run reset request' }
+      { '<localleader>r', '<cmd>Rest run<cr>', desc = 'Run reset request' }
     },
-    dependencies = { { "nvim-lua/plenary.nvim" } },
+    dependencies = {
+      { "nvim-lua/plenary.nvim" },
+      { "luarocks.nvim" },
+    },
     config = function()
       require("rest-nvim").setup({
         result_split_in_place = true,
@@ -378,7 +391,6 @@ return {
   -- https://github.com/lewis6991/impatient.nvim
   -- https://github.com/ggandor/leap.nvim
   -- https://github.com/s1n7ax/nvim-search-and-replace
-  -- https://github.com/L3MON4D3/LuaSnip
   -- https://github.com/chentoast/marks.nvim replacement for vim-signature, neovim
   -- https://github.com/zbirenbaum/copilot.lua
   -- https://github.com/zbirenbaum/copilot-cmp
@@ -390,6 +402,8 @@ return {
   -- https://github.com/stevearc/oil.nvim edit buffer to make directory changes
   -- https://github.com/kevinhwang91/nvim-ufo
   -- https://github.com/johmsalas/text-case.nvim
+  -- https://github.com/folke/neodev.nvim for developing plugins, has better autocomplete
+  -- https://github.com/protex/better-digraphs.nvim use telescope with digraphs
   --
   -- plugin lists to look through:
   -- - https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginlist.lua
