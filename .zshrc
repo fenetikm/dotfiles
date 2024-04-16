@@ -163,6 +163,16 @@ alias ma='tmux attach-session'
 alias rb='~pcp/vendor/bin/robo'
 alias rbd='docker exec -it -w /app nginx-pc vendor/bin/robo'
 
+new-fortnightly () {
+  cd ~pcp/../../video/product_weekly
+  local YEAR=$(date -u +%Y)
+  local MONTH=$(date -u +%m)
+  local DAY=$(date -u +%d)
+  local FN=fortnightly_"$DAY"_"$MONTH"_"$YEAR".html
+  cp template.html "$FN"
+  nvim "$FN"
+}
+
 #virtual box
 alias vbox='vboxmanage'
 alias vboxr='vboxmanage list runningvms'

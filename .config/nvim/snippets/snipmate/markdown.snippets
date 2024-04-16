@@ -1,7 +1,13 @@
 snippet t "Use selected text as title for link"
         [$TM_SELECTED_TEXT]($0)
 
+snippet title "Use selected text as title for link"
+        [$TM_SELECTED_TEXT]($0)
+
 snippet u "Use selected text as URL for link"
+        [$0]($TM_SELECTED_TEXT)
+
+snippet url "Use selected text as URL for link"
         [$0]($TM_SELECTED_TEXT)
 
 snippet bold "Make selected text bold"
