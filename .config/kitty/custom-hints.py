@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-"""
-kitty -o 'map f1 kitten hints --customize-processing custom-hints.py'
-When you press the F1 key you will be able to select a word to look it up in the Google dictionary.
-https://sw.kovidgoyal.net/kitty/kittens/hints/#completely-customizing-the-matching-and-actions-of-the-kitten
-ref https://github.com/kovidgoyal/kitty/blob/master/kitty/boss.py
-ref https://github.com/kovidgoyal/kitty/blob/master/kittens/hints/main.py
-"""
 
 import re
 from kitty.clipboard import (
@@ -22,14 +15,14 @@ RE_PATH = (
 RE_URL = (r"(https?://|git@|git://|ssh://|s*ftp://|file:///)"
           "[a-zA-Z0-9?=%/_.:,;~@!#$&()*+-]*")
 
-RE_COMMON_FILENAME = r'\s?([a-zA-Z0-9_.-/]*[a-zA-Z0-9_.-]+\.(ini|yml|yaml|vim|toml|conf|lua|go|php|rs|py|js|vue|jsx|html|htm|md|mp3|wav|flac|mp4|mkv|dll|exe|sh|txt|log|gz|tar|rar|7z|zip|mod|sum|iso|patch))\s?'
+RE_FILE = r'\s?([a-zA-Z0-9_.-/]*[a-zA-Z0-9_.-]+\.(ini|yml|yaml|vim|toml|conf|lua|go|php|rs|py|js|vue|jsx|html|htm|md|mp3|wav|flac|mp4|mkv|me|sh|txt|log|gz|tar|rar|7z|zip|mod|sum|iso|patch))\s?'
 
 RE_HASH = r'[0-9a-f][0-9a-f\r]{6,127}'
 
-RE_URL_OR_PATH_OR_HASH = RE_COMMON_FILENAME + "|" + RE_PATH + "|" + RE_URL + "|" + RE_HASH
+ALL_RE = RE_FILE + "|" + RE_PATH + "|" + RE_URL + "|" + RE_HASH
 
 def mark(text, args, Mark, extra_cli_args, *a):
-    for idx, m in enumerate(re.finditer(RE_URL_OR_PATH_OR_HASH, text)):
+    for idx, m in enumerate(re.finditer(ALL_RE, text)):
         start, end = m.span()
         mark_text = text[start:end].replace('\n', '').replace('\0', '').strip()
         yield Mark(idx, start, end, mark_text, {})
