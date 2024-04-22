@@ -82,7 +82,7 @@ tmux send-keys "hl" C-m
 tmux select-window -t $SESSION_NAME:7
 tmux send-keys "~blog" C-m
 tmux send-keys "git pull" C-m
-tmux send-keys "hugo server -D -F --navigateToChanged --disableFastRender" C-m
+tmux send-keys "hugo server -D -F --navigateToChanged --disableFastRender --renderToMemory --port 1337" C-m
 
 ## Main Window
 tmux select-window -t $SESSION_NAME:1

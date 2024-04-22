@@ -19,7 +19,9 @@ RE_FILE = r'\s?([a-zA-Z0-9_.-/]*[a-zA-Z0-9_.-]+\.(ini|yml|yaml|vim|toml|conf|lua
 
 RE_HASH = r'[0-9a-f][0-9a-f\r]{6,127}'
 
-ALL_RE = RE_FILE + "|" + RE_PATH + "|" + RE_URL + "|" + RE_HASH
+RE_COLOUR = r'#[0-9a-fA-F]{6,8}'
+
+ALL_RE = RE_FILE + "|" + RE_PATH + "|" + RE_URL + "|" + RE_HASH + "|" + RE_COLOUR
 
 def mark(text, args, Mark, extra_cli_args, *a):
     for idx, m in enumerate(re.finditer(ALL_RE, text)):
