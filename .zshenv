@@ -12,3 +12,4 @@ hugo-migrate-images() {
     echo "Migrated $CONV to support images."
   fi
 }
+. "$HOME/.cargo/env"

@@ -21,7 +21,9 @@ RE_HASH = r'[0-9a-f][0-9a-f\r]{6,127}'
 
 RE_COLOUR = r'#[0-9a-fA-F]{6,8}'
 
-ALL_RE = RE_FILE + "|" + RE_PATH + "|" + RE_URL + "|" + RE_HASH + "|" + RE_COLOUR
+RE_MARK_LINK = r'\[[^\]]*\]\([^)]*\)'
+
+ALL_RE = RE_FILE + "|" + RE_PATH + "|" + RE_URL + "|" + RE_HASH + "|" + RE_COLOUR + "|" + RE_MARK_LINK
 
 def mark(text, args, Mark, extra_cli_args, *a):
     for idx, m in enumerate(re.finditer(ALL_RE, text)):

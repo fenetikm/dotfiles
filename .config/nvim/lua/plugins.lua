@@ -285,6 +285,21 @@ return {
 
   -- Telescope see telescope.lua
 
+  -- Code documentor
+  -- had to run :call doge#install() to get this going
+  {
+    "kkoomen/vim-doge",
+    event = 'VeryLazy',
+    keys = {
+      {'<leader>dd', '<plug>(doge-generate)'}
+    },
+    init = function ()
+      vim.g.doge_enable_mappings = 0
+      vim.g.doge_mapping_comment_jump_forward = '<c-j>'
+      vim.g.doge_mapping_comment_jump_backward = '<c-n>'
+    end
+  },
+
   -- Alpha see alpha.lua
 
   -- Other
