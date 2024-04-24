@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 
 import re
-from kitty.clipboard import (
-        set_primary_selection,
-        set_clipboard_string
-)
+from kitty.clipboard import set_clipboard_string
 
 RE_PATH = (
     r'(?=[ \t\n]|"|\(|\[|<|\')?'
@@ -15,18 +12,16 @@ RE_PATH = (
 RE_URL = (r"(https?://|git@|git://|ssh://|s*ftp://|file:///)"
           "[a-zA-Z0-9?=%/_.:,;~@!#$&()*+-]*")
 
-RE_FILE = r'\s?([a-zA-Z0-9_.-/]*[a-zA-Z0-9_.-]+\.(ini|yml|yaml|vim|toml|conf|lua|go|php|rs|py|js|vue|jsx|html|htm|md|mp3|wav|flac|mp4|mkv|me|sh|txt|log|gz|tar|rar|7z|zip|mod|sum|iso|patch))\s?'
+RE_FILE = r'\s?([a-zA-Z0-9_.-/]*[a-zA-Z0-9_.-]+\.(ini|yml|yaml|vim|toml|conf|lua|go|php|rs|py|js|vue|jsx|html|htm|md|mp3|wav|flac|mp4|mkv|me|sh|txt|log|gz|tar|rar|7z|zip|mod|sum|iso|patch|xls|xlsx))\s?'
 
 RE_HASH = r'[0-9a-f][0-9a-f\r]{6,127}'
 
 RE_COLOUR = r'#[0-9a-fA-F]{6,8}'
 
-RE_MARK_LINK = r'\[[^\]]*\]\([^)]*\)'
-
-ALL_RE = RE_FILE + "|" + RE_PATH + "|" + RE_URL + "|" + RE_HASH + "|" + RE_COLOUR + "|" + RE_MARK_LINK
+ALL_RE = RE_FILE + "|" + RE_PATH + "|" + RE_URL + "|" + RE_HASH + "|" + RE_COLOUR
 
 def mark(text, args, Mark, extra_cli_args, *a):
-    for idx, m in enumerate(re.finditer(ALL_RE, text)):
+    for idx, m in enumerate(re.finditer(ALL_RE, text, re.MULTILINE)):
         start, end = m.span()
         mark_text = text[start:end].replace('\n', '').replace('\0', '').strip()
         yield Mark(idx, start, end, mark_text, {})
