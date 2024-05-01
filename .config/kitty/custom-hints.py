@@ -18,13 +18,29 @@ RE_HASH = r'[0-9a-f][0-9a-f\r]{6,127}'
 
 RE_COLOUR = r'#[0-9a-fA-F]{6,8}'
 
-ALL_RE = RE_FILE + "|" + RE_PATH + "|" + RE_URL + "|" + RE_HASH + "|" + RE_COLOUR
+RE_KEYS = r'.*[=:]\s?([0-9a-zA-Z]{4,})\s*^'
+
+GROUPED_RE = RE_KEYS
+
+UNGROUPED_RE = RE_FILE + "|" + RE_PATH + "|" + RE_URL + "|" + RE_HASH + "|" + RE_COLOUR
 
 def mark(text, args, Mark, extra_cli_args, *a):
-    for idx, m in enumerate(re.finditer(ALL_RE, text, re.MULTILINE)):
+    offset = 0
+    marks = []
+    for idx, m in enumerate(re.finditer(UNGROUPED_RE, text, re.MULTILINE)):
         start, end = m.span()
         mark_text = text[start:end].replace('\n', '').replace('\0', '').strip()
-        yield Mark(idx, start, end, mark_text, {})
+        my_mark = {"start": start, "end": end, "text": mark_text}
+        offset = offset + 1
+        marks.insert(offset, my_mark)
+    for idx, m in enumerate(re.finditer(GROUPED_RE, text, re.MULTILINE)):
+        start, end = m.span(1)
+        mark_text = text[start:end].replace('\n', '').replace('\0', '').strip()
+        my_mark = {"start": start, "end": end, "text": mark_text}
+        marks.insert(offset + idx, my_mark)
+    marks = sorted(marks, key = lambda m: m["start"])
+    for k, m in enumerate(marks):
+        yield Mark(k, m["start"], m["end"], m["text"], {})
 
 def handle_result(args, data, target_window_id, boss, extra_cli_args, *a):
     matches, groupdicts = [], []
