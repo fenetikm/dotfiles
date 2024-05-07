@@ -228,7 +228,6 @@ return {
             i = { "@block.inner", "@conditional.inner", "@loop.inner" },
           }, {}),
           f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
-          c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {}),
           t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },
           e = function() --entire file
             local from = { line = 1, col = 1 }
@@ -321,6 +320,20 @@ return {
   {'tpope/vim-unimpaired', event = 'VimEnter'}, --Various dual pair commands
   {'tpope/vim-repeat', event = 'VimEnter'}, --Repeat plugin commands
   {'Valloric/ListToggle', event = 'InsertEnter'}, --Toggle quickfix and location lists
+
+  {
+    'Wansmer/sibling-swap.nvim', -- swap nodes e.g. params/args, conditions etc.
+    event = 'VeryLazy',
+    keys = {
+      {'<C-.>', function () require('sibling-swap').swap_with_right() end, desc = "Swap with right node"},
+      {'<C-,>', function () require('sibling-swap').swap_with_left() end, desc = "Swap with left node"},
+    },
+    config = function()
+      require('sibling-swap').setup({
+        use_default_keymaps = false,
+      })
+    end
+  },
 
   {
     "vhyrro/luarocks.nvim",

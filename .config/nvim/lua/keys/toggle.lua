@@ -1,10 +1,9 @@
+vim.keymap.set('n', '<Esc>', ':nohl<cr>:echo<cr>', {silent = true}) --toggle search highlight, clear cmd line
+
 vim.cmd([[
   "toggle guides
   " nnoremap <silent> <leader>ti :IndentGuidesToggle<cr>
   nnoremap <silent> <leader>ti :IndentBlanklineToggle!<cr>
-
-  "toggle search highlight
-  nnoremap <silent> <esc> :nohlsearch<cr>
 
   "toggle line numbers
   nnoremap <silent> <leader>tn :setlocal nonumber! norelativenumber!<CR>
