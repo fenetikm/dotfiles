@@ -432,6 +432,7 @@ return {
   -- https://github.com/johmsalas/text-case.nvim
   -- https://github.com/folke/neodev.nvim for developing plugins, has better autocomplete
   -- https://github.com/protex/better-digraphs.nvim use telescope with digraphs
+  -- https://github.com/gabrielpoca/replacer.nvim
   --
   -- plugin lists to look through:
   -- - https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginlist.lua
