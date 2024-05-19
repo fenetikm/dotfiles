@@ -433,6 +433,11 @@ return {
   -- https://github.com/folke/neodev.nvim for developing plugins, has better autocomplete
   -- https://github.com/protex/better-digraphs.nvim use telescope with digraphs
   -- https://github.com/gabrielpoca/replacer.nvim
+  -- AI stuffs:
+  -- https://github.com/huynle/ogpt.nvim
+  -- https://github.com/David-Kunz/gen.nvim
+  -- https://github.com/nomnivore/ollama.nvim
+  -- https://github.com/mg979/vim-visual-multi or https://github.com/smoka7/multicursors.nvim
   --
   -- plugin lists to look through:
   -- - https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginlist.lua

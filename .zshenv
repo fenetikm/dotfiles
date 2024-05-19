@@ -13,3 +13,4 @@ hugo-migrate-images() {
   fi
 }
 . "$HOME/.cargo/env"
+. "$HOME/.slackenv"

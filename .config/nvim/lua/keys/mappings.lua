@@ -16,7 +16,14 @@ bufmap('n', '<s-y>', 'y$', no)
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
+-- open file under cursor
 bufmap('n', 'gx', [[:execute '!open ' . shellescape(expand('<cfile>'), 1)<CR>]], nso )
+
+-- if current line is empty, send to _ register, otherwise copy
+vim.keymap.set("n", "dd", function ()
+  if vim.fn.getline(".") == "" then return '"_dd' end
+  return "dd"
+end, {expr = true})
 
 vim.cmd([[
   "Redo for shift-u

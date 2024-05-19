@@ -263,7 +263,7 @@ return {
       null_ls.setup({
         sources = {
           null_ls.builtins.diagnostics.vale.with({
-            filetypes = {'markdown'},
+            filetypes = {'markdown', 'txt'},
           })
         },
         -- on_attach = default_attach,
@@ -274,7 +274,7 @@ return {
           vim.diagnostic.config({
             virtual_text = false,
             signs = false,
-            underline = true,
+            underline = false,
           })
         end
       })
