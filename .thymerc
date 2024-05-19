@@ -1,0 +1,9 @@
+status_override: false
+hooks:
+  notify:
+    events: ["after"]
+    command: "terminal-notifier -message 'Times up!' -title 'Thyme' -sound default -ignoreDnD; tmux refresh-client -S"
+
+  notify_break:
+    events: ["after_break"]
+    command: "terminal-notifier -message 'Break done #{repeat_suffix}' -title 'thyme' -ignoreDnd; tmux refresh-client -S"
