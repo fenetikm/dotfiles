@@ -20,6 +20,9 @@ return {
       {
         'rcarriga/nvim-dap-ui',
         opts = {
+          floating = {
+            border = "none"
+          },
           layouts = { {
             elements = { {
               id = "scopes",
