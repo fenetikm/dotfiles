@@ -12,8 +12,8 @@ return {
       {'<leader>dt', function() require('dap').terminate() end, silent = true, desc = 'Terminate'},
       {'<leader>dc', function() require('dap').clear_breakpoints() end, silent = true, desc = 'Clear breakpoints'},
       {'<leader>dr', function() require('dap').repl.open() end, silent = true, desc = 'Open REPL'},
-      {'<leader>de', function() require('dap').eval() end, silent = true, desc = 'Evaluate'},
-      {'<leader>dE', function() require('dapui').eval(vim.fn.input('Expressions > ')) end, silent = true, desc = 'Expression'},
+      {'<leader>dv', function() require('dapui').eval(nil, { enter = true}) end, silent = true, desc = 'Evaluate'},
+      {'<leader>dV', function() require('dapui').eval(vim.fn.input('Expressions > ')) end, silent = true, desc = 'Expression'},
       {'<leader>dB', function() require('dap').set_breakpoint(vim.fn.input('Condition > ')) end, silent = true, desc = 'Condition'},
     },
     dependencies = {
@@ -80,13 +80,17 @@ return {
       vim.fn.sign_define('DapBreakpoint', {text='●', texthl='DapBreakpoint', linehl='', numhl=''})
       vim.fn.sign_define('DapBreakpointCondition', {text='◆', texthl='DapBreakpointCondition', linehl='', numhl=''})
       vim.fn.sign_define('DapStopped', {text='▶', texthl='DapStopped', linehl='', numhl=''})
-      dap.listeners.after.event_initialized["dapui_config"] = function()
+
+      dap.listeners.before.attach.dapui_config = function()
         dapui.open()
       end
-      dap.listeners.before.event_terminated['dapui_config'] = function()
+      dap.listeners.before.launch.dapui_config = function()
+        dapui.open()
+      end
+      dap.listeners.before.event_terminated.dapui_config = function()
         dapui.close()
       end
-      dap.listeners.before.event_exited['dapui_config'] = function()
+      dap.listeners.before.event_exited.dapui_config = function()
         dapui.close()
       end
 
