@@ -1,5 +1,9 @@
 status_override: false
 hooks:
+  notify_before:
+    events: ["before"]
+    command: "terminal-notifier -message 'Time started.' -title 'Thyme' -ignoreDnD; tmux refresh-client -S"
+
   notify:
     events: ["after"]
     command: "terminal-notifier -message 'Times up!' -title 'Thyme' -sound default -ignoreDnD; tmux refresh-client -S"
