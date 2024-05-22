@@ -109,7 +109,7 @@ return {
         {
           type = 'php',
           request = 'launch',
-          name = 'Listen for Xdebug',
+          name = 'Listen for Xdebug (9000)',
           port = 9000,
           log = true,
           pathMappings = {
@@ -120,7 +120,7 @@ return {
         {
           type = 'php',
           request = 'launch',
-          name = 'Listen for Xdebug, tests',
+          name = 'Listen for Xdebug, tests, cron (8000)',
           port = 8000,
           log = true,
           pathMappings = {

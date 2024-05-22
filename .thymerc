@@ -1,13 +1,22 @@
+timer: 180
+timer_break: 180
 status_override: false
 hooks:
-  notify_before:
-    events: ["before"]
-    command: "terminal-notifier -message 'Time started.' -title 'Thyme' -ignoreDnD; tmux refresh-client -S"
-
-  notify:
-    events: ["after"]
-    command: "terminal-notifier -message 'Times up!' -title 'Thyme' -sound default -ignoreDnD; tmux refresh-client -S"
-
-  notify_break:
-    events: ["after_break"]
-    command: "terminal-notifier -message 'Break done #{repeat_suffix}' -title 'thyme' -ignoreDnd; tmux refresh-client -S"
+  before_all:
+    events: "before_all"
+    command: "shortcuts run 'Set Focus On'"
+  before:
+    events: "before"
+    command: "terminal-notifier -sound default -title 'Timer' -message 'Begin!' -ignoreDnD; tmux refresh-client -S"
+  after:
+    events: "after"
+    command: "terminal-notifier -sound default -title 'Timer' -message 'Time is up!' -ignoreDnd; tmux refresh-client -S"
+  before_break:
+    events: "before_break"
+    command: "terminal-notifier -title 'Timer' -message 'Start break.' -sound submarine -ignoreDnD; tmux refresh-client -S"
+  after_break:
+    events: "after_break"
+    command: "terminal-notifier -title 'Timer' -message 'Break done.' -ignoreDnD; tmux refresh-client -S"
+  after_all:
+    events: "after_all"
+    command: "shortcuts run 'Set Focus Off'"
