@@ -1,22 +1,30 @@
-timer: 180
-timer_break: 180
+# timer: 400
+# timer_break: 60
+color_warning: "yellow"
+color_break: "bright blue"
 status_override: false
+options:
+  quit:
+    flag: "-q"
+    flag_long: "--quit"
+    description: "Quit thymer, turn off focus mode"
+    command: "shortcuts run 'Set Focus Off'; thyme --stop; terminal-notifier -remove ALL; tmux refresh-client -S"
 hooks:
   before_all:
     events: "before_all"
     command: "shortcuts run 'Set Focus On'"
   before:
     events: "before"
-    command: "terminal-notifier -sound default -title 'Timer' -message 'Begin!' -ignoreDnD; tmux refresh-client -S"
+    command: "terminal-notifier -sound default -title 'Thymer' -message 'Begin!' -ignoreDnD -sender com.apple.Finder ; tmux refresh-client -S"
   after:
     events: "after"
-    command: "terminal-notifier -sound default -title 'Timer' -message 'Time is up!' -ignoreDnd; tmux refresh-client -S"
-  before_break:
-    events: "before_break"
-    command: "terminal-notifier -title 'Timer' -message 'Start break.' -sound submarine -ignoreDnD; tmux refresh-client -S"
-  after_break:
-    events: "after_break"
-    command: "terminal-notifier -title 'Timer' -message 'Break done.' -ignoreDnD; tmux refresh-client -S"
+    command: "shortcuts run 'Set Focus Off'; terminal-notifier -sound default -title 'Thymer' -message 'Time is up!' -ignoreDnd -sender com.apple.Finder; tmux refresh-client -S"
   after_all:
     events: "after_all"
-    command: "shortcuts run 'Set Focus Off'"
+    command: "shortcuts run 'Set Focus Off'; terminal-notifier -remove ALL"
+  before_break:
+    events: "before_break"
+    command: "terminal-notifier -title 'Thymer' -message 'Start break.' -sound submarine -ignoreDnD -sender com.apple.Finder; tmux refresh-client -S"
+  after_break:
+    events: "after_break"
+    command: "shortcuts run 'Set Focus On'; terminal-notifier -title 'Thymer' -message 'Break done.' -ignoreDnD -sender com.apple.Finder; tmux refresh-client -S"

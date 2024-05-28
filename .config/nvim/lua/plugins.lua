@@ -56,6 +56,11 @@ return {
   -- Testing
   {
     'janko-m/vim-test',
+    cmd = {
+      'TestLast',
+      'TestNearest',
+      'TestFile',
+    },
     keys = {
       {'<leader>oo', '<cmd>TestLast<cr>', silent = true, noremap = true},
       {'<leader>on', '<cmd>TestNearest<cr>', silent = true, noremap = true},
@@ -433,6 +438,7 @@ return {
   -- https://github.com/folke/neodev.nvim for developing plugins, has better autocomplete
   -- https://github.com/protex/better-digraphs.nvim use telescope with digraphs
   -- https://github.com/gabrielpoca/replacer.nvim
+  -- https://github.com/epwalsh/obsidian.nvim
   -- AI stuffs:
   -- https://github.com/huynle/ogpt.nvim
   -- https://github.com/David-Kunz/gen.nvim

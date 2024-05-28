@@ -13,14 +13,14 @@ return {
       -- 'amarakon/nvim-cmp-buffer-lines',
       -- 'hrsh7th/cmp-nvim-lsp-signature-help', -- tends to give two windows then
     },
-    opts = function ()
+    config = function ()
       local lspkind = require('lspkind')
       lspkind.init()
       local cmp = require('cmp')
       local luasnip = require('luasnip')
       local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-      return {
+      cmp.setup {
         completion = {
           keyword_length = 2
         },
@@ -148,6 +148,18 @@ return {
           }
         }
       }
+
+      -- filetype specific setup
+      cmp.setup.filetype({ 'markdown', 'help' }, {
+        sources = {
+          { name = 'luasnip'},
+          { name = 'path'},
+          { name = 'buffer'},
+        },
+        completion = {
+          autocomplete = false
+        }
+      })
     end
   },
 }

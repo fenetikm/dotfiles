@@ -56,7 +56,8 @@ return {
           'javascript', 'json', 'lua', 'python',
           'rust', 'toml', 'typescript', 'elixir', 'php', 'java',
           'ruby', 'twig',
-          'http'
+          'http',
+          'markdown', 'markdown_inline'
         },
         -- context_commentstring = { enable = true, enable_autocmd = false },
         highlight = {

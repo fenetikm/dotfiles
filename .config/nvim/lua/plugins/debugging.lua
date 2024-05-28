@@ -123,10 +123,6 @@ return {
           name = 'Listen for Xdebug, tests, cron (8000)',
           port = 8000,
           log = true,
-          pathMappings = {
-            ['/app/'] = '/Users/michael/Documents/Work/personify_care/repos/personify-care-platform/',
-            ['/app/application/'] = '/Users/michael/Documents/Work/personify_care/repos/personify-care-platform/application/',
-          },
         },
       }
     end
