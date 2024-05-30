@@ -21,4 +21,15 @@ return {
       {i(1, 'text'), i(0)}
     )
   ),
+  s(
+    {trig = 'bt', dscr = 'Create code block with title'},
+    fmta(
+      [[
+        ```<> {Title="<>"}
+        <>
+        ```
+      ]],
+      {i(1, 'text'), i(2), i(0)}
+    )
+  ),
 }
