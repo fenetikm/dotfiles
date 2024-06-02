@@ -222,8 +222,16 @@ function ext.app.setGrid(key)
 end
 
 function ext.app.setLayout(rect)
+  local displays = hs.screen.allScreens()
   local win = hs.window.focusedWindow()
-  win:setFrame(rect)
+  local log = hs.logger.new('mylog', 'debug')
+
+  win:move(rect, displays[2])
+end
+
+function ext.app.setCentre()
+  local win = hs.window.focusedWindow()
+  win:centerOnScreen()
 end
 
 function ext.app.moveToDisplay(displayIndex)
@@ -257,11 +265,17 @@ hs.hotkey.bind(mash_screen, 'c', function() ext.app.setGrid('rightTwoThirds') en
 -- for recording stuffs
 hs.hotkey.bind(mash_screen, '0', function() ext.app.setLayout({x=1280, y=320, w=1400, h=900}) end)
 
+-- for OBS
+-- TODO: put at the top, keep it on the LG screen
+hs.hotkey.bind(mash_screen, '9', function() ext.app.setLayout({x=0, y=0, w=1400, h=1440}) end)
+
 hs.hotkey.bind(mash_screen, 'space', function() ext.app.setGrid('focus') end)
 
 -- send to other display
 hs.hotkey.bind(mash_screen, '1', function() ext.app.moveToDisplay(1) end)
 hs.hotkey.bind(mash_screen, '2', function() ext.app.moveToDisplay(2) end)
+
+hs.hotkey.bind(mash_screen, 'g', function() ext.app.setCentre() end)
 
 -- normal minimize doesn't work in every app
 hs.hotkey.bind(mash_screen, 'm', function() hs.window.focusedWindow():minimize() end)

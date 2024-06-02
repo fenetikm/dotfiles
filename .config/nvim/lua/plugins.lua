@@ -341,8 +341,8 @@ return {
   },
 
   {
+    event = 'VeryLazy',
     "vhyrro/luarocks.nvim",
-    priority = 1000,
     config = true,
     opts = {
       rocks = {  "lua-curl", "nvim-nio", "mimetypes", "xml2lua" }, -- Specify LuaRocks packages to install
@@ -359,9 +359,7 @@ return {
       { "luarocks.nvim" },
     },
     config = function()
-      require("rest-nvim").setup({
-        result_split_in_place = true,
-      })
+      require("rest-nvim").setup()
     end,
   },
 

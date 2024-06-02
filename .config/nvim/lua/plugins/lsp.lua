@@ -202,7 +202,7 @@ return {
         root_dir = lspconfig.util.root_pattern(".projectroot", ".git", "composer.json")
       }
 
-      local servers = {'jsonls', 'bashls', 'html', 'vimls', 'yamlls', 'gopls', 'pylsp'}
+      local servers = {'jsonls', 'bashls', 'html', 'vimls', 'yamlls', 'pylsp'}
       for _, ilsp in ipairs(servers) do
         lspconfig[ilsp].setup {
           flags = { debounce_text_changes = 150 },
@@ -210,6 +210,15 @@ return {
           capabilities = capabilities
         }
       end
+
+      lspconfig.gopls.setup {
+        on_attach = default_attach,
+        capabilities = capabilities,
+        filetypes = { "go", "gomod", "gowork", "gotmpl" },
+        cmd = {'gopls'},
+        root_dir = lspconfig.util.root_pattern("go.work", "go.mod", ".git"),
+        single_file_support = true,
+      }
 
       local runtime_path = vim.split(package.path, ';')
       table.insert(runtime_path, "lua/?.lua")
