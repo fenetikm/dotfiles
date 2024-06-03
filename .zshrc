@@ -1,6 +1,20 @@
+# for profiling
+# simple profiling
+# zmodload zsh/zprof
+
+# complete profiling
+# zmodload zsh/datetime
+# setopt promptsubst
+# PS4='+$EPOCHREALTIME %N:%i> '
+# exec 3>&2 2> startlog.$$
+# setopt xtrace prompt_subst
+
 # disable the update prompt
 DISABLE_UPDATE_PROMPT=true
 DISABLE_AUTO_TITLE=true
+
+# disable update checking entirely
+zstyle ':omz:update' mode disabled
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
@@ -426,9 +440,10 @@ alias fda="fd --hidden --no-ignore"
 # kitty
 alias ki="kitty +kitten icat --align=left" #view image
 
-#load nvm
+# load nvm, node version manager
+#--no-use is to lazy load it
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use # This loads nvm
 
 lpass_export() {
   LPASS=`lpass status`
@@ -450,9 +465,19 @@ local_export() {
 }
 # local_export
 
-# the following is via brew handling of antidote
-source /usr/local/opt/antidote/share/antidote/antidote.zsh
-antidote load
+# the following two lines, is via brew handling of antidote
+# source /usr/local/opt/antidote/share/antidote/antidote.zsh
+# antidote load
+
+# from the antidote page on how to do it faster
+zsh_plugins=${ZDOTDIR:-$HOME}/.zsh_plugins
+if [[ ! ${zsh_plugins}.zsh -nt ${zsh_plugins}.txt ]]; then
+  (
+    source /path-to-antidote/antidote.zsh
+    antidote bundle <${zsh_plugins}.txt >${zsh_plugins}.zsh
+  )
+fi
+source ${zsh_plugins}.zsh
 
 #zsh-history-substring-search key bindings
 bindkey '^[[A' history-substring-search-up
@@ -478,3 +503,12 @@ alias luamake=$HOME/tmp/lua-language-server/3rd/luamake/luamake
 
 # fasd setup
 eval "$(fasd --init auto)"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# simple profiling and output
+# zprof > ~/tmp/prof.txt
+
+# more complete profiling
+# unsetopt xtrace
+# exec 2>&3 3>&-
+
