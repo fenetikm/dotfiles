@@ -1,8 +1,8 @@
 # for profiling
-# simple profiling
+# simple profiling of zsh related things
 # zmodload zsh/zprof
 
-# complete profiling
+# complete profiling of everything loaded in new shell
 # zmodload zsh/datetime
 # setopt promptsubst
 # PS4='+$EPOCHREALTIME %N:%i> '
@@ -103,6 +103,11 @@ setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_SPACE
 setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
+
+timezsh() {
+  shell=${1-$SHELL}
+  for i in $(seq 1 10); do /usr/bin/time $shell -i -c exit; done
+}
 
 alias l='ls -alhF'
 alias lvr='ls -alR > /dev/null'
@@ -214,9 +219,14 @@ hugo-open-post() {
 alias ho="hugo-open-post"
 
 hugo-open-latest() {
-nvim $(find content -name '*.md' -print0 | xargs -0 stat -f "%m %N" | sort -rn | head -1 | cut -f2- -d" ")
+  nvim $(find content -name '*.md' -print0 | xargs -0 stat -f "%m %N" | sort -rn | head -1 | cut -f2- -d" ")
 }
 alias hl="hugo-open-latest"
+
+edit-latest() {
+  nvim $(find . -name '*.*' -print0 -maxdepth 1 | xargs -0 stat -f "%m %N" | sort -rn | head -1 | cut -f2- -d" ")
+}
+alias v8="edit-latest"
 
 hugo-open-drafts() {
   nvim $(hugo list drafts | cut -d"," -f1 | grep content | fzf --no-multi --preview 'bat --color=always --line-range :500 {}')

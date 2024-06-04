@@ -221,12 +221,56 @@ function ext.app.setGrid(key)
   hs.grid.set(win, grid[key])
 end
 
-function ext.app.setLayout(rect)
+function ext.app.getWinScreenName()
+  local win = hs.window.focusedWindow()
+  local currentScreen = win:screen()
+  if currentScreen:name() == 'LG ULTRAWIDE' then
+    return 'ultra'
+  elseif currentScreen:name() == 'DELL U2715H' then
+    return 'dell'
+  end
+
+  return 'internal'
+end
+
+-- screen names
+-- ultra
+-- internal
+-- dell (U2715H)
+function ext.app.setCustom(settings)
   local displays = hs.screen.allScreens()
   local win = hs.window.focusedWindow()
   local log = hs.logger.new('mylog', 'debug')
+  local currentScreen = win:screen()
+  local currentScreenName = ext.app.getWinScreenName()
+  log.d(currentScreenName)
+  local screenDimensions = {
+    ultra = {
+      width = 3840,
+      height = 1620,
+    },
+    internal = {
+      width = 1792,
+      height = 1120,
+    }
+  }
 
-  win:move(rect, displays[2])
+  -- convert pixels to units
+  local layout = settings[currentScreenName]
+  local rect = {
+    layout[1] / screenDimensions[currentScreenName].width,
+    layout[2] / screenDimensions[currentScreenName].height,
+    layout[3] / screenDimensions[currentScreenName].width,
+    layout[4] / screenDimensions[currentScreenName].height,
+  }
+
+  -- center if it exists
+  if layout[5] then
+    rect[1] = ((screenDimensions[currentScreenName].width - layout[3]) * 0.5) / screenDimensions[currentScreenName].width
+    rect[2] = ((screenDimensions[currentScreenName].height - layout[4]) * 0.5) / screenDimensions[currentScreenName].height
+  end
+
+  win:moveToUnit(rect)
 end
 
 function ext.app.setCentre()
@@ -263,11 +307,11 @@ hs.hotkey.bind(mash_screen, 'x', function() ext.app.setGrid('middleTwoThirds') e
 hs.hotkey.bind(mash_screen, 'c', function() ext.app.setGrid('rightTwoThirds') end)
 
 -- for recording stuffs
-hs.hotkey.bind(mash_screen, '0', function() ext.app.setLayout({x=1280, y=320, w=1400, h=900}) end)
+hs.hotkey.bind(mash_screen, '0', function() ext.app.setCustom({ ultra = {1280, 320, 1400, 900, true}, internal = {0, 0, 1400, 900, true}}) end)
 
 -- for OBS
 -- TODO: put at the top, keep it on the LG screen
-hs.hotkey.bind(mash_screen, '9', function() ext.app.setLayout({x=0, y=0, w=1400, h=1440}) end)
+-- hs.hotkey.bind(mash_screen, '9', function() ext.app.setLayout({x=0, y=0, w=1400, h=1440}) end)
 
 hs.hotkey.bind(mash_screen, 'space', function() ext.app.setGrid('focus') end)
 
