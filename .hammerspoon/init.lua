@@ -240,10 +240,8 @@ end
 function ext.app.setCustom(settings)
   local displays = hs.screen.allScreens()
   local win = hs.window.focusedWindow()
-  local log = hs.logger.new('mylog', 'debug')
   local currentScreen = win:screen()
   local currentScreenName = ext.app.getWinScreenName()
-  log.d(currentScreenName)
   local screenDimensions = {
     ultra = {
       width = 3840,
