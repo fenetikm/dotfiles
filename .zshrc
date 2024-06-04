@@ -226,7 +226,7 @@ alias hl="hugo-open-latest"
 edit-latest() {
   nvim $(find . -name '*.*' -print0 -maxdepth 1 | xargs -0 stat -f "%m %N" | sort -rn | head -1 | cut -f2- -d" ")
 }
-alias v8="edit-latest"
+alias el="edit-latest"
 
 hugo-open-drafts() {
   nvim $(hugo list drafts | cut -d"," -f1 | grep content | fzf --no-multi --preview 'bat --color=always --line-range :500 {}')
