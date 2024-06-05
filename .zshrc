@@ -224,7 +224,7 @@ hugo-open-latest() {
 alias hl="hugo-open-latest"
 
 edit-latest() {
-  nvim $(find . -name '*.*' -print0 -maxdepth 1 | xargs -0 stat -f "%m %N" | sort -rn | head -1 | cut -f2- -d" ")
+  nvim "$(find . -name '*.*' -print0 -maxdepth 1 | xargs -0 stat -f "%m %N" | sort -rn | head -1 | cut -f2- -d" ")"
 }
 alias el="edit-latest"
 

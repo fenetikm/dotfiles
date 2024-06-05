@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# todo:
-# - pull bearer token from lastpass cli, which sets .env var
-
 if [[ "$SLACKPCUSERKEY" == "" ]]; then
   echo "Slack user token missing from environment."
   exit 1
@@ -60,12 +57,23 @@ slack_afk() {
   slack_dnd_on $TIMER
 }
 
+slack_dnd() {
+  if [[ "$1" == "on" ]]; then
+    slack_dnd_on $2
+  else
+    slack_dnd_off
+  fi
+}
+
 # commands
 # - status
 # - afk
 # - dnd
+# - --help?
 
-ACTION="afk"
-
-
-slack_afk $1
+case $1 in
+  "afk") slack_afk $2;;
+  "dnd") slack_dnd $2 $3;;
+  "status") slack_status $2 $3 $4;;
+  *) echo "Missing one of `afk`, `status`, or `dnd`";;
+esac
