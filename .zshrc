@@ -452,8 +452,8 @@ alias ki="kitty +kitten icat --align=left" #view image
 
 # load nvm, node version manager
 #--no-use is to lazy load it
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use # This loads nvm
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use # This loads nvm
 
 lpass_export() {
   LPASS=`lpass status`
@@ -479,14 +479,26 @@ local_export() {
 # source /usr/local/opt/antidote/share/antidote/antidote.zsh
 # antidote load
 
-# from the antidote page on how to do it faster
-zsh_plugins=${ZDOTDIR:-$HOME}/.zsh_plugins
+# now using zsh-nvm plugin for NVM
+export NVM_LAZY_LOAD=true
+
+# fast antidote loading from the page
+# Set the root name of the plugins files (.txt and .zsh) antidote will use.
+zsh_plugins=${ZDOTDIR:-~}/.zsh_plugins
+
+# Ensure the .zsh_plugins.txt file exists so you can add plugins.
+[[ -f ${zsh_plugins}.txt ]] || touch ${zsh_plugins}.txt
+
+# Lazy-load antidote from its functions directory.
+fpath=(~/.antidote/functions $fpath)
+autoload -Uz antidote
+
+# Generate a new static file whenever .zsh_plugins.txt is updated.
 if [[ ! ${zsh_plugins}.zsh -nt ${zsh_plugins}.txt ]]; then
-  (
-    source /path-to-antidote/antidote.zsh
-    antidote bundle <${zsh_plugins}.txt >${zsh_plugins}.zsh
-  )
+  antidote bundle <${zsh_plugins}.txt >|${zsh_plugins}.zsh
 fi
+
+# Source your static plugins file.
 source ${zsh_plugins}.zsh
 
 #zsh-history-substring-search key bindings

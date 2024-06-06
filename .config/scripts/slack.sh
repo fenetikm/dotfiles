@@ -1,7 +1,8 @@
 #!/bin/bash
 
 if [[ "$SLACKPCUSERKEY" == "" ]]; then
-  echo "Slack user token missing from environment."
+  echo "Missing `SLACKPCUSERKEY` environment variable."
+
   exit 1
 fi
 
@@ -48,13 +49,15 @@ slack_afk() {
   if [[ "$TIMER" == "" ]]; then
     TIMER="5"
   fi
+
   local NOW=$(date +%s)
   local END=$(($NOW + $TIMER * 60))
   local ENDTEXT=`echo $(date -r "$END" +"%l:%M %p")`
   local TEXT="AFK until $ENDTEXT, SMS if urgent"
+  local EMOJI=":no_entry:"
 
-  slack_status "$TEXT" ":no_entry:" "$END"
-  slack_dnd_on $TIMER
+  slack_status "$TEXT" "$EMOJI" "$END"
+  slack_dnd_on "$TIMER"
 }
 
 slack_dnd() {
@@ -64,12 +67,6 @@ slack_dnd() {
     slack_dnd_off
   fi
 }
-
-# commands
-# - status
-# - afk
-# - dnd
-# - --help?
 
 case $1 in
   "afk") slack_afk $2;;
