@@ -1,7 +1,5 @@
 # .zsh_plugins.txt
 
-lukechilds/zsh-nvm
-
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-history-substring-search
 zsh-users/zsh-syntax-highlighting

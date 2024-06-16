@@ -481,6 +481,7 @@ local_export() {
 
 # now using zsh-nvm plugin for NVM
 export NVM_LAZY_LOAD=true
+export NVM_AUTO_USE=true
 
 # fast antidote loading from the page
 # Set the root name of the plugins files (.txt and .zsh) antidote will use.
@@ -534,3 +535,5 @@ eval "$(fasd --init auto)"
 # unsetopt xtrace
 # exec 2>&3 3>&-
 
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"

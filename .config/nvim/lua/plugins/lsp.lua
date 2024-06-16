@@ -87,6 +87,7 @@ return {
         flags = { debounce_text_changes = 150 },
         on_attach = default_attach,
         capabilities = capabilities,
+        cmd = { 'intelephense', '--stdio' },
         init_options = {
           licenceKey = os.getenv('HOME') .. '/.config/intelephense.txt'
         },

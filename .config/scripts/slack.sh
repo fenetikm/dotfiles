@@ -26,6 +26,9 @@ slack_status() {
   local EXP="$3"
   if [[ "$EXP" == "" ]]; then
     EXP="0"
+  else
+    local NOW=$(date +%s)
+    EXP=$(($NOW + $EXP * 60))
   fi
 
   curl --location 'https://slack.com/api/users.profile.set' \
@@ -69,8 +72,31 @@ slack_dnd() {
 }
 
 case $1 in
-  "afk") slack_afk $2;;
-  "dnd") slack_dnd $2 $3;;
-  "status") slack_status $2 $3 $4;;
-  *) echo "Missing one of `afk`, `status`, or `dnd`";;
+  "afk")
+    slack_afk $2
+    ;;
+  "dnd")
+    slack_dnd $2 $3
+    ;;
+  "status")
+    slack_status $2 $3 $4
+    ;;
+  *)
+    cat << EOF
+Syntax is './slack.sh <command>' where command must be one of 'afk', 'status', or 'dnd'
+
+Examples:
+  Set status to the away from keyboard (afk) message for 30mins:
+
+  ./slack.sh afk 30
+
+  Turn on do not disturb for 60 minutes:
+
+  ./slack.sh dnd 60
+
+  Set slack status to "Out surfing" with a surfing emoji for 3 hours:
+
+  ./slack.sh status "Out surfing" ":man-surfing:" "180"
+EOF
+    ;;
 esac

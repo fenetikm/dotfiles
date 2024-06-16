@@ -51,31 +51,10 @@ require('lazy').setup("plugins",
 
 require('general.folding')
 require('general.filetypes')
-require('general.auto_buffers')
+require('general.auto_commands')
 require('general.commands')
+require('general.highlights')
 
 require('keys.mappings')
 require('keys.toggle')
 require('keys.searchreplace')
-
-local augroup = vim.api.nvim_create_augroup
-local autocmd = vim.api.nvim_create_autocmd
-local yank_group = augroup('HighlightYank', {})
-
-autocmd('TextYankPost', {
-    group = yank_group,
-    pattern = '*',
-    callback = function()
-        vim.highlight.on_yank({
-            higroup = 'HighlightedyankRegion',
-            timeout = 400,
-        })
-    end,
-})
-
-vim.cmd([[
-  " set cursors depending on mode
-  set t_SI=[6\ q
-  set t_SR=[4\ q
-  set t_SR=[2\ q
-]])

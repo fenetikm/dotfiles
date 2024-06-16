@@ -85,123 +85,35 @@ vim.o.updatetime = 200 --ms between writing swap file and for CursorHold autocom
 
 vim.o.pumblend = 10 --popup menu blend amount
 
-vim.cmd([[
-    filetype plugin indent on "use indentation scripts per filetype
+-- Wildmenu
+vim.o.wildmode = 'longest:full,full'
+vim.o.wildmenu = true
+vim.o.wildignorecase = true
+vim.o.wildignore = '.hg,.git,.svn'
+vim.o.wildignore = vim.o.wildignore .. '*.jpg,*.jpeg,*.bmp,*.gif,*.png'
+vim.o.wildignore = vim.o.wildignore .. '*.sw?'
+vim.o.wildignore = vim.o.wildignore .. '*.DS_Store'
+vim.o.wildignore = vim.o.wildignore .. 'log/**'
+vim.o.wildignore = vim.o.wildignore .. 'tmp/**'
+vim.o.wildignore = vim.o.wildignore .. 'vendor/cache/**'
 
-    " syntax enable "enable syntax highlighting
+-- Search
+vim.o.infercase = true --adjust case when searching
+vim.o.ignorecase = true --ignore case when searching
+vim.o.smartcase = true --use case searching if uppercase in query
+vim.o.hlsearch = true --highlight search results
+vim.o.incsearch = true --incremental search, doesn't required enter
+vim.o.inccommand = 'nosplit' --show replacements live
+vim.o.magic = true --more "normal" regex matching
+vim.o.showmatch = true --show matching parens, brackets, braces when cursor is on one
+vim.o.mat = 2 --tenths of a second to show match
 
-    " set guifont=FiraCode-Regular:h14
+vim.o.completeopt = 'menuone,noselect' --show popupmenu when one or more completions
+                                       --don't select any completions by default
 
-    if has("gui_running")
-      set guioptions-=T "remove toolbar"
-      set guioptions+=e "add tab pages
-      set guioptions-=r "remove right hand scrollbar
-      set guioptions-=R "remove split window right hand scrollbar
-      set guioptions-=l "remove left hand scrollbar
-      set guioptions-=L "remove split window left hand scrollbar
-      set t_Co=256 "enable 256 colors
-      set guitablabel=%M\ %t
-    endif
-
-    " set encoding=utf-8 "set utf8 as standard encoding
-
-    " set hidden "hide buffers instead of closing them
-
-    " set expandtab "substitute tabs with spaces
-    " set smarttab "be smart about using tabs, delete that many spaces when appropriate
-    " set shiftwidth=2 "how far to shift with <,>
-    " set tabstop=2 "how many columns does a tab count for
-    " set lbr "enable linebreaking
-    " set breakindent "indent lines that are broken
-    " set breakindentopt=shift:1 "set the indent shift to one space
-    " set tw=500 "set textwidth to 500 to auto linebreak with really long lines
-    " set autoindent "copy indentation from line above
-    "set smartindent "indent if not handled by plugins, disabled since plugins!
-    " set wrap "wrap visually, don't actually change the file
-    " set list                              " show whitespace
-    " set listchars=nbsp:⦸                  " CIRCLED REVERSE SOLIDUS (U+29B8, UTF-8: E2 A6 B8)
-    " set listchars+=tab:▷┅                 " WHITE RIGHT-POINTING TRIANGLE (U+25B7, UTF-8: E2 96 B7)
-    " + BOX DRAWINGS HEAVY TRIPLE DASH HORIZONTAL (U+2505, UTF-8: E2 94 85)
-    " set listchars+=extends:»              " RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
-    " set listchars+=precedes:«             " LEFT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00AB, UTF-8: C2 AB)
-    " set listchars+=trail:•                " BULLET (U+2022, UTF-8: E2 80 A2)
-
-    " set fillchars=vert:┃
-    " set fillchars+=fold:
-    " set fillchars+=diff:╱
-    " set fillchars+=fold:<space>
-
-    " set ruler "show column/row/line number position
-    " set number "show line numbers
-    " set relativenumber "set to relative number mode
-    " set signcolumn=yes "always have room for a sign by default
-    " set cmdheight=2 "height of the command bar
-    " set laststatus=2 "always show status line
-    " set backspace=eol,start,indent "delete over end of line, autoindent, start of insert
-    " set whichwrap+=<,>,h,l,[,] "wrap with cursor keys and h and l
-    " set nowrapscan "don't wrap search scanning
-
-    " set nojoinspaces                      " don't autoinsert two spaces after '.', '?', '!' for join command
-    " old version is below, above from @wincent
-    " set listchars=tab:›\ ,trail:X,extends:#,nbsp:. "characters to use when showing formatting characters
-    " format trailing whitespace as if it was in error state
-    match ErrorMsg '\s\+$'
-
-    " set shortmess+=A                      " ignore annoying swapfile messages
-    " set shortmess+=O                      " file-read message overwrites previous
-    " set shortmess+=T                      " truncate non-file messages in middle
-    " set shortmess+=W                      " don't echo "[w]"/"[written]" when writing
-    " set shortmess+=a                      " use abbreviations in messages eg. `[RO]` instead of `[readonly]`
-    " set shortmess+=o                      " overwrite file-written messages
-    " set shortmess+=t                      " truncate file messages at start
-    " set shortmess+=c                      " don't echo completion messages
-    " set shortmess+=x                      " short versions for dos,unix and mac
-
-    " set synmaxcol=600                     " Don't try to highlight lines longer than 600 characters.
-
-    " if has('linebreak')
-    "   let &showbreak='↳'                 " DOWNWARDS ARROW WITH TIP RIGHTWARDS (U+21B3, UTF-8: E2 86 B3)
-    " endif
-
-    " if has('virtualedit')
-    "   set virtualedit=block               " allow cursor to move where there is no text in visual block mode
-    " endif
-
-    " set fileformat=unix                   "default fileformat
-
-    " set updatetime=200                    "set the max time to update 200ms, gitgutter mainly
-
-    set pumblend=5                        "make the pop up menu slightly transparent
-
-    " Wildmenu {{{ "
-
-    set wildmenu "turn on wildmenu, commandline completion
-    set wildmode=longest:full,full
-    set wildignore+=.hg,.git,.svn " Version Controls"
-    set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg "Binary Imgs"
-    set wildignore+=*.sw? "Vim swap files"
-    set wildignore+=*.DS_Store "OSX SHIT"
-    set wildignore+=log/**
-    set wildignore+=tmp/**
-    set wildignore+=vendor/cache/**
-    set wildignorecase
-
-    " }}} Wildmenu "
-
-    " Search {{{ "
-
-    set infercase "adjust case when searching
-    set ignorecase "ignore case when searching
-    set smartcase "use case searching if uppercase character is included
-    set hlsearch "highlight search results
-    set incsearch "incremental search
-    set inccommand=nosplit "incremental replace
-    set magic "regex magic, more useable
-    set showmatch "show matching brackets when text indicator is over them
-    set mat=2 "how many tenths of a second to blink when matching brackets
-    set gdefault "substitute all in line or everywhere depending
-
-    " }}} Search "
-
-    set completeopt=menuone,noselect
-]])
+vim.o.shada = '!,\'100,<50,s10,h,%' -- shared data file settings
+                                     -- save global variables with uppercase
+                                     -- save buffer list
+                                     -- 100 previous file marks, disable hlsearch effect
+                                     -- 50 line max for registers
+                                     -- 10kb max for any item

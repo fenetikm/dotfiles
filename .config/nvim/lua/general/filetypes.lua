@@ -1,18 +1,22 @@
-vim.cmd([[
-    " Drupal / PHP --------------------------------------------------- {{{
+-- use indentation scripts per filetype
+vim.api.nvim_command('filetype plugin indent on')
 
-    if has("autocmd")
-        augroup module
-            autocmd BufRead,BufNewFile *.module set filetype=php
-            autocmd BufRead,BufNewFile *.theme set filetype=php
-            autocmd BufRead,BufNewFile *.install set filetype=php
-            autocmd BufRead,BufNewFile *.test set filetype=php
-            autocmd BufRead,BufNewFile *.inc set filetype=php
-            autocmd BufRead,BufNewFile *.profile set filetype=php
-            autocmd BufRead,BufNewFile *.view set filetype=php
-            autocmd BufRead,BufNewFile *.php set filetype=php
-        augroup END
-    endif
+-- Drupal / PHP
+vim.filetype.add({
+  pattern = {
+    ['*.module'] = 'php',
+    ['*.theme'] = 'php',
+    ['*.install'] = 'php',
+    ['*.test'] = 'php',
+    ['*.inc'] = 'php',
+    ['*.profile'] = 'php',
+    ['*.view'] = 'php',
+  },
+})
 
-    " }}} End Drupal / PHP
-]])
+vim.filetype.add({
+  pattern = {
+    ['.env'] = 'conf',
+    ['*.sh'] = 'zsh',
+  }
+})
