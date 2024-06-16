@@ -5,19 +5,19 @@ local no = {noremap = true}
 local so = {silent = true}
 local nso = {noremap = true, silent = true}
 
--- centering when jumping around methods
-bufmap('n', '[m', '[mzz', no)
-bufmap('n', ']m', ']mzz', no)
+-- center the screen on the cursor when jumping around methods
+vim.keymap.set('n', '[m', '[mzz', {noremap = true})
+vim.keymap.set('n', ']m', ']mzz', {noremap = true})
 
 -- yank to end of line, just like shit-d, shift-c
-bufmap('n', '<s-y>', 'y$', no)
+vim.keymap.set('n', '<s-y>', 'y$', {noremap = true})
 
 -- move selection up and down, thanks prime
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 -- open file under cursor
-bufmap('n', 'gx', [[:execute '!open ' . shellescape(expand('<cfile>'), 1)<CR>]], nso )
+vim.keymap.set('n', 'gx', [[:execute '!open ' . shellescape(expand('<cfile>'), 1)<CR>]], {noremap = true, silent = true})
 
 -- if current line is empty, send to _ register, otherwise copy
 vim.keymap.set("n", "dd", function ()
@@ -25,16 +25,29 @@ vim.keymap.set("n", "dd", function ()
   return "dd"
 end, {expr = true})
 
+-- redoo shift+u
+vim.keymap.set('n', 'U', '<c-r>')
+
+
+-- map j and k to do linewise up and down, don't mess with count for relative numbering
+vim.keymap.set('n', 'j', 'v:count ? "j" : "gj"', { noremap = true, expr = true })
+vim.keymap.set('n', 'k', 'v:count ? "k" : "gk"', { noremap = true, expr = true })
+
+-- bigger move up and down
+vim.keymap.set('n', 'J', '6j', {})
+vim.keymap.set('n', 'K', '6k', {})
+
 vim.cmd([[
   "Redo for shift-u
-  noremap U <c-r>
+  " noremap U <c-r>
 
   " Edit macro
-  nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
+  " not sure how to use this!
+  " nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
 
   "treat long lines as break lines, but don't mess with the count for relative numbering
-  nnoremap <expr> j v:count ? 'j' : 'gj'
-  nnoremap <expr> k v:count ? 'k' : 'gk'
+  " nnoremap <expr> j v:count ? 'j' : 'gj'
+  " nnoremap <expr> k v:count ? 'k' : 'gk'
 
   " Keep search matches in the middle of the window, n goes forward, N goes back
   " How to make this work?

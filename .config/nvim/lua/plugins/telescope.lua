@@ -26,6 +26,7 @@ local simple_falcon_theme = vim.tbl_deep_extend('force', falcon_theme, {preview 
 _G.get_falcon_theme = function(opts)
   local theme = falcon_theme
   theme = vim.tbl_deep_extend('force', theme, opts)
+
   return theme
 end
 
@@ -58,8 +59,9 @@ return {
       {'<leader>:', "<cmd>lua require'telescope.builtin'.command_history(simple_falcon_theme)<cr>", silent = true, noremap = true, desc = 'Find in comand history'},
       {'<leader>/', "<cmd>lua require'telescope.builtin'.search_history(simple_falcon_theme)<cr>", silent = true, noremap = true, desc = 'Find in comand history'},
       {'<leader>s', "<cmd>lua require'telescope.builtin'.grep_string(get_falcon_theme({search = vim.fn.input('Search > ')}))<cr>", silent = true, desc = 'Search in files'},
-      {'<leader>S', "<cmd>lua require'telescope.builtin'.grep_string(get_falcon_theme({search = vim.fn.input('Search all > '), no_ignore = true, hidden = true}))<cr>", silent = true, desc = 'Search in all files'},
-      {'<leader>k', "<cmd>lua require'telescope.builtin'.grep_string(falcon_theme)<cr>", silent = true, desc = 'Search in files'},
+      {'<leader>S', "<cmd>lua require'telescope.builtin'.grep_string(get_falcon_theme({search = vim.fn.input('Search all > '), additional_args = { '--hidden', '--no-ignore', '--glob', '!.git' }}))<cr>", silent = true, desc = 'Search in all files'},
+      {'<leader>w', "<cmd>lua require'telescope.builtin'.grep_string(falcon_theme)<cr>", silent = true, desc = 'Search word in files'},
+      {'<leader>W', "<cmd>lua require'telescope.builtin'.grep_string(get_falcon_theme({additional_args = {'--hidden', '--no-ignore', '--glob', '!.git'}}))<cr>", silent = true, desc = 'Search word in all files'},
     },
     config = function ()
       local actions = require('telescope.actions')
