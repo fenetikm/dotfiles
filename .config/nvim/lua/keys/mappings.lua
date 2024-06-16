@@ -1,10 +1,3 @@
-local bufmap = function(mode, lhs, rhs, opts)
-  vim.keymap.set(mode, lhs, rhs, opts)
-end
-local no = {noremap = true}
-local so = {silent = true}
-local nso = {noremap = true, silent = true}
-
 -- center the screen on the cursor when jumping around methods
 vim.keymap.set('n', '[m', '[mzz', {noremap = true})
 vim.keymap.set('n', ']m', ']mzz', {noremap = true})
@@ -28,7 +21,6 @@ end, {expr = true})
 -- redoo shift+u
 vim.keymap.set('n', 'U', '<c-r>')
 
-
 -- map j and k to do linewise up and down, don't mess with count for relative numbering
 vim.keymap.set('n', 'j', 'v:count ? "j" : "gj"', { noremap = true, expr = true })
 vim.keymap.set('n', 'k', 'v:count ? "k" : "gk"', { noremap = true, expr = true })
@@ -36,6 +28,26 @@ vim.keymap.set('n', 'k', 'v:count ? "k" : "gk"', { noremap = true, expr = true }
 -- bigger move up and down
 vim.keymap.set('n', 'J', '6j', {})
 vim.keymap.set('n', 'K', '6k', {})
+
+-- keep cursor in middle of page when going to next search hit
+vim.keymap.set('n', 'n', 'nzzzv', {noremap = true})
+vim.keymap.set('n', 'N', 'Nzzzv', {noremap = true})
+
+-- fast split switching
+vim.keymap.set('n', '<c-h>', '<c-w>h', {noremap = true})
+vim.keymap.set('n', '<c-j>', '<c-w>j', {noremap = true})
+vim.keymap.set('n', '<c-k>', '<c-w>k', {noremap = true})
+vim.keymap.set('n', '<c-l>', '<c-w>l', {noremap = true})
+
+-- swap window direction
+vim.keymap.set('n', '<c-w>s', '<cmd>call custom#ToggleWindowHorizontalVerticalSplit()<cr>', {noremap = true, silent = true})
+
+-- switch tabs
+vim.keymap.set('n', '<c-w>n', '<c-pagedown>', { noremap = true })
+vim.keymap.set('n', '<c-w>p', '<c-pageup>', { noremap = true })
+
+-- focus fold, close others
+vim.keymap.set('n', 'z<space>', 'zMzAzz', { noremap = true })
 
 vim.cmd([[
   "Redo for shift-u
@@ -58,24 +70,24 @@ vim.cmd([[
   " nnoremap <expr> N  'nN'[v:searchforward] . 'zv'
   " xnoremap <expr> N  'nN'[v:searchforward]
   " onoremap <expr> N  'nN'[v:searchforward]
-  nnoremap n nzzzv
-  nnoremap N Nzzzv
+  " nnoremap n nzzzv
+  " nnoremap N Nzzzv
 
   " Fast switching between splits
-  nnoremap <c-h> <c-w>h
-  nnoremap <c-j> <c-w>j
-  nnoremap <c-k> <c-w>k
-  nnoremap <c-l> <c-w>l
+  " nnoremap <c-h> <c-w>h
+  " nnoremap <c-j> <c-w>j
+  " nnoremap <c-k> <c-w>k
+  " nnoremap <c-l> <c-w>l
 
   "s for `swap` direction
-  nnoremap <silent> <c-w>s :call custom#ToggleWindowHorizontalVerticalSplit()<cr>
+  " nnoremap <silent> <c-w>s :call custom#ToggleWindowHorizontalVerticalSplit()<cr>
 
   " switch tabs
-  nnoremap <c-w>n <c-pagedown>
-  nnoremap <c-w>p <c-pageup>
+  " nnoremap <c-w>n <c-pagedown>
+  " nnoremap <c-w>p <c-pageup>
 
   "focus the current fold
-  nnoremap z<space> zMzAzz
+  " nnoremap z<space> zMzAzz
 
   " Folds navigation
   nnoremap [z zk
@@ -175,7 +187,7 @@ vim.cmd([[
   inoremap <c-e> <c-o>$
 
   "line completion
-  inoremap <c-l> <c-x><c-l>
+  " inoremap <c-l> <c-x><c-l>
 
   "ev to edit vimrc, eV to source vimrc
   nnoremap <silent> <leader>eV :so $MYVIMRC <bar>exe 'normal! zvzz'<cr>
