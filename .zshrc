@@ -295,33 +295,6 @@ stty start undef stop undef
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Use fd and fzf to get the args to a command.
-# Works only with zsh
-# Examples:
-# f mv # To move files. You can write the destination after selecting the files.
-# f 'echo Selected:'
-# f 'echo Selected music:' --extension mp3
-# fm rm # To rm files in current directory
-# f() {
-#     sels=( "${(@f)$(fd "${fd_default[@]}" "${@:2}"| fzf)}" )
-#     test -n "$sels" && print -z -- "$1 ${sels[@]:q:q}"
-# }
-#
-# # Like f, but not recursive.
-# fm() f "$@" --max-depth 1
-
-# using ripgrep combined with preview
-# find-in-file - usage: fif <searchTerm>
-# fif() {
-#   if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
-#   rg --files-with-matches --no-messages "$1" | fzf --bind "enter:execute(nvim {})" --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}"
-# }
-
-# fifa() {
-#   if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
-#   rg --no-ignore --files-with-matches --no-messages "$1" | fzf --bind "enter:execute(nvim {})" --preview "highlight -O ansi -l {} 2> /dev/null | rg --no-ignore --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --no-ignore --ignore-case --pretty --context 10 '$1' {}"
-# }
-
 # fzf for checking out a branch
 fzf_git_checkout() {
   result=$(git branch -a --color=always | grep -v '/HEAD\s' | sort |
