@@ -36,9 +36,6 @@ source $HOME/.config/zsh/lean/lean.plugin.zsh
 # exa colours
 source $HOME/Documents/Work/internal/vim/colors/falcon/exa/EXA_COLORS_MODERN
 
-# zsh falcon colouring
-source $HOME/Documents/Work/internal/vim/colors/falcon/zsh/falcon.zsh
-
 # User configuration.
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 export PATH="$PATH:$HOME/.composer/vendor/bin"
@@ -484,8 +481,13 @@ export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk-19.0.2.jdk/Contents/Home
 export PATH="/Library/Java/JavaVirtualMachines/jdk-19.0.2.jdk/Contents/Home:$PATH"
 export PATH="/Users/mjw/tmp/apache-maven/bin:$PATH"
 
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#787882'
+# zsh falcon colouring
+source $HOME/Documents/Work/internal/vim/colors/falcon/zsh/falcon.zsh
+
+# ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#787882'
+# ZSH_HIGHLIGHT_STYLES[bracket-level-1]='fg=#dfdfe5,bold'
+# ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#787882'
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 # ZSH_HIGHLIGHT_STYLES[command]='fg=#DFDFE5'
 # ZSH_HIGHLIGHT_STYLES[alias]='fg=#DFDFE5,bold'
 # ZSH_HIGHLIGHT_STYLES[builtin]='fg=#DDCFBF'
@@ -498,7 +500,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#787882'
 alias luamake=$HOME/tmp/lua-language-server/3rd/luamake/luamake
 
 # fasd setup
-eval "$(fasd --init auto)"
+# eval "$(fasd --init auto)"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # simple profiling and output
@@ -510,3 +512,5 @@ eval "$(fasd --init auto)"
 
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
+
+eval "$(zoxide init zsh)"
