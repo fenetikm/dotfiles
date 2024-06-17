@@ -325,7 +325,7 @@ stty start undef stop undef
 # fzf for checking out a branch
 fzf_git_checkout() {
   result=$(git branch -a --color=always | grep -v '/HEAD\s' | sort |
-    fzf --height 50% --border --ansi --tac --preview-window right:70% \
+    fzf --height 50% --border --tac --preview-window right:70% \
       --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed s/^..// <<< {} | cut -d" " -f1) | head -'$LINES |
     sed 's/^..//' | cut -d' ' -f1)
 
@@ -343,7 +343,7 @@ alias fco="fzf_git_checkout"
 fzf_git_log() {
     local commits=$(
       git ll --color=always "$@" |
-        fzf --ansi --no-sort --height 100% \
+        fzf --no-sort --height 100% \
             --preview "echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
                        xargs -I@ sh -c 'git show --color=always @'"
       )
@@ -358,7 +358,7 @@ fstash() {
   local out q k sha
   while out=$(
     git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" |
-    fzf --ansi --no-sort --query="$q" --print-query \
+    fzf --no-sort --query="$q" --print-query \
         --expect=ctrl-d,ctrl-b);
   do
     mapfile -t out <<< "$out"

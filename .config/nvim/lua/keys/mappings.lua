@@ -126,6 +126,8 @@ vim.cmd([[
 
   "map alternate file switching to leader leader
   nnoremap <leader><leader> <c-^>
+  " alternate
+  " nnoremap <Backspace> <c-^>
 
   "close the preview window with leader z
   "TODO never do this?
