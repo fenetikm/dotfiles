@@ -1,3 +1,5 @@
+source ~/.config/zsh/directory_hashes.zsh
+
 hugo-migrate-images() {
   local CONV="$1"
   if [[ "$CONV" == "" ]]; then

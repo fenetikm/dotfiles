@@ -118,7 +118,6 @@ alias reload="source ~/.zshrc"
 
 # directory hashes
 # to use: e.g. cd ~aa
-source ~/.config/zsh/directory_hashes.zsh
 alias e='exa -algB --group-directories-first'
 alias et='exa -algB --tree'
 alias cat='bat'
@@ -294,8 +293,8 @@ stty start undef stop undef
 
 # fzf for checking out a branch
 fzf_git_checkout() {
-  result=$(git branch -a --color=always | grep -v '/HEAD\s' | sort |
-    fzf --height 50% --border --tac --preview-window right:70% \
+  result=$(git branch -a | grep -v '/HEAD\s' | sort |
+    fzf --ansi --height 50% --border --tac --preview-window right:70% \
       --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed s/^..// <<< {} | cut -d" " -f1) | head -'$LINES |
     sed 's/^..//' | cut -d' ' -f1)
 

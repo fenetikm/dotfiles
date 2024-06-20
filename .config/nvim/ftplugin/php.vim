@@ -1,26 +1,26 @@
 inoremap <c-.> <space>=><space>
 
 "splitjoin settings
-let b:splitjoin_trailing_comma=1
-let b:splitjoin_split_callbacks=['sj#php#SplitArray']
+" let b:splitjoin_trailing_comma=1
+" let b:splitjoin_split_callbacks=['sj#php#SplitArray']
 
 "php namespace
-function! IPhpInsertUse()
-    call PhpInsertUse()
-    call feedkeys('a',  'n')
-endfunction
-
-function! IPhpExpandClass()
-    call PhpExpandClass()
-    call feedkeys('a',  'n')
-endfunction
-
-autocmd FileType php noremap <localleader>pu :call PhpInsertUse()<cr>
-autocmd FileType php noremap <localleader>pe :call PhpExpandClass()<cr>
-autocmd FileType php noremap <localleader>pa :PHPExpandFQCNAbsolute<cr>
+" function! IPhpInsertUse()
+"     call PhpInsertUse()
+"     call feedkeys('a',  'n')
+" endfunction
+"
+" function! IPhpExpandClass()
+"     call PhpExpandClass()
+"     call feedkeys('a',  'n')
+" endfunction
+"
+" autocmd FileType php noremap <localleader>pu :call PhpInsertUse()<cr>
+" autocmd FileType php noremap <localleader>pe :call PhpExpandClass()<cr>
+" autocmd FileType php noremap <localleader>pa :PHPExpandFQCNAbsolute<cr>
 
 "sort the use statements after inserting
-let g:php_namespace_sort_after_insert=1
+" let g:php_namespace_sort_after_insert=1
 
 "phpunitqf
 let g:phpunit_cmd='/usr/local/bin/phpunit'

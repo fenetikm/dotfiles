@@ -143,9 +143,9 @@ return {
         },
         experimental = {
           native_menu = false,
-          ghost_text = {
-            hl_group = 'CmpGhostText'
-          }
+          -- ghost_text = {
+          --   hl_group = 'CmpGhostText'
+          -- }
         }
       }
 
