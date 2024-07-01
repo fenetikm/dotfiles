@@ -1,5 +1,5 @@
-# timer: 400
-# timer_break: 60
+timer: 400
+timer_break: 60
 color_warning: "yellow"
 color_break: "bright blue"
 status_override: false
@@ -15,10 +15,10 @@ hooks:
     command: "shortcuts run 'Set Focus On'"
   before:
     events: "before"
-    command: "terminal-notifier -title 'Thymer' -message 'Start timer.' -ignoreDnD -sender com.apple.Finder ; tmux refresh-client -S"
+    command: "terminal-notifier -title 'Thymer' -message 'Start timer.' -ignoreDnD -sender com.apple.Finder; tmux refresh-client -S; echo `date -u +'%Y-%m-%d %H:%M:%S'` > $HOME/iCloud/Docs/data/thyme.start"
   after:
     events: "after"
-    command: "shortcuts run 'Set Focus Off'; terminal-notifier -sound default -title 'Thymer' -message 'Time is up!' -ignoreDnd -sender com.apple.Finder; tmux refresh-client -S"
+    command: "shortcuts run 'Set Focus Off'; terminal-notifier -sound default -title 'Thymer' -message 'Time is up!' -ignoreDnd -sender com.apple.Finder; tmux refresh-client -S; echo \"`cat $HOME/iCloud/Docs/data/thyme.start`\",\"`date -u '+%Y-%m-%d %H:%M:%S'`\" >> $HOME/iCloud/Docs/data/pomos.csv"
   after_all:
     events: "after_all"
     command: "shortcuts run 'Set Focus Off'; terminal-notifier -remove ALL"
