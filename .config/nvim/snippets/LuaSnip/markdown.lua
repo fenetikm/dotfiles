@@ -32,4 +32,15 @@ return {
       {i(1, 'text'), i(2), i(0)}
     )
   ),
+  s(
+    {trig = 'bl', dscr = 'Create code block with line highlighting'},
+    fmta(
+      [[
+        ```<> {linenos=table,hl_lines="<>-<>"}
+        <>
+        ```
+      ]],
+      {i(1, 'text'), i(2, '1'), i(3, '2'), i(0)}
+    )
+  ),
 }

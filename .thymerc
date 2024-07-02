@@ -1,5 +1,5 @@
-timer: 400
-timer_break: 60
+# timer: 400
+# timer_break: 60
 color_warning: "yellow"
 color_break: "bright blue"
 status_override: false
