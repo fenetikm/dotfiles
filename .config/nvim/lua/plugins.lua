@@ -150,7 +150,6 @@ return {
             word = true,
             cyclic = true,
           },
-          augend.paren.alias.quote,
         }
       }
     end,
