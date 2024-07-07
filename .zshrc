@@ -116,10 +116,9 @@ alias srm='sudo /bin/rm -i'
 # reload
 alias reload="source ~/.zshrc"
 
-# directory hashes
-# to use: e.g. cd ~aa
 alias e='exa -algB --group-directories-first'
 alias et='exa -algB --tree'
+alias es='exa --oneline --group-directories-first'
 alias cat='bat'
 alias c='bat'
 alias ping='prettyping'
@@ -149,7 +148,7 @@ alias -s yml=nvim
 alias -g L="| less"
 alias -g T="| tail"
 alias -g TL="| tail -20"
-alias -g C="| wc -l"
+alias -g C="| pbcopy"
 alias -g G="| grep"
 # Preview via fzf, edit with enter
 alias -g P="| fzf --preview 'bat --color=always --line-range :500 {}' --bind 'enter:execute(nvim {})'"
