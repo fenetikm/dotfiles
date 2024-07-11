@@ -83,7 +83,7 @@ return {
 
   -- Search
   {'BurntSushi/ripgrep', event = 'VeryLazy'}, --ripgrep support, neuron and telescope want it
-  {'wincent/loupe', event = 'VeryLazy'}, --nicer search highlighting
+  -- {'wincent/loupe', event = 'VeryLazy'}, --nicer search highlighting
   -- {'wincent/ferret', event = 'VeryLazy'}, --multi file search
   {dir = '/usr/local/opt/fzf', event = 'VeryLazy'}, --fzf
   {'junegunn/fzf.vim', event = 'VeryLazy'}, --fuzzy finder stuff

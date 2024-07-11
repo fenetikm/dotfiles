@@ -1,15 +1,32 @@
 return {
   {
     'lewis6991/gitsigns.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim' },
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      {
+        "seanbreckenridge/gitsigns-yadm.nvim",
+        opts = {
+            shell_timeout_ms = 1000,
+        },
+      },
+    },
     event = 'VeryLazy',
     opts = {
       signs = {
-        add = {hl = 'GitSignsAdd', text = '▎'},
-        change = {hl = 'GitSignsChange', text = '▎'},
-        delete = {hl = 'GitSignsDelete', text = '◢'},
-        topdelete = {hl = 'GitSignsDelete', text = '◥'},
-        changedelete = {hl = 'GitSignsChangeDelete', text = '▌'},
+        add = {text = '▎'},
+        change = {text = '▎'},
+        delete = {text = '◢'},
+        topdelete = {text = '◥'},
+        changedelete = {text = '▌'},
+        untracked = {text = '┆'},
+      },
+      signs_staged = {
+        add = {text = '▎'},
+        change = {text = '▎'},
+        delete = {text = '◢'},
+        topdelete = {text = '◥'},
+        changedelete = {text = '▌'},
+        untracked = {text = '┆'},
       },
       current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
       current_line_blame_opts = {
@@ -19,6 +36,9 @@ return {
         ignore_whitespace = false,
       },
       current_line_blame_formatter = ' <author>, <author_time:%Y-%m-%d> - <summary>',
+      _on_attach_pre = function(_, callback)
+          require("gitsigns-yadm").yadm_signs(callback)
+      end,
       on_attach = function(bufnr)
         local gs = package.loaded.gitsigns
 
@@ -60,9 +80,6 @@ return {
         map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
       end,
       max_file_length = 40000,
-      yadm = {
-        enable = true
-      }
     }
   },
   {
