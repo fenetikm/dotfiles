@@ -441,6 +441,7 @@ return {
   -- https://github.com/David-Kunz/gen.nvim
   -- https://github.com/nomnivore/ollama.nvim
   -- https://github.com/mg979/vim-visual-multi or https://github.com/smoka7/multicursors.nvim
+  -- https://github.com/LunarVim/bigfile.nvim for turning off things for big files
   --
   -- plugin lists to look through:
   -- - https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginlist.lua
