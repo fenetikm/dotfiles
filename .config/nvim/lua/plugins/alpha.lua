@@ -16,21 +16,21 @@ return {
       local fortune = require'alpha.fortune'
 
       local atari_art = {
-        [[                ** ***** **                ]],
-        [[                ** ***** **                ]],
-        [[               .** ***** **.               ]],
-        [[               :** ***** **:               ]],
-        [[               *** ***** ***               ]],
-        [[               *** ***** ***               ]],
-        [[              ,*** ***** ***.              ]],
-        [[             ,**** ***** ****.             ]],
-        [[            ,****; ***** :****.            ]],
-        [[           ,*****  *****  *****.           ]],
-        [[         ,******'  *****  `******.         ]],
-        [[       ,*******'   *****   `*******.       ]],
-        [[    ,s*******'     *****     `*******s.    ]],
-        [[  *********'       *****       `*********  ]],
-        [[  *****Y'          *****          `Y*****  ]],
+        [[                oo ooooo oo                ]],
+        [[                oo ooooo oo                ]],
+        [[               .oo ooooo oo.               ]],
+        [[               :oo ooooo oo:               ]],
+        [[               ooo ooooo ooo               ]],
+        [[               ooo ooooo ooo               ]],
+        [[              ,ooo ooooo ooo.              ]],
+        [[             ,oooo ooooo oooo.             ]],
+        [[            ,oooo; ooooo :oooo.            ]],
+        [[           ,ooooo  ooooo  ooooo.           ]],
+        [[         ,oooooo'  ooooo  `oooooo.         ]],
+        [[       ,ooooooo'   ooooo   `ooooooo.       ]],
+        [[    ,sooooooo'     ooooo     `ooooooos.    ]],
+        [[  ooooooooo'       ooooo       `ooooooooo  ]],
+        [[  oooooY'          ooooo          `Yooooo  ]],
       }
 
       local function lineToStartGradient(lines)
