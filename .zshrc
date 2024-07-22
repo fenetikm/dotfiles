@@ -1,3 +1,4 @@
+# todo: modularise this into separate files e.g. prompt, aliases, fzf etc.
 # for profiling
 # simple profiling of zsh related things
 # zmodload zsh/zprof
@@ -270,7 +271,6 @@ alias dbl3='rb db:load --path="tmp/dump3.sql"'
 alias pcload='(cd ~pcp && rb db:load)'
 alias pcup='docker-compose -f misc/docker/docker-compose.yml -f misc/docker/docker-compose.override.yml up -d'
 alias pcdown='docker container stop $(docker container ls -aq)'
-# alias ytbest="youtube-dl -f bestvideo+bestaudio --merge-output-format=mkv"
 alias ytbest="yt-dlp -f bestvideo+bestaudio --merge-output-format=mkv"
 
 # function to toggle fg/bg on control z
