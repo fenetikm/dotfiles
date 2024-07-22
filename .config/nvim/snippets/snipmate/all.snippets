@@ -1,8 +1,20 @@
-snippet date "Current date"
+snippet date "Current date, YYYY-MM-DD"
         ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}
 
 snippet datetime "Current date and time"
         ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}T${CURRENT_HOUR}:${CURRENT_MINUTE}:${CURRENT_SECOND}${CURRENT_TIMEZONE_OFFSET}
+
+snippet datet "Current date and time"
+        ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}T${CURRENT_HOUR}:${CURRENT_MINUTE}:${CURRENT_SECOND}${CURRENT_TIMEZONE_OFFSET}
+
+snippet datename "Current date, June DD, YYYY"
+        ${CURRENT_MONTH_NAME} ${CURRENT_DATE}, ${CURRENT_YEAR}
+
+snippet daten "Current date, June DD, YYYY"
+        ${CURRENT_MONTH_NAME} ${CURRENT_DATE}, ${CURRENT_YEAR}
+
+snippet lorem "One sentence of lorem ipsum"
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
 snippet lorem1 "One sentence of lorem ipsum"
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.

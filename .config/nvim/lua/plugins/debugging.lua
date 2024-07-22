@@ -26,16 +26,16 @@ return {
           layouts = { {
             elements = { {
               id = "scopes",
-              size = 0.45
+              size = 0.55
             }, {
                 id = "breakpoints",
                 size = 0.15
               }, {
                 id = "stacks",
-                size = 0.20
+                size = 0.15
               }, {
                 id = "watches",
-                size = 0.20
+                size = 0.15
               } },
             position = "left",
             size = 60
