@@ -238,7 +238,6 @@ end
 -- internal
 -- dell (U2715H)
 function ext.app.setCustom(settings)
-  local displays = hs.screen.allScreens()
   local win = hs.window.focusedWindow()
   local currentScreen = win:screen()
   local currentScreenName = ext.app.getWinScreenName()
@@ -304,8 +303,10 @@ hs.hotkey.bind(mash_screen, 'z', function() ext.app.setGrid('leftTwoThirds') end
 hs.hotkey.bind(mash_screen, 'x', function() ext.app.setGrid('middleTwoThirds') end)
 hs.hotkey.bind(mash_screen, 'c', function() ext.app.setGrid('rightTwoThirds') end)
 
--- for recording stuffs
-hs.hotkey.bind(mash_screen, '0', function() ext.app.setCustom({ ultra = {1280, 320, 1400, 900, true}, internal = {0, 0, 1400, 900, true}}) end)
+-- for screen recording
+hs.hotkey.bind(mash_screen, '0', function() ext.app.setCustom({ ultra = {0, 0, 1400, 900, true}, internal = {0, 0, 1400, 900, true}}) end)
+-- half size, for gifs
+hs.hotkey.bind(mash_screen, '9', function() ext.app.setCustom({ ultra = {0, 0, 700, 450, true}, internal = {0, 0, 1400, 900, true}}) end)
 
 -- for OBS
 -- TODO: put at the top, keep it on the LG screen

@@ -12,7 +12,7 @@ RE_PATH = (
 RE_URL = (r"(?:https?://|git@|git://|ssh://|s*ftp://|file:///)"
           "[a-zA-Z0-9?=%/_.:,;~@!#$&*+-]*")
 
-RE_FILE = r'\s?(?:[a-zA-Z0-9_.-/]*[a-zA-Z0-9_.-]+\.(?:ini|yml|yaml|vim|toml|conf|lua|go|php|rs|py|js|vue|jsx|html|htm|md|mp3|wav|flac|mp4|mkv|me|sh|txt|log|gz|tar|rar|7z|zip|mod|sum|iso|patch|xls|xlsx))\s?'
+RE_FILE = r'\s?(?:[a-zA-Z0-9_.-~/]*[a-zA-Z0-9_.-]+\.(?:ini|yml|yaml|vim|toml|conf|lua|go|php|rs|py|js|vue|jsx|html|htm|md|mp3|wav|flac|mp4|mkv|me|sh|txt|log|gz|tar|rar|7z|zip|mod|sum|iso|patch|xls|xlsx))\s?'
 
 RE_HASH = r'[0-9a-f][0-9a-f\r]{6,127}'
 

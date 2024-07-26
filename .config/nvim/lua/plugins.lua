@@ -85,8 +85,8 @@ return {
   {'BurntSushi/ripgrep', event = 'VeryLazy'}, --ripgrep support, neuron and telescope want it
   -- {'wincent/loupe', event = 'VeryLazy'}, --nicer search highlighting
   -- {'wincent/ferret', event = 'VeryLazy'}, --multi file search
-  {dir = '/usr/local/opt/fzf', event = 'VeryLazy'}, --fzf
-  {'junegunn/fzf.vim', event = 'VeryLazy'}, --fuzzy finder stuff
+  { dir = '/usr/local/opt/fzf', event = 'VeryLazy' }, --fzf
+  { 'junegunn/fzf.vim', event = 'VeryLazy' }, --fuzzy finder stuff
   {'nelstrom/vim-visual-star-search', event = 'VeryLazy'}, --use * in visual mode to search
   -- {'jesseleite/vim-agriculture', event = 'VeryLazy'}, --pass things through to rg
   {
@@ -113,15 +113,15 @@ return {
     opts = {
       open_cmd = "noswapfile vnew",
       color_devicons = false,
-      replace_engine={
-        ['sed']={
+      replace_engine = {
+        ['sed'] = {
           cmd = "gsed",
           args = nil,
           options = {
             ['ignore-case'] = {
-              value= "--ignore-case",
-              icon="[I]",
-              desc="ignore case"
+              value = "--ignore-case",
+              icon ="[I]",
+              desc ="ignore case"
             },
           }
         },
@@ -323,8 +323,7 @@ return {
   },
   {'tpope/vim-unimpaired', event = 'VimEnter'}, --Various dual pair commands
   {'tpope/vim-repeat', event = 'VimEnter'}, --Repeat plugin commands
-  {'Valloric/ListToggle', event = 'InsertEnter'}, --Toggle quickfix and location lists
-
+  {'Valloric/ListToggle', event = 'VeryLazy'}, --Toggle quickfix and location lists
   {
     'Wansmer/sibling-swap.nvim', -- swap nodes e.g. params/args, conditions etc.
     event = 'VeryLazy',
@@ -416,7 +415,6 @@ return {
   -- https://github.com/jose-elias-alvarez/null-ls.nvim
   -- https://www.lunarvim.org/plugins/02-default-plugins.html and maybe some from extra
   -- https://github.com/Pocco81/TrueZen.nvim
-  -- https://github.com/nvim-pack/nvim-spectre
   -- https://github.com/f-person/git-blame.nvim
   -- https://github.com/lewis6991/impatient.nvim
   -- https://github.com/ggandor/leap.nvim
@@ -428,6 +426,7 @@ return {
   -- https://github.com/utilyre/barbecue.nvim
   -- https://github.com/johmsalas/text-case.nvim
   -- https://github.com/anuvyklack/hydra.nvim
+  -- https://github.com/romainl/vim-qf working with the quickfix
   -- laytan/cloak.nvim - useful when streaming and you want to hide what is in a file if accidentally viewing it
   -- https://github.com/stevearc/oil.nvim edit buffer to make directory changes
   -- https://github.com/kevinhwang91/nvim-ufo

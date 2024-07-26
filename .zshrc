@@ -117,9 +117,9 @@ alias srm='sudo /bin/rm -i'
 # reload
 alias reload="source ~/.zshrc"
 
-alias e='exa -algB --group-directories-first'
-alias et='exa -algB --tree'
-alias es='exa --oneline --group-directories-first'
+alias e='eza -algB --group-directories-first'
+alias et='eza -algB --tree'
+alias es='eza --oneline --group-directories-first'
 alias cat='bat'
 alias c='bat'
 alias ping='prettyping'
