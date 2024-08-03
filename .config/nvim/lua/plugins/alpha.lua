@@ -178,7 +178,7 @@ return {
         },
       }
 
-      local newfile_button = dashboard.button('n', 'New file', ':ene <BAR> startinsert<cr>')
+      local newfile_button = dashboard.button('n', 'New file', ':silent ene <BAR> startinsert<cr>')
       newfile_button.opts.width = 60
       local newfile_section = {
         type = 'group',
