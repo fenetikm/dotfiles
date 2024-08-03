@@ -2,17 +2,15 @@
 -- @todo center something
 -- @todo snap new windows to closest grid
 -- @todo allow top half in a third
-ext = {
+local ext = {
   app = {},
 }
 
 hs.loadSpoon("URLDispatcher")
 
--- keys used to trigger screen management
-local mash_screen = {"cmd", "alt", "ctrl"}
+local screen_mapping = {"cmd", "alt", "ctrl"}
 
--- hyper key mash
-local mash_apps = {"cmd", "alt", "ctrl", "shift"}
+local hyper_mapping = {"cmd", "alt", "ctrl", "shift"}
 
 -- initial settings
 hs.grid.setGrid('12x12') -- allows us to place on quarters, thirds and halves
@@ -81,7 +79,7 @@ local layouts = {
 local glog = hs.logger.new('mylog', 'debug')
 
 hs.fnutils.each(layouts, function(object)
-  hs.hotkey.bind(mash_apps, object.key, function() ext.app.applyLayout(object) end)
+  hs.hotkey.bind(hyper_mapping, object.key, function() ext.app.applyLayout(object) end)
 end)
 
 -- @todo
@@ -187,31 +185,31 @@ local internalDisplay = (function()
   return hs.screen.find('Built%-in')
 end)
 
-hs.hotkey.bind(mash_screen, 'up', chain({
+hs.hotkey.bind(screen_mapping, 'up', chain({
   grid.topHalf,
   grid.topThird,
   grid.topTwoThirds,
 }))
 
-hs.hotkey.bind(mash_screen, 'right', chain({
+hs.hotkey.bind(screen_mapping, 'right', chain({
   grid.rightHalf,
   grid.rightThird,
   grid.rightTwoThirds,
 }))
 
-hs.hotkey.bind(mash_screen, 'down', chain({
+hs.hotkey.bind(screen_mapping, 'down', chain({
   grid.bottomHalf,
   grid.bottomThird,
   grid.bottomTwoThirds,
 }))
 
-hs.hotkey.bind(mash_screen, 'left', chain({
+hs.hotkey.bind(screen_mapping, 'left', chain({
   grid.leftHalf,
   grid.leftThird,
   grid.leftTwoThirds,
 }))
 
-hs.hotkey.bind(mash_screen, 'f', chain({
+hs.hotkey.bind(screen_mapping, 'f', chain({
   grid.fullScreen,
   grid.focus,
 }))
@@ -237,34 +235,25 @@ end
 -- ultra
 -- internal
 -- dell (U2715H)
-function ext.app.setCustom(settings)
+function ext.app.setPositionSize(settings)
   local win = hs.window.focusedWindow()
   local currentScreen = win:screen()
-  local currentScreenName = ext.app.getWinScreenName()
-  local screenDimensions = {
-    ultra = {
-      width = 3840,
-      height = 1620,
-    },
-    internal = {
-      width = 1792,
-      height = 1120,
-    }
-  }
+  local currentScreenName = currentScreen:name()
+  local screenDimensions = currentScreen:fullFrame()
 
   -- convert pixels to units
   local layout = settings[currentScreenName]
   local rect = {
-    layout[1] / screenDimensions[currentScreenName].width,
-    layout[2] / screenDimensions[currentScreenName].height,
-    layout[3] / screenDimensions[currentScreenName].width,
-    layout[4] / screenDimensions[currentScreenName].height,
+    layout[1] / screenDimensions.x2,
+    layout[2] / screenDimensions.y2,
+    layout[3] / screenDimensions.x2,
+    layout[4] / screenDimensions.y2,
   }
 
   -- center if it exists
   if layout[5] then
-    rect[1] = ((screenDimensions[currentScreenName].width - layout[3]) * 0.5) / screenDimensions[currentScreenName].width
-    rect[2] = ((screenDimensions[currentScreenName].height - layout[4]) * 0.5) / screenDimensions[currentScreenName].height
+    rect[1] = ((screenDimensions.x2 - layout[3]) * 0.5) / screenDimensions.x2
+    rect[2] = ((screenDimensions.y2 - layout[4]) * 0.5) / screenDimensions.y2
   end
 
   win:moveToUnit(rect)
@@ -288,44 +277,53 @@ function ext.app.moveToDisplay(displayIndex)
 end
 
 -- 1 row, halves
-hs.hotkey.bind(mash_screen, 'q', function() ext.app.setGrid('leftHalf') end)
-hs.hotkey.bind(mash_screen, 'w', function() ext.app.setGrid('rightHalf') end)
-hs.hotkey.bind(mash_screen, 'e', function() ext.app.setGrid('leftHalf') end)
-hs.hotkey.bind(mash_screen, 'r', function() ext.app.setGrid('rightHalf') end)
+hs.hotkey.bind(screen_mapping, 'q', function() ext.app.setGrid('leftHalf') end)
+hs.hotkey.bind(screen_mapping, 'w', function() ext.app.setGrid('rightHalf') end)
+hs.hotkey.bind(screen_mapping, 'e', function() ext.app.setGrid('leftHalf') end)
+hs.hotkey.bind(screen_mapping, 'r', function() ext.app.setGrid('rightHalf') end)
 
 -- 1 row, thirds
-hs.hotkey.bind(mash_screen, 'a', function() ext.app.setGrid('leftThird') end)
-hs.hotkey.bind(mash_screen, 's', function() ext.app.setGrid('middleVertical') end)
-hs.hotkey.bind(mash_screen, 'd', function() ext.app.setGrid('rightThird') end)
+hs.hotkey.bind(screen_mapping, 'a', function() ext.app.setGrid('leftThird') end)
+hs.hotkey.bind(screen_mapping, 's', function() ext.app.setGrid('middleVertical') end)
+hs.hotkey.bind(screen_mapping, 'd', function() ext.app.setGrid('rightThird') end)
 
 -- 1 row, two thirds
-hs.hotkey.bind(mash_screen, 'z', function() ext.app.setGrid('leftTwoThirds') end)
-hs.hotkey.bind(mash_screen, 'x', function() ext.app.setGrid('middleTwoThirds') end)
-hs.hotkey.bind(mash_screen, 'c', function() ext.app.setGrid('rightTwoThirds') end)
+hs.hotkey.bind(screen_mapping, 'z', function() ext.app.setGrid('leftTwoThirds') end)
+hs.hotkey.bind(screen_mapping, 'x', function() ext.app.setGrid('middleTwoThirds') end)
+hs.hotkey.bind(screen_mapping, 'c', function() ext.app.setGrid('rightTwoThirds') end)
 
 -- for screen recording
-hs.hotkey.bind(mash_screen, '0', function() ext.app.setCustom({ ultra = {0, 0, 1400, 900, true}, internal = {0, 0, 1400, 900, true}}) end)
+hs.hotkey.bind(screen_mapping, '0', function() ext.app.setPositionSize({['LG ULTRAWIDE'] = {0, 0, 1400, 900, true}, ['Built-in Retina Display'] = {0, 0, 1400, 900, true}}) end)
 -- half size, for gifs
-hs.hotkey.bind(mash_screen, '9', function() ext.app.setCustom({ ultra = {0, 0, 700, 450, true}, internal = {0, 0, 1400, 900, true}}) end)
+hs.hotkey.bind(screen_mapping, '9', function() ext.app.setPositionSize({['LG ULTRAWIDE'] = {0, 0, 700, 450, true}, ['Built-in Retina Display'] = {0, 0, 700, 450, true}}) end)
+-- for OBS
+hs.hotkey.bind(screen_mapping, '9', function() ext.app.setPositionSize({['LG ULTRAWIDE'] = {0, 0, 1920, 1080, true}, ['Built-in Retina Display'] = {0, 0, 700, 450, true}}) end)
+-- 3840, 1920
+-- margin is 30px
+-- so
+-- 30 + 1240 + 30 + 1240 + 30 + 1240 + 30
+-- or
+-- 30 + 1240 + 30 + 2510 + 30
+-- code screen is
 
 -- for OBS
 -- TODO: put at the top, keep it on the LG screen
--- hs.hotkey.bind(mash_screen, '9', function() ext.app.setLayout({x=0, y=0, w=1400, h=1440}) end)
+-- hs.hotkey.bind(screen_mapping, '9', function() ext.app.setLayout({x=0, y=0, w=1400, h=1440}) end)
 
-hs.hotkey.bind(mash_screen, 'space', function() ext.app.setGrid('focus') end)
+hs.hotkey.bind(screen_mapping, 'space', function() ext.app.setGrid('focus') end)
 
 -- send to other display
-hs.hotkey.bind(mash_screen, '1', function() ext.app.moveToDisplay(1) end)
-hs.hotkey.bind(mash_screen, '2', function() ext.app.moveToDisplay(2) end)
+hs.hotkey.bind(screen_mapping, '1', function() ext.app.moveToDisplay(1) end)
+hs.hotkey.bind(screen_mapping, '2', function() ext.app.moveToDisplay(2) end)
 
-hs.hotkey.bind(mash_screen, 'g', function() ext.app.setCentre() end)
+hs.hotkey.bind(screen_mapping, 'g', function() ext.app.setCentre() end)
 
 -- normal minimize doesn't work in every app
-hs.hotkey.bind(mash_screen, 'm', function() hs.window.focusedWindow():minimize() end)
+hs.hotkey.bind(screen_mapping, 'm', function() hs.window.focusedWindow():minimize() end)
 
 -- global operations
--- hs.hotkey.bind(mash_screen, ';', function() hs.grid.snap(hs.window.focusedWindow()) end)
--- hs.hotkey.bind(mash_screen, "'", function() hs.fnutil.map(hs.window.visibleWindows(), hs.grid.snap) end)
+-- hs.hotkey.bind(screen_mapping, ';', function() hs.grid.snap(hs.window.focusedWindow()) end)
+-- hs.hotkey.bind(screen_mapping, "'", function() hs.fnutil.map(hs.window.visibleWindows(), hs.grid.snap) end)
 
 local homeDir = '/Users/michael'
 local dirAtt = hs.fs.attributes(homeDir)
@@ -357,7 +355,7 @@ hs.fnutils.each({
   { key = "m", app = "Messages", display = 2, size = 'fullScreen' },
   { key = "i", app = "Music", display = 2, size = 'fullScreen' },
 }, function(object)
-    hs.hotkey.bind(mash_apps, object.key, function() ext.app.forceLaunchOrFocus(object.app, object) end)
+    hs.hotkey.bind(hyper_mapping, object.key, function() ext.app.forceLaunchOrFocus(object.app, object) end)
 end)
 
 function appID(app)
@@ -369,7 +367,7 @@ local obsidianApp = appID('/Applications/obsidian.app')
 local chromeApp = appID('/Applications/Google Chrome.app')
 
 -- map mash+l to lock screen
-hs.hotkey.bind(mash_apps, 'l', function() hs.caffeinate.systemSleep() end)
+hs.hotkey.bind(hyper_mapping, 'l', function() hs.caffeinate.systemSleep() end)
 
 function ext.app.forceLaunchOrFocus(appName, object)
   local log = hs.logger.new('mylog', 'debug')
@@ -464,7 +462,15 @@ function ext.app.showScreenID()
   hs.alert.show(ms:name())
 end
 
--- hs.hotkey.bind(mash_screen, 'b', function() ext.app.showBundleID() end)
+function ext.app.showInfo()
+  local win = hs.window.focusedWindow()
+  local currentScreen = win:screen()
+  -- 'Built-in Retina Display'
+  -- 0.0, 0.0, 1792.0, 1120.0
+  hs.alert.show(currentScreen:fullFrame())
+end
+
+hs.hotkey.bind(screen_mapping, 'b', function() ext.app.showInfo() end)
 
 -- Reload Configuration
 --- http://www.hammerspoon.org/go/#fancyreload
@@ -488,7 +494,7 @@ function magiclines(s)
 end
 
 -- Snip current highlight
-hs.hotkey.bind(mash_screen, 'y', function()
+hs.hotkey.bind(screen_mapping, 'y', function()
   local win = hs.window.focusedWindow()
 
   -- get the window title
