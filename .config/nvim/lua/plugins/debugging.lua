@@ -8,7 +8,7 @@ return {
       {'<leader>dl', function() require('dap').step_into() end, silent = true, desc = 'Step into'},
       {'<leader>dj', function() require('dap').step_over() end, silent = true, desc = 'Step over'},
       {'<leader>dh', function() require('dap').step_out() end, silent = true, desc = 'Step out'},
-      {'<leader>d<space>', function() require('dap').run_to_cursor() end, silent = true, desc = 'Run to cursor'},
+      {'<leader>d<cr>', function() require('dap').run_to_cursor() end, silent = true, desc = 'Run to cursor'},
       {'<leader>dt', function() require('dap').terminate() end, silent = true, desc = 'Terminate'},
       {'<leader>dc', function() require('dap').clear_breakpoints() end, silent = true, desc = 'Clear breakpoints'},
       {'<leader>dr', function() require('dap').repl.open() end, silent = true, desc = 'Open REPL'},
