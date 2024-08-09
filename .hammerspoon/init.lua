@@ -1,22 +1,127 @@
--- @todo hide everything except top window
--- @todo center something
--- @todo snap new windows to closest grid
--- @todo allow top half in a third
-local ext = {
-  app = {},
-}
+-- @todo:
+-- what do we want and / or do?
+-- nothing underneath so transparency works
+-- a button to hide everything that isn't visible - is that possible?
+-- yes with layouts
+-- so keep top most windows, and focus window is
+-- common layouts:
+-- ultra + laptop:
+-- - 1/3 browser, 2/3 terminal, slack / email / messages / omni
+-- - 1/3 bitbucket, 1/3 browser, 1/3 something else
+-- - 1/2 bitbucket, 1/2 browser
+-- - 1/3 browser, 2/3 db or jira or metabase
+-- - 1/3 obsidian, 1/3 obsidian
+-- also somethings centered on top e.g. omnifocus, music
+-- so want a way to specify that and that window isn't "layout managed"
+-- also, on dual, change layout to 1/2, 1/2 or 2/3, 1/3 on main screen
+-- sometimes have uncommon layouts - turn off hiding mechanism, go manual
+-- how does it work then?
+-- all windows minimized by default?
+-- let's build the one screen version first
+-- - open something new, it opens on top or full screen?
+-- - when we alt tab, hide window underneath, but depends on which app
+-- when switching to an app:
+-- - single screen, either full screen or on top
+-- - dual screen
+--
+-- think about what should happen:
+-- starting: 1/3 chrome, 2/3 kitty
+-- jira - 2/3, (kitty hidden)
+--
+-- might want to specifically say how to handle certain apps
+-- yes, and have policies
+-- e.g.
+-- full screen only
+-- left, right
+-- unmanaged, centered
+-- also when there is a left and right showing, can resize to go half half
+-- and "force" full screen
+--
+-- could use f keys for layouts? instead of numbers? maybe numbers still ok
+--
+-- in single screen, we just have modes
+-- i.e. full screen or split screen
+-- when in full screen simples
+-- in split, when you switch, it should swap out the focused with the next one
+--
+-- not sure how to handle when there are multiple windows?
+--
+-- ... so I think the "easiest" thing is to have layouts, per screen
+-- and then the manager works with that
+-- layouts are:
+-- full and split 1/2
+-- split 1/3, 2/3
+-- split 1/3, 1/3, 1/3
+--
+-- you can also overlay/float windows, unmanaged
+--
+-- so, track the layout per screen?
+-- problem is that most of the time I want the terminal open
+--
+-- new app start on top, centered
+-- then you send them where you want them to go
+-- which you would do by
+--
+-- ... issues though, but layouts, in general is good
+--
+-- need a compromise version
+--
+-- need a way to send an app to a location in the layout
+-- check evan travers hs
+--
+-- another idea, changing mapping of hyper to f19 (travers)
+-- and screen to f20
+-- and allow modifiers to do other things e.g. open beside
+--
+-- Also to look at:
+-- https://github.com/mogenson/PaperWM.spoon talks about swiping on trackpad... use for something?
+-- https://github.com/Hammerspoon/hammerspoon/discussions/3254 using sockets to talk to yabai
+-- https://github.com/FelixKratz/JankyBorders for controlling window border colours
+-- https://github.com/FelixKratz/SketchyVim also looks fun
+-- look at yabai, can send messages to it to do stuff, consider what it would look like if I used it
+-- ... what about when I have a terminal split, it has a gap?! need to use kitty for that? see https://blog.adamchalmers.com/kitty-terminal-config/
+-- can use the kitty layouts
+-- vivaldi browser for ricing
+-- https://github.com/ClementTsang/bottom another monitor like btop
+--
+-- how many layouts do we have for ultrawide:
+-- - 1 browser, 23 kitty
+-- - 1 bitbucket, 1 browser, 1 browser
+-- - 1/2 bitbucket, 1/2 browser
+-- - 1 browser, 23 Jira
+-- - 1 browser, 23 tableplus
+-- - 1 obsidian, 23 slack video
+--
+-- order of todo:
+-- window watcher with reload - done
+-- toggle management - done
+-- reloader - done
+-- opening new window, it is set to focus size
+-- for global vars
+G = {}
+G.log = hs.logger.new('mw', 'debug')
+d = G.log.d
+
+G.managerEnabled = false
 
 hs.loadSpoon("URLDispatcher")
+local function appID(app)
+  return hs.application.infoForBundlePath(app)['CFBundleIdentifier']
+end
+local obsidianApp = appID('/Applications/obsidian.app')
+
+local gridWidth = 12
+local gridHeight = 12
+local gridMargin = 30
+
+hs.grid.setGrid('12x12') -- can also specify a frame here to leave room for sketchybar
+hs.grid.MARGINX = gridMargin
+hs.grid.MARGINY = gridMargin
+
+hs.window.animationDuration = 0
 
 local screen_mapping = {"cmd", "alt", "ctrl"}
-
 local hyper_mapping = {"cmd", "alt", "ctrl", "shift"}
-
--- initial settings
-hs.grid.setGrid('12x12') -- allows us to place on quarters, thirds and halves
-hs.grid.MARGINX = 30
-hs.grid.MARGINY = 30
-hs.window.animationDuration = 0 -- disable animations
 
 local grid = {
   topHalf = '0,0 12x6',
@@ -36,6 +141,7 @@ local grid = {
   bottomRight = '6,6 6x6',
   bottomLeft = '0,6 6x6',
   middleVertical = '4,0 4x12',
+  middleThird = '4,0 4x12',
   middleHorizontal = '0,4 12x4',
   middleTwoThirds = '2,0 8x12',
   fullScreen = '0,0 12x12',
@@ -46,110 +152,94 @@ local grid = {
   rightFocus = '6,1 3x10',
 }
 
-local layoutMetrics = {
-  leftThird = {x=0, y=0, w=0.333, h=1},
-  leftHalf = {x=0, y=0, w=0.5, h=1},
-  rightTwoThirds = {x=0.333, y=0, w=0.667, h=1},
-  rightHalf = {x=0.5, y=0, w=0.5, h=1},
-  middleThird = {x=0.333, y=0, w=0.333, h=1},
-  screenshot1 = {x=1280, y=320, w=1280, h=960}
-}
-
--- predefined layouts
--- Application name, window title or window object or function
--- @todo what about when there are multiple screens available? e.g. ultra left, internal right?
 local layouts = {
-  {
-    -- key = '1', -- blog
-    -- internal = {
-    --   {"Blog View", nil, "Color LCD", grid.rightHalf, nil, nil},
-    --   {"kitty", "blog", "Color LCD", grid.leftHalf, nil, nil}
-    -- },
-    -- ultra = {
-    --   {"Blog View", nil, "LG ULTRAWIDE", grid.rightFocus, nil, nil},
-    --   {"kitty", "blog", "LG ULTRAWIDE", grid.leftFocus, nil, nil}
-    -- }
-    key = '1',
-    ultra = {
-
-    }
-  }
+  full = {
+    fullScreen
+  },
+  halves = {
+    leftHalf,
+    rightHalf,
+  },
+  third_twothirds = {
+    leftThird,
+    rightTwoThirds,
+  },
+  thirds = {
+    leftThird,
+    middleThird,
+    rightThird,
+  },
 }
 
-local glog = hs.logger.new('mylog', 'debug')
+local screenState = {
 
-hs.fnutils.each(layouts, function(object)
-  hs.hotkey.bind(hyper_mapping, object.key, function() ext.app.applyLayout(object) end)
+}
+
+local layoutManager = {
+
+}
+
+local initScreenState = function()
+  for _, screen in pairs(hs.screen.allScreens()) do
+    screenState[screen:name()] = layouts.full
+  end
+end
+
+local handleScreenEvent = function(window)
+  d('handle screen event')
+  -- todo, plugging in a screen, do a thing
+end
+
+local unmanagedApps = {
+
+}
+
+local internalDisplay = (function()
+  return hs.screen.find('Built%-in')
 end)
 
--- @todo
--- fill out layouts as above
--- hide everything else
-function ext.app.applyLayout(layout)
-  local log = hs.logger.new('mylog', 'debug')
-  local screen = 'internal'
-  local ms = hs.screen.primaryScreen()
-  if ms:name() == 'LG ULTRAWIDE' then
-    screen = 'ultra'
-  elseif ms:name() == 'DELL U2715H' then
-    screen = 'dell'
+local hideOtherApplications = function(appName)
+  if not G.managerEnabled then
+    return
   end
-
-  -- hide everything, @fixme
-  for key, app in pairs(hs.application.runningApplications()) do
-    app:hide()
-  end
-
-  -- now show the matches
-  for key, app in pairs(hs.application.runningApplications()) do
-    local match = false
-    local winMatch = false
-    for ai, settings in pairs(layout[screen]) do
-      if app:name() == settings[1] then
-        if settings[2] == nil then
-          app:unhide()
-
-          for _, wins in pairs(app:allWindows()) do
-            hs.grid.set(wins, layout[screen][ai][4])
-          end
-
-          break
-        end
-        for _, wins in pairs(app:allWindows()) do
-          if wins:title() == settings[2] then
-            app:unhide()
-
-            for _, wins2 in pairs(app:allWindows()) do
-              hs.grid.set(wins2, layout[screen][ai][4])
-            end
-
-            winMatch = true
-            break
-          end
-        end
-
-        if winMatch then
-          break
-        end
-      end
+  for _, runningApp in pairs(hs.application.runningApplications()) do
+    if runningApp:name() ~= appName then
+      runningApp:hide()
     end
   end
+end
+
+local canManageWindow = function(window)
+  local app = window:application()
+  local bundleID = app:bundleID()
+
+  -- if window:isStandard()
+
+end
+
+local translateEventType = function(eventType)
+  if eventType == hs.application.watcher.activated then
+    return 'Activated'
+  elseif eventType == hs.application.watcher.deactivated then
+    return 'Deactivated'
+  elseif eventType == hs.application.watcher.hidden then
+    return 'Hidden'
+  elseif eventType == hs.application.watcher.launched then
+    return 'Launched'
+  elseif eventType == hs.application.watcher.launching then
+    return 'Launching'
+  elseif eventType == hs.application.watcher.unhidden then
+    return 'Unhidden'
+  end
+
+  return 'Unknown'
 end
 
 -- taken from wincent https://github.com/wincent/wincent/blob/master/roles/dotfiles/files/.hammerspoon/init.lua
 local lastSeenChain = nil
 local lastSeenWindow = nil
 
--- Chain the specified movement commands.
---
--- This is like the "chain" feature in Slate, but with a couple of enhancements:
---
---  - Chains always start on the screen the window is currently on.
---  - A chain will be reset after 2 seconds of inactivity, or on switching from
---    one chain to another, or on switching from one app to another, or from one
---    window to another.
---
-chain = (function(movements)
+local chain = (function(movements)
   local chainResetInterval = 2 -- seconds
   local cycleLength = #movements
   local sequenceNumber = 1
@@ -179,231 +269,134 @@ chain = (function(movements)
   end
 end)
 
-local internalDisplay = (function()
-  -- Fun fact: this resolution matches both the 13" MacBook Air and the 15"
-  -- (Retina) MacBook Pro.
-  return hs.screen.find('Built%-in')
-end)
+local setupChains = function(screen_mapping)
+  hs.hotkey.bind(screen_mapping, 'f', chain({
+    grid.fullScreen,
+    grid.focus,
+  }))
+end
 
-hs.hotkey.bind(screen_mapping, 'up', chain({
-  grid.topHalf,
-  grid.topThird,
-  grid.topTwoThirds,
-}))
+local handleApplicationEvent = function(appName, eventType, app)
+  d('handle application event')
+  d(appName)
+  d(translateEventType(eventType))
+  if not G.managerEnabled then
+    return
+  end
 
-hs.hotkey.bind(screen_mapping, 'right', chain({
-  grid.rightHalf,
-  grid.rightThird,
-  grid.rightTwoThirds,
-}))
+  if appName == 'loginwindow' then
+    return
+  end
+  -- d(app:bundleID())
+  -- d(app:pid())
+  -- d(appName)
+  -- d(eventType)
+  -- hs.alert.show(translateEventType(eventType))
+  if eventType == hs.application.watcher.activated then
+    hs.alert.show('Activated ' .. appName)
+  end
 
-hs.hotkey.bind(screen_mapping, 'down', chain({
-  grid.bottomHalf,
-  grid.bottomThird,
-  grid.bottomTwoThirds,
-}))
+  local win = hs.window.frontmostWindow()
+  if not win then
+    return
+  end
 
-hs.hotkey.bind(screen_mapping, 'left', chain({
-  grid.leftHalf,
-  grid.leftThird,
-  grid.leftTwoThirds,
-}))
+  local screen = win:screen()
+  if screen:name() == internalDisplay():name() then
+    if eventType == hs.application.watcher.activated then
+      hideOtherApplications(appName, screen)
+    end
+  end
+  -- d(id)
+  -- d(screen)
+end
 
-hs.hotkey.bind(screen_mapping, 'f', chain({
-  grid.fullScreen,
-  grid.focus,
-}))
+local startHandling = function()
+  d('start handler')
+  G.screenWatcher = hs.screen.watcher.new(handleScreenEvent)
+  G.screenWatcher:start()
 
-function ext.app.setGrid(key)
+  G.applicationWatcher = hs.application.watcher.new(handleApplicationEvent)
+  G.applicationWatcher:start()
+end
+
+local stopHandling = function()
+  if not G.screenWatcher then
+    return
+  end
+
+  d('stop handler')
+  G.screenWatcher:stop()
+  G.screenWatcher = nil
+
+  G.applicationWatcher:stop()
+  G.applicationWatcher = nil
+end
+
+local reloadConfig = function(files)
+  doReload = false
+  for _, file in pairs(files) do
+    if file:sub(-4) == ".lua" then
+      doReload = true
+    end
+  end
+  if doReload then
+    d('should stop handling')
+    stopHandling()
+    hs.reload()
+    hs.alert.show('Hammerspoon config loaded')
+  end
+end
+
+local toggleManager = function()
+  G.managerEnabled = not G.managerEnabled
+  if G.managerEnabled then
+    hs.alert.show('Window management enabled')
+  else
+    hs.alert.show('Window management disabled')
+  end
+end
+
+local hideAll = function()
+  for _, app in pairs(hs.application.runningApplications()) do
+    for _, win in pairs(app:allWindows()) do
+      win:minimize()
+    end
+  end
+end
+
+local moveToScreen = function(screenIndex)
+  local screens = hs.screen.allScreens()
+  local win = hs.window.focusedWindow()
+  -- 2 should always be the builtin
+  if (screenIndex == 2 and screens[screenIndex]:name() ~= internalDisplay():name()) then
+    screenIndex = 1
+  elseif (screenIndex == 1 and screens[screenIndex]:name() == internalDisplay():name()) then
+    screenIndex = 2
+  end
+
+  win:moveToScreen(screens[screenIndex], false, true);
+end
+
+local setGrid = function(key)
   local win = hs.window.focusedWindow()
   hs.grid.set(win, grid[key])
 end
 
-function ext.app.getWinScreenName()
-  local win = hs.window.focusedWindow()
-  local currentScreen = win:screen()
-  if currentScreen:name() == 'LG ULTRAWIDE' then
-    return 'ultra'
-  elseif currentScreen:name() == 'DELL U2715H' then
-    return 'dell'
-  end
-
-  return 'internal'
-end
-
--- screen names
--- ultra
--- internal
--- dell (U2715H)
-function ext.app.setPositionSize(settings)
-  local win = hs.window.focusedWindow()
-  local currentScreen = win:screen()
-  local currentScreenName = currentScreen:name()
-  local screenDimensions = currentScreen:fullFrame()
-
-  -- convert pixels to units
-  local layout = settings[currentScreenName]
-  local rect = {
-    layout[1] / screenDimensions.x2,
-    layout[2] / screenDimensions.y2,
-    layout[3] / screenDimensions.x2,
-    layout[4] / screenDimensions.y2,
-  }
-
-  -- center if it exists
-  if layout[5] then
-    rect[1] = ((screenDimensions.x2 - layout[3]) * 0.5) / screenDimensions.x2
-    rect[2] = ((screenDimensions.y2 - layout[4]) * 0.5) / screenDimensions.y2
-  end
-
-  win:moveToUnit(rect)
-end
-
-function ext.app.setCentre()
-  local win = hs.window.focusedWindow()
-  win:centerOnScreen()
-end
-
-function ext.app.moveToDisplay(displayIndex)
-  local displays = hs.screen.allScreens()
-  local win = hs.window.focusedWindow()
-  -- 2 should always be the builtin
-  if (displayIndex == 2 and displays[displayIndex]:name() ~= internalDisplay():name()) then
-    displayIndex = 1
-  elseif (displayIndex == 1 and displays[displayIndex]:name() == internalDisplay():name()) then
-    displayIndex = 2
-  end
-  win:moveToScreen(displays[displayIndex], false, true);
-end
-
--- 1 row, halves
-hs.hotkey.bind(screen_mapping, 'q', function() ext.app.setGrid('leftHalf') end)
-hs.hotkey.bind(screen_mapping, 'w', function() ext.app.setGrid('rightHalf') end)
-hs.hotkey.bind(screen_mapping, 'e', function() ext.app.setGrid('leftHalf') end)
-hs.hotkey.bind(screen_mapping, 'r', function() ext.app.setGrid('rightHalf') end)
-
--- 1 row, thirds
-hs.hotkey.bind(screen_mapping, 'a', function() ext.app.setGrid('leftThird') end)
-hs.hotkey.bind(screen_mapping, 's', function() ext.app.setGrid('middleVertical') end)
-hs.hotkey.bind(screen_mapping, 'd', function() ext.app.setGrid('rightThird') end)
-
--- 1 row, two thirds
-hs.hotkey.bind(screen_mapping, 'z', function() ext.app.setGrid('leftTwoThirds') end)
-hs.hotkey.bind(screen_mapping, 'x', function() ext.app.setGrid('middleTwoThirds') end)
-hs.hotkey.bind(screen_mapping, 'c', function() ext.app.setGrid('rightTwoThirds') end)
-
--- for screen recording
-hs.hotkey.bind(screen_mapping, '0', function() ext.app.setPositionSize({['LG ULTRAWIDE'] = {0, 0, 1400, 900, true}, ['Built-in Retina Display'] = {0, 0, 1400, 900, true}}) end)
--- half size, for gifs
-hs.hotkey.bind(screen_mapping, '9', function() ext.app.setPositionSize({['LG ULTRAWIDE'] = {0, 0, 700, 450, true}, ['Built-in Retina Display'] = {0, 0, 700, 450, true}}) end)
--- for OBS
-hs.hotkey.bind(screen_mapping, '9', function() ext.app.setPositionSize({['LG ULTRAWIDE'] = {0, 0, 1920, 1080, true}, ['Built-in Retina Display'] = {0, 0, 700, 450, true}}) end)
--- 3840, 1920
--- margin is 30px
--- so
--- 30 + 1240 + 30 + 1240 + 30 + 1240 + 30
--- or
--- 30 + 1240 + 30 + 2510 + 30
--- code screen is
-
--- for OBS
--- TODO: put at the top, keep it on the LG screen
--- hs.hotkey.bind(screen_mapping, '9', function() ext.app.setLayout({x=0, y=0, w=1400, h=1440}) end)
-
-hs.hotkey.bind(screen_mapping, 'space', function() ext.app.setGrid('focus') end)
-
--- send to other display
-hs.hotkey.bind(screen_mapping, '1', function() ext.app.moveToDisplay(1) end)
-hs.hotkey.bind(screen_mapping, '2', function() ext.app.moveToDisplay(2) end)
-
-hs.hotkey.bind(screen_mapping, 'g', function() ext.app.setCentre() end)
-
--- normal minimize doesn't work in every app
-hs.hotkey.bind(screen_mapping, 'm', function() hs.window.focusedWindow():minimize() end)
-
--- global operations
--- hs.hotkey.bind(screen_mapping, ';', function() hs.grid.snap(hs.window.focusedWindow()) end)
--- hs.hotkey.bind(screen_mapping, "'", function() hs.fnutil.map(hs.window.visibleWindows(), hs.grid.snap) end)
-
-local homeDir = '/Users/michael'
-local dirAtt = hs.fs.attributes(homeDir)
-if (dirAtt == nil) then
-  homeDir = '/Users/mjw'
-end
-
--- https://github.com/digitalbase/hammerspoon/blob/master/init.lua
-hs.fnutils.each({
-  { key = "b", app = "Thunderbird", display = 2, size = 'fullScreen' },
-  { key = "f", app = "Finder" },
-  { key = "s", app = "Slack", display = 2, size = 'fullScreen' },
-  { key = "g", app = "Google Chrome" },
-  { key = "x", app = "Brave Browser" },
-  { key = "space", app = "/Applications/kitty.app/Contents/MacOS/kitty" },
-  { key = "e", app = "Mail", display = 2, size = 'fullScreen' },
-  { key = "p", url = "obsidian://open?vault=personal" },
-  -- { key = "d", app = homeDir .. "/.config/kitty/blog.sh", title = "blog", name = "kitty" },
-  { key = "q", app = "TablePlus", display = 2, size = 'fullScreen' },
-  { key = "n", app = "Notes", display = 2, size = 'fullScreen' },
-  { key = "c", app = "Calendar"},
-  { key = "j", app = "Jira"},
-  { key = "k", app = "Bitbucket"},
-  { key = "o", app = "Confluence"},
-  { key = "r", app = "Metabase"},
-  { key = "return", app = "Omnifocus", display = 1, size = 'focus' },
-  { key = "z", url = "obsidian://open?vault=zettelkasten" },
-  { key = "v", url = "obsidian://open?vault=PC" },
-  { key = "m", app = "Messages", display = 2, size = 'fullScreen' },
-  { key = "i", app = "Music", display = 2, size = 'fullScreen' },
-}, function(object)
-    hs.hotkey.bind(hyper_mapping, object.key, function() ext.app.forceLaunchOrFocus(object.app, object) end)
-end)
-
-function appID(app)
-  return hs.application.infoForBundlePath(app)['CFBundleIdentifier']
-end
-
--- apps for URL dispatching
-local obsidianApp = appID('/Applications/obsidian.app')
-local chromeApp = appID('/Applications/Google Chrome.app')
-
--- map mash+l to lock screen
-hs.hotkey.bind(hyper_mapping, 'l', function() hs.caffeinate.systemSleep() end)
-
-function ext.app.forceLaunchOrFocus(appName, object)
-  local log = hs.logger.new('mylog', 'debug')
-  local screenCount = #hs.screen.allScreens()
-
-  -- allow using urls to open specific apps
-  if (object.url) then
+local launchOrFocus = function(appName, details)
+  if (details.url) then
     spoon.URLDispatcher.url_patterns = {
       {'obsidian:', obsidianApp},
-      {'https:', chromeApp},
-      {'http:', chromeApp}
+      -- {'https:', chromeApp},
+      -- {'http:', chromeApp}
     }
 
-    spoon.URLDispatcher:dispatchURL('', '', '', object.url)
+    spoon.URLDispatcher:dispatchURL('', '', '', details.url)
   end
 
-  -- only one thing had a title, blog, removed for now
-  -- in the case of something having a title, need to see if it's running and switch via activate
-  -- if (object.title) then
-  --   for _, app in pairs(hs.application.runningApplications()) do
-  --     if app:name() == object.name then
-  --       for _, wins in pairs(app:allWindows()) do
-  --         if wins:title() == object.title then
-  --           app:activate()
-  --
-  --           return
-  --         end
-  --       end
-  --     end
-  --   end
-  -- end
-
-  -- first try to just swap to it, useful for coherence fake apps
   local found = false
   for _, app in pairs(hs.application.runningApplications()) do
-    if app:name() == object.app then
+    if app:name() == appName then
       -- handle minimized windows
       local vis = false
       local winCount = 0
@@ -413,112 +406,88 @@ function ext.app.forceLaunchOrFocus(appName, object)
         end
         winCount = winCount + 1
       end
+
+      -- if not visible and there is only one possible window
       if not vis and winCount == 1 then
         for _, win in pairs(app:allWindows()) do
           win:unminimize()
         end
       end
+
       app:setFrontmost(true)
       found = true
     end
   end
 
   if found then
-   return
+    hideOtherApplications(appName)
+    -- setGrid('fullScreen')
+
+    return
   end
 
   hs.application.launchOrFocus(appName)
 
-  -- check display, turned off, not smart enough
-  -- if (object.display and screenCount == 2) then
-  --   local win = hs.window.focusedWindow()
-  --   local winScreen = win:screen():name()
-  --   local builtinScreen = hs.screen.find('Built%-in'):name()
-  --   if (object.display == 2 and winScreen ~= builtinScreen) then
-  --     ext.app.moveToDisplay(2)
-  --     ext.moveTimer = hs.timer.doAfter(0.1, function()
-  --       ext.app.setGrid(object.size)
-  --     end)
+  hideOtherApplications(appName)
+
+  -- hideOtherApplications(appName)
+  -- hacks for now
   --
-  --     return
-  --   elseif (object.display == 1 and winScreen == builtinScreen) then
-  --     ext.app.moveToDisplay(1)
-  --     ext.moveTimer = hs.timer.doAfter(0.1, function()
-  --       ext.app.setGrid(object.size)
-  --     end)
-  --
-  --     return
-  --   end
-  -- end
+  -- note method called otherWindowsAllScreens
+  -- and otherWindowsSameScreen()
+  -- call application:hide() to do normal hide
+
+  -- setGrid('fullScreen')
 end
 
-function ext.app.showBundleID()
-  local frontmostApp = hs.application.frontmostApplication()
-  hs.alert.show(frontmostApp:title())
-end
-
-function ext.app.showScreenID()
-  local ms = hs.screen.primaryScreen()
-  hs.alert.show(ms:name())
-end
-
-function ext.app.showInfo()
-  local win = hs.window.focusedWindow()
-  local currentScreen = win:screen()
-  -- 'Built-in Retina Display'
-  -- 0.0, 0.0, 1792.0, 1120.0
-  hs.alert.show(currentScreen:fullFrame())
-end
-
-hs.hotkey.bind(screen_mapping, 'b', function() ext.app.showInfo() end)
-
--- Reload Configuration
---- http://www.hammerspoon.org/go/#fancyreload
-function reloadConfig(files)
-    doReload = false
-    for _, file in pairs(files) do
-        if file:sub(-4) == ".lua" then
-            doReload = true
-        end
-    end
-    if doReload then
-        hs.reload()
-        hs.alert.show("Hammerspoon config loaded")
-    end
-end
-
--- https://stackoverflow.com/questions/19326368/iterate-over-lines-including-blank-lines
-function magiclines(s)
-  if s:sub(-1)~="\n" then s=s.."\n" end
-  return s:gmatch("(.-)\n")
-end
-
--- Snip current highlight
-hs.hotkey.bind(screen_mapping, 'y', function()
-  local win = hs.window.focusedWindow()
-
-  -- get the window title
-  local title = win:title()
-  -- get the highlighted item
-  hs.eventtap.keyStroke('command', 'c')
-  local highlight = hs.pasteboard.readString()
-  local quote = ""
-  for line in magiclines(highlight) do
-    quote = quote .. "> " .. line .. "\n"
-  end
-  -- get the URL
-  hs.eventtap.keyStroke('command', 'l')
-  hs.eventtap.keyStroke('command', 'c')
-  local url = hs.pasteboard.readString()
-  --
-  local template = string.format([[%s
-%s
-[%s](%s)]], title, quote, title, url)
-  -- format and send to drafts
-  -- @todo what to do here?
-  hs.urlevent.openURL("drafts://x-callback-url/create?tag=links&text=" .. hs.http.encodeForQuery(template))
-  hs.notify.show("Snipped!", "The snippet has been sent to Drafts", "")
+hs.fnutils.each({
+  { key = "b", app = "Thunderbird"},
+  { key = "f", app = "Finder" },
+  { key = "s", app = "Slack"},
+  { key = "g", app = "Google Chrome" },
+  { key = "x", app = "Brave Browser" },
+  { key = "space", app = "kitty" },
+  { key = "e", app = "Mail"},
+  { key = "p", url = "obsidian://open?vault=personal" },
+  { key = "q", app = "TablePlus"},
+  { key = "n", app = "Notes"},
+  { key = "c", app = "Calendar"},
+  { key = "j", app = "Jira"},
+  { key = "k", app = "Bitbucket"},
+  { key = "o", app = "Confluence"},
+  { key = "r", app = "Metabase"},
+  { key = "return", app = "Omnifocus"},
+  { key = "z", url = "obsidian://open?vault=zettelkasten" },
+  { key = "v", url = "obsidian://open?vault=PC" },
+  { key = "m", app = "Messages"},
+  { key = "i", app = "Music"},
+}, function(object)
+    hs.hotkey.bind(hyper_mapping, object.key, function() launchOrFocus(object.app, object) end)
 end)
 
-hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
-hs.alert.show("Hammerspoon config loaded")
+hs.hotkey.bind(screen_mapping, '1', function() moveToScreen(1) end)
+hs.hotkey.bind(screen_mapping, '2', function() moveToScreen(2) end)
+
+G.reloadWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
+hs.alert.show('Hammerspoon reloaded')
+
+hs.hotkey.bind(hyper_mapping, 'l', function() hs.caffeinate.systemSleep() end)
+hs.hotkey.bind(screen_mapping, 'return', function() toggleManager() end)
+
+hs.hotkey.bind(screen_mapping, 'q', function() setGrid('leftHalf') end)
+hs.hotkey.bind(screen_mapping, 'w', function() setGrid('rightHalf') end)
+hs.hotkey.bind(screen_mapping, 'e', function() setGrid('leftHalf') end)
+hs.hotkey.bind(screen_mapping, 'r', function() setGrid('rightHalf') end)
+
+-- 1 row, thirds
+hs.hotkey.bind(screen_mapping, 'a', function() setGrid('leftThird') end)
+hs.hotkey.bind(screen_mapping, 's', function() setGrid('middleVertical') end)
+hs.hotkey.bind(screen_mapping, 'd', function() setGrid('rightThird') end)
+
+-- 1 row, two thirds
+hs.hotkey.bind(screen_mapping, 'z', function() setGrid('leftTwoThirds') end)
+hs.hotkey.bind(screen_mapping, 'x', function() setGrid('middleTwoThirds') end)
+hs.hotkey.bind(screen_mapping, 'c', function() setGrid('rightTwoThirds') end)
+
+setupChains(screen_mapping)
+-- startHandling()
