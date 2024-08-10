@@ -13,8 +13,8 @@ return {
     config = function()
       vim.g.falcon_settings = {
         italic_comments = false,
-        transparent_bg = false,
-        inactive_bg = true,
+        transparent_bg = true,
+        inactive_bg = false,
         lsp_underline = 'errrr',
         variation = 'modern',
       }

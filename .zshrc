@@ -417,6 +417,8 @@ alias fda="fd --hidden --no-ignore"
 
 # kitty
 alias ki="kitty +kitten icat --align=left" #view image
+# generate a clean, up to date kitty config, see https://sw.kovidgoyal.net/kitty/conf/
+alias kc="kitty +runpy 'from kitty.config import *; print(commented_out_default_config())'"
 
 # load nvm, node version manager
 #--no-use is to lazy load it

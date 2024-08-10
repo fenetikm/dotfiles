@@ -96,6 +96,8 @@
 -- window watcher with reload - done
 -- toggle management - done
 -- reloader - done
+-- make space for sketchybar
+-- only manage windows on internal display
 -- opening new window, it is set to focus size
 -- for global vars
 G = {}
@@ -112,7 +114,18 @@ local obsidianApp = appID('/Applications/obsidian.app')
 
 local gridWidth = 12
 local gridHeight = 12
-local gridMargin = 30
+local gridMargin = 24
+local barHeight = 40
+
+local setupGrid = function()
+  for _, screen in pairs(hs.screen.allScreens()) do
+    local screenFrame = screen:fullFrame()
+    local updatedFrame = hs.geometry.new(screenFrame.x, barHeight, screenFrame.w, screenFrame.h - barHeight)
+    hs.grid.setGrid('12x12', screen, updatedFrame)
+  end
+end
+
+setupGrid()
 
 hs.grid.setGrid('12x12') -- can also specify a frame here to leave room for sketchybar
 hs.grid.MARGINX = gridMargin
@@ -488,6 +501,15 @@ hs.hotkey.bind(screen_mapping, 'd', function() setGrid('rightThird') end)
 hs.hotkey.bind(screen_mapping, 'z', function() setGrid('leftTwoThirds') end)
 hs.hotkey.bind(screen_mapping, 'x', function() setGrid('middleTwoThirds') end)
 hs.hotkey.bind(screen_mapping, 'c', function() setGrid('rightTwoThirds') end)
+
+hs.console.darkMode(false)
+-- hs.console.outputBackgroundColor{ white = 0 }
+-- hs.console.consoleCommandColor{ red = 1, green = 1, blue = 1 }
+-- hs.console.consolePrintColor{ red = 1, green = 1, blue = 1 }
+-- hs.console.consoleResultColor{ red = 1, green = 1, blue = 1 }
+-- hs.console.alpha(1)
+hs.console.consoleFont{name = 'Fira Code Regular', size = 16}
+-- hs.console.clearConsole()
 
 setupChains(screen_mapping)
 -- startHandling()
