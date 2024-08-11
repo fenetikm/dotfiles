@@ -102,9 +102,21 @@
 -- for global vars
 G = {}
 G.log = hs.logger.new('mw', 'debug')
-d = G.log.d
+local loggingEnabled = false
+local d = function(message)
+  if loggingEnabled then
+    G.log.d(message)
+  end
+end
+
+local s = function(message)
+  if loggingEnabled then
+    hs.alert.show(message)
+  end
+end
 
 G.managerEnabled = false
+G.switchingLayouts = false
 
 hs.loadSpoon("URLDispatcher")
 local function appID(app)
@@ -120,7 +132,9 @@ local barHeight = 40
 local setupGrid = function()
   for _, screen in pairs(hs.screen.allScreens()) do
     local screenFrame = screen:fullFrame()
-    local updatedFrame = hs.geometry.new(screenFrame.x, barHeight, screenFrame.w, screenFrame.h - barHeight)
+    local updatedFrame = hs.geometry.new(screenFrame.x, barHeight, screenFrame.w, screenFrame.h)
+    -- d(screenFrame)
+    -- d(updatedFrame)
     hs.grid.setGrid('12x12', screen, updatedFrame)
   end
 end
@@ -173,28 +187,23 @@ local layouts = {
     leftHalf,
     rightHalf,
   },
-  third_twothirds = {
-    leftThird,
-    rightTwoThirds,
-  },
-  thirds = {
-    leftThird,
-    middleThird,
-    rightThird,
-  },
+  -- third_twothirds = {
+  --   leftThird,
+  --   rightTwoThirds,
+  -- },
+  -- thirds = {
+  --   leftThird,
+  --   middleThird,
+  --   rightThird,
+  -- },
 }
 
-local screenState = {
-
-}
-
-local layoutManager = {
-
-}
+local screenState = {}
+local layoutManager = {}
 
 local initScreenState = function()
   for _, screen in pairs(hs.screen.allScreens()) do
-    screenState[screen:name()] = layouts.full
+    screenState[screen:name()] = { layout = 1, apps = {} }
   end
 end
 
@@ -204,7 +213,7 @@ local handleScreenEvent = function(window)
 end
 
 local unmanagedApps = {
-
+  'org.hammerspoon.Hammerspoon'
 }
 
 local internalDisplay = (function()
@@ -212,6 +221,8 @@ local internalDisplay = (function()
 end)
 
 local hideOtherApplications = function(appName)
+  -- problem with this is that this will hide all windows of an app when you still
+  -- might want one of the windows but not another...
   if not G.managerEnabled then
     return
   end
@@ -222,12 +233,31 @@ local hideOtherApplications = function(appName)
   end
 end
 
+local appConfig = {
+  ['org.hammerspoon.Hammerspoon'] = {
+
+  },
+  ['net.kovidgoyal.kitty'] = {
+
+  },
+  ['com.google.Chrome'] = {
+
+  },
+  ['com.apple.Finder'] = {
+
+  }
+}
+
 local canManageWindow = function(window)
+  d('check manage window')
   local app = window:application()
-  local bundleID = app:bundleID()
+  for _, bundleID in ipairs(unmanagedApps) do
+    if app:bundleID() == bundleID then
+      return false
+    end
+  end
 
-  -- if window:isStandard()
-
+  return true
 end
 
 local translateEventType = function(eventType)
@@ -289,35 +319,90 @@ local setupChains = function(screen_mapping)
   }))
 end
 
+local chooseSpace = function(choice)
+  s(choice.uuid)
+end
+
+local setSpace = function()
+  local chooser = hs.chooser.new(chooseSpace)
+  -- todo fill with possible apps
+  chooser:choices({
+    {
+      ['text'] = 'First choice',
+      ['uuid'] = 1,
+    },
+    {
+      ['text'] = 'Second choice',
+      ['uuid'] = 2,
+    }
+  })
+  chooser:rows(5)
+  chooser:width(30)
+  chooser:show()
+end
+
+-- assumption is that ALL windows for an app will get hidden at once
+-- todo: change layouts for a screen
+local changeLayout = function()
+  local frontmostApp = hs.application.frontmostApplication()
+  s(frontmostApp)
+  local appScreen = frontmostApp:mainWindow():screen()
+  s(screenState[appScreen:name()].layout)
+end
+
 local handleApplicationEvent = function(appName, eventType, app)
   d('handle application event')
   d(appName)
-  d(translateEventType(eventType))
+  d(app)
+  d(app:bundleID())
+  s(translateEventType(eventType))
+  s(appName)
+
   if not G.managerEnabled then
+    d('manager not enabled')
     return
   end
 
   if appName == 'loginwindow' then
     return
   end
-  -- d(app:bundleID())
-  -- d(app:pid())
-  -- d(appName)
-  -- d(eventType)
-  -- hs.alert.show(translateEventType(eventType))
+
   if eventType == hs.application.watcher.activated then
-    hs.alert.show('Activated ' .. appName)
+    s('Activated ' .. appName)
+    s(screenState[internalDisplay():name()].apps[1])
+    local appWindow = app:focusedWindow()
+    if canManageWindow(appWindow) then
+      local previousAppPid = screenState[appWindow:screen():name()].apps[1]
+      if previousAppPid ~= nil then
+        local previousApp = hs.application.applicationForPID(previousAppPid)
+        -- previousApp:hide()
+      end
+      -- do something when one has multiple windows, might have to store them instead in the layout? and minimize?
+      -- if screenState[appWindow:screen():name()].apps[1] ~= nil then
+      screenState[appWindow:screen():name()].apps[1] = app:pid()
+      
+      -- else
+
+      -- end
+      -- snap to screen layout
+    end
+
+    return
   end
 
-  local win = hs.window.frontmostWindow()
+  local win = app:focusedWindow()
   if not win then
     return
+  end
+
+  if canManageWindow(win) then
+    d('can manage app window')
   end
 
   local screen = win:screen()
   if screen:name() == internalDisplay():name() then
     if eventType == hs.application.watcher.activated then
-      hideOtherApplications(appName, screen)
+      -- hideOtherApplications(appName, screen)
     end
   end
   -- d(id)
@@ -433,7 +518,7 @@ local launchOrFocus = function(appName, details)
   end
 
   if found then
-    hideOtherApplications(appName)
+    -- hideOtherApplications(appName)
     -- setGrid('fullScreen')
 
     return
@@ -441,7 +526,7 @@ local launchOrFocus = function(appName, details)
 
   hs.application.launchOrFocus(appName)
 
-  hideOtherApplications(appName)
+  -- hideOtherApplications(appName)
 
   -- hideOtherApplications(appName)
   -- hacks for now
@@ -481,6 +566,9 @@ end)
 hs.hotkey.bind(screen_mapping, '1', function() moveToScreen(1) end)
 hs.hotkey.bind(screen_mapping, '2', function() moveToScreen(2) end)
 
+hs.hotkey.bind(screen_mapping, '.', function() changeLayout() end)
+hs.hotkey.bind(screen_mapping, ',', function() setSpace(1) end)
+
 G.reloadWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
 hs.alert.show('Hammerspoon reloaded')
 
@@ -512,4 +600,5 @@ hs.console.consoleFont{name = 'Fira Code Regular', size = 16}
 -- hs.console.clearConsole()
 
 setupChains(screen_mapping)
--- startHandling()
+initScreenState()
+startHandling()

@@ -3,6 +3,8 @@
 local colours = require('falcon.colours')
 local width_threshold = 120
 local width_secondary_threshold = 90
+local transparentBg = false
+local transparentInactive = true
 
 local line_only = {
   'fugitiveblame',
@@ -453,6 +455,18 @@ table.insert(config.inactive_sections.lualine_a, {
     return not in_line_list
   end
 })
+
+if transparentBg then
+  config.options.theme.normal.a.bg = 'NONE'
+  config.options.theme.normal.x.bg = 'NONE'
+  config.options.theme.inactive.a.bg = 'NONE'
+  config.options.theme.inactive.x.bg = 'NONE'
+end
+
+if transparentInactive then
+  config.options.theme.inactive.a.bg = 'NONE'
+  config.options.theme.inactive.x.bg = 'NONE'
+end
 
 return {
   'nvim-lualine/lualine.nvim',
