@@ -39,6 +39,11 @@
 --
 -- could use f keys for layouts? instead of numbers? maybe numbers still ok
 --
+-- when launching an app for first time:
+-- - if we use alfred then only get the app event
+-- - so... just go with that
+-- - can we still get the last focused window at that point? not from there, unless it is the deactivated one?
+--
 -- in single screen, we just have modes
 -- i.e. full screen or split screen
 -- when in full screen simples
@@ -88,29 +93,56 @@
 -- - 1 browser, 23 kitty
 -- - 1 bitbucket, 1 browser, 1 browser
 -- - 1/2 bitbucket, 1/2 browser
--- - 1 browser, 23 Jira
--- - 1 browser, 23 tableplus
+-- - 1 x, 23 Jira
+-- - 1 x, 23 tableplus
 -- - 1 obsidian, 23 slack video
+-- - 1 x, 23 reports
+--
+-- so layouts are:
+-- 1 + 23
+-- 1/2 + 1/2
+-- 1 + 1 + 1
+--
+-- WINNING IDEA
+-- OK, latest idea:
+-- - diff layouts per screen, set with a key (or two?)
+-- - instead of specifying shape of window, tell it to go to a "layout position"
+-- - when you swap to an app, it goes to the last position it was in
+-- - can cycle app positions in the layout
+--
+-- - also maybe just have chains for cycling through thirds / halves etc.
+--
+-- also I like the idea of headspace, which hides apps during a time period
+-- like freedom I guess, maybe could just use that? or want to migrate away from that?
+-- hide:
+-- - slack, email... etc.
+--
+-- snap to grid on switch, how does that work with windows? might need to do the ui element monitoring...
+-- maybe that is a nice to have
 --
 -- order of todo:
 -- window watcher with reload - done
 -- toggle management - done
 -- reloader - done
--- make space for sketchybar
--- only manage windows on internal display
--- opening new window, it is set to focus size
+-- make space for sketchybar - done
+-- only manage windows on internal display for now
+
 -- for global vars
+-- NOTE
+-- WE NEED TO REPLACE `local` with global for anything that we want to keep
+-- or isn't referenced anywhere else e.g. callbacks are referenced in the thing that they are registered with
+-- need to think about each one
 G = {}
 G.log = hs.logger.new('mw', 'debug')
-local loggingEnabled = false
-local d = function(message)
-  if loggingEnabled then
+G.loggingEnabled = true
+d = function(message)
+  if G.loggingEnabled then
     G.log.d(message)
   end
 end
 
-local s = function(message)
-  if loggingEnabled then
+s = function(message)
+  if G.loggingEnabled then
     hs.alert.show(message)
   end
 end
@@ -129,23 +161,21 @@ local gridHeight = 12
 local gridMargin = 24
 local barHeight = 40
 
-local setupGrid = function()
-  for _, screen in pairs(hs.screen.allScreens()) do
-    local screenFrame = screen:fullFrame()
-    local updatedFrame = hs.geometry.new(screenFrame.x, barHeight, screenFrame.w, screenFrame.h)
-    -- d(screenFrame)
-    -- d(updatedFrame)
-    hs.grid.setGrid('12x12', screen, updatedFrame)
-  end
-end
-
-setupGrid()
-
 hs.grid.setGrid('12x12') -- can also specify a frame here to leave room for sketchybar
 hs.grid.MARGINX = gridMargin
 hs.grid.MARGINY = gridMargin
-
 hs.window.animationDuration = 0
+
+-- this type of defn is fine because it is only called once
+G.setupGrid = function()
+  s('setup grid')
+  for _, screen in pairs(hs.screen.allScreens()) do
+    local screenFrame = screen:fullFrame()
+    local updatedFrame = hs.geometry.new(screenFrame.x, barHeight, screenFrame.w, screenFrame.h)
+    hs.grid.setGrid('12x12', screen, updatedFrame)
+  end
+end
+G.setupGrid()
 
 local screen_mapping = {"cmd", "alt", "ctrl"}
 local hyper_mapping = {"cmd", "alt", "ctrl", "shift"}
@@ -201,7 +231,10 @@ local layouts = {
 local screenState = {}
 local layoutManager = {}
 
+-- I'm thinking that the screen names would determing the initial layouts
+-- work one is 'ASUS PB278'
 local initScreenState = function()
+  s('init screen state')
   for _, screen in pairs(hs.screen.allScreens()) do
     screenState[screen:name()] = { layout = 1, apps = {} }
   end
@@ -219,34 +252,6 @@ local unmanagedApps = {
 local internalDisplay = (function()
   return hs.screen.find('Built%-in')
 end)
-
-local hideOtherApplications = function(appName)
-  -- problem with this is that this will hide all windows of an app when you still
-  -- might want one of the windows but not another...
-  if not G.managerEnabled then
-    return
-  end
-  for _, runningApp in pairs(hs.application.runningApplications()) do
-    if runningApp:name() ~= appName then
-      runningApp:hide()
-    end
-  end
-end
-
-local appConfig = {
-  ['org.hammerspoon.Hammerspoon'] = {
-
-  },
-  ['net.kovidgoyal.kitty'] = {
-
-  },
-  ['com.google.Chrome'] = {
-
-  },
-  ['com.apple.Finder'] = {
-
-  }
-}
 
 local canManageWindow = function(window)
   d('check manage window')
@@ -345,21 +350,71 @@ end
 -- todo: change layouts for a screen
 local changeLayout = function()
   local frontmostApp = hs.application.frontmostApplication()
-  s(frontmostApp)
+  -- s(frontmostApp)
   local appScreen = frontmostApp:mainWindow():screen()
-  s(screenState[appScreen:name()].layout)
+  -- s(screenState[appScreen:name()].layout)
+end
+
+local appPositions = {}
+local setAppPositions = function()
+  for _, app in pairs(hs.application.runningApplications()) do
+    -- set all apps to layout position 1
+    appPositions[app:pid()] = 1
+  end
+end
+setAppPositions()
+
+local hideAll = function()
+  for _, app in pairs(hs.application.runningApplications()) do
+    app:hide()
+  end
+end
+
+local hideOtherApps = function(screenName)
+  d('hide other apps')
+  -- for _, app in pairs(hs.application.runningApplications()) do
+  --   app:hide()
+  --   local found = false
+  --   local appPid = app:pid()
+  --   if not found then
+  --     if not app:isHidden() then
+  --       app:hide()
+  --     end
+  --   end
+  -- end
+  -- for _, layoutPid in pairs(screenState[screenName].apps) do
+  --   local layoutApp = hs.application.applicationForPID(layoutPid)
+  --   layoutApp:unhide()
+  -- end
+end
+
+-- hide all first, then can swap
+
+-- what does this do with multiple windows?!
+local sendAppLayoutPosition = function(position, app)
+  -- s(app)
+  local frontmostApp = hs.application.frontmostApplication()
+  s('send app' .. frontmostApp:name())
+  local appScreen = frontmostApp:mainWindow():screen()
+
+  -- local previousAppPid = screenState[appScreen:name()].apps[1]
+  -- previousApp:hide()
+
+  screenState[appScreen:name()].apps[1] = frontmostApp:pid()
+
+  hideOtherApps(appScreen:name())
 end
 
 local handleApplicationEvent = function(appName, eventType, app)
-  d('handle application event')
-  d(appName)
-  d(app)
-  d(app:bundleID())
-  s(translateEventType(eventType))
-  s(appName)
+  -- s('handle application event')
+  -- d(appName)
+  -- d(app)
+  -- d(app:bundleID())
+  -- s(translateEventType(eventType))
+  -- s(appName)
 
   if not G.managerEnabled then
-    d('manager not enabled')
+    -- d('manager not enabled')
     return
   end
 
@@ -368,8 +423,8 @@ local handleApplicationEvent = function(appName, eventType, app)
   end
 
   if eventType == hs.application.watcher.activated then
-    s('Activated ' .. appName)
-    s(screenState[internalDisplay():name()].apps[1])
+    -- s('Activated ' .. appName)
+    -- s(screenState[internalDisplay():name()].apps[1])
     local appWindow = app:focusedWindow()
     if canManageWindow(appWindow) then
       local previousAppPid = screenState[appWindow:screen():name()].apps[1]
@@ -378,9 +433,9 @@ local handleApplicationEvent = function(appName, eventType, app)
         -- previousApp:hide()
       end
       -- do something when one has multiple windows, might have to store them instead in the layout? and minimize?
+      -- ignore for now
       -- if screenState[appWindow:screen():name()].apps[1] ~= nil then
       screenState[appWindow:screen():name()].apps[1] = app:pid()
-      
       -- else
 
       -- end
@@ -390,23 +445,8 @@ local handleApplicationEvent = function(appName, eventType, app)
     return
   end
 
-  local win = app:focusedWindow()
-  if not win then
-    return
+  if eventType == hs.application.watcher.deactivated then
   end
-
-  if canManageWindow(win) then
-    d('can manage app window')
-  end
-
-  local screen = win:screen()
-  if screen:name() == internalDisplay():name() then
-    if eventType == hs.application.watcher.activated then
-      -- hideOtherApplications(appName, screen)
-    end
-  end
-  -- d(id)
-  -- d(screen)
 end
 
 local startHandling = function()
@@ -527,8 +567,6 @@ local launchOrFocus = function(appName, details)
   hs.application.launchOrFocus(appName)
 
   -- hideOtherApplications(appName)
-
-  -- hideOtherApplications(appName)
   -- hacks for now
   --
   -- note method called otherWindowsAllScreens
@@ -590,6 +628,16 @@ hs.hotkey.bind(screen_mapping, 'z', function() setGrid('leftTwoThirds') end)
 hs.hotkey.bind(screen_mapping, 'x', function() setGrid('middleTwoThirds') end)
 hs.hotkey.bind(screen_mapping, 'c', function() setGrid('rightTwoThirds') end)
 
+hs.hotkey.bind(screen_mapping, 't', function() sendAppLayoutPosition(1) end)
+hs.hotkey.bind(screen_mapping, 'h', function() hideAll() end)
+-- hs.hotkey.bind(screen_mapping, 'i', function()
+--   local win = hs.window.focusedWindow()
+--   local currentScreen = win:screen()
+--   hs.alert.show(currentScreen:name())
+-- end)
+
+-- can't seem to get this to set all text font size?
+-- and setting the colours to white doesn't work for all the text either?
 hs.console.darkMode(false)
 -- hs.console.outputBackgroundColor{ white = 0 }
 -- hs.console.consoleCommandColor{ red = 1, green = 1, blue = 1 }

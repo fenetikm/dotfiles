@@ -1,5 +1,6 @@
 -- TODO:
 -- make the [+] a different colour?
+-- when transparent, could have capsule backgrounds behind the things, see https://hyprland.org/imgs/ricing_competitions/2/flafy.webp
 local colours = require('falcon.colours')
 local width_threshold = 120
 local width_secondary_threshold = 90

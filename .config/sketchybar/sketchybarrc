@@ -20,12 +20,12 @@ sketchybar --bar position=top height=32 blur_radius=30 color=0xB0020221
 # https://felixkratz.github.io/SketchyBar/config/items
 
 default=(
-  padding_left=5
-  padding_right=5
+  padding_left=8
+  padding_right=8
   icon.font="Hack Nerd Font:Bold:17.0"
   label.font="Fira Code:SemiBold:14.0"
-  icon.color=0xffffffff
-  label.color=0xffffffff
+  icon.color=0xff99a4bc
+  label.color=0xffdfdfe5
   icon.padding_left=4
   icon.padding_right=4
   label.padding_left=4
@@ -85,7 +85,11 @@ sketchybar --add item clock right \
            --subscribe volume volume_change \
            --add item battery right \
            --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
-           --subscribe battery system_woke power_source_change
+           --subscribe battery system_woke power_source_change \
+           --add item pomo right \
+           --set pomo script="$PLUGIN_DIR/pomo.sh" \
+           --add item music right \
+           --set music script="$PLUGIN_DIR/music.sh"
 
 ##### Force all scripts to run the first time (never do this in a script) #####
 sketchybar --update
