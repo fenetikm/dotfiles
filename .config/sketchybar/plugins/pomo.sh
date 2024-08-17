@@ -24,6 +24,7 @@ if [[ -n "$TIMELEFT" ]]; then
   sketchybar --set "$NAME" icon="$ICON" icon.color="${COLOUR}" label="${TIMELEFT}" label.color="${COLOUR}" drawing=on \
     label.padding_right=8 \
     icon.padding_left=8 \
+    background.shadow.drawing=on background.shadow.distance=1 \
     background.drawing=on background.color=0xff2f2f3a \
     background.corner_radius=4 background.height=20 background.y_offset=0
 else

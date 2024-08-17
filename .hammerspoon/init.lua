@@ -126,6 +126,8 @@
 -- reloader - done
 -- make space for sketchybar - done
 -- only manage windows on internal display for now
+--
+-- note, if we want to have different margins around the edge vs margins between windows then would have to not use the hammerspoon grid
 
 -- for global vars
 -- NOTE
@@ -158,12 +160,12 @@ local obsidianApp = appID('/Applications/obsidian.app')
 
 local gridWidth = 12
 local gridHeight = 12
-local gridMargin = 24
-local barHeight = 40
+local gridMargin = 16
+local barHeight = 48
 
-hs.grid.setGrid('12x12') -- can also specify a frame here to leave room for sketchybar
-hs.grid.MARGINX = gridMargin
-hs.grid.MARGINY = gridMargin
+-- hs.grid.setGrid('12x12') -- can also specify a frame here to leave room for sketchybar
+hs.grid.ui.textSize = 20
+hs.grid.setMargins({gridMargin, gridMargin})
 hs.window.animationDuration = 0
 
 -- this type of defn is fine because it is only called once
@@ -606,6 +608,8 @@ hs.hotkey.bind(screen_mapping, '2', function() moveToScreen(2) end)
 
 hs.hotkey.bind(screen_mapping, '.', function() changeLayout() end)
 hs.hotkey.bind(screen_mapping, ',', function() setSpace(1) end)
+
+hs.hotkey.bind(screen_mapping, 'j', function() hs.grid.toggleShow() end)
 
 G.reloadWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
 hs.alert.show('Hammerspoon reloaded')
