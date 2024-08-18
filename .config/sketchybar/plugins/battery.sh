@@ -23,6 +23,12 @@ if [[ "$CHARGING" != "" ]]; then
   ICON="󰚥"
 fi
 
-# The item invoking this script (name $NAME) will get its icon and label
-# updated with the current battery status
-sketchybar --set "$NAME" icon="$ICON" label="${PERCENTAGE}%"
+COLOUR=0xffb4b4b9
+if (( "$PERCENTAGE" < 30 )); then
+  COLOUR=0xffFFC552
+fi
+if (( "$PERCENTAGE" < 15 )); then
+  COLOUR=0xffFF3600
+fi
+
+sketchybar --set "$NAME" icon="$ICON" label="${PERCENTAGE}%" label.color="${COLOUR}"

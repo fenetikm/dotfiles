@@ -12,9 +12,13 @@ PLUGIN_DIR="$CONFIG_DIR/plugins"
 # If you are looking for other colors, see the color picker:
 # https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
 
-sketchybar --bar position=top height=32 margin=16 y_offset=16 \
-  padding_left=10 padding_right=10 \
-  blur_radius=32 color=0xff020221 corner_radius=9 \
+# sketchybar --bar position=top height=32 margin=16 y_offset=16 \
+  # padding_left=10 padding_right=10 \
+  # blur_radius=16 color=0xdd020221 corner_radius=9 \
+  # font_smoothing=on shadow=on
+
+sketchybar --bar position=top height=32 \
+  blur_radius=16 color=0xbb000006 \
   font_smoothing=on shadow=on
 
 ##### Changing Defaults #####
@@ -28,10 +32,10 @@ default=(
   icon.font="Hack Nerd Font:Bold:17.0"
   label.font="Fira Code:Regular:14.0"
   icon.color=0xff99a4bc
-  label.color=0xffa1a1a9
+  label.color=0xffb4b4b9
   icon.padding_left=4
-  icon.padding_right=2
-  label.padding_left=4
+  icon.padding_right=0
+  label.padding_left=2
   label.padding_right=4
 )
 sketchybar --default "${default[@]}"
@@ -87,14 +91,19 @@ sketchybar --add item dnd right \
            --set dnd update_freq=35 script="$PLUGIN_DIR/dnd.sh" \
            --add item clock right \
            --set clock update_freq=10 script="$PLUGIN_DIR/clock.sh" \
-           --add item date right \
-           --set date update_freq=1000 script="$PLUGIN_DIR/date.sh" \
+           --add item weather right \
+           --set weather update_freq=7200 script="$PLUGIN_DIR/weather.sh" \
            --add item volume right \
            --set volume script="$PLUGIN_DIR/volume.sh" \
            --subscribe volume volume_change \
            --add item battery right \
            --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
            --subscribe battery system_woke power_source_change \
+           --add bracket pbw volume battery \
+           --set pbw background.color=0x30ffffff \
+             background.shadow.drawing=on background.shadow.distance=1 \
+             background.border_color=0x10ffffff background.border_width=1 \
+             background.corner_radius=6 background.height=22 \
            --add item pomo right \
            --set pomo script="$PLUGIN_DIR/pomo.sh" \
            --add item music right \

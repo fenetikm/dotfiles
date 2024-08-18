@@ -46,7 +46,7 @@ EOF)
     background.drawing=on background.color=0x20ffffff \
     background.shadow.drawing=on background.shadow.distance=1 \
     background.border_color=0x10ffffff background.border_width=1 \
-    background.corner_radius=6 background.height=22 background.y_offset=0
+    background.corner_radius=6 background.height=22
 else
   sketchybar --set "$NAME" drawing=off
 fi
