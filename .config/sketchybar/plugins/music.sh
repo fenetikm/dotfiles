@@ -25,24 +25,18 @@ if [[ ! -z "$MUSIC_TRACK" ]]; then
   end if
 EOF)
 
-  TRACK_LEN=${#MUSIC_TRACK}
-  # if [[ "$TRACK_LEN" -gt 24 ]]; then
-  #   MUSIC_TRACK=`echo "$MUSIC_TRACK" | cut -c -24`
-  #   MUSIC_TRACK+=...
-  # fi
+  FULL="${MUSIC_TRACK} - ${MUSIC_ARTIST}"
+  FULL_LEN=${#FULL}
+  if [[ "$FULL_LEN" > 29 ]]; then
+    FULL=`echo "$FULL" | cut -c -29`
+    FULL+=...
+  fi
 
-  ARTIST_LEN=${#MUSIC_ARTIST}
-  # if [[ "$ARTIST_LEN" -gt 16 ]]; then
-  #   MUSIC_ARTIST=`echo "$MUSIC_ARTIST" | cut -c -16`
-  #   MUSIC_ARTIST+=...
-  # fi
-
-  # ICON="󰝚 "
   ICON="󰺢 "
-  sketchybar --set "$NAME" icon="$ICON" label="${MUSIC_TRACK} : ${MUSIC_ARTIST}" \
+  sketchybar --set "$NAME" icon="$ICON" label="${FULL}" \
     label.padding_right=8 \
     drawing=on \
-    label.max_chars=64 \
+    label.max_chars=32 \
     icon.padding_left=8 icon.color=0xffb4b4b9 \
     background.drawing=on background.color=0x20ffffff \
     background.shadow.drawing=on background.shadow.distance=1 \

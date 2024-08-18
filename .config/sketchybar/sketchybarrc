@@ -19,6 +19,7 @@ PLUGIN_DIR="$CONFIG_DIR/plugins"
 
 sketchybar --bar position=top height=32 \
   blur_radius=16 color=0xbb000006 \
+  margin=0 padding_left=12 padding_right=12 \
   font_smoothing=on shadow=on
 
 ##### Changing Defaults #####
@@ -67,7 +68,10 @@ done
 # We add some regular items to the left side of the bar, where
 # only the properties deviating from the current defaults need to be set
 
-sketchybar --add item cpu left \
+sketchybar --add item doge left \
+           --set doge icon=🐶 y_offset=2 label.drawing=off \
+               icon.font="Hack Nerd Font:Bold:14.0" icon.padding_left=0 \
+           --add item cpu left \
            --set cpu update_freq=20 script="$PLUGIN_DIR/cpu_load.sh" \
            --add item disk left \
            --set disk update_freq=130 script="$PLUGIN_DIR/disk.sh" \
@@ -105,7 +109,7 @@ sketchybar --add item dnd right \
              background.border_color=0x07ffffff background.border_width=1 \
              background.corner_radius=6 background.height=22 \
            --add item pomo right \
-           --set pomo script="$PLUGIN_DIR/pomo.sh"
+           --set pomo update_freq=10 script="$PLUGIN_DIR/pomo.sh"
 
 sketchybar --add item music center \
            --set music update_freq=20 script="$PLUGIN_DIR/music.sh"

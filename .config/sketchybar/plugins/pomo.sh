@@ -1,11 +1,8 @@
 #!/bin/sh
 
 # Todo:
-# - check if thyme running
-# - change tomato icon to something else when on break?
-# - colours:
-# - yellow for warning
 # - bright blue for break
+# - make it simpler / smaller, put furthest right?
 
 TIMELEFT=
 COLOUR='0xffffffff'
@@ -15,18 +12,21 @@ if [ -f ~/.thyme-tmux ]; then
   if [[ $THYME =~ yellow ]]; then
     COLOUR='0xffffc552'
   fi
+  if [[ $THYME =~ blue ]]; then
+    COLOUR='0xff99A4BC'
+  fi
 fi
 
 ICON=" "
-# The item invoking this script (name $NAME) will get its icon and label
 
 if [[ -n "$TIMELEFT" ]]; then
   sketchybar --set "$NAME" icon="$ICON" icon.color="${COLOUR}" label="${TIMELEFT}" label.color="${COLOUR}" drawing=on \
     label.padding_right=8 \
     icon.padding_left=8 \
     background.shadow.drawing=on background.shadow.distance=1 \
-    background.drawing=on background.color=0xff2f2f3a \
-    background.corner_radius=4 background.height=20 background.y_offset=0
+    background.drawing=on background.color=0x20ffffff \
+    background.border_color=0x07ffffff background.border_width=1 \
+    background.corner_radius=6 background.height=22 background.y_offset=0
 else
   sketchybar --set "$NAME" drawing=off
 fi
