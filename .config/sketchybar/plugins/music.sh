@@ -37,15 +37,16 @@ EOF)
   #   MUSIC_ARTIST+=...
   # fi
 
-  ICON="󰝚 "
+  # ICON="󰝚 "
+  ICON="󰺢 "
   sketchybar --set "$NAME" icon="$ICON" label="${MUSIC_TRACK} : ${MUSIC_ARTIST}" \
     label.padding_right=8 \
     drawing=on \
-    label.max_chars=32 \
-    icon.padding_left=8 icon.color=0xff99A4BC\
+    label.max_chars=64 \
+    icon.padding_left=8 icon.color=0xffb4b4b9 \
     background.drawing=on background.color=0x20ffffff \
     background.shadow.drawing=on background.shadow.distance=1 \
-    background.border_color=0x10ffffff background.border_width=1 \
+    background.border_color=0x07ffffff background.border_width=1 \
     background.corner_radius=6 background.height=22
 else
   sketchybar --set "$NAME" drawing=off

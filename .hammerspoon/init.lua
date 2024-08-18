@@ -161,7 +161,7 @@ local obsidianApp = appID('/Applications/obsidian.app')
 local gridWidth = 12
 local gridHeight = 12
 local gridMargin = 16
-local barHeight = 48
+local barHeight = 32
 
 -- hs.grid.setGrid('12x12') -- can also specify a frame here to leave room for sketchybar
 hs.grid.ui.textSize = 20

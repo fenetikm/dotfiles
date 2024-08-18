@@ -31,10 +31,10 @@ default=(
   padding_right=6
   icon.font="Hack Nerd Font:Bold:17.0"
   label.font="Fira Code:Regular:14.0"
-  icon.color=0xff99a4bc
+  icon.color=0xffb4b4b9
   label.color=0xffb4b4b9
   icon.padding_left=4
-  icon.padding_right=0
+  icon.padding_right=2
   label.padding_left=2
   label.padding_right=4
 )
@@ -89,8 +89,8 @@ sketchybar --add item cpu left \
 
 sketchybar --add item dnd right \
            --set dnd update_freq=35 script="$PLUGIN_DIR/dnd.sh" \
-           --add item clock right \
-           --set clock update_freq=10 script="$PLUGIN_DIR/clock.sh" \
+           --add item date_time right \
+           --set date_time update_freq=10 script="$PLUGIN_DIR/date_time.sh" \
            --add item weather right \
            --set weather update_freq=7200 script="$PLUGIN_DIR/weather.sh" \
            --add item volume right \
@@ -100,13 +100,14 @@ sketchybar --add item dnd right \
            --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
            --subscribe battery system_woke power_source_change \
            --add bracket pbw volume battery \
-           --set pbw background.color=0x30ffffff \
+           --set pbw background.color=0x20ffffff \
              background.shadow.drawing=on background.shadow.distance=1 \
-             background.border_color=0x10ffffff background.border_width=1 \
+             background.border_color=0x07ffffff background.border_width=1 \
              background.corner_radius=6 background.height=22 \
            --add item pomo right \
-           --set pomo script="$PLUGIN_DIR/pomo.sh" \
-           --add item music right \
+           --set pomo script="$PLUGIN_DIR/pomo.sh"
+
+sketchybar --add item music center \
            --set music update_freq=20 script="$PLUGIN_DIR/music.sh"
 
 ##### Force all scripts to run the first time (never do this in a script) #####
