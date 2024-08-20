@@ -26,8 +26,10 @@ vim.keymap.set('n', 'j', 'v:count ? "j" : "gj"', { noremap = true, expr = true }
 vim.keymap.set('n', 'k', 'v:count ? "k" : "gk"', { noremap = true, expr = true })
 
 -- bigger move up and down
-vim.keymap.set('n', 'J', '6j', {})
-vim.keymap.set('n', 'K', '6k', {})
+vim.keymap.set('n', 'J', '6j', {}) vim.keymap.set('n', 'K', '6k', {})
+
+-- replace join (now taken by the above)
+vim.keymap.set('n', '<c-o>', '<cmd>join<cr>')
 
 -- keep cursor in middle of page when going to next search hit
 vim.keymap.set('n', 'n', 'nzzzv', {noremap = true})
