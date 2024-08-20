@@ -5,7 +5,7 @@
 
 if [ "$SENDER" = "volume_change" ]; then
   VOLUME="$INFO"
-  LABEL_DRAWING=on
+  LABEL_DRAWING=off
 
   case "$VOLUME" in
     [6-9][0-9]|100) ICON="󰕾"

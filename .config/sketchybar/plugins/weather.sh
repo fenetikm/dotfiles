@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source "$HOME/.config/sketchybar/colours.sh"
+
 # https://api.weather.bom.gov.au/v1/locations/r1f8sw/observations for mount lofty!
 # also http://www.bom.gov.au/fwo/IDS60801/IDS60801.95678.json for the last many
 # only refresh weather file if older than an hour
@@ -11,19 +13,20 @@ TEMP=$(cat plugins/weather.json | jq '.data.temp')
 RAIN=$(cat plugins/weather.json | jq '.data.rain_since_9am')
 WIND=$(cat plugins/weather.json | jq '.data.wind.speed_kilometre')
 ICON=
-COLOUR=0xffCFC1B2
-if (( "$RAIN" > 0)); then
+COLOUR=$WARM_COLOUR
+# bc to handle floats e.g. 0.2
+if (( $(echo "$RAIN > 0" | bc -l) )); then
   ICON=
-  COLOUR=0xff99A4BC
+  COLOUR=$COOL_COLOUR
 fi
-if (( "$RAIN" > 10)); then
+if (( $(echo "$RAIN > 10" | bc -l) )); then
   ICON=
-  COLOUR=0xff99A4BC
+  COLOUR=$COOL_COLOUR
 fi
 TIME=`date '+%H'`
 if (( "$TIME" > 19 || "$TIME < 5" )); then
   ICON=
-  COLOUR=0xffb4b4b9
+  COLOUR=$DEFAULT_COLOUR
 fi
 
 sketchybar --set "$NAME" label="${TEMP}°" icon="$ICON" icon.color="${COLOUR}" icon.padding_right=2 label.padding_left=2 \

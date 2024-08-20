@@ -1,14 +1,16 @@
 #!/bin/bash
 
+source "$HOME/.config/sketchybar/colours.sh"
+
 SPACE=$(df -h --si "/" | tail -n 1 | cut -w -f4)
 NUM=$(echo $SPACE | sed -E 's/G//')
 ICON=
-COLOUR=0xffb4b4b9
+COLOUR=$DEFAULT_COLOUR
 if (( "$NUM" < 20 )); then
-  COLOUR=0xffFFC552
+  COLOUR=$WARNING_COLOUR
 fi
 if (( "$NUM" < 10 )); then
-  COLOUR=0xffFF3600
+  COLOUR=$ISSUE_COLOUR
 fi
 
-sketchybar --set "$NAME" icon="$ICON" label="HDD ${SPACE}" label.color="${COLOUR}" icon.drawing=off
+sketchybar --set "$NAME" icon="$ICON" label="DF ${SPACE}" label.color="${COLOUR}" icon.drawing=off

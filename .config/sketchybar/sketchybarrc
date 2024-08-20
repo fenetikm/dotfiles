@@ -1,51 +1,33 @@
-# This is a demo config to showcase some of the most important commands.
-# It is meant to be changed and configured, as it is intentionally kept sparse.
-# For a (much) more advanced configuration example see my dotfiles:
-# https://github.com/FelixKratz/dotfiles
-
+source "$HOME/.config/sketchybar/colours.sh"
 PLUGIN_DIR="$CONFIG_DIR/plugins"
 
-##### Bar Appearance #####
-# Configuring the general appearance of the bar.
-# These are only some of the options available. For all options see:
-# https://felixkratz.github.io/SketchyBar/config/bar
-# If you are looking for other colors, see the color picker:
-# https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
-
+# offset version
 # sketchybar --bar position=top height=32 margin=16 y_offset=16 \
   # padding_left=10 padding_right=10 \
   # blur_radius=16 color=0xdd020221 corner_radius=9 \
   # font_smoothing=on shadow=on
 
 sketchybar --bar position=top height=32 \
-  blur_radius=16 color=0xbb000006 \
+  blur_radius=32 color=$BAR_COLOUR \
   margin=0 padding_left=12 padding_right=12 \
   font_smoothing=on shadow=on
-
-##### Changing Defaults #####
-# We now change some default values, which are applied to all further items.
-# For a full list of all available item properties see:
-# https://felixkratz.github.io/SketchyBar/config/items
 
 default=(
   padding_left=6
   padding_right=6
   icon.font="Hack Nerd Font:Bold:17.0"
-  label.font="Fira Code:Regular:14.0"
-  icon.color=0xffb4b4b9
-  label.color=0xffb4b4b9
+  label.font="Fira Code:SemiBold:14.0"
+  icon.color=$ICON_COLOUR
+  label.color=$DEFAULT_COLOUR
   icon.padding_left=4
-  icon.padding_right=2
+  icon.padding_right=3
   label.padding_left=2
   label.padding_right=4
 )
 sketchybar --default "${default[@]}"
 
-##### Adding Mission Control Space Indicators #####
-# Let's add some mission control spaces:
-# https://felixkratz.github.io/SketchyBar/config/components#space----associate-mission-control-spaces-with-an-item
-# to indicate active and available mission control spaces.
 
+# disabled for now
 SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
 for i in "${!SPACE_ICONS[@]}"
 do
@@ -55,7 +37,7 @@ do
     icon="${SPACE_ICONS[i]}"
     icon.padding_left=7
     icon.padding_right=7
-    background.color=0x20ffffff
+    background.color=$BG1_COLOUR
     background.corner_radius=5
     background.height=21
     label.drawing=off
@@ -68,6 +50,7 @@ done
 # We add some regular items to the left side of the bar, where
 # only the properties deviating from the current defaults need to be set
 
+# left items
 sketchybar --add item doge left \
            --set doge icon=🐶 y_offset=2 label.drawing=off \
                icon.font="Hack Nerd Font:Bold:14.0" icon.padding_left=0 \
@@ -75,22 +58,13 @@ sketchybar --add item doge left \
            --set cpu update_freq=20 script="$PLUGIN_DIR/cpu_load.sh" \
            --add item disk left \
            --set disk update_freq=130 script="$PLUGIN_DIR/disk.sh" \
+           --add item timemachine left \
+           --set timemachine update_freq=86400 script="$PLUGIN_DIR/timemachine.sh" \
            --add item front_app left \
            --set front_app icon.drawing=off script="$PLUGIN_DIR/front_app.sh" \
            --subscribe front_app front_app_switched
 
-##### Adding Right Items #####
-# In the same way as the left items we can add items to the right side.
-# Additional position (e.g. center) are available, see:
-# https://felixkratz.github.io/SketchyBar/config/items#adding-items-to-sketchybar
-
-# Some items refresh on a fixed cycle, e.g. the clock runs its script once
-# every 10s. Other items respond to events they subscribe to, e.g. the
-# volume.sh script is only executed once an actual change in system audio
-# volume is registered. More info about the event system can be found here:
-# https://felixkratz.github.io/SketchyBar/config/events
-
-
+# right items
 sketchybar --add item dnd right \
            --set dnd update_freq=35 script="$PLUGIN_DIR/dnd.sh" \
            --add item date_time right \
@@ -105,13 +79,14 @@ sketchybar --add item dnd right \
            --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
            --subscribe battery system_woke power_source_change \
            --add bracket pbw volume battery \
-           --set pbw background.color=0x20ffffff \
+           --set pbw background.color=$BG1_COLOUR \
              background.shadow.drawing=on background.shadow.distance=1 \
-             background.border_color=0x07ffffff background.border_width=1 \
+             background.border_color=$BG1_BORDER_COLOUR background.border_width=1 \
              background.corner_radius=6 background.height=22 \
            --add item pomo right \
            --set pomo update_freq=10 script="$PLUGIN_DIR/pomo.sh"
 
+# centre items
 sketchybar --add item music center \
            --set music update_freq=20 script="$PLUGIN_DIR/music.sh"
 

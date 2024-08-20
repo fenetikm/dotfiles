@@ -1,7 +1,9 @@
 #!/bin/sh
 
-# todo: app icons
+source "$HOME/.config/sketchybar/colours.sh"
+
+# todo: icons for some apps
 
 if [ "$SENDER" = "front_app_switched" ]; then
-  sketchybar --set "$NAME" label="\\$INFO" label.color=0xffb4b4b9
+  sketchybar --set "$NAME" label="\\$INFO" label.color=$DEFAULT_COLOUR
 fi

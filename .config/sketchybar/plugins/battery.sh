@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source "$HOME/.config/sketchybar/colours.sh"
+
 PERCENTAGE="$(pmset -g batt | grep -Eo "\d+%" | cut -d% -f1)"
 CHARGING="$(pmset -g batt | grep 'AC Power')"
 
@@ -23,12 +25,17 @@ if [[ "$CHARGING" != "" ]]; then
   ICON="󰚥"
 fi
 
-COLOUR=0xffb4b4b9
+COLOUR=$DEFAULT_COLOUR
 if (( "$PERCENTAGE" < 30 )); then
-  COLOUR=0xffFFC552
+  COLOUR=$WARNING_COLOUR
 fi
 if (( "$PERCENTAGE" < 15 )); then
-  COLOUR=0xffFF3600
+  COLOUR=$ISSUE_COLOUR
 fi
 
-sketchybar --set "$NAME" icon="$ICON" label="${PERCENTAGE}%" label.color="${COLOUR}"
+LABEL_DRAWING=on
+if [ "$PERCENTAGE" == "100" ]; then
+  LABEL_DRAWING=off
+fi
+
+sketchybar --set "$NAME" icon="$ICON" label="${PERCENTAGE}%" label.color="${COLOUR}" label.drawing="${LABEL_DRAWING}"
