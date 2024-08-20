@@ -17,4 +17,4 @@ if (( $DIFF > 13 )); then
   COLOUR=$ISSUE_COLOUR
 fi
 
-sketchybar --set "$NAME" label="DB ${DIFF}d" label.color="${COLOUR}" icon.drawing=off
+sketchybar --set "$NAME" label="TM:${DIFF}d" label.color="${COLOUR}" icon.drawing=off

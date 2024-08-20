@@ -51,7 +51,8 @@ done
 # only the properties deviating from the current defaults need to be set
 
 # left items
-sketchybar --add item doge left \
+sketchybar \
+           --add item doge left \
            --set doge icon=🐶 y_offset=2 label.drawing=off \
                icon.font="Hack Nerd Font:Bold:14.0" icon.padding_left=0 \
            --add item cpu left \
@@ -60,12 +61,10 @@ sketchybar --add item doge left \
            --set disk update_freq=130 script="$PLUGIN_DIR/disk.sh" \
            --add item timemachine left \
            --set timemachine update_freq=86400 script="$PLUGIN_DIR/timemachine.sh" \
-           --add item front_app left \
-           --set front_app icon.drawing=off script="$PLUGIN_DIR/front_app.sh" \
-           --subscribe front_app front_app_switched
 
 # right items
-sketchybar --add item dnd right \
+sketchybar \
+           --add item dnd right \
            --set dnd update_freq=35 script="$PLUGIN_DIR/dnd.sh" \
            --add item date_time right \
            --set date_time update_freq=10 script="$PLUGIN_DIR/date_time.sh" \
@@ -84,11 +83,15 @@ sketchybar --add item dnd right \
              background.border_color=$BG1_BORDER_COLOUR background.border_width=1 \
              background.corner_radius=6 background.height=22 \
            --add item pomo right \
-           --set pomo update_freq=10 script="$PLUGIN_DIR/pomo.sh"
+           --set pomo update_freq=10 script="$PLUGIN_DIR/pomo.sh" \
+           --add item music right \
+           --set music update_freq=20 script="$PLUGIN_DIR/music.sh"
 
 # centre items
-sketchybar --add item music center \
-           --set music update_freq=20 script="$PLUGIN_DIR/music.sh"
+sketchybar \
+           --add item front_app center \
+           --set front_app icon.drawing=off script="$PLUGIN_DIR/front_app.sh" \
+           --subscribe front_app front_app_switched
 
 ##### Force all scripts to run the first time (never do this in a script) #####
 sketchybar --update

@@ -13,4 +13,4 @@ if (( "$NUM" < 10 )); then
   COLOUR=$ISSUE_COLOUR
 fi
 
-sketchybar --set "$NAME" icon="$ICON" label="DF ${SPACE}" label.color="${COLOUR}" icon.drawing=off
+sketchybar --set "$NAME" icon="$ICON" label="DF:${SPACE}" label.color="${COLOUR}" icon.drawing=off
