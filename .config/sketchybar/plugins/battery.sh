@@ -26,7 +26,7 @@ if [[ "$CHARGING" != "" ]]; then
 fi
 
 COLOUR=$DEFAULT_COLOUR
-if (( "$PERCENTAGE" < 30 )); then
+if (( "$PERCENTAGE" < 40 )); then
   COLOUR=$WARNING_COLOUR
 fi
 if (( "$PERCENTAGE" < 15 )); then
