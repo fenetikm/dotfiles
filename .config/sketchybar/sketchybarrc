@@ -38,7 +38,7 @@ do
     icon.padding_left=7
     icon.padding_right=7
     background.color=$BG1_COLOUR
-    background.corner_radius=5
+    background.corner_radius=6
     background.height=21
     label.drawing=off
     script="$PLUGIN_DIR/space.sh"
@@ -71,13 +71,15 @@ sketchybar \
            --add item weather right \
            --set weather update_freq=7200 script="$PLUGIN_DIR/weather.sh" \
            --subscribe weather system_woke \
+           --add item wifi right \
+           --set wifi update_freq=15 script="$PLUGIN_DIR/wifi.sh" \
            --add item volume right \
            --set volume script="$PLUGIN_DIR/volume.sh" \
            --subscribe volume volume_change \
            --add item battery right \
            --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
            --subscribe battery system_woke power_source_change \
-           --add bracket pbw volume battery \
+           --add bracket pbw volume battery wifi \
            --set pbw background.color=$BG1_COLOUR \
              background.shadow.drawing=on background.shadow.distance=1 \
              background.border_color=$BG1_BORDER_COLOUR background.border_width=1 \
