@@ -1,6 +1,17 @@
 source "$HOME/.config/sketchybar/colours.sh"
 PLUGIN_DIR="$CONFIG_DIR/plugins"
 
+# todo:
+# - change font I think, SF Pro?
+# - diff background for pomo
+# - click on wifi
+# - vertical version could be cool?!
+# - more capsules
+# - clean up defaults
+# - items:
+#   - next meeting? not sure I want to look up for those?
+#   - next omnifocus? same here... but could go in the centre
+
 # offset version
 # sketchybar --bar position=top height=32 margin=16 y_offset=16 \
   # padding_left=10 padding_right=10 \
@@ -46,21 +57,19 @@ do
   # sketchybar --add space space."$sid" left --set space."$sid" "${space[@]}"
 done
 
-##### Adding Left Items #####
-# We add some regular items to the left side of the bar, where
-# only the properties deviating from the current defaults need to be set
-
 # left items
 sketchybar \
            --add item doge left \
            --set doge icon=🐶 y_offset=2 label.drawing=off \
                icon.font="Hack Nerd Font:Bold:14.0" icon.padding_left=0 \
            --add item cpu left \
-           --set cpu update_freq=20 script="$PLUGIN_DIR/cpu_load.sh" \
+           --set cpu update_freq=10 script="$PLUGIN_DIR/cpu_load.sh" \
            --add item disk left \
            --set disk update_freq=130 script="$PLUGIN_DIR/disk.sh" \
+           --subscribe disk system_woke \
            --add item timemachine left \
            --set timemachine update_freq=86400 script="$PLUGIN_DIR/timemachine.sh" \
+           --subscribe timemachine system_woke
 
 # right items
 sketchybar \
@@ -95,5 +104,5 @@ sketchybar \
            --set front_app icon.drawing=off script="$PLUGIN_DIR/front_app.sh" \
            --subscribe front_app front_app_switched
 
-##### Force all scripts to run the first time (never do this in a script) #####
+# update all items
 sketchybar --update

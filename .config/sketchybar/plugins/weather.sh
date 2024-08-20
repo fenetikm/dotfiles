@@ -24,7 +24,9 @@ if (( $(echo "$RAIN > 10" | bc -l) )); then
   COLOUR=$COOL_COLOUR
 fi
 TIME=`date '+%H'`
-if (( "$TIME" > 19 || "$TIME < 5" )); then
+# remove leading zeroes
+TIME=`echo $TIME | sed -E 's/([0])([1-9])/\2/'`
+if (( "$TIME" > 19 || "$TIME" < 5 )); then
   ICON=
   COLOUR=$DEFAULT_COLOUR
 fi

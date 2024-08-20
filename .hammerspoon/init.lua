@@ -578,6 +578,8 @@ local launchOrFocus = function(appName, details)
   -- setGrid('fullScreen')
 end
 
+hk = {}
+
 hs.fnutils.each({
   { key = "b", app = "Thunderbird"},
   { key = "f", app = "Finder" },
@@ -600,40 +602,42 @@ hs.fnutils.each({
   { key = "m", app = "Messages"},
   { key = "i", app = "Music"},
 }, function(object)
-    hs.hotkey.bind(hyper_mapping, object.key, function() launchOrFocus(object.app, object) end)
+    hk[object.key] = hs.hotkey.bind(hyper_mapping, object.key, function() launchOrFocus(object.app, object) end)
 end)
 
-hs.hotkey.bind(screen_mapping, '1', function() moveToScreen(1) end)
-hs.hotkey.bind(screen_mapping, '2', function() moveToScreen(2) end)
+shk = {}
 
-hs.hotkey.bind(screen_mapping, '.', function() changeLayout() end)
-hs.hotkey.bind(screen_mapping, ',', function() setSpace(1) end)
+shk['1'] = hs.hotkey.bind(screen_mapping, '1', function() moveToScreen(1) end)
+shk['2'] = hs.hotkey.bind(screen_mapping, '2', function() moveToScreen(2) end)
 
-hs.hotkey.bind(screen_mapping, 'j', function() hs.grid.toggleShow() end)
+shk['fullstop'] = hs.hotkey.bind(screen_mapping, '.', function() changeLayout() end)
+shk['comma'] = hs.hotkey.bind(screen_mapping, ',', function() setSpace(1) end)
+
+shk['j'] = hs.hotkey.bind(screen_mapping, 'j', function() hs.grid.toggleShow() end)
 
 G.reloadWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
 hs.alert.show('Hammerspoon reloaded')
 
-hs.hotkey.bind(hyper_mapping, 'l', function() hs.caffeinate.systemSleep() end)
-hs.hotkey.bind(screen_mapping, 'return', function() toggleManager() end)
+shk['l'] = hs.hotkey.bind(hyper_mapping, 'l', function() hs.caffeinate.systemSleep() end)
+shk['return'] = hs.hotkey.bind(screen_mapping, 'return', function() toggleManager() end)
 
-hs.hotkey.bind(screen_mapping, 'q', function() setGrid('leftHalf') end)
-hs.hotkey.bind(screen_mapping, 'w', function() setGrid('rightHalf') end)
-hs.hotkey.bind(screen_mapping, 'e', function() setGrid('leftHalf') end)
-hs.hotkey.bind(screen_mapping, 'r', function() setGrid('rightHalf') end)
+shk['q'] = hs.hotkey.bind(screen_mapping, 'q', function() setGrid('leftHalf') end)
+shk['w'] = hs.hotkey.bind(screen_mapping, 'w', function() setGrid('rightHalf') end)
+shk['e'] = hs.hotkey.bind(screen_mapping, 'e', function() setGrid('leftHalf') end)
+shk['r'] = hs.hotkey.bind(screen_mapping, 'r', function() setGrid('rightHalf') end)
 
 -- 1 row, thirds
-hs.hotkey.bind(screen_mapping, 'a', function() setGrid('leftThird') end)
-hs.hotkey.bind(screen_mapping, 's', function() setGrid('middleVertical') end)
-hs.hotkey.bind(screen_mapping, 'd', function() setGrid('rightThird') end)
+shk['a'] = hs.hotkey.bind(screen_mapping, 'a', function() setGrid('leftThird') end)
+shk['s'] = hs.hotkey.bind(screen_mapping, 's', function() setGrid('middleVertical') end)
+shk['d'] = hs.hotkey.bind(screen_mapping, 'd', function() setGrid('rightThird') end)
 
 -- 1 row, two thirds
-hs.hotkey.bind(screen_mapping, 'z', function() setGrid('leftTwoThirds') end)
-hs.hotkey.bind(screen_mapping, 'x', function() setGrid('middleTwoThirds') end)
-hs.hotkey.bind(screen_mapping, 'c', function() setGrid('rightTwoThirds') end)
+shk['z'] = hs.hotkey.bind(screen_mapping, 'z', function() setGrid('leftTwoThirds') end)
+shk['x'] = hs.hotkey.bind(screen_mapping, 'x', function() setGrid('middleTwoThirds') end)
+shk['c'] = hs.hotkey.bind(screen_mapping, 'c', function() setGrid('rightTwoThirds') end)
 
-hs.hotkey.bind(screen_mapping, 't', function() sendAppLayoutPosition(1) end)
-hs.hotkey.bind(screen_mapping, 'h', function() hideAll() end)
+shk['t'] = hs.hotkey.bind(screen_mapping, 't', function() sendAppLayoutPosition(1) end)
+shk['h'] = hs.hotkey.bind(screen_mapping, 'h', function() hideAll() end)
 -- hs.hotkey.bind(screen_mapping, 'i', function()
 --   local win = hs.window.focusedWindow()
 --   local currentScreen = win:screen()
