@@ -159,15 +159,15 @@ local function appID(app)
 end
 local obsidianApp = appID('/Applications/obsidian.app')
 
-local gridWidth = 12
-local gridHeight = 12
-local gridMargin = 16
-local barHeight = 32
+-- local gridWidth = 12
+-- local gridHeight = 12
+-- local gridMargin = 16
+-- local barHeight = 32
 
 -- hs.grid.setGrid('12x12') -- can also specify a frame here to leave room for sketchybar
-hs.grid.ui.textSize = 20
-hs.grid.setMargins({gridMargin, gridMargin})
-hs.window.animationDuration = 0
+hs.grid.ui.textSize = 16
+-- hs.grid.setMargins({gridMargin, gridMargin})
+-- hs.window.animationDuration = 0
 
 -- this type of defn is fine because it is only called once
 G.setupGrid = function()
@@ -178,7 +178,7 @@ G.setupGrid = function()
     hs.grid.setGrid('12x12', screen, updatedFrame)
   end
 end
-G.setupGrid()
+-- G.setupGrid()
 
 local screen_mapping = {"cmd", "alt", "ctrl"}
 local hyper_mapping = {"cmd", "alt", "ctrl", "shift"}
