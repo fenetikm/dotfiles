@@ -1,0 +1,54 @@
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
+
+# defaults
+yabai -m config                                 \
+    external_bar                 all:32:0 \
+    top_padding 16 \
+    bottom_padding 16 \
+    left_padding 16 \
+    right_padding 16 \
+    window_gap 16 \
+    window_opacity on \
+    window_animation_duration 0.0 \
+    active_window_opacity 1.0 \
+    normal_window_opacity 0.8
+
+# space 1, inbuilt
+yabai -m config --space 1 layout stack
+yabai -m display 1 --space 1
+yabai -m display 1 --label inbuilt
+
+# space 2, external
+yabai -m config --space 2 layout bsp
+yabai -m config --space 2 auto_balance off
+yabai -m config --space 2 split_ratio 0.6666
+yabai -m config --space 2 second_child
+yabai -m display 2 --space 2
+yabai -m display 2 --label external
+
+# apparently sticky keeps a window across spaces? probs not that helpful, maybe if I had multiple spaces on ultrawide?
+# can always trigger on and off
+
+# todo
+# when switching to kitty, and in stack, hide other items in stack (opacity 0?)
+
+# unmanaged
+yabai -m rule --add app="^System Preferences$" manage=off
+yabai -m rule --add app="^Karabiner-Elements$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Karabiner-EventViewer$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Alfred Preferences$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Disk Utility$" sticky=on layer=above manage=off
+yabai -m rule --add app="^System Information$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Activity Monitor$" sticky=on layer=above manage=off
+
+# this works
+# requires script has +x
+# yabai -m signal --add event=window_focused app="^kitty" action="$HOME/.config/yabai/thing.sh"
+
+# learnings:
+# resizing by some amount
+# yabai -m window --resize right:20:0
+# resizing to a ratio, absolutely
+# yabai -m window --ratio abs:0.6
+

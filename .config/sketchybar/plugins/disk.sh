@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 source "$HOME/.config/sketchybar/colours.sh"
 

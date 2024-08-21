@@ -167,7 +167,7 @@ local obsidianApp = appID('/Applications/obsidian.app')
 -- hs.grid.setGrid('12x12') -- can also specify a frame here to leave room for sketchybar
 hs.grid.ui.textSize = 16
 -- hs.grid.setMargins({gridMargin, gridMargin})
--- hs.window.animationDuration = 0
+hs.window.animationDuration = 0
 
 -- this type of defn is fine because it is only called once
 G.setupGrid = function()
@@ -291,7 +291,7 @@ local lastSeenChain = nil
 local lastSeenWindow = nil
 
 local chain = (function(movements)
-  s('chain')
+  -- s('chain')
   local chainResetInterval = 2 -- seconds
   local cycleLength = #movements
   local sequenceNumber = 1
@@ -659,8 +659,8 @@ end)
 --   s(hs.application.frontmostApplication():bundleID())
 -- end)
 
-shk['1'] = hs.hotkey.bind(screen_mapping, '1', function() moveToScreen(1) end)
-shk['2'] = hs.hotkey.bind(screen_mapping, '2', function() moveToScreen(2) end)
+-- shk['1'] = hs.hotkey.bind(screen_mapping, '1', function() moveToScreen(1) end)
+-- shk['2'] = hs.hotkey.bind(screen_mapping, '2', function() moveToScreen(2) end)
 
 -- shk['fullstop'] = hs.hotkey.bind(screen_mapping, '.', function() changeLayout() end)
 -- shk['comma'] = hs.hotkey.bind(screen_mapping, ',', function() setSpace(1) end)
@@ -671,25 +671,25 @@ G.reloadWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", relo
 hs.alert.show('Hammerspoon reloaded')
 
 shk['l'] = hs.hotkey.bind(hyper_mapping, 'l', function() hs.caffeinate.systemSleep() end)
-shk['return'] = hs.hotkey.bind(screen_mapping, 'return', function() toggleManager() end)
+-- shk['return'] = hs.hotkey.bind(screen_mapping, 'return', function() toggleManager() end)
 
-shk['q'] = hs.hotkey.bind(screen_mapping, 'q', function() setGrid('leftHalf') end)
-shk['w'] = hs.hotkey.bind(screen_mapping, 'w', function() setGrid('rightHalf') end)
-shk['e'] = hs.hotkey.bind(screen_mapping, 'e', function() setGrid('leftHalf') end)
-shk['r'] = hs.hotkey.bind(screen_mapping, 'r', function() setGrid('rightHalf') end)
+-- shk['q'] = hs.hotkey.bind(screen_mapping, 'q', function() setGrid('leftHalf') end)
+-- shk['w'] = hs.hotkey.bind(screen_mapping, 'w', function() setGrid('rightHalf') end)
+-- shk['e'] = hs.hotkey.bind(screen_mapping, 'e', function() setGrid('leftHalf') end)
+-- shk['r'] = hs.hotkey.bind(screen_mapping, 'r', function() setGrid('rightHalf') end)
 
 -- 1 row, thirds
-shk['a'] = hs.hotkey.bind(screen_mapping, 'a', function() setGrid('leftThird') end)
-shk['s'] = hs.hotkey.bind(screen_mapping, 's', function() setGrid('middleVertical') end)
-shk['d'] = hs.hotkey.bind(screen_mapping, 'd', function() setGrid('rightThird') end)
+-- shk['a'] = hs.hotkey.bind(screen_mapping, 'a', function() setGrid('leftThird') end)
+-- shk['s'] = hs.hotkey.bind(screen_mapping, 's', function() setGrid('middleVertical') end)
+-- shk['d'] = hs.hotkey.bind(screen_mapping, 'd', function() setGrid('rightThird') end)
 
 -- 1 row, two thirds
-shk['z'] = hs.hotkey.bind(screen_mapping, 'z', function() setGrid('leftTwoThirds') end)
-shk['x'] = hs.hotkey.bind(screen_mapping, 'x', function() setGrid('middleTwoThirds') end)
-shk['c'] = hs.hotkey.bind(screen_mapping, 'c', function() setGrid('rightTwoThirds') end)
-
-shk['t'] = hs.hotkey.bind(screen_mapping, 't', function() sendAppLayoutPosition(1) end)
-shk['h'] = hs.hotkey.bind(screen_mapping, 'h', function() hideAll() end)
+-- shk['z'] = hs.hotkey.bind(screen_mapping, 'z', function() setGrid('leftTwoThirds') end)
+-- shk['x'] = hs.hotkey.bind(screen_mapping, 'x', function() setGrid('middleTwoThirds') end)
+-- shk['c'] = hs.hotkey.bind(screen_mapping, 'c', function() setGrid('rightTwoThirds') end)
+--
+-- shk['t'] = hs.hotkey.bind(screen_mapping, 't', function() sendAppLayoutPosition(1) end)
+-- shk['h'] = hs.hotkey.bind(screen_mapping, 'h', function() hideAll() end)
 -- hs.hotkey.bind(screen_mapping, 'i', function()
 --   local win = hs.window.focusedWindow()
 --   local currentScreen = win:screen()
@@ -707,6 +707,68 @@ hs.console.darkMode(false)
 hs.console.consoleFont{name = 'Fira Code Regular', size = 16}
 -- hs.console.clearConsole()
 
-setupChains(screen_mapping)
-initScreenState()
-startHandling()
+local yabai = function(args, completion)
+  local yabai_output = ""
+  local yabai_error = ""
+  -- Runs in background very fast
+  local yabai_task = hs.task.new("/usr/local/bin/yabai", function(err, stdout, stderr)
+    print()
+  end, function(task, stdout, stderr)
+      -- print("stdout:"..stdout, "stderr:"..stderr)
+      if stdout ~= nil then
+        yabai_output = yabai_output .. stdout
+      end
+      if stderr ~= nil then
+        yabai_error = yabai_error .. stderr
+      end
+      return true
+    end, args)
+  if type(completion) == "function" then
+    yabai_task:setCallback(function()
+      completion(yabai_output, yabai_error)
+    end)
+  end
+  yabai_task:start()
+end
+
+-- shk['z'] = hs.hotkey.bind(screen_mapping, 'z', function() yabai({'-m', 'window', '--toggle', 'float'}) end)
+-- shk['x'] = hs.hotkey.bind(screen_mapping, 'x', function() yabai({'-m', 'window', '--toggle', 'zoom-fullscreen'}) end)
+
+-- does it matter if display or space?
+shk['1'] = hs.hotkey.bind(screen_mapping, '1', function() yabai({'-m', 'window', '--display', '1'}) end)
+shk['2'] = hs.hotkey.bind(screen_mapping, '2', function() yabai({'-m', 'window', '--display', '2'}) end)
+
+shk['q'] = hs.hotkey.bind(screen_mapping, 'q', function() yabai({'-m', 'window', '--ratio', 'abs:0.3333'}) end)
+shk['w'] = hs.hotkey.bind(screen_mapping, 'w', function() yabai({'-m', 'window', '--ratio', 'abs:0.5'}) end)
+shk['e'] = hs.hotkey.bind(screen_mapping, 'e', function() yabai({'-m', 'window', '--ratio', 'abs:0.666'}) end)
+
+-- this requires float, can we do that here?
+-- problem is if it is already floated, why can't we set that on a window?
+shk['r'] = hs.hotkey.bind(screen_mapping, 'r', function()
+  yabai({'-m', 'window', '--toggle', 'float'}, function()
+    yabai({'-m', 'window', '--grid', '12:12:2:2:8:8'})
+  end)
+end)
+
+shk['a'] = hs.hotkey.bind(screen_mapping, 'a', function() yabai({'-m', 'window', '--swap', 'west'}) end)
+shk['s'] = hs.hotkey.bind(screen_mapping, 's', function() yabai({'-m', 'window', '--swap', 'east'}) end)
+
+shk['z'] = hs.hotkey.bind(screen_mapping, 'z', function() yabai({'-m', 'space', '--layout', 'stack'}) end)
+shk['x'] = hs.hotkey.bind(screen_mapping, 'x', function() yabai({'-m', 'space', '--layout', 'bsp'}) end)
+shk['c'] = hs.hotkey.bind(screen_mapping, 'c', function() yabai({'-m', 'space', '--layout', 'float'}) end)
+
+-- this doesn't work when floated
+shk['f'] = hs.hotkey.bind(screen_mapping, 'f', function() yabai({'-m', 'window', '--toggle', 'zoom-fullscreen'}) end)
+shk['space'] = hs.hotkey.bind(screen_mapping, 'space', function() yabai({'-m', 'window', '--toggle', 'float'}) end)
+
+-- setupChains(screen_mapping)
+-- initScreenState()
+-- startHandling()
+
+-- yabai todo:
+-- resizing keys - done?
+-- working out how to use on ultrawide
+--
+-- yabai learnings
+-- - toggle zoom-fullscreen means that it stays full screen whilst other things keep bsp-ing
+-- - zoom-parent does something similar
