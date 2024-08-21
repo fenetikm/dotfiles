@@ -130,6 +130,7 @@
 -- note, if we want to have different margins around the edge vs margins between windows then would have to not use the hammerspoon grid
 
 -- for global vars
+-- see https://github-wiki-see.page/m/asmagill/hammerspoon/wiki/Variable-Scope-and-Garbage-Collection
 -- NOTE
 -- WE NEED TO REPLACE `local` with global for anything that we want to keep
 -- or isn't referenced anywhere else e.g. callbacks are referenced in the thing that they are registered with
@@ -290,6 +291,7 @@ local lastSeenChain = nil
 local lastSeenWindow = nil
 
 local chain = (function(movements)
+  s('chain')
   local chainResetInterval = 2 -- seconds
   local cycleLength = #movements
   local sequenceNumber = 1
@@ -319,8 +321,10 @@ local chain = (function(movements)
   end
 end)
 
+shk = {}
+
 local setupChains = function(screen_mapping)
-  hs.hotkey.bind(screen_mapping, 'f', chain({
+  shk['f'] = hs.hotkey.bind(screen_mapping, 'f', chain({
     grid.fullScreen,
     grid.focus,
   }))
@@ -506,8 +510,13 @@ local hideAll = function()
 end
 
 local moveToScreen = function(screenIndex)
+  -- s('move to screen')
   local screens = hs.screen.allScreens()
   local win = hs.window.focusedWindow()
+  local frontmostApp = hs.application.frontmostApplication()
+  -- s(frontmostApp)
+
+  -- s(screens[screenIndex]:name())
   -- 2 should always be the builtin
   if (screenIndex == 2 and screens[screenIndex]:name() ~= internalDisplay():name()) then
     screenIndex = 1
@@ -578,6 +587,46 @@ local launchOrFocus = function(appName, details)
   -- setGrid('fullScreen')
 end
 
+-- from evantravers
+-- h = hs.hotkey.modal.new({}, nil)
+-- function h:bindHotKeys(mapping)
+-- end
+-- h:bindHotKeys({})
+--
+--
+-- bindings = {
+--   {'Thunderbird', 'b', nil, nil},
+--   {'Finder', 'f', nil, nil},
+--   {'Slack', 's', nil, nil},
+--   {'Google Chrome', 'g', nil, nil},
+--   -- {'Brave Browser', 'x', nil},
+--   {'kitty', 'space', nil, nil},
+--   {'Mail', 'e', nil, nil},
+--   {nil, 'e', nil, 'obsidian://open?vault=personal'},
+--   {'TablePlus', 'q', nil, nil},
+--   {'Notes', 'n', nil, nil},
+--   {'Calendar', 'c', nil, nil},
+--   {'Jira', 'j', nil, nil},
+--   {'Bitbucket', 'k', nil, nil},
+--   {'Confluence', 'o', nil, nil},
+--   {'Metabase', 'r', nil, nil},
+--   {'Omnifocus', 'return', {'\''}, nil},
+--   {nil, 'z', nil, 'obsidian://open?vault=zettelkasten'},
+--   {nil, 'v', nil, 'obsidian://open?vault=PC'},
+--   {'Messages', 'm', nil, nil},
+--   {'Music', 'i', nil, nil},
+-- }
+--
+-- hs.fnutils.each(bindings, function(bindingConfig)
+--   local appName, globalBind, localBins = table.unpack(bindingConfig)
+--   -- if globalBind then
+--   -- end
+-- end)
+--
+--
+-- how to fix thunderbird issue:
+-- - install yabai, use that for the window stuff?
+
 hk = {}
 
 hs.fnutils.each({
@@ -605,15 +654,18 @@ hs.fnutils.each({
     hk[object.key] = hs.hotkey.bind(hyper_mapping, object.key, function() launchOrFocus(object.app, object) end)
 end)
 
-shk = {}
+-- hk['stop'] = hs.hotkey.bind(hyper_mapping, 'u', function()
+--   s('hello')
+--   s(hs.application.frontmostApplication():bundleID())
+-- end)
 
 shk['1'] = hs.hotkey.bind(screen_mapping, '1', function() moveToScreen(1) end)
 shk['2'] = hs.hotkey.bind(screen_mapping, '2', function() moveToScreen(2) end)
 
-shk['fullstop'] = hs.hotkey.bind(screen_mapping, '.', function() changeLayout() end)
-shk['comma'] = hs.hotkey.bind(screen_mapping, ',', function() setSpace(1) end)
-
-shk['j'] = hs.hotkey.bind(screen_mapping, 'j', function() hs.grid.toggleShow() end)
+-- shk['fullstop'] = hs.hotkey.bind(screen_mapping, '.', function() changeLayout() end)
+-- shk['comma'] = hs.hotkey.bind(screen_mapping, ',', function() setSpace(1) end)
+--
+-- shk['j'] = hs.hotkey.bind(screen_mapping, 'j', function() hs.grid.toggleShow() end)
 
 G.reloadWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
 hs.alert.show('Hammerspoon reloaded')

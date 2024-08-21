@@ -26,8 +26,8 @@ if [[ -n "$TIMELEFT" ]]; then
     label.padding_right=8 \
     icon.padding_left=8 \
     background.shadow.drawing=on background.shadow.distance=1 \
-    background.drawing=on background.color=$BG1_COLOUR \
-    background.border_color=$BG1_BORDER_COLOUR background.border_width=1 \
+    background.drawing=on background.color=$BG2_COLOUR \
+    background.border_color=$BG2_BORDER_COLOUR background.border_width=1 \
     background.corner_radius=6 background.height=22 background.y_offset=0
 else
   sketchybar --set "$NAME" drawing=off
