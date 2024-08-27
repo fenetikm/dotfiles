@@ -246,7 +246,7 @@ hugo-migrate-images() {
 }
 alias hi="hugo-migrate-images"
 
-alias hs="./save.sh"
+# alias hs="./save.sh"
 
 #love framework
 alias love="/Applications/love.app/Contents/MacOS/love"

@@ -1,18 +1,30 @@
+#!/usr/bin/env sh
 yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 sudo yabai --load-sa
 
+yabai -m config debug_output on
+
 # defaults
-yabai -m config                                 \
-    external_bar                 all:32:0 \
-    top_padding 16 \
-    bottom_padding 16 \
-    left_padding 16 \
-    right_padding 16 \
-    window_gap 16 \
-    window_opacity on \
-    window_animation_duration 0.0 \
-    active_window_opacity 1.0 \
-    normal_window_opacity 0.8
+yabai                         -m       config \
+    external_bar              all:32:0 \
+    top_padding               16       \
+    bottom_padding            16       \
+    left_padding              16       \
+    right_padding             16       \
+    window_gap                16       \
+    window_opacity            on       \
+    window_animation_duration 0.0      \
+    active_window_opacity     1.0      \
+    normal_window_opacity     1.0      \
+    window_shadow             off      \
+    auto_balance              off      \
+    split_type                vertical
+
+# this was to always make the insert direction west / east
+# yabai -m window --insert "$(jq -nr \
+#         --arg window_placement "$(yabai -m config window_placement)" \
+#         --argjson display "$(yabai -m query --displays --display)" \
+#         '[["west", "east"], ["north", "south"]][if $display | .frame | .w >= .h then 0 else 1 end][if $window_placement == "first_child" then 0 else 1 end]')"
 
 # space 1, inbuilt
 yabai -m config --space 1 layout stack
@@ -22,33 +34,68 @@ yabai -m display 1 --label inbuilt
 # space 2, external
 yabai -m config --space 2 layout bsp
 yabai -m config --space 2 auto_balance off
-yabai -m config --space 2 split_ratio 0.6666
+yabai -m config --space 2 split_ratio 0.5
 yabai -m config --space 2 second_child
 yabai -m display 2 --space 2
 yabai -m display 2 --label external
+# yabai -m space --label
+
+# space 3 available on external
+# todo, only create if doesn't exist
+# yabai -m space --create 2
+# yabai -m display 2 --space 3
+# yabai -m config --space 3 layout bsp
+# yabai -m config --space 3 auto_balance off
+# yabai -m config --space 3 split_ratio 0.5
+# yabai -m config --space 3 second_child
 
 # apparently sticky keeps a window across spaces? probs not that helpful, maybe if I had multiple spaces on ultrawide?
 # can always trigger on and off
 
 # todo
 # when switching to kitty, and in stack, hide other items in stack (opacity 0?)
+# when slack huddle opens, float it at a certain size, has `Huddle in the name`
+# ultrawide stuffs and keys
+# turn off shadows? try janky borders if do that see https://github.com/FelixKratz/JankyBorders/issues/88
+# wallpaper https://github.com/dominiklohmann/25th-hour
+# if floated windows are showing as always above: https://github.com/koekeishiya/yabai/issues/2170
+#assigning spaces to displays
+#
+# notes
+# jira / bitbucket all are called canary
+# 3 columns: https://github.com/koekeishiya/yabai/issues/157, basically toggle split from horizontal to vertical and balance, auto_balance on
+# `yabai -m window --swap largest` is a thing
+#
+# how about fn-m to enable modal mode?
+
+# make float windows not necessarily on top
+# although maybe we want this... just have to work differently
+yabai -m rule --add app=".*" sub-layer=normal
 
 # unmanaged
-yabai -m rule --add app="^System Preferences$" manage=off
-yabai -m rule --add app="^Karabiner-Elements$" sticky=on layer=above manage=off
-yabai -m rule --add app="^Karabiner-EventViewer$" sticky=on layer=above manage=off
-yabai -m rule --add app="^Alfred Preferences$" sticky=on layer=above manage=off
-yabai -m rule --add app="^Disk Utility$" sticky=on layer=above manage=off
-yabai -m rule --add app="^System Information$" sticky=on layer=above manage=off
-yabai -m rule --add app="^Activity Monitor$" sticky=on layer=above manage=off
+yabai -m rule --add app="^(Calculator|Software Update|Dictionary|VLC|zoom.us|Photo Booth|Archive Utility|LibreOffice|App Store|Steam|Alfred|Alfred Preferences|Activity Monitor|System Information|Karabiner-Elements|Karabiner-EventViewer|Finder|Preview|Disk Utility)$" manage=off
+yabai -m rule --add app="^(System Preferences|System Settings)$" manage=off sticky=on
+
+#
+yabai -m signal --add event=window_created action="$HOME/.config/yabai/window_created.sh"
+yabai -m signal --add event=window_destroyed action="$HOME/.config/yabai/window_destroyed.sh"
+yabai -m signal --add event=application_hidden action="$HOME/.config/yabai/window_destroyed.sh"
+yabai -m signal --add event=window_focused action="$HOME/.config/yabai/window_focused.sh"
+yabai -m signal --add event=application_launched action="$HOME/.config/yabai/application_launched.sh"
+
+# todo
+# application_activated, application_visible if only two windows do 1/23
+# application_hidden, same
 
 # this works
 # requires script has +x
 # yabai -m signal --add event=window_focused app="^kitty" action="$HOME/.config/yabai/thing.sh"
+# yabai -m signal -add event=
 
 # learnings:
-# resizing by some amount
-# yabai -m window --resize right:20:0
-# resizing to a ratio, absolutely
-# yabai -m window --ratio abs:0.6
 
+# spaces
+# 1. browser and kitty, and can have a second window in middle e.g. browser
+# ... can we stack on kitty and flip between that? e.g.
+# 2. bitbucket, browser, browser
+# 3.

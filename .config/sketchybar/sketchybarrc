@@ -1,16 +1,24 @@
 source "$HOME/.config/sketchybar/colours.sh"
 PLUGIN_DIR="$CONFIG_DIR/plugins"
 
+FONT="SF PRO"
+FONT_WEIGHT="Medium"
+FONT_SIZE="13.0"
+ICON_SIZE="15.0"
+
 # todo:
 # - change font I think, SF Pro?
-# - diff background for pomo
+# - different bar for laptop vs ultrawide
+# - diff bar background for pomo, could get rid of the terminal notifier stuff (boo to toasts)
 # - click on wifi
 # - vertical version could be cool?!
 # - more capsules
 # - clean up defaults
 # - items:
 #   - next meeting? not sure I want to look up for those?
-#   - next omnifocus? same here... but could go in the centre
+#   - next omnifocus? same ... but could go in the centre
+#   - messages
+#   - brightness?
 
 # offset version
 # sketchybar --bar position=top height=32 margin=16 y_offset=16 \
@@ -24,10 +32,10 @@ sketchybar --bar position=top height=32 \
   font_smoothing=on shadow=on
 
 default=(
-  padding_left=6
-  padding_right=6
-  icon.font="Hack Nerd Font:Bold:17.0"
-  label.font="Fira Code:SemiBold:14.0"
+  padding_left=4
+  padding_right=4
+  icon.font="Hack Nerd Font:Bold:${ICON_SIZE}"
+  label.font="${FONT}:${FONT_WEIGHT}:${FONT_SIZE}"
   icon.color=$ICON_COLOUR
   label.color=$DEFAULT_COLOUR
   icon.padding_left=4
@@ -50,7 +58,7 @@ do
   space=(
     space="$sid"
     icon="${SPACE_ICONS[i]}"
-    icon.font="Fira Code:SemiBold:14.0"
+    icon.font="${FONT}:${FONT_WEIGHT}:${FONT_SIZE}"
     icon.padding_left=7
     icon.padding_right=7
     background.color=$BG1_COLOUR
@@ -81,6 +89,10 @@ sketchybar \
            --add item weather right \
            --set weather update_freq=7200 script="$PLUGIN_DIR/weather.sh" \
            --subscribe weather system_woke \
+           --add item messages right \
+           --set messages update_freq=121 script="$PLUGIN_DIR/messages.sh" \
+           --subscribe messages system_woke \
+           --subscribe messages front_app_switched \
            --add item wifi right \
            --set wifi update_freq=15 script="$PLUGIN_DIR/wifi.sh" \
            --add item volume right \

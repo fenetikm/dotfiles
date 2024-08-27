@@ -7,7 +7,7 @@ return {
     local types = require'luasnip.util.types'
 
     require('luasnip').setup({
-      store_selection_keys = '<c-s-j>', --to store a visual selection to use in a snippet
+      -- store_selection_keys = '<c-s-j>', --to store a visual selection to use in a snippet
       update_events = 'TextChanged,TextChangedI', -- for repeated placeholders to update
       -- enable_autosnippets = true,
       ext_opts = {
