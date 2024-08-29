@@ -3,47 +3,40 @@
 echo '################'
 echo 'window focused'
 
-# if [[ $(yabai -m query --windows --window | jq -re '."is-floating"') == false ]]; then
-  # not floating
-# fi
+FIX_OPACITY=on
 
-wid="${YABAI_WINDOW_ID}"
-WINDOW=$(yabai -m query --windows --window "$wid")
-# echo "$WINDOW"
-echo $(echo "$WINDOW" | jq '.id')
-# echo $wid
-# echo $(yabai -m query --windows --window "$wid" | jq '.title')
+WID="${YABAI_WINDOW_ID}"
+WINDOW=$(yabai -m query --windows --window "$WID")
+# weirdly, according to the docs, this resets the opacity to 1.0
+yabai -m window "$WID" --opacity 0.0
 
-display=$(yabai -m query --displays --space | jq '.index')
+# todo, handle dialogs, floats etc.
+
+# first scenario, stacked space
 SPACE=$(yabai -m query --spaces --space)
-if [[ $(echo "$SPACE" | jq -re '."type" == "stack"') == true ]]; then
-  if [[ $(echo "$SPACE" | jq -re '."first-window" == '"$wid") == true ]]; then
-    # get all other windows
-    WINDOWS=($(echo "$SPACE" | jq '."windows" | @sh'))
-    # echo "$wid"
-    for w in "${WINDOWS[@]}"
+if [[ $(echo "$SPACE" | jq -re '."type" == "stack"') == true && "$FIX_OPACITY" == "on" ]]; then
+  WINDOW_IDS=($(echo "$SPACE" | jq -r '."windows" | @sh'))
+  if [[ "${WINDOW_IDS[1]}" == "$WID" ]]; then
+    WINDOWS=$(yabai -m query --windows --space)
+    C=0
+    for i in "${WINDOW_IDS[@]}"
     do
-      if [[ "$w" == "$wid" ]]; then
-        echo $w
+      if (( "$C" > 0 )); then
+        CW=$(yabai -m query --windows --window $i | jq -re '."is-visible" == true')
+        if [[ "$CW" == true ]]; then
+          yabai -m window "$i" --opacity 0.001
+        else
+          # once this is false, all other windows are hidden
+          exit 1
+        fi
       fi
+      C=$((C+1))
     done
   fi
 fi
 
-# todo
-# check which display we are on, exit if display 1
-# don't include floating windows
-# and not hidden
-# and not stacked
-# if two windows, default to 1 / 23
-# if one window, then add in lots of padding
+# second scenario, when window is in stack but space not in stack
+#
 
-# window=$(yabai -m query --windows --window "${wid}")
-# echo $window
-# space=$(cat $window | jq '.space')
-# echo $space
-# display=$(yabai -m query --windows --window "${wid}" | jq '.display')
-# windows=$(yabai -m query --displays --display $display | jq -)
-
-# yabai -m query --windows --window "${wid}" | jq -re '."display" == "2"' \
-    # && yabai -m space $(yabai -m query --windows --window "$wid" | jq '.space') --balance
+# not sure we *always* want this
+# source "$HOME"/.config/yabai/balance.sh

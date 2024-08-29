@@ -3,7 +3,7 @@
 #! /usr/bin/env zsh
 
 # enable auto balance
-yabai -m config auto_balance on
+# yabai -m config auto_balance on
 
 # register events
 # for event in window_focused application_activated; do
@@ -12,11 +12,11 @@ yabai -m config auto_balance on
 # done
 
 # when loading the script, convert all existing splits to horizontal
-yabai -m query --windows --space \
-  | jq -r '.[] | select(."is-visible" == true and ."split-type" == "horizontal").id' \
-  | xargs -I{} yabai -m window {} --toggle split
-
-exit
+# yabai -m query --windows --space \
+#   | jq -r '.[] | select(."is-visible" == true and ."split-type" == "horizontal").id' \
+#   | xargs -I{} yabai -m window {} --toggle split
+#
+# exit
 
 # yabai -m window --insert "$(jq -nr \
 # 	--arg window_placement "$(yabai -m config window_placement)" \

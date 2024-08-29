@@ -32,6 +32,8 @@ PROMPT_LEAN_SEP=''
 PROMPT_LEAN_SYMBOL='==>'
 # PROMPT_LEAN_PATH_SED='s/Documents\/Work/\$/g'
 PROMPT_LEAN_PATH_SED=''
+# remove the space at the end on the right
+ZLE_RPROMPT_INDENT=0
 source $HOME/.config/zsh/lean/lean.plugin.zsh
 
 # exa colours

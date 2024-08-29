@@ -14,6 +14,7 @@ ICON_SIZE="15.0"
 # - vertical version could be cool?!
 # - more capsules
 # - clean up defaults
+# - get more info from tmux using list-windows for frontapp
 # - items:
 #   - next meeting? not sure I want to look up for those?
 #   - next omnifocus? same ... but could go in the centre
@@ -91,8 +92,7 @@ sketchybar \
            --subscribe weather system_woke \
            --add item messages right \
            --set messages update_freq=121 script="$PLUGIN_DIR/messages.sh" \
-           --subscribe messages system_woke \
-           --subscribe messages front_app_switched \
+           --subscribe messages system_woke front_app_switched \
            --add item wifi right \
            --set wifi update_freq=15 script="$PLUGIN_DIR/wifi.sh" \
            --add item volume right \
@@ -114,7 +114,7 @@ sketchybar \
 # centre items
 sketchybar \
            --add item front_app center \
-           --set front_app icon.drawing=off script="$PLUGIN_DIR/front_app.sh" \
+           --set front_app script="$PLUGIN_DIR/front_app.sh" \
            --subscribe front_app front_app_switched
 
 # update all items

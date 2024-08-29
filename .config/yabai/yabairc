@@ -16,7 +16,7 @@ yabai                         -m       config \
     window_animation_duration 0.0      \
     active_window_opacity     1.0      \
     normal_window_opacity     1.0      \
-    window_shadow             off      \
+    window_shadow             on      \
     auto_balance              off      \
     split_type                vertical
 
@@ -70,10 +70,11 @@ yabai -m display 2 --label external
 
 # make float windows not necessarily on top
 # although maybe we want this... just have to work differently
-yabai -m rule --add app=".*" sub-layer=normal
+# yabai -m rule --add app=".*" sub-layer=normal
+# otherwise somehow need to get switched to floated windows appear above everything else
 
 # unmanaged
-yabai -m rule --add app="^(Calculator|Software Update|Dictionary|VLC|zoom.us|Photo Booth|Archive Utility|LibreOffice|App Store|Steam|Alfred|Alfred Preferences|Activity Monitor|System Information|Karabiner-Elements|Karabiner-EventViewer|Finder|Preview|Disk Utility)$" manage=off
+yabai -m rule --add app="^(Calculator|Software Update|Dictionary|VLC|zoom.us|Photo Booth|Archive Utility|LibreOffice|App Store|Steam|Alfred|Alfred Preferences|Activity Monitor|System Information|Karabiner-Elements|Karabiner-EventViewer|Preview|Disk Utility|OpenVPN Connect|Anki)$" manage=off
 yabai -m rule --add app="^(System Preferences|System Settings)$" manage=off sticky=on
 
 #
@@ -82,6 +83,7 @@ yabai -m signal --add event=window_destroyed action="$HOME/.config/yabai/window_
 yabai -m signal --add event=application_hidden action="$HOME/.config/yabai/window_destroyed.sh"
 yabai -m signal --add event=window_focused action="$HOME/.config/yabai/window_focused.sh"
 yabai -m signal --add event=application_launched action="$HOME/.config/yabai/application_launched.sh"
+yabai -m signal --add event=application_visible action="$HOME/.config/yabai/application_visible.sh"
 
 # todo
 # application_activated, application_visible if only two windows do 1/23

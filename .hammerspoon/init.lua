@@ -94,12 +94,12 @@ end)
 shk = {}
 
 -- replace with a yabai chain?
-local setupChains = function(screen_mapping)
-  shk['f'] = hs.hotkey.bind(screen_mapping, 'f', chain({
-    grid.fullScreen,
-    grid.focus,
-  }))
-end
+-- local setupChains = function(screen_mapping)
+--   shk['f'] = hs.hotkey.bind(screen_mapping, 'f', chain({
+--     grid.fullScreen,
+--     grid.focus,
+--   }))
+-- end
 
 local reloadConfig = function(files)
   doReload = false
@@ -224,7 +224,7 @@ end)
 G.reloadWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
 hs.alert.show('Hammerspoon reloaded')
 
-shk['l'] = hs.hotkey.bind(hyper_mapping, 'l', function() hs.caffeinate.systemSleep() end)
+hk['l'] = hs.hotkey.bind(hyper_mapping, 'l', function() hs.caffeinate.systemSleep() end)
 
 -- can't seem to get this to set all text font size?
 -- and setting the colours to white doesn't work for all the text either?
@@ -276,14 +276,21 @@ local yabai2 = function(commands)
   end
 end
 
+-- todo one button for chaining through thirds?
+
 -- toggle float
-shk['space'] = hs.hotkey.bind(screen_mapping, 'space', function() yabai({'-m', 'window', '--toggle', 'float'}) end)
+-- shk['space'] = hs.hotkey.bind(screen_mapping, 'space', function() yabai({'-m', 'window', '--toggle', 'float'}) end)
+shk['space'] = hs.hotkey.bind(screen_mapping, 'space', function() yabai_script('float.sh', {}) end)
 
 -- reload
 shk['r'] = hs.hotkey.bind(screen_mapping, 'r', function() os.execute('/usr/local/bin/yabai --restart-service') end)
 
 -- centre
-shk['c'] = hs.hotkey.bind(screen_mapping, 'c', function() yabai_script('centre.sh', {})
+shk['x'] = hs.hotkey.bind(screen_mapping, 'x', function() yabai_script('centre.sh', {'1'})
+end)
+shk['c'] = hs.hotkey.bind(screen_mapping, 'c', function() yabai_script('centre.sh', {'2'})
+end)
+shk['v'] = hs.hotkey.bind(screen_mapping, 'v', function() yabai_script('centre.sh', {'3'})
 end)
 
 -- send to other display
@@ -296,16 +303,21 @@ shk['2'] = hs.hotkey.bind(screen_mapping, '2', function() yabai({'-m', 'space', 
 shk['3'] = hs.hotkey.bind(screen_mapping, '3', function() yabai({'-m', 'space', '--focus', '3'}) end)
 
 -- shk['z'] = hs.hotkey.bind(screen_mapping, 'z', function() yabai({'-m', 'window', '--toggle', 'float'}) end)
--- shk['x'] = hs.hotkey.bind(screen_mapping, 'x', function() yabai({'-m', 'window', '--toggle', 'zoom-fullscreen'}) end)
+
+shk['f'] = hs.hotkey.bind(screen_mapping, 'f', function() yabai({'-m', 'window', '--toggle', 'zoom-fullscreen'}, function()
+  yabai({'-m', 'window', '--grid', '12:12:0:0:12:12'})
+end) end)
 
 -- these aren't right
-shk['q'] = hs.hotkey.bind(screen_mapping, 'q', function() yabai({'-m', 'space', '--ratio', 'abs:0.3334'}) end)
-shk['w'] = hs.hotkey.bind(screen_mapping, 'w', function() yabai({'-m', 'space', '--balance'}) end)
-shk['e'] = hs.hotkey.bind(screen_mapping, 'e', function() yabai({'-m', 'space', '--ratio', 'abs:0.6667'}) end)
+-- should they work if in stack mode and change mode?
+-- shk['q'] = hs.hotkey.bind(screen_mapping, 'q', function() yabai({'-m', 'space', '--ratio', 'abs:0.3334'}) end)
+-- shk['w'] = hs.hotkey.bind(screen_mapping, 'w', function() yabai({'-m', 'space', '--balance'}) end)
+-- shk['e'] = hs.hotkey.bind(screen_mapping, 'e', function() yabai({'-m', 'space', '--ratio', 'abs:0.6667'}) end)
 
-shk['z'] = hs.hotkey.bind(screen_mapping, 'z', function() yabai({'-m', 'space', '--balance'}) end)
+shk['z'] = hs.hotkey.bind(screen_mapping, 'z', function() yabai_script('balance.sh', {}) end)
 
-shk['p'] = hs.hotkey.bind(screen_mapping, 'p', function() yabai_script('toggle_drop.sh') end)
+-- toggle what happens when dropping a window on another
+shk['p'] = hs.hotkey.bind(screen_mapping, 'p', function() yabai_script('toggle_drop.sh', {}) end)
 
 -- this requires float, can we do that here?
 -- problem is if it is already floated, why can't we set that on a window? must be a way

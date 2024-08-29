@@ -20,8 +20,6 @@ When you get one window i.e. `--windows --window` since no array, don't need the
 - [stackline for visual stack indicators](https://github.com/AdamWagner/stackline)
 - [3 columns](https://github.com/koekeishiya/yabai/issues/157)
 
-## Space ideas
-
 ## Current uses
 - how many layouts do we have for ultrawide:
 - 1 browser, 23 kitty
@@ -60,6 +58,12 @@ next thing that is loaded comes in the middle and triple split
 - blogging:
     * browser, kitty
 
+### What about the maximal approach, all the spaces ?
+
+### Stacks approach
+- browser
+- kitty + db + metabase + jira
+
 ### How to do
 (s1)
 - developing / general:
@@ -95,13 +99,28 @@ Also could have spaces on laptop e.g.
 x:
 - browser and kitty for blog writing?
 2:
-- messages could be a split with something
+- messages could be a split with something maybe mail? slack? slack not full screen sounds good
 
-## How to
+Another thought: just keep kitty by itself? more splits!
+Also multiple kitties per space
+Lots of spaces! How hard to recreate a space? could this automated?
+
+Good to have intercom on a space, go straight to it
+Or maybe make an app for that
+
+Sometimes want to centre a thing without changing it's size, that used to be 'g'
+And then just chain full screen I think
+
+## How to?
 - Float but not be "on top" forever, also toggle float and it goes back to where it was
 - Focus in a direction then across to next display:
 `alt - h : yabai -m window --focus west || yabai -m display --focus west`
 - on laptop go from stack to bsp / side by side
+- how to keep spaces when pulling out plug, sounds like it is possible via a script?
+- does using hyper always go to the nearest app? e.g. if in a space will go to the browser / kitty there?
+
+## Rando ideas
+- show whether a window if floated or not in sketchybar
 
 ## Todo?
 - when floating, re balance
@@ -112,6 +131,7 @@ x:
 - when slack huddle is activated, and on display 2, make floated and centred
 - plugging in screen, space 2 is empty - quickest way to re-setup
 - same as above but with other spaces - is that because I have set space 2 to display 2, only?
+- open a browser in middle window - although, this is in the context of code review... maybe something simpler?
 
 ### Yabai
 - Label spaces and displays

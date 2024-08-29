@@ -3,8 +3,10 @@
 echo '################'
 echo 'application launched'
 
-pid="${YABAI_PROCESS_ID}"
-echo $pid
+PID="${YABAI_PROCESS_ID}"
+# echo $pid
+
+source "$HOME"/.config/yabai/balance.sh
 
 # wid="${YABAI_WINDOW_ID}"
 # echo $wid
