@@ -268,18 +268,18 @@ sk['space'] = hs.hotkey.bind(screen_mapping, 'space', function() yabai_script('f
 -- reload
 sk['r'] = hs.hotkey.bind(screen_mapping, 'r', function() os.execute('/usr/local/bin/yabai --restart-service') end)
 
--- centre, toggle between full and smaller
+-- resize, toggle between full and smaller
 sk['c'] = hs.hotkey.bind(screen_mapping, 'c', chain_yabai({
-  { 'centre.sh', {'2', '2'} },
-  { 'centre.sh', {'2', '1'} },
+  { 'resize.sh', {'2', '2'} },
+  { 'resize.sh', {'2', '1'} },
 }))
 sk['x'] = hs.hotkey.bind(screen_mapping, 'x', chain_yabai({
-  { 'centre.sh', {'1', '2'} },
-  { 'centre.sh', {'1', '1'} },
+  { 'resize.sh', {'1', '2'} },
+  { 'resize.sh', {'1', '1'} },
 }))
 sk['v'] = hs.hotkey.bind(screen_mapping, 'v', chain_yabai({
-  { 'centre.sh', {'3', '2'} },
-  { 'centre.sh', {'3', '1'} },
+  { 'resize.sh', {'3', '2'} },
+  { 'resize.sh', {'3', '1'} },
 }))
 
 sk['k'] = hs.hotkey.bind(screen_mapping, 'k', function() yabai_script('kitty.sh', {}) end)
