@@ -1,7 +1,14 @@
 #!/usr/bin/env sh
+
+# todo:
+# - when slack huddle opens, float it at a certain size, has `Huddle in the name`
+# - check out this wallpaper https://github.com/dominiklohmann/25th-hour
+# - padding on ultrawide, one app
+
 yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 sudo yabai --load-sa
 
+# turn on debug
 yabai -m config debug_output on
 
 # defaults
@@ -32,17 +39,6 @@ yabai -m config --space 2 second_child
 yabai -m display 2 --space 2
 yabai -m display 2 --label external
 
-# apparently sticky keeps a window across spaces? probs not that helpful, maybe if I had multiple spaces on ultrawide?
-# can always trigger on and off
-
-# todo
-# when switching to kitty, and in stack, hide other items in stack (opacity 0?)
-# when slack huddle opens, float it at a certain size, has `Huddle in the name`
-# wallpaper https://github.com/dominiklohmann/25th-hour
-#assigning spaces to displays
-#
-# notes
-# `yabai -m window --swap largest` is a thing
 
 # rules
 # unmanaged
