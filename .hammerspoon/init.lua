@@ -56,50 +56,7 @@ hs.window.animationDuration = 0
 local screen_mapping = {"cmd", "alt", "ctrl"}
 local hyper_mapping = {"cmd", "alt", "ctrl", "shift"}
 
--- taken from wincent https://github.com/wincent/wincent/blob/master/roles/dotfiles/files/.hammerspoon/init.lua
--- adapt for yabai? should be doable using a script
-local lastSeenChain = nil
-local lastSeenWindow = nil
-
-local chain = (function(movements)
-  local chainResetInterval = 2 -- seconds
-  local cycleLength = #movements
-  local sequenceNumber = 1
-
-  return function()
-    local win = hs.window.frontmostWindow()
-    local id = win:id()
-    local now = hs.timer.secondsSinceEpoch()
-    local screen = win:screen()
-
-    if
-      lastSeenChain ~= movements or
-      lastSeenAt < now - chainResetInterval or
-      lastSeenWindow ~= id
-    then
-      sequenceNumber = 1
-      lastSeenChain = movements
-    elseif (sequenceNumber == 1) then
-      -- At end of chain, restart chain on next screen.
-      screen = screen:next()
-    end
-    lastSeenAt = now
-    lastSeenWindow = id
-
-    -- hs.grid.set(win, movements[sequenceNumber], screen)
-    sequenceNumber = sequenceNumber % cycleLength + 1
-  end
-end)
-
-shk = {}
-
--- replace with a yabai chain?
--- local setupChains = function(screen_mapping)
---   shk['f'] = hs.hotkey.bind(screen_mapping, 'f', chain({
---     grid.fullScreen,
---     grid.focus,
---   }))
--- end
+sk = {}
 
 local reloadConfig = function(files)
   doReload = false
@@ -139,7 +96,8 @@ local launchOrFocus = function(appName, details)
         winCount = winCount + 1
       end
 
-      -- if not visible and there is only one possible window, or multiple windows
+      -- if not visible and there is only one possible window, or
+      -- multiple windows
       if not vis and winCount == 1 or winCount > 1 then
         for _, win in pairs(app:allWindows()) do
           win:unminimize()
@@ -270,90 +228,107 @@ local yabai_script = function(script_name, args)
   task:start()
 end
 
-local yabai2 = function(commands)
-  for _, cmd in ipairs(commands) do
-    os.execute("/usr/local/bin/yabai -m" .. cmd)
+local lastSeenChain = nil
+local lastSeenWindow = nil
+
+-- adapted from wincent https://github.com/wincent/wincent/blob/master/roles/dotfiles/files/.hammerspoon/init.lua
+local chain_yabai = function(movements)
+  local chainResetInterval = 2 -- seconds
+  local cycleLength = #movements
+  local sequenceNumber = 1
+
+  return function()
+    local now = hs.timer.secondsSinceEpoch()
+
+    if
+      lastSeenChain ~= movements or
+      lastSeenAt < now - chainResetInterval
+    then
+      sequenceNumber = 1
+      lastSeenChain = movements
+    elseif (sequenceNumber == 1) then
+      -- At end of chain, restart chain on next screen.
+      -- screen = screen:next()
+    end
+    lastSeenAt = now
+
+    if string.find(movements[sequenceNumber][1], ".sh") then
+      yabai_script(movements[sequenceNumber][1], movements[sequenceNumber][2])
+    else
+      -- todo non script call
+    end
+
+    sequenceNumber = sequenceNumber % cycleLength + 1
   end
 end
 
--- todo one button for chaining through thirds?
-
 -- toggle float
--- shk['space'] = hs.hotkey.bind(screen_mapping, 'space', function() yabai({'-m', 'window', '--toggle', 'float'}) end)
-shk['space'] = hs.hotkey.bind(screen_mapping, 'space', function() yabai_script('float.sh', {}) end)
+sk['space'] = hs.hotkey.bind(screen_mapping, 'space', function() yabai_script('float.sh', {}) end)
 
 -- reload
-shk['r'] = hs.hotkey.bind(screen_mapping, 'r', function() os.execute('/usr/local/bin/yabai --restart-service') end)
+sk['r'] = hs.hotkey.bind(screen_mapping, 'r', function() os.execute('/usr/local/bin/yabai --restart-service') end)
 
--- centre
-shk['x'] = hs.hotkey.bind(screen_mapping, 'x', function() yabai_script('centre.sh', {'1'})
-end)
-shk['c'] = hs.hotkey.bind(screen_mapping, 'c', function() yabai_script('centre.sh', {'2'})
-end)
-shk['v'] = hs.hotkey.bind(screen_mapping, 'v', function() yabai_script('centre.sh', {'3'})
-end)
+-- centre, toggle between full and smaller
+sk['c'] = hs.hotkey.bind(screen_mapping, 'c', chain_yabai({
+  { 'centre.sh', {'2', '2'} },
+  { 'centre.sh', {'2', '1'} },
+}))
+sk['x'] = hs.hotkey.bind(screen_mapping, 'x', chain_yabai({
+  { 'centre.sh', {'1', '2'} },
+  { 'centre.sh', {'1', '1'} },
+}))
+sk['v'] = hs.hotkey.bind(screen_mapping, 'v', chain_yabai({
+  { 'centre.sh', {'3', '2'} },
+  { 'centre.sh', {'3', '1'} },
+}))
+
+sk['k'] = hs.hotkey.bind(screen_mapping, 'k', function() yabai_script('kitty.sh', {}) end)
 
 -- send to other display
-shk['comma'] = hs.hotkey.bind(screen_mapping, ',', function() yabai_script('send_display.sh', {'2'}) end)
-shk['period'] = hs.hotkey.bind(screen_mapping, '.', function() yabai_script('send_display.sh', {'1'}) end)
+sk['comma'] = hs.hotkey.bind(screen_mapping, ',', function() yabai_script('send_display.sh', {'2'}) end)
+sk['period'] = hs.hotkey.bind(screen_mapping, '.', function() yabai_script('send_display.sh', {'1'}) end)
 
 -- space mapping
-shk['1'] = hs.hotkey.bind(screen_mapping, '1', function() yabai({'-m', 'space', '--focus', '1'}) end)
-shk['2'] = hs.hotkey.bind(screen_mapping, '2', function() yabai({'-m', 'space', '--focus', '2'}) end)
-shk['3'] = hs.hotkey.bind(screen_mapping, '3', function() yabai({'-m', 'space', '--focus', '3'}) end)
+sk['1'] = hs.hotkey.bind(screen_mapping, '1', function() yabai({'-m', 'space', '--focus', '1'}) end)
+sk['2'] = hs.hotkey.bind(screen_mapping, '2', function() yabai({'-m', 'space', '--focus', '2'}) end)
+sk['3'] = hs.hotkey.bind(screen_mapping, '3', function() yabai({'-m', 'space', '--focus', '3'}) end)
 
--- shk['z'] = hs.hotkey.bind(screen_mapping, 'z', function() yabai({'-m', 'window', '--toggle', 'float'}) end)
-
-shk['f'] = hs.hotkey.bind(screen_mapping, 'f', function() yabai({'-m', 'window', '--toggle', 'zoom-fullscreen'}, function()
+sk['f'] = hs.hotkey.bind(screen_mapping, 'f', function() yabai({'-m', 'window', '--toggle', 'zoom-fullscreen'}, function()
   yabai({'-m', 'window', '--grid', '12:12:0:0:12:12'})
 end) end)
 
 -- these aren't right
 -- should they work if in stack mode and change mode?
--- shk['q'] = hs.hotkey.bind(screen_mapping, 'q', function() yabai({'-m', 'space', '--ratio', 'abs:0.3334'}) end)
--- shk['w'] = hs.hotkey.bind(screen_mapping, 'w', function() yabai({'-m', 'space', '--balance'}) end)
--- shk['e'] = hs.hotkey.bind(screen_mapping, 'e', function() yabai({'-m', 'space', '--ratio', 'abs:0.6667'}) end)
+-- sk['q'] = hs.hotkey.bind(screen_mapping, 'q', function() yabai({'-m', 'space', '--ratio', 'abs:0.3334'}) end)
+-- sk['w'] = hs.hotkey.bind(screen_mapping, 'w', function() yabai({'-m', 'space', '--balance'}) end)
+-- sk['e'] = hs.hotkey.bind(screen_mapping, 'e', function() yabai({'-m', 'space', '--ratio', 'abs:0.6667'}) end)
 
-shk['z'] = hs.hotkey.bind(screen_mapping, 'z', function() yabai_script('balance.sh', {}) end)
+sk['z'] = hs.hotkey.bind(screen_mapping, 'z', function() yabai_script('balance.sh', {}) end)
 
 -- toggle what happens when dropping a window on another
-shk['p'] = hs.hotkey.bind(screen_mapping, 'p', function() yabai_script('toggle_drop.sh', {}) end)
-
--- this requires float, can we do that here?
--- problem is if it is already floated, why can't we set that on a window? must be a way
--- shk['r'] = hs.hotkey.bind(screen_mapping, 'r', function()
---   yabai({'-m', 'window', '--toggle', 'float'}, function()
---     yabai({'-m', 'window', '--grid', '12:12:2:2:8:8'})
---   end)
--- end)
-
--- how about fn-m to enable modal mode?
+sk['p'] = hs.hotkey.bind(screen_mapping, 'p', function() yabai_script('toggle_drop.sh', {}) end)
 
 -- set mode
-shk['a'] = hs.hotkey.bind(screen_mapping, 'a', function() yabai({'-m', 'space', '--layout', 'bsp'}) end)
-shk['s'] = hs.hotkey.bind(screen_mapping, 's', function() yabai({'-m', 'space', '--layout', 'float'}) end)
-shk['d'] = hs.hotkey.bind(screen_mapping, 'd', function() yabai({'-m', 'space', '--layout', 'stack'}) end)
+sk['a'] = hs.hotkey.bind(screen_mapping, 'a', function() yabai({'-m', 'space', '--layout', 'bsp'}) end)
+sk['s'] = hs.hotkey.bind(screen_mapping, 's', function() yabai({'-m', 'space', '--layout', 'float'}) end)
+sk['d'] = hs.hotkey.bind(screen_mapping, 'd', function() yabai({'-m', 'space', '--layout', 'stack'}) end)
 
--- shk['m'] = hs.hotkey.bind(screen_mapping, 'm', function() yabai({'-m', 'window', '--minimize'}) end)
+-- minimize, kinda like hide
+sk['h'] = hs.hotkey.bind(screen_mapping, 'h', function() yabai({'-m', 'window', '--minimize'}) end)
 
--- shk['f'] = hs.hotkey.bind(screen_mapping, 'f', function() yabai({'-m', 'window', '--toggle', 'zoom-fullscreen'}) end)
+-- sk['f'] = hs.hotkey.bind(screen_mapping, 'f', function() yabai({'-m', 'window', '--toggle', 'zoom-fullscreen'}) end)
 -- change this to something else
--- shk['space'] = hs.hotkey.bind(screen_mapping, 'space', function() yabai({'-m', 'window', '--toggle', 'float'}) end)
+-- sk['space'] = hs.hotkey.bind(screen_mapping, 'space', function() yabai({'-m', 'window', '--toggle', 'float'}) end)
 
--- shk['comma'] = hs.hotkey.bind(screen_mapping, ',', function() yabai({'-m', 'window', '--stack', 'next'}) end)
--- shk['stop'] = hs.hotkey.bind(screen_mapping, '.', function() yabai({'-m', 'window', '--stack', 'prev'}) end)
-
--- let's think about this a bit more
-
--- local yabai_mode = hs.hotkey.modal.new('cmd+ctrl+alt', 'm')
-local yabai_mode = hs.hotkey.modal.new('', 'f19')
+local yabai_mode = hs.hotkey.modal.new('command+control+option', 'm')
+-- local yabai_mode = hs.hotkey.modal.new('', 'f19')
 function yabai_mode:entered() hs.alert'Entered moving mode' end
 function yabai_mode:exited() hs.alert'Exited moving mode'  end
 yabai_mode:bind('', 'escape', function()
   yabai_mode:exit()
 end)
 
--- focus
+-- focus, rarely needed
 yabai_mode:bind('', 'h', function()
   yabai({'-m', 'window', '--focus', 'west'})
   yabai_mode:exit()
@@ -363,13 +338,23 @@ yabai_mode:bind('', 'l', function()
   yabai_mode:exit()
 end)
 
--- shift
+-- swap
 yabai_mode:bind('shift', 'h', function()
-  yabai({'-m', 'window', '--warp', 'west'})
+  yabai({'-m', 'window', '--swap', 'west'})
   yabai_mode:exit()
 end)
 yabai_mode:bind('shift', 'l', function()
-  yabai({'-m', 'window', '--warp', 'east'})
+  yabai({'-m', 'window', '--swap', 'east'})
+  yabai_mode:exit()
+end)
+
+-- warp (split at the insert)
+yabai_mode:bind('control+shift', 'h', function()
+  yabai({'-m', 'window', '--swap', 'west'})
+  yabai_mode:exit()
+end)
+yabai_mode:bind('control+shift', 'l', function()
+  yabai({'-m', 'window', '--swap', 'east'})
   yabai_mode:exit()
 end)
 
@@ -396,22 +381,15 @@ yabai_mode:bind('', '3', function()
   yabai({'-m', 'window', '--space', '3'})
   yabai_mode:exit()
 end)
---
--- yabai_mode:bind('', 's', function()
---   yabai({'-m', 'window', '--stack', 'mouse'})
---   yabai_mode:exit()
--- end)
 
--- think I will do the modal thing
--- some way to turn on the mode
--- then you can use hjkl and shift / ctrl etc.
+-- stack the current window with the one currently underneath the mouse?
+yabai_mode:bind('', 's', function()
+  yabai({'-m', 'window', '--stack', 'mouse'})
+  yabai_mode:exit()
+end)
+
 -- todo:
 -- - toggle padding on space for ultrawide see: https://github.com/koekeishiya/yabai/issues/975
--- - change the screen key to f19
--- - hiding things underneath when viewing topmost of a stack
 
 -- yabai todo:
--- resizing keys - done?
 -- working out how to use on ultrawide
--- also remember that we could use spaces more, could have a couple of browser windows of particular things
--- fix the above so we can do complete commands and multiple, just an os.execute I think

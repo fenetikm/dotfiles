@@ -1,0 +1,126 @@
+## Layouts ##
+# Switch layout to float on space
+shift + alt + ctrl - f : yabai -m space --layout float
+# Switch layout to bsp on space
+shift + alt + ctrl - b : yabai -m space --layout bsp
+# Switch layout to stack on space
+shift + alt + ctrl - s : yabai -m space --layout stack
+
+## Desktops ##
+# Space Navigation (four spaces per display): lalt - {1, 2, 3, 4}
+lalt - 1 : SPACES=($(yabai -m query --displays --display | jq '.spaces[]')) && [[ -n $SPACES[1] ]] && yabai -m space --focus $SPACES[1]
+lalt - 2 : SPACES=($(yabai -m query --displays --display | jq '.spaces[]')) && [[ -n $SPACES[2] ]] && yabai -m space --focus $SPACES[2]
+lalt - 3 : SPACES=($(yabai -m query --displays --display | jq '.spaces[]')) && [[ -n $SPACES[3] ]] && yabai -m space --focus $SPACES[3]
+lalt - 4 : SPACES=($(yabai -m query --displays --display | jq '.spaces[]')) && [[ -n $SPACES[4] ]] && yabai -m space --focus $SPACES[4]
+lalt - 5 : SPACES=($(yabai -m query --displays --display | jq '.spaces[]')) && [[ -n $SPACES[5] ]] && yabai -m space --focus $SPACES[5]
+
+# Moving windows between spaces and follow: shift + lalt - {1, 2, 3, 4, p, n } (Assumes 4 Spaces Max per Display)
+shift + lalt - 1 : SPACES=($(yabai -m query --displays --display | jq '.spaces[]')) && [[ -n $SPACES[1] ]] \
+                  && yabai -m window --space $SPACES[1] \
+                  && yabai -m space --focus $SPACES[1] \
+                  && sketchybar --trigger windows_on_spaces
+shift + lalt - 2 : SPACES=($(yabai -m query --displays --display | jq '.spaces[]')) && [[ -n $SPACES[2] ]] \
+                  && yabai -m window --space $SPACES[2] \
+                  && yabai -m space --focus $SPACES[2] \
+                  && sketchybar --trigger windows_on_spaces
+shift + lalt - 3 : SPACES=($(yabai -m query --displays --display | jq '.spaces[]')) && [[ -n $SPACES[3] ]] \
+                  && yabai -m window --space $SPACES[3] \
+                  && yabai -m space --focus $SPACES[3] \
+                  && sketchybar --trigger windows_on_spaces
+shift + lalt - 4 : SPACES=($(yabai -m query --displays --display | jq '.spaces[]')) && [[ -n $SPACES[4] ]] \
+                  && yabai -m window --space $SPACES[4] \
+                  && yabai -m space --focus $SPACES[4] \
+                  && sketchybar --trigger windows_on_spaces
+shift + lalt - 5 : SPACES=($(yabai -m query --displays --display | jq '.spaces[]')) && [[ -n $SPACES[5] ]] \
+                  && yabai -m window --space $SPACES[5] \
+                  && yabai -m space --focus $SPACES[5] \
+                  && sketchybar --trigger windows_on_spaces
+
+# create desktop, move window and follow focus - uses jq for parsing json (brew install jq)
+shift + lalt - n : yabai -m space --create && \
+                  index="$(yabai -m query --spaces --display | jq 'map(select(."is-native-fullscreen" == false))[-1].index')" && \
+                  yabai -m window --space "${index}" && \
+                  yabai -m space --focus "${index}"
+# Destroy desktop.
+shift + lalt - w : yabai -m space --destroy
+
+## Windows ##
+# focus window
+alt - h : yabai -m window --focus west
+alt - j : yabai -m window --focus south
+alt - k : yabai -m window --focus north
+alt - l : yabai -m window --focus east
+
+# cycle focus window
+shift + lalt - 0x1E : yabai -m window --focus next || yabai -m window --focus first
+shift + lalt - 0x21 : yabai -m window --focus prev || yabai -m window --focus last
+
+# swap managed window
+shift + lalt - h : yabai -m window --swap west
+shift + lalt - j : yabai -m window --swap south
+shift + lalt - k : yabai -m window --swap north
+shift + lalt - l : yabai -m window --swap east
+
+# move managed window
+shift + cmd - h : yabai -m window --warp west
+shift + cmd - j : yabai -m window --warp south
+shift + cmd - k : yabai -m window --warp north
+shift + cmd - l : yabai -m window --warp east
+
+# Balance size of windows.
+shift + alt - 0 : yabai -m space --balance
+
+# cycle through all windows, including floating ones, even when unfocused
+alt - tab : [ $(yabai -m query --windows --space | jq -re "map(select(.\"has-focus\" == true)) | length != 0") = true ] && yabai -m window --focus "$(yabai -m query --windows --space | jq -re "[sort_by(.id, .frame) | reverse | .[] | select(.role == \"AXWindow\" and .subrole == \"AXStandardWindow\") | .id] | nth(index($(yabai -m query --windows --window | jq -re ".id")) - 1)")" ||  yabai -m window --focus "$(yabai -m query --spaces --space | jq -re ".windows[0]?")" &> /dev/null
+
+# Resize windows
+alt - 0x18: yabai -m window --resize left:-20:0 || yabai -m window --resize right:20:0 # increase horizontal size
+alt - 0x1B: yabai -m window --resize left:20:0 || yabai -m window --resize right:-20:0 # decrease horizontal size
+alt + shift - 0x18: yabai -m window --resize bottom:0:20 || yabai -m window --resize top:0:-20 # increase vertical size
+alt + shift - 0x1B: yabai -m window --resize bottom:0:-20 || yabai -m window --resize top:0:20 # decrease vertical size
+
+# toggle window zoom
+lalt - d : yabai -m window --toggle zoom-parent; sketchybar --trigger window_focus
+lalt - f : yabai -m window --toggle zoom-fullscreen; sketchybar --trigger window_focus
+
+
+## Floating windows ##
+# float / unfloat window and center on screen
+alt - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
+
+# Make floating window fill screen.
+shift + ctrl - up     : yabai -m window --grid 1:1:0:0:1:1
+
+# Make floating window fill left-half of screen.
+shift + ctrl - left   : yabai -m window --grid 1:2:0:0:1:1
+
+# Make floating window fill right-half of screen.
+shift + ctrl - right  : yabai -m window --grid 1:2:1:0:1:1
+
+# move floating window
+shift + ctrl - w : yabai -m window --move rel:0:-20
+shift + ctrl - a : yabai -m window --move rel:-20:0
+shift + ctrl - s : yabai -m window --move rel:0:20
+shift + ctrl - d : yabai -m window --move rel:20:0
+
+
+## Monitors ##
+# focus monitor
+cmd + alt - 1  : yabai -m display --focus 1
+cmd + alt - 2  : yabai -m display --focus 2
+
+# send window to monitor and follow focus
+cmd + alt + shift - 1  : yabai -m window --display 1; yabai -m display --focus 1
+cmd + alt + shift - 2  : yabai -m window --display 2; yabai -m display --focus 2
+
+
+## Stacks ##
+# stack window
+rcmd + ralt - w : yabai -m window --stack north
+rcmd + ralt - a : yabai -m window --stack west
+rcmd + ralt - s : yabai -m window --stack south
+rcmd + ralt - d : yabai -m window --stack east
+
+# cycle through stacked window
+rcmd + ralt - e : yabai -m window --focus stack.next #|| yabai -m window --focus stack.first
+rcmd + ralt - q : yabai -m window --focus stack.prev #|| yabai -m window --focus stack.last

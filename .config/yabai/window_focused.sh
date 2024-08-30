@@ -3,14 +3,16 @@
 echo '################'
 echo 'window focused'
 
+# fixme: pull in from env variable?
 FIX_OPACITY=on
 
 WID="${YABAI_WINDOW_ID}"
 WINDOW=$(yabai -m query --windows --window "$WID")
+if [[ $(echo "$WINDOW" | jq -re '."is-floating"') == "true" ]]; then
+  exit 1
+fi
 # weirdly, according to the docs, this resets the opacity to 1.0
 yabai -m window "$WID" --opacity 0.0
-
-# todo, handle dialogs, floats etc.
 
 # first scenario, stacked space
 SPACE=$(yabai -m query --spaces --space)
