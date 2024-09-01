@@ -3,9 +3,10 @@
 echo '################'
 echo 'window destroyed'
 
-# fixme: pull this in from an env variable?
+# todo: pull this in from an env variable?
 FIX_OPACITY=on
 
+# fixme: instead of this, go through all spaces that have stacks and do it, more reliable
 SPACE=$(yabai -m query --spaces --space)
 
 # process ID will be set via application_hidden event

@@ -25,8 +25,6 @@
 -- hide:
 -- - slack, email... etc.
 
--- for global vars
--- see https://github-wiki-see.page/m/asmagill/hammerspoon/wiki/Variable-Scope-and-Garbage-Collection
 G = {}
 G.log = hs.logger.new('mw', 'debug')
 G.loggingEnabled = true
@@ -42,6 +40,7 @@ s = function(message)
   end
 end
 
+-- install hs command line tool
 local installed = hs.ipc.cliInstall()
 
 hs.loadSpoon("URLDispatcher")
@@ -50,7 +49,6 @@ local function appID(app)
 end
 local obsidianApp = appID('/Applications/obsidian.app')
 
-hs.grid.ui.textSize = 16
 hs.window.animationDuration = 0
 
 local screen_mapping = {"cmd", "alt", "ctrl"}
@@ -66,7 +64,6 @@ local reloadConfig = function(files)
     end
   end
   if doReload then
-    d('should stop handling')
     hs.reload()
     hs.alert.show('Hammerspoon config loaded')
   end
@@ -153,14 +150,13 @@ end
 -- end)
 
 hk = {}
-
 hs.fnutils.each({
-  { key = "b", app = "Thunderbird"},
+  { key = "b", app = "Thunderbird" },
   { key = "f", app = "Finder" },
-  { key = "s", app = "Slack"},
+  { key = "s", app = "Slack" },
   { key = "g", app = "Google Chrome" },
   { key = "x", app = "Brave Browser" },
-  { key = "space", app = "kitty" },
+  { key = "space", app = "kitty", yabai = "kitty.sh" },
   { key = "e", app = "Mail"},
   { key = "p", url = "obsidian://open?vault=personal" },
   { key = "q", app = "TablePlus"},
@@ -195,6 +191,8 @@ hs.console.darkMode(false)
 hs.console.consoleFont{name = 'Fira Code Regular', size = 16}
 -- hs.console.clearConsole()
 
+-- begin yabai window management
+-- todo: move into another file
 local yabai = function(args, completion)
   local yabai_output = ""
   local yabai_error = ""
@@ -255,7 +253,7 @@ local chain_yabai = function(movements)
     if string.find(movements[sequenceNumber][1], ".sh") then
       yabai_script(movements[sequenceNumber][1], movements[sequenceNumber][2])
     else
-      -- todo non script call
+      -- todo: non script call
     end
 
     sequenceNumber = sequenceNumber % cycleLength + 1
@@ -282,6 +280,7 @@ sk['v'] = hs.hotkey.bind(screen_mapping, 'v', chain_yabai({
   { 'resize.sh', {'3', '1'} },
 }))
 
+-- todo: call this after launching it
 sk['k'] = hs.hotkey.bind(screen_mapping, 'k', function() yabai_script('kitty.sh', {}) end)
 
 -- send to other display
