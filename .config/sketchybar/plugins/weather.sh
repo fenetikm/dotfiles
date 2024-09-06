@@ -34,5 +34,5 @@ fi
 # round the temp to an int
 TEMP=$(printf "%.0f\n" "$TEMP")
 
-sketchybar --set "$NAME" label="${TEMP}°" icon="$ICON" icon.color="${COLOUR}" icon.padding_right=2 label.padding_left=2 \
-  icon.font="Hack Nerd Font:Bold:15.0"
+sketchybar --set "$NAME" label="${TEMP}°" icon="$ICON" icon.color="${COLOUR}" icon.padding_right=2 label.padding_left=0 \
+  icon.font="Hack Nerd Font:Bold:15.0" padding_left=2

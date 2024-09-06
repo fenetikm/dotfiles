@@ -1,5 +1,5 @@
 -- @todo:
--- https://github.com/Hammerspoon/hammerspoon/discussions/3254 using sockets to talk to yabai
+-- https://github.com/Hammerspoon/hammerspoon/discussions/3254 using sockets to talk to yabai... but seems fast enough
 -- https://github.com/FelixKratz/JankyBorders for controlling window border colours
 -- https://github.com/FelixKratz/SketchyVim also looks fun
 -- vivaldi browser for ricing
@@ -254,28 +254,55 @@ local chain_yabai = function(movements)
       yabai_script(movements[sequenceNumber][1], movements[sequenceNumber][2])
     else
       -- todo: non script call
+      hs.alert.show('non script call')
     end
 
     sequenceNumber = sequenceNumber % cycleLength + 1
   end
 end
 
+-- still working out which one
+-- local yabai_mode = hs.hotkey.modal.new('command+control+option', 'm')
+local yabai_mode = hs.hotkey.modal.new('', 'f19')
+function yabai_mode:entered() hs.alert'Entered moving mode' end
+function yabai_mode:exited() hs.alert'Exited moving mode'  end
+yabai_mode:bind('', 'escape', function()
+  yabai_mode:exit()
+end)
+
+G.bindTo = 'both'
+local bindKey = function(key, fn)
+  local ret
+  if G.bindTo == 'both' or G.bindTo == 'key' then
+    ret = hs.hotkey.bind(screen_mapping, key, fn)
+  end
+
+  if G.bindTo == 'both' or G.bindTo == 'mode' then
+    yabai_mode:bind('', key, function()
+      fn()
+      yabai_mode:exit()
+    end
+    )
+  end
+
+  return ret
+end
+
 -- toggle float
-sk['space'] = hs.hotkey.bind(screen_mapping, 'space', function() yabai_script('float.sh', {}) end)
+sk['space'] = bindKey('space', function() yabai_script('float.sh', {}) end)
 
 -- reload
-sk['r'] = hs.hotkey.bind(screen_mapping, 'r', function() os.execute('/usr/local/bin/yabai --restart-service') end)
+sk['r'] = bindKey('r', function() os.execute('/usr/local/bin/yabai --restart-service') end)
 
--- resize, toggle between full and smaller
-sk['c'] = hs.hotkey.bind(screen_mapping, 'c', chain_yabai({
+sk['c'] = bindKey('c', chain_yabai({
   { 'resize.sh', {'2', '2'} },
   { 'resize.sh', {'2', '1'} },
 }))
-sk['x'] = hs.hotkey.bind(screen_mapping, 'x', chain_yabai({
+sk['x'] = bindKey('x', chain_yabai({
   { 'resize.sh', {'1', '2'} },
   { 'resize.sh', {'1', '1'} },
 }))
-sk['v'] = hs.hotkey.bind(screen_mapping, 'v', chain_yabai({
+sk['v'] = bindKey('v', chain_yabai({
   { 'resize.sh', {'3', '2'} },
   { 'resize.sh', {'3', '1'} },
 }))
@@ -284,56 +311,58 @@ sk['v'] = hs.hotkey.bind(screen_mapping, 'v', chain_yabai({
 sk['k'] = hs.hotkey.bind(screen_mapping, 'k', function() yabai_script('kitty.sh', {}) end)
 
 -- send to other display
-sk['comma'] = hs.hotkey.bind(screen_mapping, ',', function() yabai_script('send_display.sh', {'2'}) end)
-sk['period'] = hs.hotkey.bind(screen_mapping, '.', function() yabai_script('send_display.sh', {'1'}) end)
+sk['comma'] = bindKey(',', function() yabai_script('send_display.sh', {'2'}) end)
+sk['period'] = bindKey('.', function() yabai_script('send_display.sh', {'1'}) end)
 
 -- space mapping
-sk['1'] = hs.hotkey.bind(screen_mapping, '1', function() yabai({'-m', 'space', '--focus', '1'}) end)
-sk['2'] = hs.hotkey.bind(screen_mapping, '2', function() yabai({'-m', 'space', '--focus', '2'}) end)
-sk['3'] = hs.hotkey.bind(screen_mapping, '3', function() yabai({'-m', 'space', '--focus', '3'}) end)
+sk['1'] = bindKey('1', function() yabai({'-m', 'space', '--focus', '1'}) end)
+sk['2'] = bindKey('2', function() yabai({'-m', 'space', '--focus', '2'}) end)
+sk['3'] = bindKey('3', function() yabai({'-m', 'space', '--focus', '3'}) end)
 
-sk['f'] = hs.hotkey.bind(screen_mapping, 'f', function() yabai({'-m', 'window', '--toggle', 'zoom-fullscreen'}, function()
+sk['f'] = bindKey('f', function() yabai({'-m', 'window', '--toggle', 'zoom-fullscreen'}, function()
   yabai({'-m', 'window', '--grid', '12:12:0:0:12:12'})
 end) end)
 
--- these aren't right
--- should they work if in stack mode and change mode?
--- sk['q'] = hs.hotkey.bind(screen_mapping, 'q', function() yabai({'-m', 'space', '--ratio', 'abs:0.3334'}) end)
--- sk['w'] = hs.hotkey.bind(screen_mapping, 'w', function() yabai({'-m', 'space', '--balance'}) end)
--- sk['e'] = hs.hotkey.bind(screen_mapping, 'e', function() yabai({'-m', 'space', '--ratio', 'abs:0.6667'}) end)
+-- insert current window into position and balance
+sk['q'] = bindKey('q', function() yabai_script('insert.sh', {'1'}) end)
+sk['w'] = bindKey('w', function() yabai_script('insert.sh', {'2'}) end)
+sk['e'] = bindKey('e', function() yabai_script('insert.sh', {'3'}) end)
 
-sk['z'] = hs.hotkey.bind(screen_mapping, 'z', function() yabai_script('balance.sh', {}) end)
+sk['z'] = bindKey('z', function() yabai_script('balance.sh', {}) end)
 
 -- toggle what happens when dropping a window on another
-sk['p'] = hs.hotkey.bind(screen_mapping, 'p', function() yabai_script('toggle_drop.sh', {}) end)
+sk['p'] = bindKey('p', function() yabai_script('toggle_drop.sh', {}) end)
 
 -- set mode
-sk['a'] = hs.hotkey.bind(screen_mapping, 'a', function() yabai({'-m', 'space', '--layout', 'bsp'}) end)
-sk['s'] = hs.hotkey.bind(screen_mapping, 's', function() yabai({'-m', 'space', '--layout', 'float'}) end)
-sk['d'] = hs.hotkey.bind(screen_mapping, 'd', function() yabai({'-m', 'space', '--layout', 'stack'}) end)
+sk['a'] = bindKey('a', function() yabai({'-m', 'space', '--layout', 'bsp'}) end)
+sk['s'] = bindKey('s', function() yabai({'-m', 'space', '--layout', 'float'}) end)
+sk['d'] = bindKey('d', function() yabai({'-m', 'space', '--layout', 'stack'}) end)
 
--- minimize, kinda like hide
-sk['h'] = hs.hotkey.bind(screen_mapping, 'h', function() yabai({'-m', 'window', '--minimize'}) end)
+-- minimize, related to hide hence the key
+-- replace with balancing afterwards
+sk['m'] = bindKey('m', function() yabai({'-m', 'window', '--minimize'}) end)
 
--- sk['f'] = hs.hotkey.bind(screen_mapping, 'f', function() yabai({'-m', 'window', '--toggle', 'zoom-fullscreen'}) end)
--- change this to something else
--- sk['space'] = hs.hotkey.bind(screen_mapping, 'space', function() yabai({'-m', 'window', '--toggle', 'float'}) end)
-
-local yabai_mode = hs.hotkey.modal.new('command+control+option', 'm')
--- local yabai_mode = hs.hotkey.modal.new('', 'f19')
-function yabai_mode:entered() hs.alert'Entered moving mode' end
-function yabai_mode:exited() hs.alert'Exited moving mode'  end
-yabai_mode:bind('', 'escape', function()
+-- hide all floats on current space
+yabai_mode:bind('shift', 'space', function()
+  yabai_script('hide_floats.sh', {})
   yabai_mode:exit()
 end)
 
--- focus, rarely needed
+-- focus, rarely needed but makes sense for the basic direction keys
 yabai_mode:bind('', 'h', function()
   yabai({'-m', 'window', '--focus', 'west'})
   yabai_mode:exit()
 end)
 yabai_mode:bind('', 'l', function()
   yabai({'-m', 'window', '--focus', 'east'})
+  yabai_mode:exit()
+end)
+yabai_mode:bind('', 'j', function()
+  yabai({'-m', 'window', '--focus', 'south'})
+  yabai_mode:exit()
+end)
+yabai_mode:bind('', 'k', function()
+  yabai({'-m', 'window', '--focus', 'north'})
   yabai_mode:exit()
 end)
 
@@ -346,6 +375,14 @@ yabai_mode:bind('shift', 'l', function()
   yabai({'-m', 'window', '--swap', 'east'})
   yabai_mode:exit()
 end)
+yabai_mode:bind('shift', 'j', function()
+  yabai({'-m', 'window', '--swap', 'south'})
+  yabai_mode:exit()
+end)
+yabai_mode:bind('shift', 'k', function()
+  yabai({'-m', 'window', '--swap', 'north'})
+  yabai_mode:exit()
+end)
 
 -- warp (split at the insert)
 yabai_mode:bind('control+shift', 'h', function()
@@ -356,39 +393,50 @@ yabai_mode:bind('control+shift', 'l', function()
   yabai({'-m', 'window', '--swap', 'east'})
   yabai_mode:exit()
 end)
+yabai_mode:bind('control+shift', 'j', function()
+  yabai({'-m', 'window', '--swap', 'south'})
+  yabai_mode:exit()
+end)
+yabai_mode:bind('control+shift', 'k', function()
+  yabai({'-m', 'window', '--swap', 'north'})
+  yabai_mode:exit()
+end)
 
 -- insert, set split position
--- yabai_mode:bind('control', 'h', function()
---   yabai({'-m', 'window', '--insert', 'west'})
---   yabai_mode:exit()
--- end)
--- yabai_mode:bind('control', 'l', function()
---   yabai({'-m', 'window', '--insert', 'east'})
---   yabai_mode:exit()
--- end)
+yabai_mode:bind('control', 'h', function()
+  yabai({'-m', 'window', '--insert', 'west'})
+  yabai_mode:exit()
+end)
+yabai_mode:bind('control', 'l', function()
+  yabai({'-m', 'window', '--insert', 'east'})
+  yabai_mode:exit()
+end)
+yabai_mode:bind('control', 'j', function()
+  yabai({'-m', 'window', '--insert', 'south'})
+  yabai_mode:exit()
+end)
+yabai_mode:bind('control', 'k', function()
+  yabai({'-m', 'window', '--insert', 'north'})
+  yabai_mode:exit()
+end)
 
 -- send to space
-yabai_mode:bind('', '1', function()
+yabai_mode:bind('shift', '1', function()
   yabai({'-m', 'window', '--space', '1'})
   yabai_mode:exit()
 end)
-yabai_mode:bind('', '2', function()
+yabai_mode:bind('shift', '2', function()
   yabai({'-m', 'window', '--space', '2'})
   yabai_mode:exit()
 end)
-yabai_mode:bind('', '3', function()
+yabai_mode:bind('shift', '3', function()
   yabai({'-m', 'window', '--space', '3'})
   yabai_mode:exit()
 end)
 
--- stack the current window with the one currently underneath the mouse?
-yabai_mode:bind('', 's', function()
-  yabai({'-m', 'window', '--stack', 'mouse'})
-  yabai_mode:exit()
-end)
-
--- todo:
--- - toggle padding on space for ultrawide see: https://github.com/koekeishiya/yabai/issues/975
-
--- yabai todo:
--- working out how to use on ultrawide
+-- stack the current window with the one currently underneath the mouse
+-- comment out while I try both mode and non-mode versions
+-- yabai_mode:bind('', 's', function()
+--   yabai({'-m', 'window', '--stack', 'mouse'})
+--   yabai_mode:exit()
+-- end)

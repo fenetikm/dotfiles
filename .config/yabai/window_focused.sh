@@ -11,7 +11,8 @@ WINDOW=$(yabai -m query --windows --window "$WID")
 if [[ $(echo "$WINDOW" | jq -re '."is-floating"') == "true" ]]; then
   exit 1
 fi
-# weirdly, according to the docs, this resets the opacity to 1.0
+
+# this resets the opacity to 1.0
 yabai -m window "$WID" --opacity 0.0
 
 # first scenario, stacked space
@@ -28,7 +29,7 @@ if [[ $(echo "$SPACE" | jq -re '."type" == "stack"') == true && "$FIX_OPACITY" =
         if [[ "$CW" == true ]]; then
           yabai -m window "$i" --opacity 0.001
         else
-          # once this is false, all other windows are hidden
+          # once this is false, all other windows are hidden (it seems!)
           exit 1
         fi
       fi
@@ -38,7 +39,4 @@ if [[ $(echo "$SPACE" | jq -re '."type" == "stack"') == true && "$FIX_OPACITY" =
 fi
 
 # second scenario, when window is in stack but space not in stack
-#
-
-# not sure we *always* want this
-# source "$HOME"/.config/yabai/balance.sh
+# not needed for now

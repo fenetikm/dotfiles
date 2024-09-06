@@ -116,6 +116,11 @@ alias mv='/bin/mv -i'
 alias rm='/bin/rm -i'
 alias srm='sudo /bin/rm -i'
 
+alias cx='chmod +x'
+
+# this thins local snapshots, 50gb, urgency of 4 (highest)
+alias tmthin='tmutil thinlocalsnapshots / $((50 * 1024 * 1024 * 1024)) 4'
+
 # reload
 alias reload="source ~/.zshrc"
 
@@ -479,8 +484,8 @@ bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 export PATH="/usr/local/opt/php@8.0/bin:$PATH"
 export PATH="/usr/local/opt/php@8.0/sbin:$PATH"
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk-19.0.2.jdk/Contents/Home"
-export PATH="/Library/Java/JavaVirtualMachines/jdk-19.0.2.jdk/Contents/Home:$PATH"
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-22.jdk/Contents/Home"
+export PATH="$JAVA_HOME:$PATH"
 export PATH="/Users/mjw/tmp/apache-maven/bin:$PATH"
 
 # zsh falcon colouring

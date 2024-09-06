@@ -13,6 +13,11 @@ I think it goes to the first one open dependent on the number of the space
 When you get one window i.e. `--windows --window` since no array, don't need the `.[]` bit in `jq`
 "insert" sets the splitting direction (or optionally whether to stack a dropped window)
 "Warping" is doing the actual insert of the selected window.
+Rules to open on particular display
+```text
+yabai -m rule --add app='Fantastical' display=east
+yabai -m rule --add app='OBS' display=east
+```
 
 ## References
 - [floating window, centred, based on app and title](https://github.com/koekeishiya/yabai/issues/2375)
@@ -69,13 +74,15 @@ next thing that is loaded comes in the middle and triple split
 - developing / general:
     - browser, kitty 23
     - open another browser in middle for testing
-    - db... float on kitty? or stack?
-(s2)
+    - db, float on kitty
+    - reports, float on kitty
+    - jira, float on kitty
+(s1)
 - intercom/reports:
     - browser, reports 23
 (s3)
 - code review:
-    * bitbucket, browser, browser
+    * bitbucket, browser, browser, kitty (reset db etc.)
 - product management:
     * browser, jira 23
     * omnifocus, floated centre or on laptop

@@ -5,6 +5,20 @@
 # - check out this wallpaper https://github.com/dominiklohmann/25th-hour
 # - padding on ultrawide, one app
 # - more gap, 24?
+# - when swapping to bsp from stack on laptop, need to make everything opaque again, yes defo an issue!
+# - when on a stack, make top one float, need to make one underneath opaque
+# - a quick button to hide all floats
+# - if spawning a window from a floating window, it should float on top of existing window
+#
+# references:
+# [stacking](https://github.com/koekeishiya/yabai/issues/203)
+# [travers hs config](https://github.com/evantravers/dotfiles/blob/master/.config/hammerspoon/init.lua)
+# [centre app if only one running](https://github.com/koekeishiya/yabai/issues/975)
+# [ultrawide padding example](https://github.com/donaldguy/dotfiles/blob/749c564f6b5f8f1d22ecc7f593cad5c8d80f8bd0/executable_dot_yabairc)
+# [3 column handling](https://github.com/koekeishiya/yabai/issues/157)
+# [keep windows attached to spaces when display detached/attached](https://github.com/koekeishiya/yabai/discussions/238#issuecomment-530400722)
+# [restore/store size and position](https://github.com/koekeishiya/yabai/issues/435)
+# [changing whether floating windows are above others](https://github.com/koekeishiya/yabai/issues/2170)
 
 yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 sudo yabai --load-sa
@@ -14,21 +28,24 @@ yabai -m config debug_output on
 
 # defaults
 yabai                         -m       config \
-    external_bar              all:32:0 \
-    top_padding               16       \
-    bottom_padding            16       \
-    left_padding              16       \
-    right_padding             16       \
-    window_gap                16       \
-    window_opacity            on       \
-    window_animation_duration 0.0      \
-    active_window_opacity     1.0      \
-    normal_window_opacity     1.0      \
-    window_shadow             on      \
-    auto_balance              off      \
-    split_type                vertical \
-    split_ratio               0.5 \
-    layout bsp
+    external_bar              all:32:0       \
+    top_padding               16             \
+    bottom_padding            16             \
+    left_padding              16             \
+    right_padding             16             \
+    window_gap                16             \
+    window_opacity            on             \
+    window_animation_duration 0.0            \
+    window_placement          second_child \
+    active_window_opacity     1.0            \
+    normal_window_opacity     1.0            \
+    window_shadow             float             \
+    auto_balance              off            \
+    split_type                vertical       \
+    split_ratio               0.5            \
+    insert_feedback_color     0x9999a4bc     \
+    layout                    bsp \
+    mouse_drop_action         swap
 
 # space 1, inbuilt
 yabai -m config --space 1 layout stack
@@ -40,11 +57,18 @@ yabai -m config --space 2 second_child
 yabai -m display 2 --space 2
 yabai -m display 2 --label external
 
-
 # rules
 # unmanaged
-yabai -m rule --add app="^(Calculator|Software Update|Dictionary|VLC|zoom.us|Photo Booth|Archive Utility|LibreOffice|App Store|Steam|Alfred|Alfred Preferences|Activity Monitor|System Information|Karabiner-Elements|Karabiner-EventViewer|Preview|Disk Utility|OpenVPN Connect|Connect to Server|Anki)$" manage=off
+yabai -m rule --add app="^(Calculator|Software Update|Dictionary|VLC|zoom.us|Photo Booth|Archive Utility|LibreOffice|App Store|Steam|Alfred|Alfred Preferences|Activity Monitor|System Information|Karabiner-Elements|Karabiner-EventViewer|Preview|Disk Utility|OpenVPN Connect|Connect to Server|Anki|Docker Desktop)$" manage=off
 yabai -m rule --add app="^(System Preferences|System Settings)$" manage=off sticky=on
+yabai -m rule --add app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref|AirDrop)" manage=off
+yabai -m rule --add app="^Mirth Connect" manage=off
+yabai -m rule --add app="^OmniFocus" title="Choose" manage=off
+yabai -m rule --add app="^Calendar" role="" manage=off
+yabai -m rule --add app="^Calendar" role="AXWindow" manage=on
+
+# special handling
+yabai -m rule --add app="Slack" title="^Huddle" manage=off display=^2
 
 # signals
 yabai -m signal --add event=window_created action="$HOME/.config/yabai/window_created.sh"
@@ -53,3 +77,4 @@ yabai -m signal --add event=application_hidden action="$HOME/.config/yabai/windo
 yabai -m signal --add event=window_focused action="$HOME/.config/yabai/window_focused.sh"
 yabai -m signal --add event=application_launched action="$HOME/.config/yabai/application_launched.sh"
 yabai -m signal --add event=application_visible action="$HOME/.config/yabai/application_visible.sh"
+

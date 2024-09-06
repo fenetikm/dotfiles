@@ -15,4 +15,4 @@ elif [[ "$DISPLAY" != 2 ]]; then
   yabai -m space --balance
 fi
 
-# do the padding thing if only one window on display 2
+# todo: do the padding thing if only one window on display 2

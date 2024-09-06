@@ -25,6 +25,7 @@ if [[ $(echo "$SPACE" | jq -re '."type" == "stack"') == "true" && "$FIX_OPACITY"
     if [[ "$CW" == true ]]; then
       # note: this resets it to 1.0
       yabai -m window "$i" --opacity 0.0
+
       exit 1
     fi
     C=$((C+1))
