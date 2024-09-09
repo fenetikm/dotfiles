@@ -101,46 +101,6 @@
             ]
           },
           {
-            "description": "Left arrow to mash (Command + Option + Control), left arrow when tapped, hiro",
-            "manipulators": [
-              {
-                "conditions": [
-                  {
-                    "identifiers": [
-                      {
-                        "vendor_id": 19280
-                      }
-                    ],
-                    "type": "device_if"
-                  }
-                ],
-                "from": {
-                  "key_code": "left_arrow",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "key_code": "right_command",
-                    "modifiers": [
-                      "right_option",
-                      "right_control"
-                    ]
-                  }
-                ],
-                "to_if_alone": [
-                  {
-                    "key_code": "left_arrow"
-                  }
-                ],
-                "type": "basic"
-              }
-            ]
-          },
-          {
             "description": "Right Command to Hyper (Command + Shift + Option + Control), not fjell",
             "manipulators": [
               {
@@ -170,6 +130,11 @@
                       "right_control",
                       "right_option"
                     ]
+                  }
+                ],
+                "to_if_alone": [
+                  {
+                    "key_code": "f19"
                   }
                 ],
                 "type": "basic"
@@ -683,27 +648,6 @@
                 "to": [
                   {
                     "key_code": "right_arrow"
-                  }
-                ],
-                "type": "basic"
-              }
-            ]
-          },
-          {
-            "description": "Change Function+m to F19",
-            "manipulators": [
-              {
-                "from": {
-                  "key_code": "m",
-                  "modifiers": {
-                    "mandatory": [
-                      "fn"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "key_code": "f19"
                   }
                 ],
                 "type": "basic"

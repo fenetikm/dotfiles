@@ -219,6 +219,8 @@ end
 
 -- this is faster than os.execute with the env arg
 local yabai_script = function(script_name, args)
+  -- hs.alert.show('script')
+  -- hs.alert.show(script_name)
   local task = hs.task.new(os.getenv('HOME') .. '/.config/yabai/' .. script_name, nil, args)
   local env = task:environment()
   env['PATH'] = env['PATH'] .. ':/usr/local/bin'
@@ -261,32 +263,35 @@ local chain_yabai = function(movements)
   end
 end
 
--- still working out which one
--- local yabai_mode = hs.hotkey.modal.new('command+control+option', 'm')
 local yabai_mode = hs.hotkey.modal.new('', 'f19')
-function yabai_mode:entered() hs.alert'Entered moving mode' end
-function yabai_mode:exited() hs.alert'Exited moving mode'  end
+-- function yabai_mode:entered() hs.alert'Yabai mode: on' end
+-- function yabai_mode:exited() hs.alert'Yabai mode: off' end
 yabai_mode:bind('', 'escape', function()
   yabai_mode:exit()
 end)
 
-G.bindTo = 'both'
+-- todo: remove the screen mapping ones, not going to use that
+-- G.bindTo = 'both'
 local bindKey = function(key, fn)
   local ret
-  if G.bindTo == 'both' or G.bindTo == 'key' then
-    ret = hs.hotkey.bind(screen_mapping, key, fn)
-  end
+  -- if G.bindTo == 'both' or G.bindTo == 'key' then
+  --   ret = hs.hotkey.bind(screen_mapping, key, fn)
+  -- end
 
-  if G.bindTo == 'both' or G.bindTo == 'mode' then
-    yabai_mode:bind('', key, function()
-      fn()
-      yabai_mode:exit()
-    end
-    )
+  -- if G.bindTo == 'both' or G.bindTo == 'mode' then
+  ret = yabai_mode:bind('', key, function()
+    fn()
+    yabai_mode:exit()
   end
+    )
+  -- end
 
   return ret
 end
+
+-- todo:
+-- - qwe for resizing (floats)
+-- - maybe flip insertion 1,2,3 to shift +qwe ?
 
 -- toggle float
 sk['space'] = bindKey('space', function() yabai_script('float.sh', {}) end)
@@ -294,20 +299,21 @@ sk['space'] = bindKey('space', function() yabai_script('float.sh', {}) end)
 -- reload
 sk['r'] = bindKey('r', function() os.execute('/usr/local/bin/yabai --restart-service') end)
 
-sk['c'] = bindKey('c', chain_yabai({
-  { 'resize.sh', {'2', '2'} },
-  { 'resize.sh', {'2', '1'} },
-}))
-sk['x'] = bindKey('x', chain_yabai({
+-- I don't use the z and c much, pointless? replace with 1/3 versions?
+sk['z'] = bindKey('x', chain_yabai({
   { 'resize.sh', {'1', '2'} },
   { 'resize.sh', {'1', '1'} },
 }))
-sk['v'] = bindKey('v', chain_yabai({
+sk['x'] = bindKey('c', chain_yabai({
+  { 'resize.sh', {'2', '2'} },
+  { 'resize.sh', {'2', '1'} },
+}))
+sk['c'] = bindKey('v', chain_yabai({
   { 'resize.sh', {'3', '2'} },
   { 'resize.sh', {'3', '1'} },
 }))
 
--- todo: call this after launching it
+-- todo: replace hyper one with this one, add in support for running scripts after hyper
 sk['k'] = hs.hotkey.bind(screen_mapping, 'k', function() yabai_script('kitty.sh', {}) end)
 
 -- send to other display
@@ -318,29 +324,37 @@ sk['period'] = bindKey('.', function() yabai_script('send_display.sh', {'1'}) en
 sk['1'] = bindKey('1', function() yabai({'-m', 'space', '--focus', '1'}) end)
 sk['2'] = bindKey('2', function() yabai({'-m', 'space', '--focus', '2'}) end)
 sk['3'] = bindKey('3', function() yabai({'-m', 'space', '--focus', '3'}) end)
+sk['4'] = bindKey('4', function() yabai({'-m', 'space', '--focus', '4'}) end)
+sk['5'] = bindKey('5', function() yabai({'-m', 'space', '--focus', '5'}) end)
 
 sk['f'] = bindKey('f', function() yabai({'-m', 'window', '--toggle', 'zoom-fullscreen'}, function()
   yabai({'-m', 'window', '--grid', '12:12:0:0:12:12'})
 end) end)
 
 -- insert current window into position and balance
+-- todo: put these on shift
 sk['q'] = bindKey('q', function() yabai_script('insert.sh', {'1'}) end)
 sk['w'] = bindKey('w', function() yabai_script('insert.sh', {'2'}) end)
 sk['e'] = bindKey('e', function() yabai_script('insert.sh', {'3'}) end)
 
-sk['z'] = bindKey('z', function() yabai_script('balance.sh', {}) end)
-
 -- toggle what happens when dropping a window on another
 sk['p'] = bindKey('p', function() yabai_script('toggle_drop.sh', {}) end)
 
+sk['b'] = bindKey('b', function() yabai({'-m', 'space', '--balance'}) end)
+
 -- set mode
+-- todo: don't use these much either, make them secondary? via shift?
+-- put somewhere else? cycle?
 sk['a'] = bindKey('a', function() yabai({'-m', 'space', '--layout', 'bsp'}) end)
 sk['s'] = bindKey('s', function() yabai({'-m', 'space', '--layout', 'float'}) end)
 sk['d'] = bindKey('d', function() yabai({'-m', 'space', '--layout', 'stack'}) end)
 
--- minimize, related to hide hence the key
--- replace with balancing afterwards
-sk['m'] = bindKey('m', function() yabai({'-m', 'window', '--minimize'}) end)
+-- todo:
+-- - normal 'h' to hide app ()
+-- - shift 'h' to minimize window
+-- - how about `h` hides an app if only one window, otherwise the window? shift+h to hide app either way
+ 
+-- sk['m'] = bindKey('m', function() yabai({'-m', 'window', '--minimize'}) end)
 
 -- hide all floats on current space
 yabai_mode:bind('shift', 'space', function()
@@ -431,6 +445,14 @@ yabai_mode:bind('shift', '2', function()
 end)
 yabai_mode:bind('shift', '3', function()
   yabai({'-m', 'window', '--space', '3'})
+  yabai_mode:exit()
+end)
+yabai_mode:bind('shift', '4', function()
+  yabai({'-m', 'window', '--space', '4'})
+  yabai_mode:exit()
+end)
+yabai_mode:bind('shift', '5', function()
+  yabai({'-m', 'window', '--space', '5'})
   yabai_mode:exit()
 end)
 

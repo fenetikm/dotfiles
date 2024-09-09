@@ -9,6 +9,9 @@
 # - when on a stack, make top one float, need to make one underneath opaque
 # - a quick button to hide all floats
 # - if spawning a window from a floating window, it should float on top of existing window
+# - mail in a space
+# - obsidian in a space? could be stacked by default. on inbuilt
+# - how about shifting space to another display shortcut?
 #
 # references:
 # [stacking](https://github.com/koekeishiya/yabai/issues/203)
@@ -29,11 +32,11 @@ yabai -m config debug_output on
 # defaults
 yabai                         -m       config \
     external_bar              all:32:0       \
-    top_padding               16             \
-    bottom_padding            16             \
-    left_padding              16             \
-    right_padding             16             \
-    window_gap                16             \
+    top_padding               20             \
+    bottom_padding            20             \
+    left_padding              20             \
+    right_padding             20             \
+    window_gap                20             \
     window_opacity            on             \
     window_animation_duration 0.0            \
     window_placement          second_child \
@@ -47,28 +50,47 @@ yabai                         -m       config \
     layout                    bsp \
     mouse_drop_action         swap
 
-# space 1, inbuilt
-yabai -m config --space 1 layout stack
-yabai -m display 1 --space 1
-yabai -m display 1 --label inbuilt
+setup_space() {
+  local SPACE_ID="$1"
+  local NAME="$2"
+  local LAYOUT="$3"
+  local DISPLAY="$4"
 
-# space 2, external
-yabai -m config --space 2 second_child
-yabai -m display 2 --space 2
-yabai -m display 2 --label external
+  local SPACE=
+  echo "Setup space $SPACE_ID : $NAME"
+
+  SPACE=$(yabai -m query --spaces --space "$SPACE_ID")
+  if [ -z "$SPACE"]; then
+    yabai -m space --create "$DISPLAY"
+  fi
+
+  yabai -m space "$SPACE_ID" --label "$NAME"
+  yabai -m config --space "$SPACE_ID" layout "$LAYOUT"
+  yabai -m display "$DISPLAY" --space "$SPACE_ID"
+}
+
+setup_space 1 general stack 1
+setup_space 2 mail bsp 1
+setup_space 3 comms stack 1
+setup_space 4 dev bsp 2
 
 # rules
 # unmanaged
-yabai -m rule --add app="^(Calculator|Software Update|Dictionary|VLC|zoom.us|Photo Booth|Archive Utility|LibreOffice|App Store|Steam|Alfred|Alfred Preferences|Activity Monitor|System Information|Karabiner-Elements|Karabiner-EventViewer|Preview|Disk Utility|OpenVPN Connect|Connect to Server|Anki|Docker Desktop)$" manage=off
+yabai -m rule --add app="^(Calculator|Software Update|Dictionary|VLC|zoom.us|Photo Booth|Archive Utility|LibreOffice|App Store|Steam|Alfred|Alfred Preferences|Activity Monitor|System Information|Karabiner-Elements|Karabiner-EventViewer|Preview|Disk Utility|OpenVPN Connect|Connect to Server|Anki|Docker Desktop|VeraCrypt)$" manage=off
 yabai -m rule --add app="^(System Preferences|System Settings)$" manage=off sticky=on
 yabai -m rule --add app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref|AirDrop)" manage=off
 yabai -m rule --add app="^Mirth Connect" manage=off
 yabai -m rule --add app="^OmniFocus" title="Choose" manage=off
-yabai -m rule --add app="^Calendar" role="" manage=off
-yabai -m rule --add app="^Calendar" role="AXWindow" manage=on
+yabai -m rule --add app="^Calendar" title="(General|^$)" manage=off
+yabai -m rule --add role="AXPopover" manage=off
 
 # special handling
-yabai -m rule --add app="Slack" title="^Huddle" manage=off display=^2
+yabai -m rule --add app="^Messages" space=^3
+yabai -m rule --add app="^Slack" space=^3
+yabai -m rule --add app="^Slack" title="^Huddle" manage=off display=^2
+
+yabai -m rule --add app="^(Thunderbird|thunderbird)" space=^2
+yabai -m rule --add app="^Mail" space=^2
 
 # signals
 yabai -m signal --add event=window_created action="$HOME/.config/yabai/window_created.sh"
@@ -77,4 +99,3 @@ yabai -m signal --add event=application_hidden action="$HOME/.config/yabai/windo
 yabai -m signal --add event=window_focused action="$HOME/.config/yabai/window_focused.sh"
 yabai -m signal --add event=application_launched action="$HOME/.config/yabai/application_launched.sh"
 yabai -m signal --add event=application_visible action="$HOME/.config/yabai/application_visible.sh"
-
