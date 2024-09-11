@@ -5,7 +5,9 @@ source "$HOME/.config/sketchybar/colours.sh"
 # https://api.weather.bom.gov.au/v1/locations/r1f8sw/observations for mount lofty!
 # also http://www.bom.gov.au/fwo/IDS60801/IDS60801.95678.json for the last many
 # only refresh weather file if older than an hour
-if [[ $(find "plugins/weather.json" -mtime +1h -print) ]]; then
+if [[ ! -f "plugins/weather.json" ]]; then
+  curl -L -s -o plugins/weather.json https://api.weather.bom.gov.au/v1/locations/r1f8sw/observations
+elif [[ $(find "plugins/weather.json" -mtime +1h -print) ]]; then
   curl -L -s -o plugins/weather.json https://api.weather.bom.gov.au/v1/locations/r1f8sw/observations
 fi
 

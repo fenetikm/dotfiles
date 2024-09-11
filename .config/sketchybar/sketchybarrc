@@ -33,16 +33,16 @@ bar=(
   font_smoothing=on
   height=32
   margin=0
-  padding_left=12
-  padding_right=12
+  padding_left=16
+  padding_right=16
   position=top
   shadow=on
 )
 sketchybar --bar "${bar[@]}"
 
 default=(
-  padding_left=4
-  padding_right=4
+  padding_left=5
+  padding_right=5
   icon.font="$ICON_FONT:$ICON_FONT_WEIGHT:${ICON_SIZE}"
   label.font="${FONT}:${FONT_WEIGHT}:${FONT_SIZE}"
   icon.color=$ICON_COLOUR
@@ -60,6 +60,7 @@ sketchybar \
            --set doge icon=🐶 y_offset=2 label.drawing=off \
                icon.font="$ICON_FONT:$ICON_FONT_WEIGHT:14.0" icon.padding_left=0
 
+# todo: instead of numbers, labels
 SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
 for i in "${!SPACE_ICONS[@]}"
 do
