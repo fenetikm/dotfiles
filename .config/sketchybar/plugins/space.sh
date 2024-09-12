@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source "$HOME/.config/sketchybar/colours.sh"
+source "$HOME/.config/sketchybar/vars.sh"
 
 #todo make clickable
 # echo $SELECTED

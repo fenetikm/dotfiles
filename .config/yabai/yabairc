@@ -69,9 +69,9 @@ setup_space() {
   yabai -m display "$DISPLAY" --space "$SPACE_ID"
 }
 
-setup_space 1 general stack 1
+setup_space 1 home stack 1
 setup_space 2 mail bsp 1
-setup_space 3 comms stack 1
+setup_space 3 chat stack 1
 setup_space 4 dev bsp 2
 
 # rules
@@ -79,16 +79,17 @@ setup_space 4 dev bsp 2
 yabai -m rule --add app="^(Calculator|Software Update|Dictionary|VLC|zoom.us|Photo Booth|Archive Utility|LibreOffice|App Store|Steam|Alfred|Alfred Preferences|Activity Monitor|System Information|Karabiner-Elements|Karabiner-EventViewer|Preview|Disk Utility|OpenVPN Connect|Connect to Server|Anki|Docker Desktop|VeraCrypt)$" manage=off
 yabai -m rule --add app="^(System Preferences|System Settings)$" manage=off sticky=on
 yabai -m rule --add app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref|AirDrop)" manage=off
-yabai -m rule --add app="^Mirth Connect" manage=off
-yabai -m rule --add app="^OmniFocus" title="Choose" manage=off
-yabai -m rule --add app="^Calendar" title="(General|^$)" manage=off
-yabai -m rule --add role="AXPopover" manage=off
 
-# special handling
+yabai -m rule --add app="^OmniFocus" title="^Choose" manage=off
+yabai -m rule --add app="^Calendar" title="(General|^$)" manage=off
+yabai -m rule --add app="^TablePlus" title="^Connect" manage=off
+yabai -m rule --add role="AXPopover" manage=off
+yabai -m rule --add app="^Mirth" manage=off
+
+# send apps to specific displays or spaces
 yabai -m rule --add app="^Messages" space=^3
 yabai -m rule --add app="^Slack" space=^3
 yabai -m rule --add app="^Slack" title="^Huddle" manage=off display=^2
-
 yabai -m rule --add app="^(Thunderbird|thunderbird)" space=^2
 yabai -m rule --add app="^Mail" space=^2
 
@@ -96,6 +97,8 @@ yabai -m rule --add app="^Mail" space=^2
 yabai -m signal --add event=window_created action="$HOME/.config/yabai/window_created.sh"
 yabai -m signal --add event=window_destroyed action="$HOME/.config/yabai/window_destroyed.sh"
 yabai -m signal --add event=application_hidden action="$HOME/.config/yabai/window_destroyed.sh"
+yabai -m signal --add event=window_minimized action="$HOME/.config/yabai/window_destroyed.sh"
 yabai -m signal --add event=window_focused action="$HOME/.config/yabai/window_focused.sh"
 yabai -m signal --add event=application_launched action="$HOME/.config/yabai/application_launched.sh"
 yabai -m signal --add event=application_visible action="$HOME/.config/yabai/application_visible.sh"
+yabai -m signal --add event=window_deminimized action="$HOME/.config/yabai/application_visible.sh"

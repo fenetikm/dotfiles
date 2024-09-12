@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$HOME/.config/sketchybar/colours.sh"
+source "$HOME/.config/sketchybar/vars.sh"
 
 MAX_LEN=28
 TRIM_LEN=`echo $(( $MAX_LEN - 3 ))`

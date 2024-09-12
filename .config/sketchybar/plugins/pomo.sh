@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source "$HOME/.config/sketchybar/colours.sh"
+source "$HOME/.config/sketchybar/vars.sh"
 
 # Todo:
 # - bright blue for break
@@ -29,7 +29,7 @@ if [[ -n "$TIMELEFT" ]]; then
     background.shadow.drawing=on background.shadow.distance=1 \
     background.drawing=on background.color=$BG2_COLOUR \
     background.border_color=$BG2_BORDER_COLOUR background.border_width=1 \
-    background.corner_radius=6 background.height=22 background.y_offset=0
+    background.corner_radius=$BG_RADIUS background.height=22 background.y_offset=0
 else
   sketchybar --set "$NAME" drawing=off
 fi

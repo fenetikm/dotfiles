@@ -22,3 +22,5 @@ hash -d yt=~/Downloads/yt
 hash -d crafting=~/Documents/Work/internal/projects/interpreters/crafting
 hash -d mk=~/Documents/Work/internal/projects/majyk
 hash -d mkb=~/Documents/Work/internal/projects/majyk/blog/majyk/
+hash -d y=~/.config/yabai
+hash -d sb=~/.config/sketchybar

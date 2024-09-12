@@ -3,7 +3,7 @@
 # todo: icons for some apps
 # get better info from kitty / tmux
 
-source "$HOME/.config/sketchybar/colours.sh"
+source "$HOME/.config/sketchybar/vars.sh"
 
 WINDOWINFO=$(yabai -m query --windows --window)
 ICON=""

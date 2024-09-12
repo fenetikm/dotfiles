@@ -69,6 +69,17 @@ local reloadConfig = function(files)
   end
 end
 
+-- this is faster than os.execute with the env arg
+local yabai_script = function(script_name, args)
+  -- hs.alert.show('script')
+  -- hs.alert.show(script_name)
+  local task = hs.task.new(os.getenv('HOME') .. '/.config/yabai/' .. script_name, nil, args)
+  local env = task:environment()
+  env['PATH'] = env['PATH'] .. ':/usr/local/bin'
+  task:setEnvironment(env)
+  task:start()
+end
+
 local launchOrFocus = function(appName, details)
   if (details.url) then
     spoon.URLDispatcher.url_patterns = {
@@ -107,10 +118,18 @@ local launchOrFocus = function(appName, details)
   end
 
   if found then
+    if details.yabai_script then
+      yabai_script(details.yabai_script, {})
+    end
+
     return
   end
 
   hs.application.launchOrFocus(appName)
+
+  if details.yabai_script then
+    yabai_script(details.yabai_script, {})
+  end
 end
 
 -- from evantravers
@@ -156,7 +175,7 @@ hs.fnutils.each({
   { key = "s", app = "Slack" },
   { key = "g", app = "Google Chrome" },
   { key = "x", app = "Brave Browser" },
-  { key = "space", app = "kitty", yabai = "kitty.sh" },
+  { key = "space", app = "kitty", yabai_script = "kitty.sh" },
   { key = "e", app = "Mail"},
   { key = "p", url = "obsidian://open?vault=personal" },
   { key = "q", app = "TablePlus"},
@@ -180,19 +199,8 @@ hs.alert.show('Hammerspoon reloaded')
 
 hk['l'] = hs.hotkey.bind(hyper_mapping, 'l', function() hs.caffeinate.systemSleep() end)
 
--- can't seem to get this to set all text font size?
--- and setting the colours to white doesn't work for all the text either?
-hs.console.darkMode(false)
--- hs.console.outputBackgroundColor{ white = 0 }
--- hs.console.consoleCommandColor{ red = 1, green = 1, blue = 1 }
--- hs.console.consolePrintColor{ red = 1, green = 1, blue = 1 }
--- hs.console.consoleResultColor{ red = 1, green = 1, blue = 1 }
--- hs.console.alpha(1)
-hs.console.consoleFont{name = 'Fira Code Regular', size = 16}
--- hs.console.clearConsole()
-
 -- begin yabai window management
--- todo: move into another file
+-- todo: move into another file?
 local yabai = function(args, completion)
   local yabai_output = ""
   local yabai_error = ""
@@ -215,17 +223,6 @@ local yabai = function(args, completion)
     end)
   end
   yabai_task:start()
-end
-
--- this is faster than os.execute with the env arg
-local yabai_script = function(script_name, args)
-  -- hs.alert.show('script')
-  -- hs.alert.show(script_name)
-  local task = hs.task.new(os.getenv('HOME') .. '/.config/yabai/' .. script_name, nil, args)
-  local env = task:environment()
-  env['PATH'] = env['PATH'] .. ':/usr/local/bin'
-  task:setEnvironment(env)
-  task:start()
 end
 
 local lastSeenChain = nil
@@ -270,21 +267,12 @@ yabai_mode:bind('', 'escape', function()
   yabai_mode:exit()
 end)
 
--- todo: remove the screen mapping ones, not going to use that
--- G.bindTo = 'both'
 local bindKey = function(key, fn)
   local ret
-  -- if G.bindTo == 'both' or G.bindTo == 'key' then
-  --   ret = hs.hotkey.bind(screen_mapping, key, fn)
-  -- end
-
-  -- if G.bindTo == 'both' or G.bindTo == 'mode' then
   ret = yabai_mode:bind('', key, function()
     fn()
     yabai_mode:exit()
-  end
-    )
-  -- end
+  end)
 
   return ret
 end
@@ -300,21 +288,22 @@ sk['space'] = bindKey('space', function() yabai_script('float.sh', {}) end)
 sk['r'] = bindKey('r', function() os.execute('/usr/local/bin/yabai --restart-service') end)
 
 -- I don't use the z and c much, pointless? replace with 1/3 versions?
-sk['z'] = bindKey('x', chain_yabai({
+-- Also maybe shift zxc to go straight to the smaller version? wouldn't need the chain then
+sk['z'] = bindKey('z', chain_yabai({
   { 'resize.sh', {'1', '2'} },
   { 'resize.sh', {'1', '1'} },
 }))
-sk['x'] = bindKey('c', chain_yabai({
+sk['x'] = bindKey('x', chain_yabai({
   { 'resize.sh', {'2', '2'} },
   { 'resize.sh', {'2', '1'} },
 }))
-sk['c'] = bindKey('v', chain_yabai({
+sk['c'] = bindKey('c', chain_yabai({
   { 'resize.sh', {'3', '2'} },
   { 'resize.sh', {'3', '1'} },
 }))
 
 -- todo: replace hyper one with this one, add in support for running scripts after hyper
-sk['k'] = hs.hotkey.bind(screen_mapping, 'k', function() yabai_script('kitty.sh', {}) end)
+-- sk['k'] = hs.hotkey.bind(screen_mapping, 'k', function() yabai_script('kitty.sh', {}) end)
 
 -- send to other display
 sk['comma'] = bindKey(',', function() yabai_script('send_display.sh', {'2'}) end)
@@ -350,11 +339,11 @@ sk['s'] = bindKey('s', function() yabai({'-m', 'space', '--layout', 'float'}) en
 sk['d'] = bindKey('d', function() yabai({'-m', 'space', '--layout', 'stack'}) end)
 
 -- todo:
--- - normal 'h' to hide app ()
--- - shift 'h' to minimize window
--- - how about `h` hides an app if only one window, otherwise the window? shift+h to hide app either way
+-- - normal 'm' to hide app ()
+-- - shift 'm' to minimize window
+-- - how about `m` hides an app if only one window, otherwise the window? shift+h to hide app either way
  
--- sk['m'] = bindKey('m', function() yabai({'-m', 'window', '--minimize'}) end)
+sk['m'] = bindKey('m', function() yabai({'-m', 'window', '--minimize'}) end)
 
 -- hide all floats on current space
 yabai_mode:bind('shift', 'space', function()

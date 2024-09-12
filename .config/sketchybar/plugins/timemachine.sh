@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$HOME/.config/sketchybar/colours.sh"
+source "$HOME/.config/sketchybar/vars.sh"
 
 LASTBACKUP=`/usr/libexec/PlistBuddy -c "Print Destinations:0:SnapshotDates" /Library/Preferences/com.apple.TimeMachine.plist | tail -n 2 | head -n 1 | awk '{$1=$1};1'`
 
@@ -17,10 +17,6 @@ if (( $DIFF > 13 )); then
   COLOUR=$ISSUE_COLOUR
 fi
 
-if (( $DIFF < 7 )); then
-  DIFF=OK
-else
-  DIFF="$DIFF"d
-fi
+DIFF="$DIFF"d
 
-sketchybar --set "$NAME" label="TM:${DIFF}" label.color="${COLOUR}" icon.drawing=off
+sketchybar --set "$NAME" label="B:${DIFF}" label.color="${COLOUR}" icon.drawing=off

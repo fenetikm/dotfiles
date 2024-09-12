@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$HOME/.config/sketchybar/colours.sh"
+source "$HOME/.config/sketchybar/vars.sh"
 
 FOCUS=$(osascript -l JavaScript plugins/whichmode.jxa)
 

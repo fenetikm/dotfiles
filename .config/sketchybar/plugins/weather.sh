@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$HOME/.config/sketchybar/colours.sh"
+source "$HOME/.config/sketchybar/vars.sh"
 
 # https://api.weather.bom.gov.au/v1/locations/r1f8sw/observations for mount lofty!
 # also http://www.bom.gov.au/fwo/IDS60801/IDS60801.95678.json for the last many
@@ -36,5 +36,5 @@ fi
 # round the temp to an int
 TEMP=$(printf "%.0f\n" "$TEMP")
 
-sketchybar --set "$NAME" label="${TEMP}°" icon="$ICON" icon.color="${COLOUR}" icon.padding_right=2 label.padding_left=0 \
+sketchybar --set "$NAME" label="${TEMP}°" icon="$ICON" icon.color="${COLOUR}" icon.padding_right=2 icon.padding_left=6 label.padding_left=0 \
   icon.font="Hack Nerd Font:Bold:15.0" padding_left=2

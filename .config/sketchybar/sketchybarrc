@@ -1,21 +1,11 @@
-source "$HOME/.config/sketchybar/colours.sh"
+source "$HOME/.config/sketchybar/vars.sh"
 PLUGIN_DIR="$CONFIG_DIR/plugins"
-
-# variables
-FONT="SF PRO"
-FONT_WEIGHT="Medium"
-FONT_SIZE="13.0"
-
-ICON_SIZE="15.0"
-ICON_FONT="Hack Nerd Font"
-ICON_FONT_WEIGHT="Bold"
 
 # todo:
 # - different bar for laptop vs ultrawide
 # - diff bar background for pomo, could get rid of the terminal notifier stuff (boo to toasts)
 # - click on wifi brings up something
 # - get more info from tmux using list-windows for frontapp
-# - better styling on spaces when we start using them
 # - items:
 #   - next meeting? not sure I want to look up for those?
 #   - next omnifocus? same ... but could go in the centre
@@ -31,7 +21,7 @@ bar=(
   blur_radius=32
   color=$BAR_COLOUR
   font_smoothing=on
-  height=32
+  height=28
   margin=0
   padding_left=16
   padding_right=16
@@ -57,28 +47,57 @@ sketchybar --default "${default[@]}"
 # left items
 sketchybar \
            --add item doge left \
-           --set doge icon=🐶 y_offset=2 label.drawing=off \
-               icon.font="$ICON_FONT:$ICON_FONT_WEIGHT:14.0" icon.padding_left=0
+           --set      doge icon=🐶 y_offset=2 label.drawing=off \
+                           icon.font="$ICON_FONT:$ICON_FONT_WEIGHT:14.0" icon.padding_left=0 \
+                           padding_right=12 \
+           --add item space.spacer_left left \
+           --set      space.spacer_left background.drawing=off \
+                      padding_left=0 padding_right=0 \
+                      icon.drawing=off label.drawing=off width=6
 
 # todo: instead of numbers, labels
 SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
+SPACE_LABELS=($(yabai -m query --spaces | jq -r '.[] .label'))
 for i in "${!SPACE_ICONS[@]}"
 do
   sid="$(($i+1))"
   space=(
     space="$sid"
-    icon="${SPACE_ICONS[i]}"
     icon.font="${FONT}:${FONT_WEIGHT}:${FONT_SIZE}"
-    icon.padding_left=2
-    icon.padding_right=2
-    # background.color=$BG1_COLOUR
-    # background.corner_radius=6
-    # background.height=21
+    icon.padding_left=1
+    icon.padding_right=1
+    padding_left=5
+    padding_right=5
     label.drawing=off
     script="$PLUGIN_DIR/space.sh"
   )
-  sketchybar --add space space."$sid" left --set space."$sid" "${space[@]}"
+  SPACE_ICON="${SPACE_ICONS[i]}"
+  if [[ "$SPACE_LABELS[$i]" != "" ]]; then
+    SPACE_ICON="${SPACE_LABELS[$i]}"
+  fi
+  # Uppercase first letter of space
+  SPACE_ICON=$(echo $SPACE_ICON | gsed -E 's/./\U&/')
+  sketchybar --add space space."$sid" left --set space."$sid" "${space[@]}" icon="$SPACE_ICON"
 done
+
+sketchybar --add item space.spacer_right left \
+           --set      space.spacer_right background.drawing=off \
+                      padding_left=0 padding_right=0 \
+                      icon.drawing=off label.drawing=off \
+                      width=6
+
+sketchybar --add bracket spaces '/space\..*/'               \
+           --set         spaces background.color=$BG1_COLOUR \
+                                background.corner_radius=$BG_RADIUS \
+                                background.height=22 \
+                                background.border_color=$BG1_BORDER_COLOUR \
+                                background.border_width=$BG_BORDER_WIDTH
+
+sketchybar --add item spaces_spacer_right left \
+           --set      spaces_spacer_right background.drawing=off \
+                      icon.drawing=off label.drawing=off \
+                      padding_left=0 padding_right=0 \
+                      width=6
 
 # more left items
 sketchybar \
