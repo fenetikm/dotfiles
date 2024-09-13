@@ -12,6 +12,7 @@
 # - mail in a space
 # - obsidian in a space? could be stacked by default. on inbuilt
 # - how about shifting space to another display shortcut?
+# - two wide, on top of each other, windows could be handy for some tasks, key to do that
 #
 # references:
 # [stacking](https://github.com/koekeishiya/yabai/issues/203)
@@ -69,14 +70,14 @@ setup_space() {
   yabai -m display "$DISPLAY" --space "$SPACE_ID"
 }
 
-setup_space 1 home stack 1
+setup_space 1 general stack 1
 setup_space 2 mail bsp 1
-setup_space 3 chat stack 1
+setup_space 3 comms stack 1
 setup_space 4 dev bsp 2
 
 # rules
 # unmanaged
-yabai -m rule --add app="^(Calculator|Software Update|Dictionary|VLC|zoom.us|Photo Booth|Archive Utility|LibreOffice|App Store|Steam|Alfred|Alfred Preferences|Activity Monitor|System Information|Karabiner-Elements|Karabiner-EventViewer|Preview|Disk Utility|OpenVPN Connect|Connect to Server|Anki|Docker Desktop|VeraCrypt)$" manage=off
+yabai -m rule --add app="^(Calculator|Software Update|Dictionary|VLC|zoom.us|Photo Booth|Archive Utility|LibreOffice|App Store|Steam|Alfred|Alfred Preferences|Activity Monitor|System Information|Karabiner-Elements|Karabiner-EventViewer|Preview|Disk Utility|OpenVPN Connect|Connect to Server|Anki|Docker Desktop|VeraCrypt|qView)$" manage=off
 yabai -m rule --add app="^(System Preferences|System Settings)$" manage=off sticky=on
 yabai -m rule --add app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref|AirDrop)" manage=off
 
@@ -85,6 +86,7 @@ yabai -m rule --add app="^Calendar" title="(General|^$)" manage=off
 yabai -m rule --add app="^TablePlus" title="^Connect" manage=off
 yabai -m rule --add role="AXPopover" manage=off
 yabai -m rule --add app="^Mirth" manage=off
+yabai -m rule --add app="^(zoom|Zoom)" manage=off
 
 # send apps to specific displays or spaces
 yabai -m rule --add app="^Messages" space=^3
@@ -102,3 +104,4 @@ yabai -m signal --add event=window_focused action="$HOME/.config/yabai/window_fo
 yabai -m signal --add event=application_launched action="$HOME/.config/yabai/application_launched.sh"
 yabai -m signal --add event=application_visible action="$HOME/.config/yabai/application_visible.sh"
 yabai -m signal --add event=window_deminimized action="$HOME/.config/yabai/application_visible.sh"
+yabai -m signal --add event=display_added action="$HOME/.config/yabai/display_added.sh"

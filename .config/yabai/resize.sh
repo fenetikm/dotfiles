@@ -9,6 +9,7 @@
 # positions:
 # - 1,2,3 (thirds)
 # - a, b (halves)
+# also a way of centering
 
 if [[ $(yabai -m query --windows --window | jq -re '."is-floating"') == false ]]; then
   yabai -m window --toggle float

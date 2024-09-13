@@ -18,4 +18,4 @@ fi
 
 yabai -m window --focus $WINDOW
 
-source "HOME"/.config/yabai/centre.sh
+# source "$HOME"/.config/yabai/centre.sh

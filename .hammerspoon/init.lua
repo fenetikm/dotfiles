@@ -174,7 +174,7 @@ hs.fnutils.each({
   { key = "f", app = "Finder" },
   { key = "s", app = "Slack" },
   { key = "g", app = "Google Chrome" },
-  { key = "x", app = "Brave Browser" },
+  -- { key = "x", app = "Brave Browser" },
   { key = "space", app = "kitty", yabai_script = "kitty.sh" },
   { key = "e", app = "Mail"},
   { key = "p", url = "obsidian://open?vault=personal" },
@@ -343,7 +343,22 @@ sk['d'] = bindKey('d', function() yabai({'-m', 'space', '--layout', 'stack'}) en
 -- - shift 'm' to minimize window
 -- - how about `m` hides an app if only one window, otherwise the window? shift+h to hide app either way
  
-sk['m'] = bindKey('m', function() yabai({'-m', 'window', '--minimize'}) end)
+-- smart minimise
+sk['m'] = bindKey('m', function()
+  local frontmost = hs.application.frontmostApplication()
+  local frontmost_windows = frontmost:allWindows()
+  if (#frontmost_windows > 1) then
+    yabai({'-m', 'window', '--minimize'})
+  else
+    frontmost:hide()
+  end
+end)
+
+yabai_mode:bind('shift', 'm', function()
+  local frontmost = hs.application.frontmostApplication()
+  frontmost:hide()
+  yabai_mode:exit()
+end)
 
 -- hide all floats on current space
 yabai_mode:bind('shift', 'space', function()

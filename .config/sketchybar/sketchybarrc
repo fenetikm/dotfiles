@@ -18,7 +18,7 @@ PLUGIN_DIR="$CONFIG_DIR/plugins"
   # font_smoothing=on shadow=on
 
 bar=(
-  blur_radius=32
+  blur_radius=16
   color=$BAR_COLOUR
   font_smoothing=on
   height=28
