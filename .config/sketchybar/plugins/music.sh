@@ -39,14 +39,14 @@ EOF)
 
   ICON="󰺢 "
   sketchybar --set "$NAME" icon="$ICON" label="${FULL}" \
-    label.padding_right=8 \
+    label.padding_right=10 \
     drawing=on \
     label.max_chars=$MAX_LEN \
-    icon.padding_left=8 icon.color=$ICON_COLOUR \
+    icon.padding_left=10 icon.color=$ICON_COLOUR \
     background.drawing=on background.color=$BG1_COLOUR \
     background.shadow.drawing=on background.shadow.distance=1 \
-    background.border_color=$BG1_BORDER_COLOUR background.border_width=1 \
-    background.corner_radius=6 background.height=22
+    background.border_color=$BG1_BORDER_COLOUR background.border_width=$BG_BORDER_WIDTH \
+    background.corner_radius=$BG_RADIUS background.height=22
 else
   sketchybar --set "$NAME" drawing=off
 fi
