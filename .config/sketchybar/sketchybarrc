@@ -90,6 +90,8 @@ sketchybar --add bracket spaces '/space\..*/'               \
            --set         spaces background.color=$BG1_COLOUR \
                                 background.corner_radius=$BG_RADIUS \
                                 background.height=22 \
+                                background.shadow.drawing=on \
+                                background.shadow.distance=1 \
                                 background.border_color=$BG1_BORDER_COLOUR \
                                 background.border_width=$BG_BORDER_WIDTH
 
