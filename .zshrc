@@ -169,9 +169,6 @@ alias gp='git push'
 alias gb='git branch'
 alias g='_f() { if [[ $# == 0 ]]; then git status --short --branch; else git "$@"; fi }; _f'
 
-# git dotfiles management
-alias y='yadm'
-
 # tmux aliases
 alias ms='~/.config/tmux/split.sh'
 alias mn='~/.config/tmux/new.sh'
@@ -280,6 +277,18 @@ alias pcup='docker-compose -f misc/docker/docker-compose.yml -f misc/docker/dock
 alias pcdown='docker container stop $(docker container ls -aq)'
 alias ytbest="yt-dlp -f bestvideo+bestaudio --merge-output-format=mkv"
 
+# yabai
+# window queries
+yabai_windows () {
+  yabai -m query --windows --space "$1" | jq -c -re '.[] | select(."is-visible" == true) | {id, title, app, "is-floating"}'
+}
+alias yw="yabai_windows"
+
+yabai_spaces () {
+  yabai -m query --spaces --space "$1" | jq -c -re '{id, index, label, type}'
+}
+alias ys="yabai_spaces"
+
 # function to toggle fg/bg on control z
 fancy-ctrl-z () {
   if [[ $#BUFFER -eq 0 ]]; then
@@ -328,31 +337,6 @@ fzf_git_log() {
     fi
 }
 alias fgl="fzf_git_log"
-
-fstash() {
-  local out q k sha
-  while out=$(
-    git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" |
-    fzf --no-sort --query="$q" --print-query \
-        --expect=ctrl-d,ctrl-b);
-  do
-    mapfile -t out <<< "$out"
-    q="${out[0]}"
-    k="${out[1]}"
-    sha="${out[-1]}"
-    sha="${sha%% *}"
-    [[ -z "$sha" ]] && continue
-    if [[ "$k" == 'ctrl-d' ]]; then
-      git diff $sha
-    elif [[ "$k" == 'ctrl-b' ]]; then
-      git stash branch "stash-$sha" $sha
-      break;
-    else
-      git stash show -p $sha
-    fi
-  done
-}
-alias fs='fstash'
 
 # fzf find a file by name and edit
 fzf_find_edit() {

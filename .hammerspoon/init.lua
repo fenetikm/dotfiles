@@ -34,9 +34,19 @@ d = function(message)
   end
 end
 
+G.alert_style = {
+  textSize = 18,
+  radius = 18,
+  atScreenEdge = 2,
+  strokeColor = { white = 1, alpha = 0 },
+  fadeInDuration = 0.05,
+  fadeOutDuration = 0.05,
+  padding = 6
+}
+
 s = function(message)
   if G.loggingEnabled then
-    hs.alert.show(message)
+    hs.alert.show(message, G.alert_style)
   end
 end
 
@@ -261,8 +271,8 @@ local chain_yabai = function(movements)
 end
 
 local yabai_mode = hs.hotkey.modal.new('', 'f19')
--- function yabai_mode:entered() hs.alert'Yabai mode: on' end
--- function yabai_mode:exited() hs.alert'Yabai mode: off' end
+function yabai_mode:entered() s('WM?') end
+function yabai_mode:exited() s('WM!') end
 yabai_mode:bind('', 'escape', function()
   yabai_mode:exit()
 end)
@@ -280,6 +290,9 @@ end
 -- todo:
 -- - qwe for resizing (floats)
 -- - maybe flip insertion 1,2,3 to shift +qwe ?
+-- - chain for f to go to centered smaller?
+-- - resizing unfloated items
+-- - toggle sketchybar window info in title
 
 -- toggle float
 sk['space'] = bindKey('space', function() yabai_script('float.sh', {}) end)
@@ -343,7 +356,7 @@ sk['d'] = bindKey('d', function() yabai({'-m', 'space', '--layout', 'stack'}) en
 -- - shift 'm' to minimize window
 -- - how about `m` hides an app if only one window, otherwise the window? shift+h to hide app either way
  
--- smart minimise
+-- "smart" minimise
 sk['m'] = bindKey('m', function()
   local frontmost = hs.application.frontmostApplication()
   local frontmost_windows = frontmost:allWindows()

@@ -39,7 +39,7 @@ EOF)
     FULL+=...
   fi
 
-  SCROLL_DURATION=`echo $(( ($FULL_LEN - $MAX_LEN) * 10 ))`
+  SCROLL_DURATION=`echo $(( 300 + ($FULL_LEN - $MAX_LEN) * 9 ))`
 
   ICON="󰺢 "
   sketchybar --set "$NAME" icon="$ICON" label="${FULL}" \

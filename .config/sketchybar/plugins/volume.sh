@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/zsh
 
 # $INFO has the volume percentage
 if [ "$SENDER" = "volume_change" ]; then

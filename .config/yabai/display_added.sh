@@ -3,8 +3,10 @@
 echo '################'
 echo 'display added'
 
-DISPLAY_ID="$YABAI_DISPLAY_INDEX"
-if [[ "$YABAI_DISPLAY_INDEX" =="2" ]]; then
-  yabai -m space 4 --label "dev"
+DISPLAY_INDEX="$YABAI_DISPLAY_INDEX"
+echo 'display index'
+echo "$DISPLAY_INDEX"
+if [[ "$DISPLAY_INDEX" == "2" ]]; then
+  yabai -m space 5 --label "dev"
   sketchybar --reload
 fi

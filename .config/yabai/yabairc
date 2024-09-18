@@ -4,16 +4,23 @@
 # - when slack huddle opens, float it at a certain size, has `Huddle in the name`
 # - check out this wallpaper https://github.com/dominiklohmann/25th-hour
 # - padding on ultrawide, one app
-# - more gap, 24?
+# - more gap, 24? @done
 # - when swapping to bsp from stack on laptop, need to make everything opaque again, yes defo an issue!
 # - when on a stack, make top one float, need to make one underneath opaque
-# - a quick button to hide all floats
+# - a quick button to hide all floats @done
 # - if spawning a window from a floating window, it should float on top of existing window
-# - mail in a space
+# - mail in a space @done
+# - centering floated window (without resize) - g? shift+g to hide everything else?
 # - obsidian in a space? could be stacked by default. on inbuilt
 # - how about shifting space to another display shortcut?
 # - two wide, on top of each other, windows could be handy for some tasks, key to do that
-#
+# - sometimes, dev 4 isn't in bsp mode and then things don't work - how to tell? indicator next to space?
+# - also next / prev window in app doesn't always work
+# - sometimes on "home", window becomes "not stacked" how to restack?
+# - shift apps to spaces on reload
+# - a way to hide everything else on display (ctrl+m?)
+# - unminimise, kinda like hyper works but for all apps, can be done with weird command+tab, select app, take finger off command
+
 # references:
 # [stacking](https://github.com/koekeishiya/yabai/issues/203)
 # [travers hs config](https://github.com/evantravers/dotfiles/blob/master/.config/hammerspoon/init.lua)
@@ -31,24 +38,24 @@ sudo yabai --load-sa
 yabai -m config debug_output on
 
 # defaults
-yabai                         -m       config \
-    external_bar              all:32:0       \
-    top_padding               20             \
-    bottom_padding            20             \
-    left_padding              20             \
-    right_padding             20             \
-    window_gap                20             \
-    window_opacity            on             \
-    window_animation_duration 0.0            \
+yabai                         -m           config \
+    external_bar              all:32:0     \
+    top_padding               20           \
+    bottom_padding            20           \
+    left_padding              20           \
+    right_padding             20           \
+    window_gap                20           \
+    window_opacity            on           \
+    window_animation_duration 0.0          \
     window_placement          second_child \
-    active_window_opacity     1.0            \
-    normal_window_opacity     1.0            \
-    window_shadow             float             \
-    auto_balance              off            \
-    split_type                vertical       \
-    split_ratio               0.5            \
-    insert_feedback_color     0x9999a4bc     \
-    layout                    bsp \
+    active_window_opacity     1.0          \
+    normal_window_opacity     1.0          \
+    window_shadow             float        \
+    auto_balance              off          \
+    split_type                vertical     \
+    split_ratio               0.5          \
+    insert_feedback_color     0x9999a4bc   \
+    layout                    bsp          \
     mouse_drop_action         swap
 
 setup_space() {
@@ -70,14 +77,16 @@ setup_space() {
   yabai -m display "$DISPLAY" --space "$SPACE_ID"
 }
 
-setup_space 1 general stack 1
+setup_space 1 home stack 1
 setup_space 2 mail bsp 1
-setup_space 3 comms stack 1
-setup_space 4 dev bsp 2
+setup_space 3 chat stack 1
+setup_space 4 db stack 1
+setup_space 5 dev bsp 2
+
 
 # rules
 # unmanaged
-yabai -m rule --add app="^(Calculator|Software Update|Dictionary|VLC|zoom.us|Photo Booth|Archive Utility|LibreOffice|App Store|Steam|Alfred|Alfred Preferences|Activity Monitor|System Information|Karabiner-Elements|Karabiner-EventViewer|Preview|Disk Utility|OpenVPN Connect|Connect to Server|Anki|Docker Desktop|VeraCrypt|qView)$" manage=off
+yabai -m rule --add app="^(Calculator|Software Update|Dictionary|VLC|zoom.us|Photo Booth|Archive Utility|LibreOffice|App Store|Steam|Alfred|Alfred Preferences|Activity Monitor|System Information|Karabiner-Elements|Karabiner-EventViewer|Preview|Disk Utility|OpenVPN Connect|Connect to Server|Anki|Docker Desktop|VeraCrypt|qView|Transmit)$" manage=off
 yabai -m rule --add app="^(System Preferences|System Settings)$" manage=off sticky=on
 yabai -m rule --add app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref|AirDrop)" manage=off
 
@@ -86,14 +95,16 @@ yabai -m rule --add app="^Calendar" title="(General|^$)" manage=off
 yabai -m rule --add app="^TablePlus" title="^Connect" manage=off
 yabai -m rule --add role="AXPopover" manage=off
 yabai -m rule --add app="^Mirth" manage=off
+yabai -m rule --add app="^Keychain" manage=off
 yabai -m rule --add app="^(zoom|Zoom)" manage=off
 
 # send apps to specific displays or spaces
 yabai -m rule --add app="^Messages" space=^3
 yabai -m rule --add app="^Slack" space=^3
-yabai -m rule --add app="^Slack" title="^Huddle" manage=off display=^2
+yabai -m rule --add app="^Slack" title="^Huddle" manage=off display=^2 space=^5
 yabai -m rule --add app="^(Thunderbird|thunderbird)" space=^2
 yabai -m rule --add app="^Mail" space=^2
+yabai -m rule --add app="^TablePlus" space=^4
 
 # signals
 yabai -m signal --add event=window_created action="$HOME/.config/yabai/window_created.sh"
