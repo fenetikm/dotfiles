@@ -21,7 +21,7 @@ if [[ "$KITTY_ID" != "$WINDOWS[1]" ]]; then
   yabai -m window "$KITTY_ID" --swap "$WINDOWS[1]"
 fi
 
-source "$HOME"/.config/yabai/hide_floats.sh
+# source "$HOME"/.config/yabai/hide_floats.sh
 
 source "$HOME"/.config/yabai/balance.sh
 

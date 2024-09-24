@@ -23,8 +23,7 @@ if [[ $(echo "$SPACE" | jq -re '."type" == "stack"') == "true" && "$FIX_OPACITY"
   do
     CW=$(yabai -m query --windows --window $i | jq -re '."is-visible" == true')
     if [[ "$CW" == true ]]; then
-      # note: this resets it to 1.0
-      yabai -m window "$i" --opacity 0.0
+      yabai -m window "$i" --opacity 1.0
 
       exit 1
     fi

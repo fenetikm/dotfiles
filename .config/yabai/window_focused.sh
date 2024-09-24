@@ -1,13 +1,22 @@
 #! /usr/bin/env zsh
 
 echo '################'
-echo 'window focused'
+echo 'window focused / switched'
 
 # fixme: pull in from env variable?
 FIX_OPACITY=on
 
-WID="${YABAI_WINDOW_ID}"
-WINDOW=$(yabai -m query --windows --window "$WID")
+# process ID is set via application_front_switched
+PID="${YABAI_PROCESS_ID}"
+if [[ "$PID" != "" ]]; then
+  WINDOW=$(yabai -m query --windows | jq -re '.[] | select(.pid == '"$PID"') | select (."is-minimized" == true) | .id')
+  if [[ "WINDOW" != "" ]]; then
+    yabai -m window "$WINDOW" --deminimize "$WINDOW"
+  fi
+else
+  WID="${YABAI_WINDOW_ID}"
+  WINDOW=$(yabai -m query --windows --window "$WID")
+fi
 if [[ $(echo "$WINDOW" | jq -re '."is-floating"') == "true" ]]; then
   exit 1
 fi

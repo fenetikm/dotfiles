@@ -291,8 +291,9 @@ end
 -- - qwe for resizing (floats)
 -- - maybe flip insertion 1,2,3 to shift +qwe ?
 -- - chain for f to go to centered smaller?
--- - resizing unfloated items
+-- - resizing unfloated items - could have one key for position and then another for size
 -- - toggle sketchybar window info in title
+-- - show all floating windows
 
 -- toggle float
 sk['space'] = bindKey('space', function() yabai_script('float.sh', {}) end)

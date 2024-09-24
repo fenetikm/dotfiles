@@ -131,7 +131,7 @@ alias cat='bat'
 alias c='bat'
 alias ping='prettyping'
 alias top='sudo htop'
-alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
+alias du="ncdu --color off -rr -x --exclude .git --exclude node_modules"
 
 run_vim_leader() {
   com="NormLead $1"

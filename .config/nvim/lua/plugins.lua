@@ -338,27 +338,20 @@ return {
     end
   },
 
-  {
-    event = 'VeryLazy',
-    "vhyrro/luarocks.nvim",
-    config = true,
-    opts = {
-      rocks = {  "lua-curl", "nvim-nio", "mimetypes", "xml2lua" }, -- Specify LuaRocks packages to install
-    },
-  },
-  { -- REST client
+  -- {
+  --   event = 'VeryLazy',
+  --   "vhyrro/luarocks.nvim",
+  --   config = true,
+  --   opts = {
+  --     rocks = {  "lua-curl", "nvim-nio", "mimetypes", "xml2lua" }, -- Specify LuaRocks packages to install
+  --   },
+  -- },
+  { -- REST client, should just work with latest version of lazy
     'rest-nvim/rest.nvim',
     ft = 'http',
     keys = {
       { '<localleader>r', '<cmd>Rest run<cr>', desc = 'Run reset request' }
     },
-    dependencies = {
-      { "nvim-lua/plenary.nvim" },
-      { "luarocks.nvim" },
-    },
-    config = function()
-      require("rest-nvim").setup()
-    end,
   },
 
   -- Writing
@@ -441,6 +434,7 @@ return {
   -- https://github.com/nomnivore/ollama.nvim
   -- https://github.com/mg979/vim-visual-multi or https://github.com/smoka7/multicursors.nvim
   -- https://github.com/LunarVim/bigfile.nvim for turning off things for big files
+  -- https://github.com/brenoprata10/nvim-highlight-colors colours in virtual text
   --
   -- plugin lists to look through:
   -- - https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginlist.lua

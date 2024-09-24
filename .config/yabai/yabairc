@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#! /usr/bin/env zsh
 
 # todo:
 # - when slack huddle opens, float it at a certain size, has `Huddle in the name`
@@ -20,6 +20,7 @@
 # - shift apps to spaces on reload
 # - a way to hide everything else on display (ctrl+m?)
 # - unminimise, kinda like hyper works but for all apps, can be done with weird command+tab, select app, take finger off command
+# - restore hidden apps to where the were when unhiding
 
 # references:
 # [stacking](https://github.com/koekeishiya/yabai/issues/203)
@@ -85,18 +86,16 @@ setup_space 5 dev bsp 2
 
 
 # rules
-# unmanaged
-yabai -m rule --add app="^(Calculator|Software Update|Dictionary|VLC|zoom.us|Photo Booth|Archive Utility|LibreOffice|App Store|Steam|Alfred|Alfred Preferences|Activity Monitor|System Information|Karabiner-Elements|Karabiner-EventViewer|Preview|Disk Utility|OpenVPN Connect|Connect to Server|Anki|Docker Desktop|VeraCrypt|qView|Transmit)$" manage=off
+# unmanaged, exact matches
+yabai -m rule --add app="^(Calculator|Software Update|Dictionary|VLC|zoom.us|Photo Booth|Archive Utility|LibreOffice|App Store|Steam|Alfred|Alfred Preferences|Activity Monitor|System Information|Karabiner-Elements|Karabiner-EventViewer|Preview|Disk Utility|Connect to Server|Anki|Docker Desktop|VeraCrypt|qView|Transmit)$" manage=off
 yabai -m rule --add app="^(System Preferences|System Settings)$" manage=off sticky=on
-yabai -m rule --add app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref|AirDrop)" manage=off
-
+yabai -m rule --add app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref|AirDrop|Emptying)" manage=off
 yabai -m rule --add app="^OmniFocus" title="^Choose" manage=off
 yabai -m rule --add app="^Calendar" title="(General|^$)" manage=off
 yabai -m rule --add app="^TablePlus" title="^Connect" manage=off
+yabai -m rule --add app="^Chrome" role="^AXSheet" manage=off
 yabai -m rule --add role="AXPopover" manage=off
-yabai -m rule --add app="^Mirth" manage=off
-yabai -m rule --add app="^Keychain" manage=off
-yabai -m rule --add app="^(zoom|Zoom)" manage=off
+yabai -m rule --add app="^(Little Snitch|CleanShot|Mirth|Keychain|zoom|Zoom|OpenVPN)" manage=off
 
 # send apps to specific displays or spaces
 yabai -m rule --add app="^Messages" space=^3
@@ -116,3 +115,4 @@ yabai -m signal --add event=application_launched action="$HOME/.config/yabai/app
 yabai -m signal --add event=application_visible action="$HOME/.config/yabai/application_visible.sh"
 yabai -m signal --add event=window_deminimized action="$HOME/.config/yabai/application_visible.sh"
 yabai -m signal --add event=display_added action="$HOME/.config/yabai/display_added.sh"
+yabai -m signal --add event=application_front_switched action="$HOME/.config/yabai/window_focused.sh"

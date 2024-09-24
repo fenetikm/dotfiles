@@ -74,7 +74,7 @@ return {
       }
       lsp_status.register_progress()
 
-      lspconfig.tsserver.setup {
+      lspconfig.ts_ls.setup {
         flags = { debounce_text_changes = 150 },
         on_attach = default_attach,
         capabilities = capabilities,
@@ -295,7 +295,7 @@ return {
     'folke/trouble.nvim',
     event = 'VeryLazy',
     keys = {
-      {'<leader>xx', '<cmd>TroubleToggle<cr>', silent = true, noremap = true},
+      {'<leader>xx', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>', silent = true, noremap = true, desc="Disagnostics (Trouble)"},
     },
     opts = {
       signs = {
