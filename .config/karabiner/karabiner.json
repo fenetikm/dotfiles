@@ -60,6 +60,38 @@
             ]
           },
           {
+            "description": "Change right option to f19, only inbuilt",
+            "manipulators": [
+              {
+                "conditions": [
+                  {
+                    "identifiers": [
+                      {
+                        "vendor_id": 1452
+                      }
+                    ],
+                    "type": "device_if"
+                  }
+                ],
+                "from": {
+                  "key_code": "right_option",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "f19",
+                    "lazy": true
+                  }
+                ],
+                "type": "basic"
+              }
+            ]
+          },
+          {
             "description": "Right Command to Hyper (Command + Shift + Option + Control), left arrow when tapped, fjell",
             "manipulators": [
               {
@@ -130,11 +162,6 @@
                       "right_control",
                       "right_option"
                     ]
-                  }
-                ],
-                "to_if_alone": [
-                  {
-                    "key_code": "f19"
                   }
                 ],
                 "type": "basic"

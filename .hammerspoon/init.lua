@@ -330,6 +330,7 @@ sk['3'] = bindKey('3', function() yabai({'-m', 'space', '--focus', '3'}) end)
 sk['4'] = bindKey('4', function() yabai({'-m', 'space', '--focus', '4'}) end)
 sk['5'] = bindKey('5', function() yabai({'-m', 'space', '--focus', '5'}) end)
 
+-- think this only works for floated windows... yes?
 sk['f'] = bindKey('f', function() yabai({'-m', 'window', '--toggle', 'zoom-fullscreen'}, function()
   yabai({'-m', 'window', '--grid', '12:12:0:0:12:12'})
 end) end)

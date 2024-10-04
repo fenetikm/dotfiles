@@ -9,8 +9,9 @@ FIX_OPACITY=on
 # process ID is set via application_front_switched
 PID="${YABAI_PROCESS_ID}"
 if [[ "$PID" != "" ]]; then
-  WINDOW=$(yabai -m query --windows | jq -re '.[] | select(.pid == '"$PID"') | select (."is-minimized" == true) | .id')
+  WINDOW=$(yabai -m query --windows | jq -re '.[] | select(.pid == '"$PID"') | select (."is-minimized" == true and ."has-focus" == true) | .id')
   if [[ "WINDOW" != "" ]]; then
+    echo "deminimize $WINDOW"
     yabai -m window "$WINDOW" --deminimize "$WINDOW"
   fi
 else
@@ -27,6 +28,7 @@ yabai -m window "$WID" --opacity 0.0
 # first scenario, stacked space
 SPACE=$(yabai -m query --spaces --space)
 if [[ $(echo "$SPACE" | jq -re '."type" == "stack"') == true && "$FIX_OPACITY" == "on" ]]; then
+  echo "fixing opacity"
   WINDOW_IDS=($(echo "$SPACE" | jq -r '."windows" | @sh'))
   if [[ "${WINDOW_IDS[1]}" == "$WID" ]]; then
     WINDOWS=$(yabai -m query --windows --space)

@@ -1,6 +1,6 @@
 #! /usr/bin/env zsh
 
-# resizing of floats
+# resizing
 # sizes:
 # - 13 = 1/3
 # - 12 = 1/2
@@ -9,7 +9,12 @@
 # positions:
 # - 1,2,3 (thirds)
 # - a, b (halves)
-# also a way of centering
+# also a way of centering (not resizing)
+# I think whether something should be floated or not should be passed in
+#
+# notes:
+# --move to position it, will need to calc
+# --grid use a grid to resize
 
 if [[ $(yabai -m query --windows --window | jq -re '."is-floating"') == false ]]; then
   yabai -m window --toggle float

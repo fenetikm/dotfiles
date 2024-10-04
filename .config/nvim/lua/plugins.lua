@@ -352,6 +352,13 @@ return {
     keys = {
       { '<localleader>r', '<cmd>Rest run<cr>', desc = 'Run reset request' }
     },
+    config = function()
+      vim.g.rest_nvim = {
+        request = {
+          skip_ssl_verification = true
+        }
+      }
+    end
   },
 
   -- Writing
