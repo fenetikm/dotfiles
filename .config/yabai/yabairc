@@ -83,7 +83,7 @@ setup_space 2 mail bsp 1
 setup_space 3 chat stack 1
 setup_space 4 db stack 1
 setup_space 5 dev bsp 2
-
+setup_space 6 view float 2
 
 # rules
 # unmanaged, exact matches

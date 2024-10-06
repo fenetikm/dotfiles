@@ -466,10 +466,10 @@ source ${zsh_plugins}.zsh
 #zsh-history-substring-search key bindings
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
-# export PATH="/usr/local/opt/php@8.1/bin:$PATH"
-# export PATH="/usr/local/opt/php@8.1/sbin:$PATH"
-export PATH="/usr/local/opt/php@8.0/bin:$PATH"
-export PATH="/usr/local/opt/php@8.0/sbin:$PATH"
+export PATH="/usr/local/opt/php@8.1/bin:$PATH"
+export PATH="/usr/local/opt/php@8.1/sbin:$PATH"
+# export PATH="/usr/local/opt/php@8.0/bin:$PATH"
+# export PATH="/usr/local/opt/php@8.0/sbin:$PATH"
 export JAVA_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-22.jdk/Contents/Home"
 export PATH="$JAVA_HOME:$PATH"
 export PATH="/Users/mjw/tmp/apache-maven/bin:$PATH"
