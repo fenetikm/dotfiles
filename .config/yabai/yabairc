@@ -87,7 +87,7 @@ setup_space 6 view float 2
 
 # rules
 # unmanaged, exact matches
-yabai -m rule --add app="^(Calculator|Software Update|Dictionary|VLC|zoom.us|Photo Booth|Archive Utility|LibreOffice|App Store|Steam|Alfred|Alfred Preferences|Activity Monitor|System Information|Karabiner-Elements|Karabiner-EventViewer|Preview|Disk Utility|Connect to Server|Anki|Docker Desktop|VeraCrypt|qView|Transmit)$" manage=off
+yabai -m rule --add app="^(Calculator|Software Update|Dictionary|VLC|zoom.us|Photo Booth|Archive Utility|LibreOffice|App Store|Steam|Alfred|Alfred Preferences|Activity Monitor|System Information|Karabiner-Elements|Karabiner-EventViewer|Preview|Disk Utility|Connect to Server|Anki|Docker Desktop|VeraCrypt|qView|Transmit|Transmission)$" manage=off
 yabai -m rule --add app="^(System Preferences|System Settings)$" manage=off sticky=on
 yabai -m rule --add app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref|AirDrop|Emptying)" manage=off space=^1
 yabai -m rule --add app="^OmniFocus" title="^Choose" manage=off
