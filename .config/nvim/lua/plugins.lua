@@ -442,6 +442,7 @@ return {
   -- https://github.com/mg979/vim-visual-multi or https://github.com/smoka7/multicursors.nvim
   -- https://github.com/LunarVim/bigfile.nvim for turning off things for big files
   -- https://github.com/brenoprata10/nvim-highlight-colors colours in virtual text
+  -- https://github.com/johmsalas/text-case.nvim
   --
   -- plugin lists to look through:
   -- - https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginlist.lua
