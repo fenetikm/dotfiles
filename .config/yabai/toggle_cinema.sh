@@ -1,6 +1,7 @@
 #! /usr/bin/env zsh
 
 # actually, how about creating a special space, send to there and back
+# and switch to that too
 
 # toggle float
 # if [[ $(yabai -m query --windows --window | jq -re '."is-floating"') == false ]]; then
