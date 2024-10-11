@@ -25,7 +25,7 @@ if [[ -n "$TIMELEFT" ]]; then
     background.shadow.drawing=on background.shadow.distance=1 \
     background.drawing=on background.color=$BG2_COLOUR \
     background.border_color=$BG2_BORDER_COLOUR background.border_width=$BG_BORDER_WIDTH \
-    background.corner_radius=$BG_RADIUS background.height=22
+    background.corner_radius=$BG_RADIUS background.height=$BG_HEIGHT
 else
   sketchybar --set "$NAME" drawing=off
 fi

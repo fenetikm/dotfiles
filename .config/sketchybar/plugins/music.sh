@@ -52,7 +52,7 @@ EOF)
     background.drawing=on background.color=$BG1_COLOUR \
     background.shadow.drawing=on background.shadow.distance=1 \
     background.border_color=$BG1_BORDER_COLOUR background.border_width=$BG_BORDER_WIDTH \
-    background.corner_radius=$BG_RADIUS background.height=22
+    background.corner_radius=$BG_RADIUS background.height=$BG_HEIGHT
 else
   sketchybar --set "$NAME" drawing=off
 fi
