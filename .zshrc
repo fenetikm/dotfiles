@@ -109,8 +109,9 @@ timezsh() {
   for i in $(seq 1 10); do /usr/bin/time $shell -i -c exit; done
 }
 
-alias l='ls -alhF'
-alias lvr='ls -alR > /dev/null'
+alias l='llm -m my-openai'
+# alias l='ls -alhF'
+# alias lvr='ls -alR > /dev/null'
 
 alias mv='/bin/mv -i'
 alias rm='/bin/rm -i'
