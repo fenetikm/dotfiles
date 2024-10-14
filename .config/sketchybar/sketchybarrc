@@ -74,24 +74,12 @@ do
   )
   SPACE_ICON="${SPACE_ICONS[i]}"
   case "$SPACE_ICON" in
-    1)
-      SPACE_ICON=" "
-      ;;
-    2)
-      SPACE_ICON=" "
-      ;;
-    3)
-      SPACE_ICON="󰻞 "
-      ;;
-    4)
-      SPACE_ICON=" "
-      ;;
-    5)
-      SPACE_ICON=" "
-      ;;
-    6)
-      SPACE_ICON=" "
-      ;;
+    1) SPACE_ICON=" " ;;
+    2) SPACE_ICON=" " ;;
+    3) SPACE_ICON="󰻞 " ;;
+    4) SPACE_ICON=" " ;;
+    5) SPACE_ICON=" " ;;
+    6) SPACE_ICON=" " ;;
   esac
   sketchybar --add space space."$sid" left --set space."$sid" "${space[@]}" icon="$SPACE_ICON"
 done
