@@ -55,6 +55,15 @@ function! custom#RemoveFancyCharacters()
   :exe ":%s/".join(keys(typo), '\|').'/\=typo[submatch(0)]/ge'
 endfunction
 
+function! custom#RemoveQuotes()
+  let typo = {}
+  let typo["“"] = '"'
+  let typo["”"] = '"'
+  let typo["‘"] = "'"
+  let typo["’"] = "'"
+  :exe ":%s/".join(keys(typo), '\|').'/\=typo[submatch(0)]/ge'
+endfunction
+
 " Delete inactive (not visible) buffers
 function! custom#DeleteInactiveBufs()
   "From tabpagebuflist() help, get a list of all buffers in all tabs

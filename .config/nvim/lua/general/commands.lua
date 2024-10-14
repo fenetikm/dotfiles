@@ -3,6 +3,7 @@ vim.cmd([[
 
   command! TrimWhiteSpace :call custom#TrimWhiteSpace()
   command! RemoveFancyCharacters :call custom#RemoveFancyCharacters()
+  command! RemoveQuotes :call custom#RemoveQuotes()
 
   command! Bdi :call custom#DeleteInactiveBufs()
   command! DeleteInactiveBuffers :call custom#DeleteInactiveBufs()

@@ -354,6 +354,8 @@ sk['a'] = bindKey('a', function() yabai({'-m', 'space', '--layout', 'bsp'}) end)
 sk['s'] = bindKey('s', function() yabai({'-m', 'space', '--layout', 'float'}) end)
 sk['d'] = bindKey('d', function() yabai({'-m', 'space', '--layout', 'stack'}) end)
 
+sk['g'] = bindKey('g', function() yabai_script('resize.sh', {'c', 'x'}) end)
+
 -- todo:
 -- - normal 'm' to hide app ()
 -- - shift 'm' to minimize window
