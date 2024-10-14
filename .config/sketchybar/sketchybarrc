@@ -55,30 +55,44 @@ sketchybar \
            --add item space.spacer_left left \
            --set      space.spacer_left background.drawing=off \
                       padding_left=0 padding_right=0 \
-                      icon.drawing=off label.drawing=off width=6
+                      icon.drawing=off label.drawing=off width=3
 
-# todo: instead of numbers, labels
 SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
-SPACE_LABELS=($(yabai -m query --spaces | jq -r '.[] .label'))
+
 for i in "${!SPACE_ICONS[@]}"
 do
   sid="$(($i+1))"
   space=(
     space="$sid"
-    icon.font="${FONT}:${FONT_WEIGHT}:${FONT_SIZE}"
-    icon.padding_left=1
-    icon.padding_right=1
+    icon.font="${ICON_FONT}:${ICON_FONT_WEIGHT}:${ICON_SIZE}"
+    icon.padding_left=3
+    icon.padding_right=3
     padding_left=5
     padding_right=5
     label.drawing=off
     script="$PLUGIN_DIR/space.sh"
   )
   SPACE_ICON="${SPACE_ICONS[i]}"
-  if [[ "$SPACE_LABELS[$i]" != "" ]]; then
-    SPACE_ICON="${SPACE_LABELS[$i]}"
-  fi
-  # Uppercase first letter of space
-  SPACE_ICON=$(echo $SPACE_ICON | gsed -E 's/./\U&/')
+  case "$SPACE_ICON" in
+    1)
+      SPACE_ICON=" "
+      ;;
+    2)
+      SPACE_ICON=" "
+      ;;
+    3)
+      SPACE_ICON="󰻞 "
+      ;;
+    4)
+      SPACE_ICON=" "
+      ;;
+    5)
+      SPACE_ICON=" "
+      ;;
+    6)
+      SPACE_ICON=" "
+      ;;
+  esac
   sketchybar --add space space."$sid" left --set space."$sid" "${space[@]}" icon="$SPACE_ICON"
 done
 
@@ -86,7 +100,7 @@ sketchybar --add item space.spacer_right left \
            --set      space.spacer_right background.drawing=off \
                       padding_left=0 padding_right=0 \
                       icon.drawing=off label.drawing=off \
-                      width=6
+                      width=3
 
 sketchybar --add bracket spaces '/space\..*/'               \
            --set         spaces background.color=$BG1_COLOUR \

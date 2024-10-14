@@ -178,6 +178,11 @@ alias mpc='~/.config/tmux/pc.sh'
 alias ml='tmux ls'
 alias ma='tmux attach-session'
 
+tmux-new-window() {
+  tmux new-window -n $1
+}
+alias mw='tmux-new-window'
+
 # robo
 # alias rb='./vendor/bin/robo'
 alias rb='~pcp/vendor/bin/robo'
