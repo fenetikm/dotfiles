@@ -8,23 +8,23 @@ options:
     flag: "-q"
     flag_long: "--quit"
     description: "Quit thymer, turn off focus mode"
-    command: "shortcuts run 'Set Focus Off'; thyme --stop; terminal-notifier -remove ALL; tmux refresh-client -S"
+    command: "shortcuts run 'Set Focus Off'; thyme --stop; sketchybar -m --update"
 hooks:
   before_all:
     events: "before_all"
     command: "shortcuts run 'Set Focus On'"
   before:
     events: "before"
-    command: "terminal-notifier -title 'Thymer' -message 'Start timer.' -ignoreDnD -sender com.apple.Finder; tmux refresh-client -S; echo `date -u +'%Y-%m-%d %H:%M:%S'` > $HOME/iCloud/Docs/data/thyme.start"
+    command: "sketchybar -m --update; echo `date -u +'%Y-%m-%d %H:%M:%S'` > $HOME/iCloud/Docs/data/thyme.start"
   after:
     events: "after"
-    command: "shortcuts run 'Set Focus Off'; terminal-notifier -sound default -title 'Thymer' -message 'Time is up!' -ignoreDnd -sender com.apple.Finder; tmux refresh-client -S; echo \"`cat $HOME/iCloud/Docs/data/thyme.start`\",\"`date -u '+%Y-%m-%d %H:%M:%S'`\" >> $HOME/iCloud/Docs/data/pomos.csv"
+    command: "shortcuts run 'Set Focus Off'; sketchybar -m --update; echo \"`cat $HOME/iCloud/Docs/data/thyme.start`\",\"`date -u '+%Y-%m-%d %H:%M:%S'`\" >> $HOME/iCloud/Docs/data/pomos.csv"
   after_all:
     events: "after_all"
-    command: "shortcuts run 'Set Focus Off'; terminal-notifier -remove ALL"
+    command: "shortcuts run 'Set Focus Off'"
   before_break:
     events: "before_break"
-    command: "terminal-notifier -title 'Thymer' -message 'Start break.' -sound submarine -ignoreDnD -sender com.apple.Finder; tmux refresh-client -S"
+    command: "sketchybar -m --update"
   after_break:
     events: "after_break"
-    command: "shortcuts run 'Set Focus On'; terminal-notifier -title 'Thymer' -message 'Break done.' -ignoreDnD -sender com.apple.Finder; tmux refresh-client -S"
+    command: "shortcuts run 'Set Focus On'; sketchybar -m --update"
