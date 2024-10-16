@@ -18,7 +18,7 @@ hooks:
     command: "sketchybar -m --update; echo `date -u +'%Y-%m-%d %H:%M:%S'` > $HOME/iCloud/Docs/data/thyme.start"
   after:
     events: "after"
-    command: "shortcuts run 'Set Focus Off'; sketchybar -m --update; echo \"`cat $HOME/iCloud/Docs/data/thyme.start`\",\"`date -u '+%Y-%m-%d %H:%M:%S'`\" >> $HOME/iCloud/Docs/data/pomos.csv"
+    command: "shortcuts run 'Set Focus Off'; sketchybar -m --update; echo \"`cat $HOME/iCloud/Docs/data/thyme.start`\",\"`date -u '+%Y-%m-%d %H:%M:%S'`\" >> $HOME/iCloud/Docs/data/pomos.csv; afplay /System/Library/Sounds/Funk.aiff"
   after_all:
     events: "after_all"
     command: "shortcuts run 'Set Focus Off'"
@@ -27,4 +27,4 @@ hooks:
     command: "sketchybar -m --update"
   after_break:
     events: "after_break"
-    command: "shortcuts run 'Set Focus On'; sketchybar -m --update"
+    command: "shortcuts run 'Set Focus On'; sketchybar -m --update; afplay /System/Library/Sounds/Funk.aiff"
