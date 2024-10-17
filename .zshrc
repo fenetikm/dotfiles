@@ -27,6 +27,7 @@ PROMPT_LEAN_TMUX=''
 PROMPT_LEAN_COLOR1='249'
 PROMPT_LEAN_COLOR2='245'
 PROMPT_LEAN_COLOR3='#8859FF'
+PROMPT_LEAN_DIR_COLOR="#99A4BC"
 PROMPT_LEAN_GIT_STYLE='FAT'
 PROMPT_LEAN_SEP=''
 PROMPT_LEAN_SYMBOL='==>'
@@ -182,6 +183,10 @@ tmux-new-window() {
   tmux new-window -n $1
 }
 alias mw='tmux-new-window'
+tmux-rename-window() {
+  tmux rename-window $1
+}
+alias mr='tmux-rename-window'
 
 # robo
 # alias rb='./vendor/bin/robo'
@@ -417,10 +422,7 @@ alias ki="kitty +kitten icat --align=left" #view image
 # generate a clean, up to date kitty config, see https://sw.kovidgoyal.net/kitty/conf/
 alias kc="kitty +runpy 'from kitty.config import *; print(commented_out_default_config())'"
 
-# load nvm, node version manager
-#--no-use is to lazy load it
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use # This loads nvm
+# nvm - replaced with volta
 
 lpass_export() {
   LPASS=`lpass status`
@@ -441,14 +443,6 @@ local_export() {
   done <<< "$KEYS"
 }
 # local_export
-
-# the following two lines, is via brew handling of antidote
-# source /usr/local/opt/antidote/share/antidote/antidote.zsh
-# antidote load
-
-# now using zsh-nvm plugin for NVM
-export NVM_LAZY_LOAD=true
-export NVM_AUTO_USE=true
 
 # fast antidote loading from the page
 # Set the root name of the plugins files (.txt and .zsh) antidote will use.
@@ -472,6 +466,7 @@ source ${zsh_plugins}.zsh
 #zsh-history-substring-search key bindings
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
+
 export PATH="/usr/local/opt/php@8.1/bin:$PATH"
 export PATH="/usr/local/opt/php@8.1/sbin:$PATH"
 # export PATH="/usr/local/opt/php@8.0/bin:$PATH"
@@ -483,14 +478,7 @@ export PATH="/Users/mjw/tmp/apache-maven/bin:$PATH"
 # zsh falcon colouring
 source $HOME/Documents/Work/internal/vim/colors/falcon/zsh/falcon.zsh
 
-# ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#787882'
-# ZSH_HIGHLIGHT_STYLES[bracket-level-1]='fg=#dfdfe5,bold'
-# ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#787882'
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
-# ZSH_HIGHLIGHT_STYLES[command]='fg=#DFDFE5'
-# ZSH_HIGHLIGHT_STYLES[alias]='fg=#DFDFE5,bold'
-# ZSH_HIGHLIGHT_STYLES[builtin]='fg=#DDCFBF'
-# ZSH_HIGHLIGHT_STYLES[suffix-alias]='fg=#FF761A'
 
 # switchPhp() {
 #   brew unlink php@$1 && brew link php@$2

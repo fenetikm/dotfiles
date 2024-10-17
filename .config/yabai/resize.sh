@@ -14,8 +14,12 @@
 # - x (leave as is)
 #
 # todo: allow resizing of non-floated windows
+# optimise calls
 
-WID=$(yabai -m query --windows --window | jq '.id')
+W=$(yabai -m query --windows --window)
+D=$(yabai -m query --displays --display)
+WID=$(echo "$W" | jq '.id')
+echo "$W" >> "/tmp/yabai_michael.out.log"
 echo "$WID" >> "/tmp/yabai_michael.out.log"
 
 DO_FLOAT="$3"
@@ -23,17 +27,16 @@ if [[ "$DO_FLOAT" == "" ]]; then
   DO_FLOAT=1
 fi
 
-if [[ $(yabai -m query --windows --window "$WID" | jq -re '."is-floating"') == false && "$DO_FLOAT" == 1 ]]; then
+if [[ $(echo "$W" | jq -re '."is-floating"') == false && "$DO_FLOAT" == 1 ]]; then
   yabai -m window "$WID" --toggle float
 fi
 
-# todo: optimise into less yabai calls
-DISPLAY_WIDTH=$(yabai -m query --displays --display | jq '.frame.w | floor')
-DISPLAY_HEIGHT=$(yabai -m query --displays --display | jq '.frame.h | floor')
-DISPLAY_X=$(yabai -m query --displays --display | jq '.frame.x | floor')
-DISPLAY_IDX=$(yabai -m query --windows --window "$WID" | jq '.display')
-WINDOW_WIDTH=$(yabai -m query --windows --window "$WID" | jq '.frame.w | floor')
-WINDOW_HEIGHT=$(yabai -m query --windows --window "$WID" | jq '.frame.h | floor')
+DISPLAY_WIDTH=$(echo "$D" | jq '.frame.w | floor')
+DISPLAY_HEIGHT=$(echo "$D" | jq '.frame.h | floor')
+DISPLAY_X=$(echo "$D" | jq '.frame.x | floor')
+DISPLAY_IDX=$(echo "$W" | jq '.display')
+WINDOW_WIDTH=$(echo "$W" | jq '.frame.w | floor')
+WINDOW_HEIGHT=$(echo "$W" | jq '.frame.h | floor')
 
 echo "$1" >> "/tmp/yabai_michael.out.log"
 echo "$2" >> "/tmp/yabai_michael.out.log"
@@ -50,15 +53,17 @@ if [[ "$POSITION" == "c" ]]; then
     NEW_Y=$(( ("$DISPLAY_HEIGHT" - "$WINDOW_HEIGHT") / 2 ))
 
     yabai -m window "$WID" --move abs:$NEW_X:$NEW_Y
+
+    exit 1
   fi
   if [[ "$DISPLAY_IDX" == "1" ]];
     NEW_X=$(( ("$DISPLAY_WIDTH" - "$WINDOW_WIDTH") / 2 ))
     NEW_Y=$(( ("$DISPLAY_HEIGHT" - "$WINDOW_HEIGHT") / 2 ))
 
     yabai -m window "$WID" --move abs:$NEW_X:$NEW_Y
-  fi
 
-  exit 1
+    exit 1
+  fi
 fi
 
 SIZE="$2"

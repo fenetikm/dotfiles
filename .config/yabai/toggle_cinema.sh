@@ -2,6 +2,8 @@
 
 # actually, how about creating a special space, send to there and back
 # and switch to that too
+# todo: store details: display/space,float or not - use WID as the filename
+# just use the resize.sh file
 
 # toggle float
 # if [[ $(yabai -m query --windows --window | jq -re '."is-floating"') == false ]]; then

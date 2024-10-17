@@ -9,11 +9,11 @@ ICON=
 COLOUR=$DEFAULT_COLOUR
 
 ROUNDED_PERC=$(echo "$PERC" | sed -E 's/(.*)(\.[0-9]\%)/\1/')
-if (( $ROUNDED_PERC > 14 )); then
+if (( $ROUNDED_PERC > 12 )); then
   COLOUR=$WARNING_COLOUR
 fi
-if (( $ROUNDED_PERC > 24 )); then
+if (( $ROUNDED_PERC > 20 )); then
   COLOUR=$ISSUE_COLOUR
 fi
 
-sketchybar --set "$NAME" icon="$ICON" icon.color="${COLOUR}" label="C:${PERC}" icon.drawing=off
+sketchybar --set "$NAME" icon="$ICON" label.color="${COLOUR}" label="C:${PERC}" icon.drawing=off
