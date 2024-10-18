@@ -21,21 +21,7 @@ zstyle ':omz:update' mode disabled
 export ZSH=$HOME/.oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
-PROMPT_LEAN_VIMODE=1
-PROMPT_LEAN_VIMODE_FORMAT="%F{10}  %f"
-PROMPT_LEAN_TMUX=''
-PROMPT_LEAN_COLOR1='249'
-PROMPT_LEAN_COLOR2='245'
-PROMPT_LEAN_COLOR3='#8859FF'
-PROMPT_LEAN_DIR_COLOR="#99A4BC"
-PROMPT_LEAN_GIT_STYLE='FAT'
-PROMPT_LEAN_SEP=''
-PROMPT_LEAN_SYMBOL='==>'
-# PROMPT_LEAN_PATH_SED='s/Documents\/Work/\$/g'
-PROMPT_LEAN_PATH_SED=''
-# remove the space at the end on the right
-ZLE_RPROMPT_INDENT=0
-source $HOME/.config/zsh/lean/lean.plugin.zsh
+eval "$(starship init zsh)"
 
 # exa colours
 source $HOME/Documents/Work/internal/vim/colors/falcon/exa/EXA_COLORS_MODERN
@@ -501,19 +487,4 @@ export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
 eval "$(zoxide init zsh)"
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/opt/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/opt/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/opt/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
 

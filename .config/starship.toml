@@ -1,0 +1,74 @@
+# Get editor completions based on the config schema
+# "$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = false
+
+format = """
+$jobs\
+$character
+"""
+
+right_format = """
+$cmd_duration
+$git_branch
+${custom.git_dirty}
+$git_status
+$directory
+"""
+
+continuation_prompt = '> '
+
+[fill]
+symbol = " "
+
+[jobs]
+number_threshold = 1
+style = 'white'
+format = '[\[$number\]]($style) '
+
+[character]
+success_symbol = "[==>](blue)"
+error_symbol = "[==>](bold red)"
+vimcmd_symbol = "[  ▼](dimmed green)"
+
+[cmd_duration]
+style = "italic fg:white"
+format = "[$duration ]($style)"
+
+[git_branch]
+style = "fg:#707082"
+symbol = ""
+format = "[$symbol$branch ]($style)"
+truncation_length = 32
+
+[git_status]
+format = "$ahead_behind"
+ahead = '[󰶣](fg:#f8f8ff)'
+behind = '[󰶡](fg:#f8f8ff)'
+up_to_date = '[󰸞](green) '
+
+[directory]
+truncate_to_repo = false
+use_logical_path = false
+fish_style_pwd_dir_length = 1
+style = 'fg:#99A4BC'
+
+[directory.substitutions]
+'~/Documents/Work/internal/blog/hugo/mwcom' = '~blog'
+'~/Documents/Work' = '~w'
+'~/Documents' = '~docs'
+'~/Downloads' = '~down'
+'~w/internal/vim/colors/falcon' = '~falcon'
+'~w/personify_care' = '~pc'
+'~pc/repos/personify-care-platform' = '~pcp'
+'~pc/repos/personify-care-test' = '~pct'
+'~pc/repos/personify-care-web' = '~pcw'
+'~/.config/nvim' = '~nv'
+'~/iCloud' = '~icloud'
+'~/.config/yabai' = '~y'
+'~/.config/sketchybar' = '~sb'
+
+[custom.git_dirty]
+command = "echo '*'"
+when = '~/.config/starship/git-dirty.sh'
+style = 'yellow'
