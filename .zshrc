@@ -21,6 +21,7 @@ zstyle ':omz:update' mode disabled
 export ZSH=$HOME/.oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
+ZLE_RPROMPT_INDENT=0
 eval "$(starship init zsh)"
 
 # exa colours

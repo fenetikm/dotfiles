@@ -3,23 +3,23 @@
 
 add_newline = false
 
+command_timeout = 2000
+
 format = """
 $jobs\
+$username
 $character
 """
 
 right_format = """
 $cmd_duration
+$python
 $git_branch
 ${custom.git_dirty}
 $git_status
-$directory
-"""
+$directory"""
 
 continuation_prompt = '> '
-
-[fill]
-symbol = " "
 
 [jobs]
 number_threshold = 1
@@ -28,7 +28,7 @@ format = '[\[$number\]]($style) '
 
 [character]
 success_symbol = "[==>](blue)"
-error_symbol = "[==>](bold red)"
+error_symbol = "[==>](red)"
 vimcmd_symbol = "[  ▼](dimmed green)"
 
 [cmd_duration]
@@ -43,8 +43,8 @@ truncation_length = 32
 
 [git_status]
 format = "$ahead_behind"
-ahead = '[󰶣](fg:#f8f8ff)'
-behind = '[󰶡](fg:#f8f8ff)'
+ahead = '[󰶣](fg:#f8f8ff) '
+behind = '[󰶡](fg:#f8f8ff) '
 up_to_date = '[󰸞](green) '
 
 [directory]
@@ -52,6 +52,7 @@ truncate_to_repo = false
 use_logical_path = false
 fish_style_pwd_dir_length = 1
 style = 'fg:#99A4BC'
+format = "[$path]($style)"
 
 [directory.substitutions]
 '~/Documents/Work/internal/blog/hugo/mwcom' = '~blog'
@@ -67,6 +68,10 @@ style = 'fg:#99A4BC'
 '~/iCloud' = '~icloud'
 '~/.config/yabai' = '~y'
 '~/.config/sketchybar' = '~sb'
+
+[python]
+format = '[(\($virtualenv\))]($style) '
+style = "bright-black"
 
 [custom.git_dirty]
 command = "echo '*'"
