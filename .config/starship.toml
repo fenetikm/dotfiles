@@ -1,28 +1,30 @@
-# Get editor completions based on the config schema
-# "$schema" = 'https://starship.rs/config-schema.json'
-
+# don't separate prompts with a line
 add_newline = false
 
+# allow commands to run for 2s before timeout
 command_timeout = 2000
 
+# left prompt
 format = """
 $jobs\
-$username
+$username\
 $character
 """
 
+# right prompt
 right_format = """
 $cmd_duration
 $python
 $git_branch
-${custom.git_dirty}
-$git_status
-$directory"""
+${custom.git_status}
+$directory
+"""
 
-continuation_prompt = '> '
+# what to show when hitting enter on something like a quote
+continuation_prompt = '  > '
 
 [jobs]
-number_threshold = 1
+number_threshold = 1 # always show
 style = 'white'
 format = '[\[$number\]]($style) '
 
@@ -32,7 +34,7 @@ error_symbol = "[==>](red)"
 vimcmd_symbol = "[  ▼](dimmed green)"
 
 [cmd_duration]
-style = "italic fg:white"
+style = "italic fg:#707082"
 format = "[$duration ]($style)"
 
 [git_branch]
@@ -41,19 +43,14 @@ symbol = ""
 format = "[$symbol$branch ]($style)"
 truncation_length = 32
 
-[git_status]
-format = "$ahead_behind"
-ahead = '[󰶣](fg:#f8f8ff) '
-behind = '[󰶡](fg:#f8f8ff) '
-up_to_date = '[󰸞](green) '
-
 [directory]
 truncate_to_repo = false
 use_logical_path = false
-fish_style_pwd_dir_length = 1
+fish_style_pwd_dir_length = 1 # e.g. D/W/other_directory
 style = 'fg:#99A4BC'
 format = "[$path]($style)"
 
+# note that substitutions are substituted into the below themselves
 [directory.substitutions]
 '~/Documents/Work/internal/blog/hugo/mwcom' = '~blog'
 '~/Documents/Work' = '~w'
@@ -69,11 +66,12 @@ format = "[$path]($style)"
 '~/.config/yabai' = '~y'
 '~/.config/sketchybar' = '~sb'
 
+# name of python virtual env if applicable
 [python]
 format = '[(\($virtualenv\))]($style) '
-style = "bright-black"
+style = "fg:#707082"
 
-[custom.git_dirty]
-command = "echo '*'"
-when = '~/.config/starship/git-dirty.sh'
-style = 'yellow'
+[custom.git_status]
+command = "~/.config/starship/git_status.sh"
+when = "true"
+format = "$output"
