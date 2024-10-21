@@ -5,6 +5,7 @@ GREEN='\033[33;32m'
 YELLOW='\033[33;33m'
 WHITE='\033[38;2;249;249;255m'
 DIRTY_INDICATOR="${YELLOW}* ${RESET}"
+UNTRACKED_INDICATOR="${YELLOW}+ ${RESET}"
 AHEAD_INDICATOR="${WHITE}󰶣 ${RESET}"
 BEHIND_INDICATOR="${WHITE}󰶡 ${RESET}"
 DIVERGE_INDICATOR="${WHITE}󰤻 ${RESET}"
@@ -18,10 +19,12 @@ fi
 # The below is mostly from: https://github.com/starship/starship/discussions/1252#discussioncomment-58920
 INDEX=$(git status --porcelain -b 2> /dev/null)
 
-# Check for untracked files
 DIRTY=
+
+# Check for untracked files
+UNTRACKED=
 if $(echo "$INDEX" | grep -E '^\?\? ' &> /dev/null); then
-  DIRTY=Y
+  UNTRACKED=Y
 fi
 
 # Check for staged files
@@ -61,6 +64,11 @@ elif $(echo "$INDEX" | grep '^[DA]U ' &> /dev/null); then
   DIRTY=Y
 fi
 
+if [[ "${UNTRACKED}" == "Y" ]]; then
+  STATUS="${UNTRACKED_INDICATOR}"
+fi
+
+# override untracked with dirty
 if [[ "${DIRTY}" == "Y" ]]; then
   STATUS="${DIRTY_INDICATOR}"
 fi
