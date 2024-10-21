@@ -46,6 +46,8 @@ truncation_length = 32
 [directory]
 truncate_to_repo = false
 use_logical_path = false
+truncation_length = 5
+read_only = ''
 fish_style_pwd_dir_length = 1 # e.g. D/W/other_directory
 style = 'fg:#99A4BC'
 format = "[$path]($style)"
