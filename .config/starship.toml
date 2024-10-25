@@ -46,14 +46,13 @@ truncation_length = 32
 [directory]
 truncate_to_repo = false
 use_logical_path = false
-truncation_length = 5
 truncation_symbol = '…/'
 read_only = ''
-fish_style_pwd_dir_length = 1 # e.g. D/W/other_directory
 style = 'fg:#99A4BC'
 format = "[$path]($style)"
 
 # note that substitutions are substituted into the below themselves
+# also the presence of substitutions means that fish_style can't be used for directory module
 [directory.substitutions]
 '~/Documents/Work/internal/blog/hugo/mwcom' = '~blog'
 '~/Documents/Work' = '~w'

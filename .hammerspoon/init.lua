@@ -303,6 +303,7 @@ sk['r'] = bindKey('r', function() os.execute('/usr/local/bin/yabai --restart-ser
 
 -- I don't use the z and c much, pointless? replace with 1/3 versions?
 -- Also maybe shift zxc to go straight to the smaller version? wouldn't need the chain then
+-- Todo: currently broken
 sk['z'] = bindKey('z', chain_yabai({
   { 'resize.sh', {'1', '2'} },
   { 'resize.sh', {'1', '1'} },
@@ -456,26 +457,42 @@ yabai_mode:bind('control', 'k', function()
   yabai_mode:exit()
 end)
 
--- send to space
+-- send to space and focus
 yabai_mode:bind('shift', '1', function()
-  yabai({'-m', 'window', '--space', '1'})
-  yabai_mode:exit()
+  yabai({'-m', 'window', '--space', '1'}, function()
+    yabai({'-m', 'space', '--focus', '1'})
+    yabai_mode:exit()
+  end)
 end)
 yabai_mode:bind('shift', '2', function()
-  yabai({'-m', 'window', '--space', '2'})
-  yabai_mode:exit()
+  yabai({'-m', 'window', '--space', '2'}, function()
+    yabai({'-m', 'space', '--focus', '2'})
+    yabai_mode:exit()
+  end)
 end)
 yabai_mode:bind('shift', '3', function()
-  yabai({'-m', 'window', '--space', '3'})
-  yabai_mode:exit()
+  yabai({'-m', 'window', '--space', '3'}, function()
+    yabai({'-m', 'space', '--focus', '3'})
+    yabai_mode:exit()
+  end)
 end)
 yabai_mode:bind('shift', '4', function()
-  yabai({'-m', 'window', '--space', '4'})
-  yabai_mode:exit()
+  yabai({'-m', 'window', '--space', '4'}, function()
+    yabai({'-m', 'space', '--focus', '4'})
+    yabai_mode:exit()
+  end)
 end)
 yabai_mode:bind('shift', '5', function()
-  yabai({'-m', 'window', '--space', '5'})
-  yabai_mode:exit()
+  yabai({'-m', 'window', '--space', '5'}, function()
+    yabai({'-m', 'space', '--focus', '5'})
+    yabai_mode:exit()
+  end)
+end)
+yabai_mode:bind('shift', '6', function()
+  yabai({'-m', 'window', '--space', '6'}, function()
+    yabai({'-m', 'space', '--focus', '5'})
+    yabai_mode:exit()
+  end)
 end)
 
 -- stack the current window with the one currently underneath the mouse
