@@ -1,5 +1,5 @@
-# don't separate prompts with a line
-add_newline = false
+# separate prompts with a line between
+add_newline = true
 
 # allow commands to run for 2s before timeout
 command_timeout = 2000
