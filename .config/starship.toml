@@ -25,7 +25,7 @@ continuation_prompt = '  > '
 
 [jobs]
 number_threshold = 1 # always show
-style = 'white'
+style = 'fg:#707082'
 format = '[\[$number\]]($style) '
 
 [character]
