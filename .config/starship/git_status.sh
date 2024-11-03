@@ -5,7 +5,7 @@
 RESET='\033[0m'
 GREEN='\033[33;32m'
 YELLOW='\033[33;33m'
-ORANGE='\033[33;33m'
+ORANGE='\033[33;35m'
 WHITE='\033[38;2;249;249;255m'
 DIRTY_INDICATOR="${YELLOW}* ${RESET}"
 UNTRACKED_INDICATOR="${ORANGE}+ ${RESET}"
@@ -19,53 +19,49 @@ if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
   exit 1
 fi
 
-# The below is mostly from: https://github.com/starship/starship/discussions/1252#discussioncomment-58920
 INDEX=$(git status --porcelain -b 2> /dev/null)
 
-DIRTY=
-
-# Check for untracked files
 UNTRACKED=
-if $(echo "$INDEX" | grep -E '^\?\? ' &> /dev/null); then
-  UNTRACKED=Y
-fi
-
-# Check for staged files
-if $(echo "$INDEX" | grep '^A[ MDAU] ' &> /dev/null); then
-  DIRTY=Y
-elif $(echo "$INDEX" | grep '^M[ MD] ' &> /dev/null); then
-  DIRTY=Y
-elif $(echo "$INDEX" | grep '^UA' &> /dev/null); then
-  DIRTY=Y
-fi
-
-# Check for modified files
-if $(echo "$INDEX" | grep '^[ MARC]M ' &> /dev/null); then
-  DIRTY=Y
-fi
-
-# Check for renamed files
-if $(echo "$INDEX" | grep '^R[ MD] ' &> /dev/null); then
-  DIRTY=Y
-fi
-
-# Check for deleted files
-if $(echo "$INDEX" | grep '^[MARCDU ]D ' &> /dev/null); then
-  DIRTY=Y
-elif $(echo "$INDEX" | grep '^D[ UM] ' &> /dev/null); then
-  DIRTY=Y
-fi
-
-# Check for unmerged files
-if $(echo "$INDEX" | grep '^U[UDA] ' &> /dev/null); then
-  DIRTY=Y
-elif $(echo "$INDEX" | grep '^AA ' &> /dev/null); then
-  DIRTY=Y
-elif $(echo "$INDEX" | grep '^DD ' &> /dev/null); then
-  DIRTY=Y
-elif $(echo "$INDEX" | grep '^[DA]U ' &> /dev/null); then
-  DIRTY=Y
-fi
+DIRTY=
+AHEAD=
+BEHIND=
+# only split on new lines, not spaces
+IFS=$'\n'
+for line in $(echo "${INDEX}")
+do
+  # untracked
+  if [[ "$line" =~ "^\?\?" ]]; then
+    UNTRACKED=Y
+  fi
+  # staged
+  if [[ "$line" =~ "^A[ MDAU] " || "$line" =~ "^M[ MD] " || "$line" =~ "^UA" ]]; then
+    DIRTY=Y
+  fi
+  # modified
+  if [[ "$line" =~ "^[ MARC]M " ]]; then
+    DIRTY=Y
+  fi
+  # renamed
+  if [[ "$line" =~ "^R[ MD] " ]]; then
+    DIRTY=Y
+  fi
+  # deleted
+  if [[ "$line" =~ "^[MARCDU ]D " || "$line" =~ "^D[ UM]" ]]; then
+    DIRTY=Y
+  fi
+  # unmerged
+  if [[ "$line" =~ "^U[UDA] " || "$line" =~ "^AA " || "$line" =~ "^DD " || "$line" =~ "^[DA]U " ]]; then
+    DIRTY=Y
+  fi
+  # ahead
+  if [[ "$line" =~ "^## [^ ]+ .*ahead" ]]; then
+    AHEAD="${AHEAD_INDICATOR}"
+  fi
+  # behind
+  if [[ "$line" =~ "^## [^ ]+ .*behind" ]]; then
+    BEHIND="${BEHIND_INDICATOR}"
+  fi
+done
 
 if [[ "${UNTRACKED}" == "Y" ]]; then
   STATUS="${UNTRACKED_INDICATOR}"
@@ -74,16 +70,6 @@ fi
 # override untracked with dirty
 if [[ "${DIRTY}" == "Y" ]]; then
   STATUS="${DIRTY_INDICATOR}"
-fi
-
-AHEAD=
-if $(echo "$INDEX" | grep '^## [^ ]\+ .*ahead' &> /dev/null); then
-  AHEAD="${AHEAD_INDICATOR}"
-fi
-
-BEHIND=
-if $(echo "$INDEX" | grep '^## [^ ]\+ .*behind' &> /dev/null); then
-  BEHIND="${BEHIND_INDICATOR}"
 fi
 
 if [[ "${AHEAD}" != "" && "${BEHIND}" != "" ]]; then
