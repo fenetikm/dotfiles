@@ -21,8 +21,12 @@ zstyle ':omz:update' mode disabled
 export ZSH=$HOME/.oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
+# remove the right prompt extra space
 ZLE_RPROMPT_INDENT=0
 eval "$(starship init zsh)"
+
+# the following is now called from ~/.zshenv
+# source ~/.config/zsh/directory_hashes.zsh
 
 # exa colours
 source $HOME/Documents/Work/internal/vim/colors/falcon/exa/EXA_COLORS_MODERN
@@ -34,13 +38,10 @@ export PATH="$PATH:$HOME/.composer/vendor/bin"
 # set how long to wait for a sequence
 KEYTIMEOUT=1
 
-#additions as per drbunsen.org
 export EDITOR="nvim"
 bindkey -v
 
 # vi style incremental search
-# bindkey '^R' history-incremental-search-backward
-# bindkey '^S' history-incremental-search-forward
 bindkey '^P' history-search-backward
 bindkey '^N' history-search-forward
 
@@ -104,7 +105,6 @@ alias l='llm -m my-openai'
 alias mv='/bin/mv -i'
 alias rm='/bin/rm -i'
 alias srm='sudo /bin/rm -i'
-
 alias cx='chmod +x'
 
 # this thins local snapshots, 50gb, urgency of 4 (highest)
@@ -113,6 +113,7 @@ alias tmthin='tmutil thinlocalsnapshots / $((50 * 1024 * 1024 * 1024)) 4'
 # reload
 alias reload="source ~/.zshrc"
 
+# eza (was exa)
 alias e='eza -algB --group-directories-first'
 alias et='eza -algB --tree'
 alias es='eza --oneline --group-directories-first'

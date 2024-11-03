@@ -4,10 +4,8 @@
 # - when slack huddle opens, float it at a certain size, has `Huddle in the name`
 # - check out this wallpaper https://github.com/dominiklohmann/25th-hour
 # - padding on ultrawide, one app
-# - more gap, 24? @done
 # - when swapping to bsp from stack on laptop, need to make everything opaque again, yes defo an issue!
 # - when on a stack, make top one float, need to make one underneath opaque
-# - a quick button to hide all floats @done
 # - if spawning a window from a floating window, it should float on top of existing window
 # - mail in a space @done
 # - centering floated window (without resize) - g? shift+g to hide everything else?
@@ -104,6 +102,8 @@ yabai -m rule --add app="^Slack" title="^Huddle" manage=off display=^2 space=^5
 yabai -m rule --add app="^(Thunderbird|thunderbird)" space=^2
 yabai -m rule --add app="^Mail" space=^2
 yabai -m rule --add app="^TablePlus" space=^4
+yabai -m rule --add app="^Kitty" space=^5
+yabai -m rule --add app="^(Docker|OpenVPN|OmniFocus|Calendar|Chrome)" space=^1
 
 # signals
 yabai -m signal --add event=window_created action="$HOME/.config/yabai/window_created.sh"
