@@ -159,21 +159,21 @@ alias gp='git push'
 alias gb='git branch'
 alias g='_f() { if [[ $# == 0 ]]; then git status --short --branch; else git "$@"; fi }; _f'
 
-# tmux aliases
-alias ms='~/.config/tmux/split.sh'
-alias mn='~/.config/tmux/new.sh'
-alias mnb='~/.config/tmux/new_blog.sh'
-alias mpc='~/.config/tmux/pc.sh'
-alias ml='tmux ls'
-alias ma='tmux attach-session'
-
+# tmux
 tmux-new-window() {
   tmux new-window -n $1
 }
-alias mw='tmux-new-window'
+
 tmux-rename-window() {
   tmux rename-window $1
 }
+
+alias ms='~/.config/tmux/split.sh'
+alias mn='~/.config/tmux/new.sh'
+alias mpc='~/.config/tmux/pc.sh'
+alias ml='tmux ls'
+alias ma='tmux attach-session'
+alias mw='tmux-new-window'
 alias mr='tmux-rename-window'
 
 # robo
@@ -210,27 +210,22 @@ alias ..='cd ..'
 hugo-new-post () {
   hugo new posts/"$1".md --editor nvim
 }
-alias hn='hugo-new-post'
+
+hugo-new-til () {
+  hugo new til/"$1".md --editor nvim
+}
 
 hugo-open-post() {
   nvim $(find content -name '*.md' | fzf --no-multi --preview 'bat --color=always --line-range :500 {}')
 }
-alias ho="hugo-open-post"
 
 hugo-open-latest() {
   nvim $(find content -name '*.md' -print0 | xargs -0 stat -f "%m %N" | sort -rn | head -1 | cut -f2- -d" ")
 }
-alias hl="hugo-open-latest"
-
-edit-latest() {
-  nvim "$(find . -name '*.*' -print0 -maxdepth 1 | xargs -0 stat -f "%m %N" | sort -rn | head -1 | cut -f2- -d" ")"
-}
-alias el="edit-latest"
 
 hugo-open-drafts() {
   nvim $(hugo list drafts | cut -d"," -f1 | grep content | fzf --no-multi --preview 'bat --color=always --line-range :500 {}')
 }
-alias hd="hugo-open-drafts"
 
 #the below is also in .zshenv so it works in neovim shell command
 hugo-migrate-images() {
@@ -248,21 +243,19 @@ hugo-migrate-images() {
   fi
 }
 alias hi="hugo-migrate-images"
+alias hd="hugo-open-drafts"
+alias hl="hugo-open-latest"
+alias ho="hugo-open-post"
+alias hn='hugo-new-post'
+alias ht='hugo-new-til'
 
-# alias hs="./save.sh"
+edit-latest() {
+  nvim "$(find . -name '*.*' -print0 -maxdepth 1 | xargs -0 stat -f "%m %N" | sort -rn | head -1 | cut -f2- -d" ")"
+}
+alias el="edit-latest"
 
 #love framework
 alias love="/Applications/love.app/Contents/MacOS/love"
-
-# find up the directory hierarchy
-find-up () {
-  SWD=$(pwd)
-  while [[ $PWD != / ]] ; do
-    find "$PWD" -maxdepth 1 -name "$@"
-    cd ..
-  done
-  cd $SWD
-}
 
 #rando
 alias dbd='rb db:dump --path="tmp/dump.sql" --sed=gsed --dirty'
@@ -275,18 +268,20 @@ alias pcload='(cd ~pcp && rb db:load)'
 alias pcup='docker-compose -f misc/docker/docker-compose.yml -f misc/docker/docker-compose.override.yml up -d'
 alias pcdown='docker container stop $(docker container ls -aq)'
 alias ytbest="yt-dlp -f bestvideo+bestaudio --merge-output-format=mkv"
+alias yt1080='yt-dlp -S "height:1080"'
+alias yt720='yt-dlp -S "height:720"'
 
 # yabai
-# window queries
 yabai_windows () {
   yabai -m query --windows --space "$1" | jq -c -re '.[] | select(."is-visible" == true) | {id, title, app, "is-floating"}'
 }
-alias yw="yabai_windows"
 
 yabai_spaces () {
   yabai -m query --spaces --space "$1" | jq -c -re '{id, index, label, type}'
 }
+
 alias ys="yabai_spaces"
+alias yw="yabai_windows"
 
 # function to toggle fg/bg on control z
 fancy-ctrl-z () {
@@ -320,7 +315,6 @@ fzf_git_checkout() {
     fi
   fi
 }
-alias fco="fzf_git_checkout"
 
 # fzf git log
 fzf_git_log() {
@@ -335,7 +329,6 @@ fzf_git_log() {
         git show $hashes
     fi
 }
-alias fgl="fzf_git_log"
 
 # fzf find a file by name and edit
 fzf_find_edit() {
@@ -346,7 +339,6 @@ fzf_find_edit() {
         $EDITOR $file
     fi
 }
-alias ffe='fzf_find_edit'
 
 # fzf find a file with text and edit
 fzf_grep_edit(){
@@ -364,7 +356,6 @@ fzf_grep_edit(){
         $EDITOR $file +$(echo "$match" | cut -d':' -f2)
     fi
 }
-alias fge='fzf_grep_edit'
 
 # fkill - kill processes - list only the ones you can kill. Modified the earlier script.
 fzf_kill_process() {
@@ -381,15 +372,10 @@ fzf_kill_process() {
     fi
 }
 alias fkill='fzf_kill_process'
-
-set_cursor_color() {
-  # Plain iTerm2, no tmux
-  if [[ -n $ITERM_SESSION_ID ]] && [[ -z $TMUX ]]; then
-      printf '\033]Pl%s\033\\' "${1#\#}"
-  else  # Plain xterm or tmux, sequence is the same
-      printf '\033]12;%s\007' "$1"
-  fi
-}
+alias fge='fzf_grep_edit'
+alias ffe='fzf_find_edit'
+alias fgl="fzf_git_log"
+alias fco="fzf_git_checkout"
 
 export PATH="/usr/local/opt/ncurses/bin:$PATH"
 export GOPATH="$HOME/go"
@@ -455,6 +441,7 @@ source ${zsh_plugins}.zsh
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
+# change these depending on version
 export PATH="/usr/local/opt/php@8.1/bin:$PATH"
 export PATH="/usr/local/opt/php@8.1/sbin:$PATH"
 # export PATH="/usr/local/opt/php@8.0/bin:$PATH"
@@ -462,15 +449,13 @@ export PATH="/usr/local/opt/php@8.1/sbin:$PATH"
 export JAVA_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-22.jdk/Contents/Home"
 export PATH="$JAVA_HOME:$PATH"
 export PATH="/Users/mjw/tmp/apache-maven/bin:$PATH"
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
 
 # zsh falcon colouring
 source $HOME/Documents/Work/internal/vim/colors/falcon/zsh/falcon.zsh
 
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
-
-# switchPhp() {
-#   brew unlink php@$1 && brew link php@$2
-# }
 
 alias luamake=$HOME/tmp/lua-language-server/3rd/luamake/luamake
 
@@ -478,15 +463,11 @@ alias luamake=$HOME/tmp/lua-language-server/3rd/luamake/luamake
 # eval "$(fasd --init auto)"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+eval "$(zoxide init zsh)"
+
 # simple profiling and output
 # zprof > ~/tmp/prof.txt
 
 # more complete profiling
 # unsetopt xtrace
 # exec 2>&3 3>&-
-
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
-
-eval "$(zoxide init zsh)"
-
