@@ -93,7 +93,7 @@ yabai -m rule --add app="^Calendar" title="(General|^$)" manage=off
 yabai -m rule --add app="^TablePlus" manage=off
 yabai -m rule --add app="^Chrome" role="^AXSheet" manage=off
 yabai -m rule --add role="AXPopover" manage=off
-yabai -m rule --add app="^(Little Snitch|CleanShot|Mirth|Keychain|zoom|Zoom|OpenVPN|Microsoft Teams|Coherence|Microsoft Remote Desktop|Insta360)" manage=off
+yabai -m rule --add app="^(Little Snitch|CleanShot|Mirth|Keychain|zoom|Zoom|OpenVPN|Microsoft Teams|Coherence|Microsoft Remote Desktop|Insta360|Adobe)" manage=off
 
 # send apps to specific displays or spaces
 yabai -m rule --add app="^Messages" space=^3
