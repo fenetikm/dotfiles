@@ -134,6 +134,12 @@ alias v='nvim'
 alias sv='sudo nvim'
 alias vl='run_vim_leader'
 
+edit-latest() {
+  nvim "$(find . -name '*.*' -print0 -maxdepth 1 | xargs -0 stat -f "%m %N" | sort -rn | head -1 | cut -f2- -d" ")"
+}
+alias el="edit-latest"
+
+
 # suffix aliases: typing name of file with suffix will use that program
 alias -s php=nvim
 alias -s module=nvim
@@ -248,11 +254,6 @@ alias hl="hugo-open-latest"
 alias ho="hugo-open-post"
 alias hn='hugo-new-post'
 alias ht='hugo-new-til'
-
-edit-latest() {
-  nvim "$(find . -name '*.*' -print0 -maxdepth 1 | xargs -0 stat -f "%m %N" | sort -rn | head -1 | cut -f2- -d" ")"
-}
-alias el="edit-latest"
 
 #love framework
 alias love="/Applications/love.app/Contents/MacOS/love"
