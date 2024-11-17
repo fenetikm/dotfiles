@@ -9,7 +9,7 @@ FIX_OPACITY=on
 # process ID is set via application_front_switched
 PID="${YABAI_PROCESS_ID}"
 if [[ "$PID" != "" ]]; then
-  WINDOW=$(yabai -m query --windows | jq -re '.[] | select(.pid == '"$PID"') | select (."is-minimized" == true and ."has-focus" == true) | .id')
+  WINDOW=$(yabai -m query --windows | jq -re '.[] | select(.pid == '"$PID"') | select (."is-minimized" == true) | .id')
   if [[ "WINDOW" != "" ]]; then
     echo "deminimize $WINDOW"
     yabai -m window "$WINDOW" --deminimize "$WINDOW"
