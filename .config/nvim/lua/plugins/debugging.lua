@@ -109,8 +109,8 @@ return {
         {
           type = 'php',
           request = 'launch',
-          name = 'Listen for Xdebug (9000)',
-          port = 9000,
+          name = 'Listen for Xdebug (9003)',
+          port = 9003,
           log = true,
           pathMappings = {
             ['/app/'] = '/Users/michael/Documents/Work/personify_care/repos/personify-care-platform/',

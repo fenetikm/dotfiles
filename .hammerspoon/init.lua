@@ -344,7 +344,8 @@ sk['w'] = bindKey('w', function() yabai_script('insert.sh', {'2'}) end)
 sk['e'] = bindKey('e', function() yabai_script('insert.sh', {'3'}) end)
 
 -- toggle what happens when dropping a window on another
-sk['p'] = bindKey('p', function() yabai_script('toggle_drop.sh', {}) end)
+-- I never use this...
+-- sk['p'] = bindKey('p', function() yabai_script('toggle_drop.sh', {}) end)
 
 sk['b'] = bindKey('b', function() yabai({'-m', 'space', '--balance'}) end)
 
