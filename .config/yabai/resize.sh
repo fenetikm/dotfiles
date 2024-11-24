@@ -1,20 +1,23 @@
 #! /usr/bin/env zsh
 
 # args: position size float
-# sizes $1:
+# sizes:
 # - x = leave as is
 # - 13 = 1/3
 # - 12 = 1/2
 # - 23 = 2/3
 # - 23s = smaller 2/3
-# positions $2:
+# - wwww,hhhh = specific size
+# positions:
 # - 1,2,3 (thirds)
 # - a, b (halves)
 # - c (centre)
 # - x (leave as is)
+# float:
+# - 1 = turn on float
 #
 # todo: allow resizing of non-floated windows
-# optimise calls
+# - refactor into separate methods?
 
 W=$(yabai -m query --windows --window)
 D=$(yabai -m query --displays --display)
@@ -24,7 +27,7 @@ echo "$WID" >> "/tmp/yabai_michael.out.log"
 
 DO_FLOAT="$3"
 if [[ "$DO_FLOAT" == "" ]]; then
-  DO_FLOAT=1
+  DO_FLOAT=0
 fi
 
 if [[ $(echo "$W" | jq -re '."is-floating"') == false && "$DO_FLOAT" == 1 ]]; then
@@ -35,12 +38,25 @@ DISPLAY_WIDTH=$(echo "$D" | jq '.frame.w | floor')
 DISPLAY_HEIGHT=$(echo "$D" | jq '.frame.h | floor')
 DISPLAY_X=$(echo "$D" | jq '.frame.x | floor')
 DISPLAY_IDX=$(echo "$W" | jq '.display')
+
 WINDOW_WIDTH=$(echo "$W" | jq '.frame.w | floor')
 WINDOW_HEIGHT=$(echo "$W" | jq '.frame.h | floor')
 
-echo "$1" >> "/tmp/yabai_michael.out.log"
-echo "$2" >> "/tmp/yabai_michael.out.log"
-echo "$3" >> "/tmp/yabai_michael.out.log"
+# echo "$1" >> "/tmp/yabai_michael.out.log"
+# echo "$2" >> "/tmp/yabai_michael.out.log"
+# echo "$3" >> "/tmp/yabai_michael.out.log"
+
+resize_window() {
+  echo $1
+
+
+  exit 1
+  # yabai -m window "$WID" --resize abs:"$1":"$2"
+}
+
+echo "$2"
+
+resize_window "$2"
 
 POSITION="$1"
 if [[ "$POSITION" == "" ]]; then
@@ -71,12 +87,12 @@ if [[ "$SIZE" == "" ]]; then
   SIZE=1
 fi
 
-DISPLAY_IDX=$(yabai -m query --windows --window | jq '.display')
-if [[ "$DISPLAY_IDX" == 1 ]]; then
-  yabai -m window --grid '12:12:1:1:10:10'
-
-  exit 1
-fi
+# DISPLAY_IDX=$(yabai -m query --windows --window | jq '.display')
+# if [[ "$DISPLAY_IDX" == 1 ]]; then
+#   yabai -m window --grid '12:12:1:1:10:10'
+#
+#   exit 1
+# fi
 
 # DISPLAY_WIDTH=$(yabai -m query --displays --display | jq '.frame.w | floor')
 # if [[ "$DISPLAY_WIDTH" != "3840"]]; then
