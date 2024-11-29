@@ -338,9 +338,9 @@ sk['f'] = bindKey('f', function() yabai({'-m', 'window', '--toggle', 'zoom-fulls
 end) end)
 
 -- screen recording
-sk['0'] = bindKey('0', function() yabai_script('resize.sh', {'1400,900', 'c', '1'}) end)
+sk['0'] = bindKey('0', function() yabai_script('resize.sh', {'c', '1400,900', '1'}) end)
 -- gif recording
-sk['0'] = bindKey('0', function() yabai_script('resize.sh', {'700,450', 'c', '1'}) end)
+sk['9'] = bindKey('9', function() yabai_script('resize.sh', {'c', '700,450', '1'}) end)
 
 -- insert current window into position and balance
 -- todo: put these on shift
