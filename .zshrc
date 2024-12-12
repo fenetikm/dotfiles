@@ -394,6 +394,7 @@ alias fda="fd --hidden --no-ignore"
 
 # kitty
 alias ki="kitty +kitten icat --align=left" #view image
+alias kiw="kitty +kitten icat --align=left --background=#ffffff" #view image
 # generate a clean, up to date kitty config, see https://sw.kovidgoyal.net/kitty/conf/
 alias kc="kitty +runpy 'from kitty.config import *; print(commented_out_default_config())'"
 
@@ -465,6 +466,8 @@ alias luamake=$HOME/tmp/lua-language-server/3rd/luamake/luamake
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 eval "$(zoxide init zsh)"
+
+source ~pc/.aliases.zsh
 
 # simple profiling and output
 # zprof > ~/tmp/prof.txt
