@@ -221,6 +221,10 @@ hugo-new-til () {
   hugo new til/"$1".md --editor nvim
 }
 
+hugo-new-link () {
+  hugo new link/"$1".md --editor nvim
+}
+
 hugo-open-post() {
   nvim $(find content -name '*.md' | fzf --no-multi --preview 'bat --color=always --line-range :500 {}')
 }
@@ -240,6 +244,7 @@ alias hl="hugo-open-latest"
 alias ho="hugo-open-post"
 alias hn='hugo-new-post'
 alias ht='hugo-new-til'
+alias hk='hugo-new-link'
 
 #love framework
 alias love="/Applications/love.app/Contents/MacOS/love"

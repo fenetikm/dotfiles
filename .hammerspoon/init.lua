@@ -332,10 +332,18 @@ sk['4'] = bindKey('4', function() yabai({'-m', 'space', '--focus', '4'}) end)
 sk['5'] = bindKey('5', function() yabai({'-m', 'space', '--focus', '5'}) end)
 sk['6'] = bindKey('6', function() yabai({'-m', 'space', '--focus', '6'}) end)
 
--- think this only works for floated windows... yes?
-sk['f'] = bindKey('f', function() yabai({'-m', 'window', '--toggle', 'zoom-fullscreen'}, function()
-  yabai({'-m', 'window', '--grid', '12:12:0:0:12:12'})
-end) end)
+sk['f'] = bindKey('f', chain_yabai({
+  { 'resize.sh', {'c', 'full', '1'} },
+  { 'resize.sh', {'c', '1600,1200', '1'} },
+  { 'resize.sh', {'c', '1400,900', '1'} },
+}))
+
+-- sk['F'] = bindKey('F', function() yabai_script('resize.sh', {'c', 'fullwindow', '1'}) end)
+
+yabai_mode:bind('shift', 'f', function()
+  yabai_script('resize.sh', {'c', 'fullwindow', '1'})
+  yabai_mode:exit()
+end)
 
 -- screen recording
 sk['0'] = bindKey('0', function() yabai_script('resize.sh', {'c', '1400,900', '1'}) end)
