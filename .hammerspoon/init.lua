@@ -44,6 +44,11 @@ G.alert_style = {
   padding = 6
 }
 
+G.yabai_path = "/usr/local/bin/yabai"
+if hs.fs.displayName(G.yabai_path) == nil then
+  G.yabai_path = "/opt/homebrew/bin/yabai"
+end
+
 s = function(message)
   if G.loggingEnabled then
     hs.alert.show(message, G.alert_style)
@@ -216,7 +221,7 @@ local yabai = function(args, completion)
   local yabai_output = ""
   local yabai_error = ""
   -- Runs in background very fast
-  local yabai_task = hs.task.new("/usr/local/bin/yabai", function(err, stdout, stderr)
+  local yabai_task = hs.task.new(G.yabai_path, function(err, stdout, stderr)
     print()
   end, function(task, stdout, stderr)
       -- print("stdout:"..stdout, "stderr:"..stderr)
@@ -299,7 +304,7 @@ end
 sk['space'] = bindKey('space', function() yabai_script('float.sh', {}) end)
 
 -- reload
-sk['r'] = bindKey('r', function() os.execute('/usr/local/bin/yabai --restart-service') end)
+sk['r'] = bindKey('r', function() os.execute(G.yabai_path .. ' --restart-service') end)
 
 -- resize.sh - args: position size float (defaults to no)
 

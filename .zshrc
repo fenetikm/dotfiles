@@ -32,7 +32,7 @@ eval "$(starship init zsh)"
 source $HOME/Documents/Work/internal/vim/colors/falcon/exa/EXA_COLORS_MODERN
 
 # User configuration.
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin"
 export PATH="$PATH:$HOME/.composer/vendor/bin"
 
 # set how long to wait for a sequence
