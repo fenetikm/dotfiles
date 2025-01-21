@@ -90,6 +90,7 @@ local yabai_script = function(script_name, args)
   task:start()
 end
 
+-- todo: handling of windows in other spaces, sometimes doesn't work? maybe when also minimized
 local launchOrFocus = function(appName, details)
   if (details.url) then
     spoon.URLDispatcher.url_patterns = {
@@ -290,7 +291,6 @@ end
 -- todo:
 -- - qwe for resizing (floats)
 -- - maybe flip insertion 1,2,3 to shift +qwe ?
--- - chain for f to go to centered smaller?
 -- - resizing unfloated items - could have one key for position and then another for size
 -- - toggle sketchybar window info in title
 -- - show all floating windows
@@ -301,21 +301,23 @@ sk['space'] = bindKey('space', function() yabai_script('float.sh', {}) end)
 -- reload
 sk['r'] = bindKey('r', function() os.execute('/usr/local/bin/yabai --restart-service') end)
 
+-- resize.sh - args: position size float (defaults to no)
+
 -- I don't use the z and c much, pointless? replace with 1/3 versions?
 -- Also maybe shift zxc to go straight to the smaller version? wouldn't need the chain then
 -- Todo: currently broken
-sk['z'] = bindKey('z', chain_yabai({
-  { 'resize.sh', {'1', '2'} },
-  { 'resize.sh', {'1', '1'} },
-}))
-sk['x'] = bindKey('x', chain_yabai({
-  { 'resize.sh', {'2', '2'} },
-  { 'resize.sh', {'2', '1'} },
-}))
-sk['c'] = bindKey('c', chain_yabai({
-  { 'resize.sh', {'3', '2'} },
-  { 'resize.sh', {'3', '1'} },
-}))
+-- sk['z'] = bindKey('z', chain_yabai({
+--   { 'resize.sh', {'1', '2'} },
+--   { 'resize.sh', {'1', '1'} },
+-- }))
+-- sk['x'] = bindKey('x', chain_yabai({
+--   { 'resize.sh', {'2', '2'} },
+--   { 'resize.sh', {'2', '1'} },
+-- }))
+-- sk['c'] = bindKey('c', chain_yabai({
+--   { 'resize.sh', {'3', '2'} },
+--   { 'resize.sh', {'3', '1'} },
+-- }))
 
 -- todo: replace hyper one with this one, add in support for running scripts after hyper
 -- sk['k'] = hs.hotkey.bind(screen_mapping, 'k', function() yabai_script('kitty.sh', {}) end)
@@ -338,8 +340,6 @@ sk['f'] = bindKey('f', chain_yabai({
   { 'resize.sh', {'c', '1400,900', '1'} },
 }))
 
--- sk['F'] = bindKey('F', function() yabai_script('resize.sh', {'c', 'fullwindow', '1'}) end)
-
 yabai_mode:bind('shift', 'f', function()
   yabai_script('resize.sh', {'c', 'fullwindow', '1'})
   yabai_mode:exit()
@@ -351,7 +351,6 @@ sk['0'] = bindKey('0', function() yabai_script('resize.sh', {'c', '1400,900', '1
 sk['9'] = bindKey('9', function() yabai_script('resize.sh', {'c', '700,450', '1'}) end)
 
 -- insert current window into position and balance
--- todo: put these on shift
 sk['q'] = bindKey('q', function() yabai_script('insert.sh', {'1'}) end)
 sk['w'] = bindKey('w', function() yabai_script('insert.sh', {'2'}) end)
 sk['e'] = bindKey('e', function() yabai_script('insert.sh', {'3'}) end)
@@ -363,13 +362,16 @@ sk['e'] = bindKey('e', function() yabai_script('insert.sh', {'3'}) end)
 sk['b'] = bindKey('b', function() yabai({'-m', 'space', '--balance'}) end)
 
 -- set mode
--- todo: don't use these much either, make them secondary? via shift?
--- put somewhere else? cycle?
-sk['a'] = bindKey('a', function() yabai({'-m', 'space', '--layout', 'bsp'}) end)
-sk['s'] = bindKey('s', function() yabai({'-m', 'space', '--layout', 'float'}) end)
-sk['d'] = bindKey('d', function() yabai({'-m', 'space', '--layout', 'stack'}) end)
+sk['z'] = bindKey('z', function() yabai({'-m', 'space', '--layout', 'bsp'}) end)
+sk['x'] = bindKey('x', function() yabai({'-m', 'space', '--layout', 'float'}) end)
+sk['c'] = bindKey('c', function() yabai({'-m', 'space', '--layout', 'stack'}) end)
 
 sk['g'] = bindKey('g', function() yabai_script('resize.sh', {'c', 'x'}) end)
+
+-- todo: zxc
+-- - position 123
+-- - resize 1/3, 1/2, 2/3? do that on a cycle
+-- what I want to be able to do, is on screen 6, put something
 
 -- todo:
 -- - normal 'm' to hide app ()

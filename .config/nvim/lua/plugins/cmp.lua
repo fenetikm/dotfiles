@@ -1,3 +1,5 @@
+-- quite a few things from https://github.com/wincent/wincent/blob/main/aspects/nvim/files/.config/nvim/after/plugin/nvim-cmp.lua
+
 return {
   {
     'hrsh7th/nvim-cmp',
@@ -14,8 +16,8 @@ return {
       -- 'hrsh7th/cmp-nvim-lsp-signature-help', -- tends to give two windows then
     },
     config = function ()
-      local lspkind = require('lspkind')
-      lspkind.init()
+      -- local lspkind = require('lspkind')
+      -- lspkind.init()
       local cmp = require('cmp')
       local luasnip = require('luasnip')
       local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -47,15 +49,33 @@ return {
         cmp.confirm({ select = true, behavior = behavior })
       end
 
+      local select_next_item = function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item()
+        else
+          fallback()
+        end
+      end
+
+      local select_prev_item = function(fallback)
+        if cmp.visible() then
+          cmp.select_prev_item()
+        else
+          fallback()
+        end
+      end
+
       cmp.setup {
         completion = {
           keyword_length = 2
         },
+
         snippet = {
           expand = function(args)
             require('luasnip').lsp_expand(args.body)
           end,
         },
+
         mapping = cmp.mapping.preset.insert({
           ["<c-n>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior },
           ["<c-p>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior },
@@ -130,20 +150,17 @@ return {
           -- }
         }),
         formatting = {
-          format = lspkind.cmp_format {
-            mode = 'symbol_text',
-            maxwidth = 30,
-            ellipsis_char = '...',
-            menu = {
-              -- ['buffer-lines'] = '[BfL]',
+          format = function(entry, vim_item)
+            vim_item.kind = string.format('%s', vim_item.kind)
+            vim_item.menu = ({
               buffer = '[Buf]',
               nvim_lsp = '[LSP]',
               nvim_lua = '[Lua]',
               path = '[Path]',
-              -- ultisnips = '[Snip]',
               luasnip = '[Snip]',
-            }
-          }
+            })[entry.source.name]
+            return vim_item
+          end
         },
         sorting = {
           comparators = {

@@ -443,6 +443,7 @@ return {
   -- https://github.com/LunarVim/bigfile.nvim for turning off things for big files
   -- https://github.com/brenoprata10/nvim-highlight-colors colours in virtual text
   -- https://github.com/johmsalas/text-case.nvim
+  -- https://github.com/stevearc/aerial.nvim outline of code
   --
   -- plugin lists to look through:
   -- - https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginlist.lua

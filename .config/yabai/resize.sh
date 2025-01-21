@@ -6,7 +6,7 @@
 # - 13 = 1/3
 # - 12 = 1/2
 # - 23 = 2/3
-# - 23s = smaller 2/3, lol what is this for?
+# - 23s = smaller 2/3, lol what is this for? can't remember!
 # - wwww,hhhh = specific size
 # - full = full-size, but below the bar
 # - fullwindow = full, over the bar
@@ -121,8 +121,7 @@ position_window() {
   if [[ "$DISPLAY_IDX" == 2 ]]; then
     DISPLAY_X_OFFSET=$((0 - "$DISPLAY_WIDTH"))
   fi
-  # centre window
-  if [[ "$1" == "c" ]]; then
+  if [[ "$1" == "c" ]]; then # centre window
     # don't have to worry about padding since abs?
     NEW_X=$(( "$DISPLAY_X_OFFSET" + (("$DISPLAY_WIDTH" - "$WINDOW_WIDTH") / 2) ))
     NEW_Y=$(( "$BAR_HEIGHT + "$PADDING" + (("$VIEWABLE_HEIGHT" - "$WINDOW_HEIGHT") / 2) ))

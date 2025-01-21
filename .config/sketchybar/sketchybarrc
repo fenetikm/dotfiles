@@ -114,7 +114,10 @@ sketchybar \
            --subscribe disk system_woke \
            --add item timemachine left \
            --set timemachine update_freq=86400 script="$PLUGIN_DIR/timemachine.sh" \
-           --subscribe timemachine system_woke
+           --subscribe timemachine system_woke \
+           --add item front_app left \
+           --set front_app script="$PLUGIN_DIR/front_app.sh" \
+           --subscribe front_app front_app_switched
 
 # right items
 sketchybar \
@@ -141,11 +144,6 @@ sketchybar \
            --add item music right \
            --set music update_freq=20 script="$PLUGIN_DIR/music.sh"
 
-# centre items
-sketchybar \
-           --add item front_app center \
-           --set front_app script="$PLUGIN_DIR/front_app.sh" \
-           --subscribe front_app front_app_switched
 
 # update all items
 sketchybar --update

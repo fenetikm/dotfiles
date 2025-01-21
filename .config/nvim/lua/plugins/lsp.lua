@@ -50,7 +50,7 @@ local default_attach = function(client, bufnr)
 end
 
 return {
-  { 'onsails/lspkind-nvim', event = 'VeryLazy' },
+  -- { 'onsails/lspkind-nvim', event = 'VeryLazy' },
   {
     'neovim/nvim-lspconfig',
     event = 'VeryLazy',
