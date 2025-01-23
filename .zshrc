@@ -290,7 +290,8 @@ bindkey '^Z' fancy-ctrl-z
 
 stty start undef stop undef
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source < (fzf --zsh)
 
 # fzf for checking out a branch
 fzf_git_checkout() {
