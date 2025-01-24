@@ -370,10 +370,10 @@ alias ffe='fzf_find_edit'
 alias fgl="fzf_git_log"
 alias fco="fzf_git_checkout"
 
-export PATH="/usr/local/opt/ncurses/bin:$PATH"
+# todo: update re new mac
+# export PATH="/usr/local/opt/ncurses/bin:$PATH"
 export GOPATH="$HOME/go"
-export OCPATH="$HOME/.minishift/cache/oc/v3.9.0/darwin"
-export PATH="$GOPATH/bin:$OCPATH:$PATH"
+export PATH="$GOPATH/bin:$PATH"
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 export PATH=/Applications/kitty.app/Contents/MacOS:$PATH
 

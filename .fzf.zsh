@@ -1,7 +1,10 @@
 # Setup fzf
 # ---------
-if [[ ! "$PATH" == */usr/local/opt/fzf/bin* ]]; then
+
+if [[ -f /usr/local/opt/fzf/bin ]]; then
   PATH="${PATH:+${PATH}:}/usr/local/opt/fzf/bin"
+else
+  PATH="${PATH:+${PATH}:}/opt/homebrew/opt/fzf/bin"
 fi
 
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
@@ -12,8 +15,16 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 
 # Auto-completion
 # ---------------
-source "/usr/local/opt/fzf/shell/completion.zsh"
+if [[ -f /usr/local/opt/fzf/shell/completion.zsh ]]; then
+  source "/usr/local/opt/fzf/shell/completion.zsh"
+else
+  source "/opt/homebrew/opt/fzf/shell/completion.zsh"
+fi
 
 # Key bindings
 # ------------
-source "/usr/local/opt/fzf/shell/key-bindings.zsh"
+if [[ -f /usr/local/opt/fzf/shell/key-bindings.zsh ]]; then
+  source "/usr/local/opt/fzf/shell/key-bindings.zsh"
+else
+  source "/opt/homebrew/opt/fzf/shell/key-bindings.zsh"
+fi
