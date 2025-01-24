@@ -290,8 +290,8 @@ bindkey '^Z' fancy-ctrl-z
 
 stty start undef stop undef
 
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-source < (fzf --zsh)
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# source < (fzf --zsh)
 
 # fzf for checking out a branch
 fzf_git_checkout() {
@@ -420,7 +420,8 @@ zsh_plugins=${ZDOTDIR:-~}/.zsh_plugins
 [[ -f ${zsh_plugins}.txt ]] || touch ${zsh_plugins}.txt
 
 # Lazy-load antidote from its functions directory.
-fpath=(~/.antidote/functions $fpath)
+# fpath=(~/.antidote/functions $fpath)
+fpath=(/opt/homebrew/share/antidote/functions $fpath)
 autoload -Uz antidote
 
 # Generate a new static file whenever .zsh_plugins.txt is updated.
@@ -459,7 +460,9 @@ alias luamake=$HOME/tmp/lua-language-server/3rd/luamake/luamake
 
 eval "$(zoxide init zsh)"
 
-source ~pc/.aliases.zsh
+if [[ -f ~pc/.aliases.zsh ]]; then
+  source ~pc/.aliases.zsh
+fi
 
 # simple profiling and output
 # zprof > ~/tmp/prof.txt
