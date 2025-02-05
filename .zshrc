@@ -259,9 +259,9 @@ alias dbl3='rb db:load --path="tmp/dump3.sql"'
 alias pcload='(cd ~pcp && rb db:load)'
 alias pcup='docker-compose -f misc/docker/docker-compose.yml -f misc/docker/docker-compose.override.yml up -d'
 alias pcdown='docker container stop $(docker container ls -aq)'
-alias ytbest="yt-dlp -f bestvideo+bestaudio --merge-output-format=mkv"
-alias yt1080='yt-dlp -S "height:1080"'
-alias yt720='yt-dlp -S "height:720"'
+alias ytbest="yt-dlp -f bestvideo+bestaudio --merge-output-format=mkv -4"
+alias yt1080='yt-dlp -S "height:1080" -4'
+alias yt720='yt-dlp -S "height:720" -4'
 
 # yabai
 yabai_windows () {

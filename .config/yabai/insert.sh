@@ -12,7 +12,7 @@ fi
 # todo: make sure that arg is less than number of windows
 # todo: make sure space is in BSP mode!
 
-# toggle float on current window if applicable
+# toggle float off for current window if applicable
 if [[ $(yabai -m query --windows --window | jq -re '."is-floating"') == true ]]; then
   yabai -m window --toggle float
 fi

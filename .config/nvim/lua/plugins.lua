@@ -444,6 +444,9 @@ return {
   -- https://github.com/brenoprata10/nvim-highlight-colors colours in virtual text
   -- https://github.com/johmsalas/text-case.nvim
   -- https://github.com/stevearc/aerial.nvim outline of code
+  -- https://github.com/folke/snacks.nvim lots of QoL plugins, couple look good
+  -- https://github.com/chrisgrieser/nvim-scissors quick creation of snippets
+  -- https://github.com/chrisgrieser/nvim-spider better w,e,b movement, can skip punctuation
   --
   -- plugin lists to look through:
   -- - https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginlist.lua
