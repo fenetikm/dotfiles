@@ -1,1 +1,1 @@
-~/.config/zsh/test.txt filter=crypt diff=crypt merge=crypt
+../../../../.config/zsh/test2.txt filter=crypt diff=crypt merge=crypt
