@@ -1,2 +1,2 @@
 test3.txt filter=crypt diff=crypt merge=crypt
-$HOME/test4.txt filter=crypt diff=crypt merge=crypt
+./../../../../test4.txt filter=crypt diff=crypt merge=crypt
