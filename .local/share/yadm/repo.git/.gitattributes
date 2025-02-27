@@ -1,2 +1,3 @@
 test3.txt filter=crypt diff=crypt merge=crypt
-./../../../../test5.txt filter=crypt diff=crypt merge=crypt
+./test5.txt filter=crypt diff=crypt merge=crypt
+test6.txt filter=crypt diff=crypt merge=crypt
