@@ -395,9 +395,15 @@ return {
       },
       on_open = function()
         require('gitsigns').toggle_signs(false)
+        if vim.fn.exists(':IBLDisable') then
+          vim.cmd('IBLDisable')
+        end
       end,
       on_close = function()
         require('gitsigns').toggle_signs(true)
+        if vim.fn.exists(':IBLEnable') then
+          vim.cmd('IBLEnable')
+        end
       end,
     }
   },

@@ -1,2 +1,3 @@
-test6.txt filter=crypt diff=crypt merge=crypt
-.config/test2.txt filter=crypt diff=crypt merge=crypt
+# example encrypted files
+# test.txt filter=crypt diff=crypt merge=crypt
+# .config/test.txt filter=crypt diff=crypt merge=crypt

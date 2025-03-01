@@ -19,6 +19,7 @@ hash -d z=~/zettelkasten
 hash -d icloud=~/Library/Mobile\ Documents/com~apple~CloudDocs/
 hash -d yt=~/Downloads/yt
 hash -d crafting=~/Documents/Work/internal/projects/interpreters/crafting
+hash -d majyk=~/Documents/Work/internal/projects/majyk
 hash -d mk=~/Documents/Work/internal/projects/majyk
 hash -d mkb=~/Documents/Work/internal/projects/majyk/blog/majyk/
 hash -d y=~/.config/yabai
