@@ -123,6 +123,16 @@ alias ping='prettyping'
 alias top='sudo htop'
 alias du="ncdu --color off -rr -x --exclude .git --exclude node_modules"
 
+copy_contents() {
+  cat $1 | pbcopy
+}
+alias copy='copy_contents'
+
+paste_contents() {
+  pbpaste >> $1
+}
+alias paste='paste_contents'
+
 run_vim_leader() {
   com="NormLead $1"
   nvim -c "$com"
@@ -237,6 +247,14 @@ hugo-open-drafts() {
   nvim $(hugo list drafts | cut -d"," -f1 | grep content | fzf --no-multi --preview 'bat --color=always --line-range :500 {}')
 }
 
+hugo-start-server() {
+  local PORT="$1"
+  if [[ "$PORT" == "" ]]; then
+    PORT=1337
+  fi
+  hugo server -D -F --navigateToChanged --disableFastRender --renderToMemory --port $PORT
+}
+
 # hugo-migrate-images is in .zshenv so it works in neovim shell command
 alias hi="hugo-migrate-images"
 alias hd="hugo-open-drafts"
@@ -245,6 +263,7 @@ alias ho="hugo-open-post"
 alias hn='hugo-new-post'
 alias ht='hugo-new-til'
 alias hk='hugo-new-link'
+alias hs='hugo-start-server'
 
 #love framework
 alias love="/Applications/love.app/Contents/MacOS/love"
