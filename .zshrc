@@ -99,6 +99,7 @@ timezsh() {
 }
 
 alias l='llm -m my-openai'
+alias lq='llm -m mlx-community/Qwen2.5-Coder-14B-Instruct-4bit'
 # alias l='ls -alhF'
 # alias lvr='ls -alR > /dev/null'
 
@@ -267,6 +268,18 @@ alias hs='hugo-start-server'
 
 #love framework
 alias love="/Applications/love.app/Contents/MacOS/love"
+
+#majyk
+devlog() {
+  local MON=$(date -v -Mon +"%Y-%m-%d")
+  if [[ -e "./content/devlog/$MON.md" ]]; then
+    nvim "./content/devlog/$MON.md"
+  elif [[ -e "./content/devlog/$MON/index.md" ]]; then
+    nvim "./content/devlog/$MON/index.md"
+  else
+    hugo new "devlog/$MON.md" --editor nvim
+  fi
+}
 
 #rando
 alias dbd='rb db:dump --path="tmp/dump.sql" --sed=gsed --dirty'

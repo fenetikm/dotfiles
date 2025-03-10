@@ -398,14 +398,12 @@ return {
         if vim.fn.exists(':IBLDisable') then
           vim.cmd('IBLDisable')
         end
-        vim.fn.system([[tmux resize-pane -Z]])
       end,
       on_close = function()
         require('gitsigns').toggle_signs(true)
         if vim.fn.exists(':IBLEnable') then
           vim.cmd('IBLEnable')
         end
-        vim.fn.system([[tmux resize-pane -Z]])
       end,
     }
   },
