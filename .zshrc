@@ -296,6 +296,15 @@ alias yt1080='yt-dlp -S "height:1080" --merge-output-format=mkv -4 --sleep-reque
 alias yt720='yt-dlp -S "height:720" --merge-output-format=mkv -4 --sleep-requests 2 --sleep-interval 2 --extractor-args "youtube:player-client=web_embedded"'
 alias ytaudio='yt-dlp --extract-audio -4 --sleep-requests 2 --sleep-interval 2 --extractor-args "youtube:player-client=web_embedded" --audio-format mp3 --audio-quality 0'
 
+secret_add() {
+  local FILE=$(realpath $1)
+  local FILEPATH="${FILE/"$HOME"\//}"
+  echo "$FILEPATH filter=crypt diff=crypt merge=crypt" >> ~/.gitattributes
+  yadm add "$1"
+  yadm add ~/.gitattributes
+  yadm commit -m "Added encrypted file"
+}
+
 # yabai
 yabai_windows () {
   yabai -m query --windows --space "$1" | jq -c -re '.[] | select(."is-visible" == true) | {id, title, app, "is-floating"}'
@@ -497,11 +506,13 @@ if [[ -f ~pc/.aliases.zsh ]]; then
   source ~pc/.aliases.zsh
 fi
 
+if [[ -f "$HOME/.local/bin/env" ]]; then
+  . "$HOME/.local/bin/env"
+fi
+
 # simple profiling and output
 # zprof > ~/tmp/prof.txt
 
 # more complete profiling
 # unsetopt xtrace
 # exec 2>&3 3>&-
-
-. "$HOME/.local/bin/env"

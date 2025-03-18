@@ -1,4 +1,5 @@
 source ~/.config/zsh/directory_hashes.zsh
+source ~/.config/.env.keys
 
 hugo-migrate-images() {
   local CONV="$1"
