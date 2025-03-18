@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# todo:
+# - diff keys depending on which slack you want to target
+
 if [[ "$SLACKPCUSERKEY" == "" ]]; then
   echo "Missing `SLACKPCUSERKEY` environment variable."
 
