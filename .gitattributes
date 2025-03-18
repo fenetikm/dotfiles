@@ -1,4 +1,4 @@
 # example encrypted files
 # test.txt filter=crypt diff=crypt merge=crypt
 # .config/test.txt filter=crypt diff=crypt merge=crypt
-.config/thing.txt filter=crypt diff=crypt merge=crypt
+.config/.env.keys filter=crypt diff=crypt merge=crypt
