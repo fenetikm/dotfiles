@@ -276,7 +276,6 @@ return {
             filetypes = {'markdown', 'txt'},
           })
         },
-        -- on_attach = default_attach,
         on_attach = function (client, bufnr)
           lsp_mappings(client, bufnr)
           lsp_highlighting(client)

@@ -291,9 +291,10 @@ alias dbl3='rb db:load --path="tmp/dump3.sql"'
 alias pcload='(cd ~pcp && rb db:load)'
 alias pcup='docker-compose -f misc/docker/docker-compose.yml -f misc/docker/docker-compose.override.yml up -d'
 alias pcdown='docker container stop $(docker container ls -aq)'
-alias ytbest="yt-dlp -f bestvideo+bestaudio --merge-output-format=mkv -4"
-alias yt1080='yt-dlp -S "height:1080" -4'
-alias yt720='yt-dlp -S "height:720" -4'
+alias ytbest='yt-dlp -f bestvideo+bestaudio --merge-output-format=mkv -4 --sleep-requests 2 --sleep-interval 2 --extractor-args "youtube:player-client=web_embedded"'
+alias yt1080='yt-dlp -S "height:1080" --merge-output-format=mkv -4 --sleep-requests 2 --sleep-interval 2 --extractor-args "youtube:player-client=web_embedded"'
+alias yt720='yt-dlp -S "height:720" --merge-output-format=mkv -4 --sleep-requests 2 --sleep-interval 2 --extractor-args "youtube:player-client=web_embedded"'
+alias ytaudio='yt-dlp --extract-audio -4 --sleep-requests 2 --sleep-interval 2 --extractor-args "youtube:player-client=web_embedded" --audio-format mp3 --audio-quality 0'
 
 # yabai
 yabai_windows () {
