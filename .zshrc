@@ -497,6 +497,7 @@ export PATH="$JAVA_HOME:$PATH"
 export PATH="/Users/mjw/tmp/apache-maven/bin:$PATH"
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
+export PATH="$PATH:/Users/michael/.local/bin"
 
 # zsh falcon colouring
 source $HOME/Documents/Work/internal/vim/colors/falcon/zsh/falcon.zsh

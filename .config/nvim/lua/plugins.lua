@@ -453,6 +453,9 @@ return {
   -- https://github.com/folke/snacks.nvim lots of QoL plugins, couple look good
   -- https://github.com/chrisgrieser/nvim-scissors quick creation of snippets
   -- https://github.com/chrisgrieser/nvim-spider better w,e,b movement, can skip punctuation
+  -- https://github.com/MagicDuck/grug-far.nvim find and replace
+  -- https://github.com/OXY2DEV/helpview.nvim better viewing of help files
+  -- https://github.com/HakonHarnes/img-clip.nvim uses pngpaste to do embed links to images, apparently you can do drag and drop in kitty?
   --
   -- plugin lists to look through:
   -- - https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginlist.lua
