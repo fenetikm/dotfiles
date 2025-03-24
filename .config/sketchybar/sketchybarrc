@@ -139,6 +139,8 @@ sketchybar \
            --add item battery right \
            --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
            --subscribe battery system_woke power_source_change \
+           --add item toggl right \
+           --set toggl update_freq=60 script="$PLUGIN_DIR/toggl.sh" \
            --add item pomo right \
            --set pomo update_freq=10 script="$PLUGIN_DIR/pomo.sh" \
            --add item music right \
