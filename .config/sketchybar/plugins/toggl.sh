@@ -66,10 +66,11 @@ get_current() {
   local START=$(echo "$CURRENT" | jq -r .start | gsed 's/00:00/0000/')
   local NOW=$(date +"%s")
   local START_UNIX=$(date -j -f "%Y-%m-%dT%H:%M:%S%z" "$START" +"%s" 2>/dev/null)
-  local CALC="$NOW-$START_UNIX"
-  CALC="($CALC)/60"
+  local CALC="$NOW - $START_UNIX"
+  CALC="($CALC) / 60"
   local MINS=$(echo $CALC | bc)
-  local HRS=$(echo "($MINS)/60" | bc)
+  local HRS=$(echo "($MINS) / 60" | bc)
+  MINS=$(echo "($MINS % 60)" | bc)
   local TIME="$MINS"m
   if [[ "$HRS" > 0 ]]; then
     TIME="$HRS"h"$TIME"
