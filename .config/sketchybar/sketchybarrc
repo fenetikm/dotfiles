@@ -18,18 +18,33 @@ PLUGIN_DIR="$CONFIG_DIR/plugins"
   # blur_radius=16 color=0xdd020221 corner_radius=9 \
   # font_smoothing=on shadow=on
 
-bar=(
-  blur_radius=16
-  color=$BAR_COLOUR
-  font_smoothing=on
-  y_offset=-2
-  height=30
-  margin=0
-  padding_left=16
-  padding_right=16
-  position=top
-  shadow=on
-)
+HAS_NOTCH=
+HW_MODEL=$(sysctl hw.model)
+if [[ "$HW_MODEL" == *"Mac16,6"* ]]; then
+  bar=(
+    blur_radius=0
+    color=0xff000000
+    font_smoothing=on
+    y_offset=0
+    height=32
+    margin=0
+    padding_left=16
+    padding_right=16
+    position=top
+  )
+else
+  bar=(
+    blur_radius=16
+    color=$BAR_COLOUR
+    font_smoothing=on
+    y_offset=-2
+    height=30
+    margin=0
+    padding_left=16
+    padding_right=16
+    position=top
+  )
+fi
 sketchybar --bar "${bar[@]}"
 
 default=(

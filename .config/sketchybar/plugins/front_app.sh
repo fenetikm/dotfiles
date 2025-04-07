@@ -35,5 +35,5 @@ else
 fi
 
 if [ "$SENDER" = "front_app_switched" ]; then
-  sketchybar --set "$NAME" label="::${TITLE}" label.color=$DEFAULT_COLOUR icon="${ICON}"
+  sketchybar --set "$NAME" label=":: ${TITLE}" label.color=$DEFAULT_COLOUR icon="${ICON}"
 fi

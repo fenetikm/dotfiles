@@ -1,3 +1,7 @@
+local function generateArt()
+  
+end
+
 return {
   {
     'goolord/alpha-nvim',
@@ -38,6 +42,7 @@ return {
         for i, line in ipairs(lines) do
           table.insert(out, { hi = "StartLogo"..i, line = line})
         end
+
         return out
       end
 
