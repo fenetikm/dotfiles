@@ -49,7 +49,7 @@ get_current() {
   local CURRENT=$(curl -s -u "$TOGGLAPIKEY":api_token \
       -H "Content-Type: application/json" \
       -X GET https://api.track.toggl.com/api/v9/me/time_entries/current)
-  if [[ "$CURRENT" == "null" ]]; then
+  if [[ "$CURRENT" == "null" || "$CURRENT" == "" ]]; then
     return
   fi
 
@@ -89,17 +89,17 @@ ICON=" "
 
 get_current
 
-PROJECT_COLOUR=$(echo "$PROJECT_COLOUR" | sed 's/^.//')
-if [[ "$STYLE" == "contrast" ]]; then
-  BG_COLOUR="$BG1_COLOUR"
-  PROJECT_COLOUR="0xff$PROJECT_COLOUR"
-  FG_COLOUR="$PROJECT_COLOUR"
-else
-  BG_COLOUR="0x50$PROJECT_COLOUR"
-  FG_COLOUR="$DEFAULT_COLOUR"
-fi
-
 if [[ -n "$TEXT" ]]; then
+  PROJECT_COLOUR=$(echo "$PROJECT_COLOUR" | sed 's/^.//')
+  if [[ "$STYLE" == "contrast" ]]; then
+    BG_COLOUR="$BG1_COLOUR"
+    PROJECT_COLOUR="0xff$PROJECT_COLOUR"
+    FG_COLOUR="$PROJECT_COLOUR"
+  else
+    BG_COLOUR="0x50$PROJECT_COLOUR"
+    FG_COLOUR="$DEFAULT_COLOUR"
+  fi
+
   sketchybar --set "$NAME" icon="$ICON" icon.color="${FG_COLOUR}" label="${TEXT}" label.color="${FG_COLOUR}" drawing=on \
     padding_right=0 \
     label.padding_right=8 \
