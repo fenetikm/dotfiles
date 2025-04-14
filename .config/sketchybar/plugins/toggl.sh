@@ -5,6 +5,7 @@
 # todo:
 # - handle bad token / auth issues
 # - diff colour depending on project
+# - if after a week, refresh cache
 
 source "$HOME/.config/sketchybar/vars.sh"
 
@@ -63,7 +64,7 @@ get_current() {
     get_task "$WORKSPACE_ID" "$PROJECT_ID" "$TASK_ID"
   fi
 
-  local START=$(echo "$CURRENT" | jq -r .start | gsed 's/00:00/0000/')
+  local START=$(echo "$CURRENT" | jq -r .start | gsed 's/\+00:00/\+0000/')
   local NOW=$(date +"%s")
   local START_UNIX=$(date -j -f "%Y-%m-%dT%H:%M:%S%z" "$START" +"%s" 2>/dev/null)
   local CALC="$NOW - $START_UNIX"

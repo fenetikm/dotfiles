@@ -457,6 +457,9 @@ return {
   -- https://github.com/OXY2DEV/helpview.nvim better viewing of help files
   -- https://github.com/HakonHarnes/img-clip.nvim uses pngpaste to do embed links to images, apparently you can do drag and drop in kitty?
   -- https://github.com/S1M0N38/dante.nvim ai writing, simple changes
+  -- https://github.com/Maan2003/lsp_lines.nvim shows lsp diagnostics on separate lines underneath the thing, kinda cool?
+  -- https://github.com/b0o/incline.nvim show file name top right, could be really good to then use the global statusline e.g. https://github.com/b0o/incline.nvim/discussions/29
+  -- https://github.com/smjonas/inc-rename.nvim incremental rename
   --
   -- plugin lists to look through:
   -- - https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginlist.lua
