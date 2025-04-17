@@ -55,12 +55,12 @@
                         ]
                     },
                     {
-                        "description": "Right Command to Hyper (Command + Shift + Option + Control), left arrow when tapped, fjell",
+                        "description": "Right Command to Hyper (Command + Shift + Option + Control), left arrow when tapped, fjell / keycult zero",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
-                                        "identifiers": [{ "vendor_id": 25986 }],
+                                        "identifiers": [{ "vendor_id": 25986 }, { "vendor_id": 35176 }],
                                         "type": "device_if"
                                     }
                                 ],
@@ -71,7 +71,8 @@
                                 "to": [
                                     {
                                         "key_code": "right_shift",
-                                        "modifiers": ["right_command", "right_control", "right_option"]
+                                        "modifiers": ["right_command", "right_control", "right_option"],
+                                        "lazy": true
                                     }
                                 ],
                                 "to_if_alone": [{ "key_code": "left_arrow" }],
@@ -80,12 +81,12 @@
                         ]
                     },
                     {
-                        "description": "Right Command to Hyper (Command + Shift + Option + Control), not fjell",
+                        "description": "Right Command to Hyper (Command + Shift + Option + Control), not fjell or keycult zero",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
-                                        "identifiers": [{ "vendor_id": 25986 }],
+                                        "identifiers": [{ "vendor_id": 25986 }, { "vendor_id": 35176 }],
                                         "type": "device_unless"
                                     }
                                 ],
@@ -128,12 +129,12 @@
                         ]
                     },
                     {
-                        "description": "Right Option to Command + Option + Control, down arrow when tapped, fjell",
+                        "description": "Right Option to Command + Option + Control, down arrow when tapped, fjell / keycult zero",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
-                                        "identifiers": [{ "vendor_id": 25986 }],
+                                        "identifiers": [{ "vendor_id": 25986 }, { "vendor_id": 35176 }],
                                         "type": "device_if"
                                     }
                                 ],
@@ -144,7 +145,8 @@
                                 "to": [
                                     {
                                         "key_code": "right_command",
-                                        "modifiers": ["right_option", "right_control"]
+                                        "modifiers": ["right_option", "right_control"],
+                                        "lazy": true
                                     }
                                 ],
                                 "to_if_alone": [{ "key_code": "down_arrow" }],
@@ -153,12 +155,12 @@
                         ]
                     },
                     {
-                        "description": "Right Option to Command + Option + Control, not fjell",
+                        "description": "Right Option to Command + Option + Control, not fjell or keycult zero",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
-                                        "identifiers": [{ "vendor_id": 25986 }],
+                                        "identifiers": [{ "vendor_id": 25986 }, { "vendor_id": 35176 }],
                                         "type": "device_unless"
                                     }
                                 ],
@@ -177,12 +179,12 @@
                         ]
                     },
                     {
-                        "description": "Right Shift to up arrow when tapped, shift when held, fjell",
+                        "description": "Right Shift to up arrow when tapped, shift when held, fjell or keycult zero",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
-                                        "identifiers": [{ "vendor_id": 25986 }],
+                                        "identifiers": [{ "vendor_id": 25986 }, { "vendor_id": 35176 }],
                                         "type": "device_if"
                                     }
                                 ],
@@ -190,19 +192,19 @@
                                     "key_code": "right_shift",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "key_code": "right_shift" }],
+                                "to": [{ "key_code": "right_shift", "lazy": true }],
                                 "to_if_alone": [{ "key_code": "up_arrow" }],
                                 "type": "basic"
                             }
                         ]
                     },
                     {
-                        "description": "Right control to right arrow when tapped, control when held, fjell",
+                        "description": "Right control to right arrow when tapped, control when held, fjell or keycult zero",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
-                                        "identifiers": [{ "vendor_id": 25986 }],
+                                        "identifiers": [{ "vendor_id": 25986 }, { "vendor_id": 35176 }],
                                         "type": "device_if"
                                     }
                                 ],
@@ -210,169 +212,28 @@
                                     "key_code": "right_control",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to": [{ "key_code": "right_control" }],
+                                "to": [{ "key_code": "right_control", "lazy": true }],
                                 "to_if_alone": [{ "key_code": "right_arrow" }],
                                 "type": "basic"
                             }
                         ]
                     },
                     {
-                        "description": "Change Left Control to Escape when used alone, or Left Control when held down, only for alt drop",
+                        "description": "Change Left Control to Escape when used alone, or Left Control when held down, hiro / keycult zero / keyc / paragon / fjell / maja / q1 / alt drop",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
-                                        "identifiers": [{ "vendor_id": 1240 }],
-                                        "type": "device_if"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "left_control",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_control",
-                                        "lazy": true
-                                    }
-                                ],
-                                "to_if_alone": [{ "key_code": "escape" }],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Change Left Control to Escape when used alone, or Left Control when held down, only for q1",
-                        "manipulators": [
-                            {
-                                "conditions": [
-                                    {
-                                        "identifiers": [{ "vendor_id": 13364 }],
-                                        "type": "device_if"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "left_control",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_control",
-                                        "lazy": true
-                                    }
-                                ],
-                                "to_if_alone": [{ "key_code": "escape" }],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Change Left Control to Escape when used alone, or Left Control when held down, only for hiro",
-                        "manipulators": [
-                            {
-                                "conditions": [
-                                    {
-                                        "identifiers": [{ "vendor_id": 19280 }],
-                                        "type": "device_if"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "left_control",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_control",
-                                        "lazy": true
-                                    }
-                                ],
-                                "to_if_alone": [{ "key_code": "escape" }],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Change Left Control to Escape when used alone, or Left Control when held down, only for Cycle 7",
-                        "manipulators": [
-                            {
-                                "conditions": [
-                                    {
-                                        "identifiers": [{ "vendor_id": 39572 }],
-                                        "type": "device_if"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "left_control",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_control",
-                                        "lazy": true
-                                    }
-                                ],
-                                "to_if_alone": [{ "key_code": "escape" }],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Change Left Control to Escape when used alone, or Left Control when held down, only for paragon",
-                        "manipulators": [
-                            {
-                                "conditions": [
-                                    {
-                                        "identifiers": [{ "vendor_id": 35879 }],
-                                        "type": "device_if"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "left_control",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_control",
-                                        "lazy": true
-                                    }
-                                ],
-                                "to_if_alone": [{ "key_code": "escape" }],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Change Left Control to Escape when used alone, or Left Control when held down, only for fjell",
-                        "manipulators": [
-                            {
-                                "conditions": [
-                                    {
-                                        "identifiers": [{ "vendor_id": 25986 }],
-                                        "type": "device_if"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "left_control",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_control",
-                                        "lazy": true
-                                    }
-                                ],
-                                "to_if_alone": [{ "key_code": "escape" }],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Change Left Control to Escape when used alone, or Left Control when held down, only for maja",
-                        "manipulators": [
-                            {
-                                "conditions": [
-                                    {
-                                        "identifiers": [{ "vendor_id": 19266 }],
+                                        "identifiers": [
+                                            { "vendor_id": 19280 },
+                                            { "vendor_id": 35176 },
+                                            { "vendor_id": 39572 },
+                                            { "vendor_id": 35879 },
+                                            { "vendor_id": 25986 },
+                                            { "vendor_id": 19266 },
+                                            { "vendor_id": 13364 },
+                                            { "vendor_id": 1240 }
+                                        ],
                                         "type": "device_if"
                                     }
                                 ],
