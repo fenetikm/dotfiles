@@ -18,9 +18,8 @@ PLUGIN_DIR="$CONFIG_DIR/plugins"
   # blur_radius=16 color=0xdd020221 corner_radius=9 \
   # font_smoothing=on shadow=on
 
-HAS_NOTCH=
 HW_MODEL=$(sysctl hw.model)
-if [[ "$HW_MODEL" == *"Mac16,6"* ]]; then
+if [[ "$HW_MODEL" =~ "Mac16,6" ]]; then
   bar=(
     blur_radius=0
     color=0xff000000
@@ -63,14 +62,14 @@ sketchybar --default "${default[@]}"
 
 # left items
 sketchybar \
-           --add item doge left \
-           --set      doge icon=🐶 y_offset=2 label.drawing=off \
-                           icon.font="$ICON_FONT:$ICON_FONT_WEIGHT:14.0" icon.padding_left=0 \
-                           padding_right=11 \
-           --add item space.spacer_left left \
-           --set      space.spacer_left background.drawing=off \
-                      padding_left=0 padding_right=0 \
-                      icon.drawing=off label.drawing=off width=3
+ --add item doge left \
+ --set      doge icon=🐶 y_offset=2 label.drawing=off \
+                 icon.font="$ICON_FONT:$ICON_FONT_WEIGHT:14.0" icon.padding_left=0 \
+                 padding_right=11 \
+ --add item space.spacer_left left \
+ --set      space.spacer_left background.drawing=off \
+            padding_left=0 padding_right=0 \
+            icon.drawing=off label.drawing=off width=3
 
 SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
 
@@ -122,45 +121,44 @@ sketchybar --add item spaces_spacer_right left \
 
 # more left items
 sketchybar \
-           --add item cpu left \
-           --set cpu update_freq=10 script="$PLUGIN_DIR/cpu_load.sh" \
-           --add item disk left \
-           --set disk update_freq=130 script="$PLUGIN_DIR/disk.sh" \
-           --subscribe disk system_woke \
-           --add item timemachine left \
-           --set timemachine update_freq=86400 script="$PLUGIN_DIR/timemachine.sh" \
-           --subscribe timemachine system_woke \
-           --add item front_app left \
-           --set front_app script="$PLUGIN_DIR/front_app.sh" \
-           --subscribe front_app front_app_switched
+  --add item cpu left \
+  --set cpu update_freq=10 script="$PLUGIN_DIR/cpu_load.sh" \
+  --add item disk left \
+  --set disk update_freq=130 script="$PLUGIN_DIR/disk.sh" \
+  --subscribe disk system_woke \
+  --add item timemachine left \
+  --set timemachine update_freq=86400 script="$PLUGIN_DIR/timemachine.sh" \
+  --subscribe timemachine system_woke \
+  --add item front_app left \
+  --set front_app script="$PLUGIN_DIR/front_app.sh" \
+  --subscribe front_app front_app_switched
 
 # right items
 sketchybar \
-           --add item dnd right \
-           --set dnd update_freq=35 script="$PLUGIN_DIR/dnd.sh" \
-           --add item date_time right \
-           --set date_time update_freq=10 script="$PLUGIN_DIR/date_time.sh" \
-           --add item weather right \
-           --set weather update_freq=7200 script="$PLUGIN_DIR/weather.sh" \
-           --subscribe weather system_woke \
-           --add item messages right \
-           --set messages update_freq=121 script="$PLUGIN_DIR/messages.sh" \
-           --subscribe messages system_woke front_app_switched \
-           --add item wifi right \
-           --set wifi update_freq=15 script="$PLUGIN_DIR/wifi.sh" \
-           --add item volume right \
-           --set volume script="$PLUGIN_DIR/volume.sh" \
-           --subscribe volume volume_change \
-           --add item battery right \
-           --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
-           --subscribe battery system_woke power_source_change \
-           --add item toggl right \
-           --set toggl update_freq=60 script="$PLUGIN_DIR/toggl.sh" \
-           --add item pomo right \
-           --set pomo update_freq=10 script="$PLUGIN_DIR/pomo.sh" \
-           --add item music right \
-           --set music update_freq=20 script="$PLUGIN_DIR/music.sh"
-
+  --add item dnd right \
+  --set dnd update_freq=35 script="$PLUGIN_DIR/dnd.sh" \
+  --add item date_time right \
+  --set date_time update_freq=10 script="$PLUGIN_DIR/date_time.sh" \
+  --add item weather right \
+  --set weather update_freq=7200 script="$PLUGIN_DIR/weather.sh" \
+  --subscribe weather system_woke \
+  --add item messages right \
+  --set messages update_freq=121 script="$PLUGIN_DIR/messages.sh" \
+  --subscribe messages system_woke front_app_switched \
+  --add item wifi right \
+  --set wifi update_freq=15 script="$PLUGIN_DIR/wifi.sh" \
+  --add item volume right \
+  --set volume script="$PLUGIN_DIR/volume.sh" \
+  --subscribe volume volume_change \
+  --add item battery right \
+  --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
+  --subscribe battery system_woke power_source_change \
+  --add item toggl right \
+  --set toggl update_freq=60 script="$PLUGIN_DIR/toggl.sh" \
+  --add item pomo right \
+  --set pomo update_freq=10 script="$PLUGIN_DIR/pomo.sh" \
+  --add item music right \
+  --set music update_freq=20 script="$PLUGIN_DIR/music.sh"
 
 # update all items
 sketchybar --update

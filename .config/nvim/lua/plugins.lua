@@ -456,6 +456,7 @@ return {
   -- https://github.com/MagicDuck/grug-far.nvim find and replace
   -- https://github.com/OXY2DEV/helpview.nvim better viewing of help files
   -- https://github.com/HakonHarnes/img-clip.nvim uses pngpaste to do embed links to images, apparently you can do drag and drop in kitty?
+  -- https://github.com/S1M0N38/dante.nvim ai writing, simple changes
   --
   -- plugin lists to look through:
   -- - https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginlist.lua
