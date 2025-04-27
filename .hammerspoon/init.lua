@@ -44,19 +44,20 @@ G.alert_style = {
   padding = 6
 }
 
-G.yabai_path = "/usr/local/bin/yabai"
-if hs.fs.displayName(G.yabai_path) == nil then
-  G.yabai_path = "/opt/homebrew/bin/yabai"
-end
-
 s = function(message)
   if G.loggingEnabled then
     hs.alert.show(message, G.alert_style)
   end
 end
 
--- install hs command line tool
-local installed = hs.ipc.cliInstall()
+G.yabai_path = "/usr/local/bin/yabai"
+if hs.fs.displayName(G.yabai_path) == nil then
+  G.yabai_path = "/opt/homebrew/bin/yabai"
+  local installed = hs.ipc.cliInstall("/opt/homebrew")
+  s(installed)
+else
+  hs.ipc.cliInstall()
+end
 
 hs.loadSpoon("URLDispatcher")
 local function appID(app)
@@ -186,7 +187,7 @@ end
 
 hk = {}
 hs.fnutils.each({
-  { key = "b", app = "Thunderbird" },
+  { key = "b", app = "BoltAI" },
   { key = "f", app = "Finder" },
   { key = "s", app = "Slack" },
   { key = "g", app = "Google Chrome" },

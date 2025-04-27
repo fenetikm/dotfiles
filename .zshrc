@@ -273,7 +273,6 @@ alias ho="hugo-open-post"
 alias hn='hugo-new-post'
 alias ht='hugo-new-til'
 alias hk='hugo-new-link'
-alias hs='hugo-start-server'
 
 #love framework
 alias love="/Applications/love.app/Contents/MacOS/love"
@@ -526,3 +525,8 @@ fi
 # more complete profiling
 # unsetopt xtrace
 # exec 2>&3 3>&-
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/michaelwelford/.lmstudio/bin"
+# End of LM Studio CLI section
+

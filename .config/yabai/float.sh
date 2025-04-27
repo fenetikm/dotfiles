@@ -1,4 +1,6 @@
 #! /usr/bin/env zsh
+#
+hs -c "hs.alert.show('hi')"
 
 WINDOW=$(yabai -m query --windows --window)
 WID=$(echo "$WINDOW" | jq '."id"')
