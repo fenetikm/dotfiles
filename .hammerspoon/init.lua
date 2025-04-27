@@ -51,10 +51,11 @@ s = function(message)
 end
 
 G.yabai_path = "/usr/local/bin/yabai"
+G.bin_path = "/usr/local/bin"
 if hs.fs.displayName(G.yabai_path) == nil then
   G.yabai_path = "/opt/homebrew/bin/yabai"
-  local installed = hs.ipc.cliInstall("/opt/homebrew")
-  s(installed)
+  G.bin_path = "/opt/homebrew/bin"
+  hs.ipc.cliInstall("/opt/homebrew")
 else
   hs.ipc.cliInstall()
 end
@@ -91,7 +92,7 @@ local yabai_script = function(script_name, args)
   -- hs.alert.show(script_name)
   local task = hs.task.new(os.getenv('HOME') .. '/.config/yabai/' .. script_name, nil, args)
   local env = task:environment()
-  env['PATH'] = env['PATH'] .. ':/usr/local/bin'
+  env['PATH'] = env['PATH'] .. ':' .. G.bin_path
   task:setEnvironment(env)
   task:start()
 end
