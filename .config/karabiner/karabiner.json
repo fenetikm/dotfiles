@@ -166,9 +166,9 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "right_command",
+                                        "key_code": "right_control",
                                         "lazy": true,
-                                        "modifiers": ["right_option", "right_control"]
+                                        "modifiers": ["right_command", "right_option"]
                                     }
                                 ],
                                 "to_if_alone": [{ "key_code": "down_arrow" }],
@@ -177,7 +177,7 @@
                         ]
                     },
                     {
-                        "description": "Right Option to Command + Option + Control, not fjell or keycult zero",
+                        "description": "Right Option to Command + Option + Control, not fjell / keycult zero",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -195,8 +195,8 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "right_command",
-                                        "modifiers": ["right_option", "right_control"]
+                                        "key_code": "right_option",
+                                        "modifiers": ["right_command", "right_control"]
                                     }
                                 ],
                                 "type": "basic"

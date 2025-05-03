@@ -188,7 +188,6 @@ end
 
 hk = {}
 hs.fnutils.each({
-  { key = "b", app = "BoltAI" },
   { key = "f", app = "Finder" },
   { key = "s", app = "Slack" },
   { key = "g", app = "Google Chrome" },
@@ -208,6 +207,7 @@ hs.fnutils.each({
   { key = "v", url = "obsidian://open?vault=PC" },
   { key = "m", app = "Messages"},
   { key = "i", app = "Music"},
+  { key = "b", app = "BoltAI" },
 }, function(object)
     hk[object.key] = hs.hotkey.bind(hyper_mapping, object.key, function() launchOrFocus(object.app, object) end)
 end)

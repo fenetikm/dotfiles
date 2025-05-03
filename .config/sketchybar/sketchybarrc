@@ -135,30 +135,32 @@ sketchybar \
 
 # right items
 sketchybar \
-  --add item dnd right \
-  --set dnd update_freq=35 script="$PLUGIN_DIR/dnd.sh" \
-  --add item date_time right \
-  --set date_time update_freq=10 script="$PLUGIN_DIR/date_time.sh" \
-  --add item weather right \
-  --set weather update_freq=7200 script="$PLUGIN_DIR/weather.sh" \
-  --subscribe weather system_woke \
-  --add item messages right \
-  --set messages update_freq=121 script="$PLUGIN_DIR/messages.sh" \
-  --subscribe messages system_woke front_app_switched \
-  --add item wifi right \
-  --set wifi update_freq=15 script="$PLUGIN_DIR/wifi.sh" \
-  --add item volume right \
-  --set volume script="$PLUGIN_DIR/volume.sh" \
-  --subscribe volume volume_change \
-  --add item battery right \
-  --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
-  --subscribe battery system_woke power_source_change \
-  --add item toggl right \
-  --set toggl update_freq=60 script="$PLUGIN_DIR/toggl.sh" \
-  --add item pomo right \
-  --set pomo update_freq=10 script="$PLUGIN_DIR/pomo.sh" \
-  --add item music right \
-  --set music update_freq=20 script="$PLUGIN_DIR/music.sh"
+   --add item dnd right \
+   --set dnd update_freq=35 script="$PLUGIN_DIR/dnd.sh" \
+   --add item date_time right \
+   --set date_time update_freq=10 script="$PLUGIN_DIR/date_time.sh" \
+   --add item weather right \
+   --set weather update_freq=7200 script="$PLUGIN_DIR/weather.sh" \
+   --subscribe weather system_woke \
+   --add item messages right \
+   --set messages update_freq=121 script="$PLUGIN_DIR/messages.sh" \
+   --subscribe messages system_woke front_app_switched \
+   --add item wifi right \
+   --set wifi update_freq=15 script="$PLUGIN_DIR/wifi.sh" \
+   --add item volume right \
+   --set volume script="$PLUGIN_DIR/volume.sh" \
+   --subscribe volume volume_change \
+   --add item battery right \
+   --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
+   --subscribe battery system_woke power_source_change \
+   --add item toggl right \
+   --set toggl update_freq=60 script="$PLUGIN_DIR/toggl.sh" \
+   --add item focus right \
+   --set focus update_freq=30 script="$PLUGIN_DIR/focus.sh" \
+   --add item pomo right \
+   --set pomo update_freq=30 script="$PLUGIN_DIR/pomo.sh" \
+   --add item music right \
+   --set music update_freq=20 script="$PLUGIN_DIR/music.sh"
 
 # update all items
 sketchybar --update

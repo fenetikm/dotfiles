@@ -102,7 +102,7 @@ if [[ -n "$TEXT" ]]; then
   fi
 
   sketchybar --set "$NAME" icon="$ICON" icon.color="${FG_COLOUR}" label="${TEXT}" label.color="${FG_COLOUR}" drawing=on \
-    padding_right=0 \
+    padding_right=7 \
     label.padding_right=8 \
     icon.padding_left=8 \
     background.shadow.drawing=on background.shadow.distance=1 \

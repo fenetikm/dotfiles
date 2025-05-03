@@ -463,6 +463,7 @@ return {
   -- https://github.com/saghen/blink.cmp faster completion
   -- https://github.com/Saghen/blink.pairs faster pair matching etc.
   -- https://github.com/iguanacucumber/magazine.nvim nvim-cmp fork
+  -- https://github.com/Robitx/gp.nvim gpt prompting and library etc.
   --
   -- plugin lists to look through:
   -- - https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginlist.lua
