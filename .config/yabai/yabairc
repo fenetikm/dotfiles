@@ -98,7 +98,7 @@ yabai -m rule --add app="^(Little Snitch|CleanShot|Mirth|Keychain|zoom|Zoom|Open
 # send apps to specific displays or spaces
 yabai -m rule --add app="^Messages" space=^3
 yabai -m rule --add app="^Slack" space=^3
-yabai -m rule --add app="^Slack" title="^Huddle" manage=off display=^2 space=^5
+yabai -m rule --add app="^Slack" title="^Huddle" manage=off display=^2 space=^6
 yabai -m rule --add app="^(Thunderbird|thunderbird)" space=^2
 yabai -m rule --add app="^Mail" space=^2
 yabai -m rule --add app="^TablePlus" space=^4
