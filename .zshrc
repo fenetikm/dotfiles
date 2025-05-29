@@ -234,7 +234,8 @@ alias ..='cd ..'
 
 #hugo
 hugo-new-post () {
-  hugo new posts/"$1".md --editor nvim
+  hugo new posts/"$1".md
+  nvim "content/posts/$1.md"
 }
 
 hugo-new-til () {

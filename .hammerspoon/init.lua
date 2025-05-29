@@ -373,6 +373,7 @@ sk['z'] = bindKey('z', function() yabai({'-m', 'space', '--layout', 'bsp'}) end)
 sk['x'] = bindKey('x', function() yabai({'-m', 'space', '--layout', 'float'}) end)
 sk['c'] = bindKey('c', function() yabai({'-m', 'space', '--layout', 'stack'}) end)
 
+-- center
 sk['g'] = bindKey('g', function() yabai_script('resize.sh', {'c', 'x'}) end)
 
 -- todo: zxc

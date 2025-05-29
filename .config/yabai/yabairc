@@ -61,7 +61,7 @@ setup_space() {
   local SPACE_ID="$1"
   local NAME="$2"
   local LAYOUT="$3"
-  local DISPLAY="$4"
+  local DISPLAY_ID="$4"
 
   local SPACE=
   echo "Setup space $SPACE_ID : $NAME"
@@ -71,9 +71,14 @@ setup_space() {
     yabai -m space --create "$DISPLAY"
   fi
 
+  DISPLAY=$(yabai -m query --spaces --space "$DISPLAY_ID")
+  if [ -z "$DISPLAY" ]; then
+    DISPLAY_ID=1
+  fi
+
   yabai -m space "$SPACE_ID" --label "$NAME"
   yabai -m config --space "$SPACE_ID" layout "$LAYOUT"
-  yabai -m display "$DISPLAY" --space "$SPACE_ID"
+  yabai -m display "$DISPLAY_ID" --space "$SPACE_ID"
 }
 
 setup_space 1 home stack 1
