@@ -1,10 +1,11 @@
 -- TODO:
 -- make the [+] a different colour?
 -- when transparent, could have capsule backgrounds behind the things, see https://hyprland.org/imgs/ricing_competitions/2/flafy.webp
+-- pull transparentBg form main config
 local colours = require('falcon.colours')
 local width_threshold = 120
 local width_secondary_threshold = 90
-local transparentBg = false
+local transparentBg = true
 local transparentInactive = true
 
 local line_only = {
@@ -99,7 +100,7 @@ local conditions = {
 }
 
 local fill_line = function ()
-    local width = vim.fn.winwidth(0)
+  local width = vim.fn.winwidth(0)
   local fill = ''
   for i = 1, width, 1 do
     fill = fill .. '—'
@@ -313,30 +314,40 @@ ins_a {
     info = { fg = colours.mid_gray.hex },
     hint = { fg = colours.mid_gray.hex },
   },
-  padding = { left = 1 },
+  padding = { left = 0 },
   cond = conditions.check_line_filetype,
 }
 
 ins_a {
   diagnostic_ok,
+  padding = {0},
   color = { fg = colours.green.hex },
   cond = conditions.check_line_filetype,
 }
 
 ins_a {
   search_result,
+  padding = {0},
   color = { fg = colours.mid_gray.hex },
   cond = conditions.check_line_filetype and conditions.hide_in_secondary_width,
 }
 
 ins_a {
   fill_line,
-  color = { fg = colours.mid_dark_gray.hex, bg = colours.bg.hex },
+  color = { fg = colours.mid_dark_gray.hex },
   padding = {0},
   cond = function ()
     local in_line_list = conditions.check_line_filetype()
     return not in_line_list
   end
+}
+
+ins_a {
+  function ()
+    return ' '
+  end,
+  padding = {0},
+  color = { fg = colours.mid_dark_gray.hex },
 }
 
 ins_x {

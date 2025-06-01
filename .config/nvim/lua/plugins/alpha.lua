@@ -18,6 +18,7 @@ return {
 
       local alpha = require'alpha'
       local fortune = require'alpha.fortune'
+      vim.opt_local.fillchars = 'vert:|,stl: ,stlnc: '
 
       local atari_art = {
         [[                oo ooooo oo                ]],

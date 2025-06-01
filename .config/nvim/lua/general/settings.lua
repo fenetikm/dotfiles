@@ -16,8 +16,6 @@ vim.o.timeoutlen = 1000 --timeout for leader key
 vim.o.ttimeoutlen = 5 --timeout for key code delays
 vim.o.showmode = false --hide showing which mode we are in, the status bar is fine
 
-vim.o.fcs = 'vert:│' -- Solid line for vsplit separator
-
 vim.o.splitbelow = true --horizontal split shows up below
 vim.o.previewheight = 10 --preview window height
 
@@ -46,9 +44,10 @@ vim.o.listchars = vim.o.listchars .. ',precedes:«'
 vim.o.listchars = vim.o.listchars .. ',trail:•'
 
 vim.o.fillchars = ''
-vim.o.fillchars = vim.o.fillchars .. 'vert:┃'
-vim.o.fillchars = vim.o.fillchars .. ',fold:'
-vim.o.fillchars = vim.o.fillchars .. ',diff:╱'
+vim.o.fillchars = vim.o.fillchars .. 'vert:┃' -- vertical sep fill character
+vim.o.fillchars = vim.o.fillchars .. ',fold:' -- fold fill character
+vim.o.fillchars = vim.o.fillchars .. ',diff:╱' -- diff fill background character
+vim.o.fillchars = vim.o.fillchars .. ',stl:┅,stlnc:┅' -- status line fill character
 
 vim.o.ruler = true --show column/row/line number position
 vim.o.number = true --show line numbers
