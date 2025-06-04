@@ -1,6 +1,6 @@
 #! /usr/bin/env zsh
 
-# args: position size float
+# args: position size float layout
 # sizes:
 # - x = leave as is
 # - 13 = 1/3
@@ -10,6 +10,7 @@
 # - wwww,hhhh = specific size
 # - full = full-size, but below the bar
 # - fullwindow = full, over the bar
+# - equal = make all equal (call balance?)
 # positions:
 # - 1,2,3 (thirds)
 # - a, b (halves)
@@ -17,6 +18,8 @@
 # - x (leave as is)
 # float:
 # - 1 = turn on float
+# layout:
+# - 1 = affect layout instead of the window, extract into different thing? probs, looks simple
 #
 # todo: allow resizing of non-floated windows
 # - refactor into separate methods?
@@ -24,8 +27,6 @@
 source "$HOME"/.config/yabai/tools.sh
 
 yd "RESIZE.SH"
-# yd "$1" "position"
-# yd "$2" "size"
 
 GAP=20
 BAR_HEIGHT=32
@@ -62,9 +63,35 @@ if [[ "$DO_FLOAT" == "" ]]; then
   DO_FLOAT=0
 fi
 
+DO_LAYOUT="$4"
+if [[ "$DO_LAYOUT" == "" ]]; then
+  DO_LAYOUT=0
+fi
+
+yd "$POSITION" "position"
+yd "$SIZE" "size"
+yd "$DO_FLOAT" "float"
+yd "$DO_LAYOUT" "layout"
+
 if [[ $(echo "$W" | jq -re '."is-floating"') == false && "$DO_FLOAT" == 1 ]]; then
   yabai -m window "$WID" --toggle float
 fi
+
+resize_layout() {
+  WINDOWS=$(yabai -m query --windows --space | jq '[.[] | select(."is-visible" == true and ."is-floating" == false)]' | jq 'sort_by(.frame.x)' | jq -r '.[] .id | @sh')
+  WINDOW_COUNT=${#WINDOWS}
+  # todo: special handling when diff window counts
+
+  if [[ "$1" == "x" ]]; then
+    exit 1
+  elif [[ "$1" == "13" ]]; then
+    # do nothing
+  elif [[ "$1" == "12" ]]; then
+    # do nothing
+  elif [[ "$1" == "" ]]; then
+    # do nothing
+  fi
+}
 
 resize_window() {
   if [[ "$1" == "x" ]]; then
@@ -115,6 +142,7 @@ resize_window() {
   fi
 }
 
+# only useful for floated windows
 position_window() {
   # Current assumption here is that display 2 is on the left of display 1
   DISPLAY_X_OFFSET=0
@@ -138,5 +166,9 @@ position_window() {
   exit 1
 }
 
-resize_window "$2"
-position_window "$1"
+# if [[ "$DO_LAYOUT" == 1 ]]; then
+#   resize_layout "$2"
+# else
+  resize_window "$2"
+  position_window "$1"
+# fi

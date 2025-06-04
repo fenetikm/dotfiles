@@ -328,6 +328,30 @@ sk['r'] = bindKey('r', function() os.execute(G.yabai_path .. ' --restart-service
 
 -- todo: replace hyper one with this one, add in support for running scripts after hyper
 -- sk['k'] = hs.hotkey.bind(screen_mapping, 'k', function() yabai_script('kitty.sh', {}) end)
+--
+-- todo: new idea:
+-- - more explicit, ok to be multi key
+-- - <key> <space> <position>
+-- could have keys instead of numbers for spaces, home row even?
+-- where position can be 1,2,3
+-- if currently only one app visible, then puts the new window to the left or right (1 = left, 2 = right)
+-- when more than one app then insert accordingly
+-- e.g. put this app on space two, in position 1
+--
+-- todo2:
+-- - balancing/layout keys to set it to 1/3, 2/3 vs 1/2, 1/2 vs 2/3, 1/3
+-- - asd?
+--
+-- todo3:
+-- - when we have two floated things, want to put them side by side, with some gap
+--
+-- todo4:
+-- - easy way to go from one app to split screen with two apps, in case of just on laptop
+--
+-- todo5:
+-- - when dragging a window, how to float whilst dragging? some other hot key, or double tap f19?!
+--
+-- todo6: shift left, right
 
 -- send to other display
 sk['comma'] = bindKey(',', function() yabai_script('send_display.sh', {'2'}) end)
@@ -341,30 +365,40 @@ sk['4'] = bindKey('4', function() yabai({'-m', 'space', '--focus', '4'}) end)
 sk['5'] = bindKey('5', function() yabai({'-m', 'space', '--focus', '5'}) end)
 sk['6'] = bindKey('6', function() yabai({'-m', 'space', '--focus', '6'}) end)
 
+-- float and full screen, then 1600x1200, then 1400x900
 sk['f'] = bindKey('f', chain_yabai({
   { 'resize.sh', {'c', 'full', '1'} },
   { 'resize.sh', {'c', '1600,1200', '1'} },
   { 'resize.sh', {'c', '1400,900', '1'} },
 }))
 
+-- full screen but over the top bar
 yabai_mode:bind('shift', 'f', function()
   yabai_script('resize.sh', {'c', 'fullwindow', '1'})
   yabai_mode:exit()
 end)
 
--- screen recording
+-- screen recording sizes
 sk['0'] = bindKey('0', function() yabai_script('resize.sh', {'c', '1400,900', '1'}) end)
 -- gif recording
 sk['9'] = bindKey('9', function() yabai_script('resize.sh', {'c', '700,450', '1'}) end)
 
 -- insert current window into position and balance
-sk['q'] = bindKey('q', function() yabai_script('insert.sh', {'1'}) end)
-sk['w'] = bindKey('w', function() yabai_script('insert.sh', {'2'}) end)
-sk['e'] = bindKey('e', function() yabai_script('insert.sh', {'3'}) end)
+-- haven't used for a long time, todo: revisit?
+-- sk['q'] = bindKey('q', function() yabai_script('insert.sh', {'1'}) end)
+-- sk['w'] = bindKey('w', function() yabai_script('insert.sh', {'2'}) end)
+-- sk['e'] = bindKey('e', function() yabai_script('insert.sh', {'3'}) end)
 
 -- toggle what happens when dropping a window on another
 -- I never use this...
 -- sk['p'] = bindKey('p', function() yabai_script('toggle_drop.sh', {}) end)
+
+-- 1/3, 1/2, 2/3
+-- todo: different thing here, layout instead of sizing of current window
+-- - add that to resize.sh, maybe a mode, layout vs window
+sk['q'] = bindKey('q', function() yabai_script('resize.sh', {'x', '13', '0'}) end)
+sk['w'] = bindKey('w', function() yabai_script('resize.sh', {'x', '12', '0'}) end)
+sk['e'] = bindKey('e', function() yabai_script('resize.sh', {'x', '23', '0'}) end)
 
 sk['b'] = bindKey('b', function() yabai({'-m', 'space', '--balance'}) end)
 
@@ -410,76 +444,76 @@ yabai_mode:bind('shift', 'space', function()
 end)
 
 -- focus, rarely needed but makes sense for the basic direction keys
-yabai_mode:bind('', 'h', function()
-  yabai({'-m', 'window', '--focus', 'west'})
-  yabai_mode:exit()
-end)
-yabai_mode:bind('', 'l', function()
-  yabai({'-m', 'window', '--focus', 'east'})
-  yabai_mode:exit()
-end)
-yabai_mode:bind('', 'j', function()
-  yabai({'-m', 'window', '--focus', 'south'})
-  yabai_mode:exit()
-end)
-yabai_mode:bind('', 'k', function()
-  yabai({'-m', 'window', '--focus', 'north'})
-  yabai_mode:exit()
-end)
+-- yabai_mode:bind('', 'h', function()
+--   yabai({'-m', 'window', '--focus', 'west'})
+--   yabai_mode:exit()
+-- end)
+-- yabai_mode:bind('', 'l', function()
+--   yabai({'-m', 'window', '--focus', 'east'})
+--   yabai_mode:exit()
+-- end)
+-- yabai_mode:bind('', 'j', function()
+--   yabai({'-m', 'window', '--focus', 'south'})
+--   yabai_mode:exit()
+-- end)
+-- yabai_mode:bind('', 'k', function()
+--   yabai({'-m', 'window', '--focus', 'north'})
+--   yabai_mode:exit()
+-- end)
 
 -- swap
-yabai_mode:bind('shift', 'h', function()
+yabai_mode:bind('', 'h', function()
   yabai({'-m', 'window', '--swap', 'west'})
   yabai_mode:exit()
 end)
-yabai_mode:bind('shift', 'l', function()
+yabai_mode:bind('', 'l', function()
   yabai({'-m', 'window', '--swap', 'east'})
   yabai_mode:exit()
 end)
-yabai_mode:bind('shift', 'j', function()
+yabai_mode:bind('', 'j', function()
   yabai({'-m', 'window', '--swap', 'south'})
   yabai_mode:exit()
 end)
-yabai_mode:bind('shift', 'k', function()
+yabai_mode:bind('', 'k', function()
   yabai({'-m', 'window', '--swap', 'north'})
   yabai_mode:exit()
 end)
 
 -- warp (split at the insert)
-yabai_mode:bind('control+shift', 'h', function()
-  yabai({'-m', 'window', '--swap', 'west'})
-  yabai_mode:exit()
-end)
-yabai_mode:bind('control+shift', 'l', function()
-  yabai({'-m', 'window', '--swap', 'east'})
-  yabai_mode:exit()
-end)
-yabai_mode:bind('control+shift', 'j', function()
-  yabai({'-m', 'window', '--swap', 'south'})
-  yabai_mode:exit()
-end)
-yabai_mode:bind('control+shift', 'k', function()
-  yabai({'-m', 'window', '--swap', 'north'})
-  yabai_mode:exit()
-end)
+-- yabai_mode:bind('control+shift', 'h', function()
+--   yabai({'-m', 'window', '--swap', 'west'})
+--   yabai_mode:exit()
+-- end)
+-- yabai_mode:bind('control+shift', 'l', function()
+--   yabai({'-m', 'window', '--swap', 'east'})
+--   yabai_mode:exit()
+-- end)
+-- yabai_mode:bind('control+shift', 'j', function()
+--   yabai({'-m', 'window', '--swap', 'south'})
+--   yabai_mode:exit()
+-- end)
+-- yabai_mode:bind('control+shift', 'k', function()
+--   yabai({'-m', 'window', '--swap', 'north'})
+--   yabai_mode:exit()
+-- end)
 
 -- insert, set split position
-yabai_mode:bind('control', 'h', function()
-  yabai({'-m', 'window', '--insert', 'west'})
-  yabai_mode:exit()
-end)
-yabai_mode:bind('control', 'l', function()
-  yabai({'-m', 'window', '--insert', 'east'})
-  yabai_mode:exit()
-end)
-yabai_mode:bind('control', 'j', function()
-  yabai({'-m', 'window', '--insert', 'south'})
-  yabai_mode:exit()
-end)
-yabai_mode:bind('control', 'k', function()
-  yabai({'-m', 'window', '--insert', 'north'})
-  yabai_mode:exit()
-end)
+-- yabai_mode:bind('control', 'h', function()
+--   yabai({'-m', 'window', '--insert', 'west'})
+--   yabai_mode:exit()
+-- end)
+-- yabai_mode:bind('control', 'l', function()
+--   yabai({'-m', 'window', '--insert', 'east'})
+--   yabai_mode:exit()
+-- end)
+-- yabai_mode:bind('control', 'j', function()
+--   yabai({'-m', 'window', '--insert', 'south'})
+--   yabai_mode:exit()
+-- end)
+-- yabai_mode:bind('control', 'k', function()
+--   yabai({'-m', 'window', '--insert', 'north'})
+--   yabai_mode:exit()
+-- end)
 
 -- send to space and focus
 yabai_mode:bind('shift', '1', function()
