@@ -351,7 +351,7 @@ sk['r'] = bindKey('r', function() os.execute(G.yabai_path .. ' --restart-service
 -- todo5:
 -- - when dragging a window, how to float whilst dragging? some other hot key, or double tap f19?!
 --
--- todo6: shift left, right
+-- todo6: shift left, right @done:
 
 -- send to other display
 sk['comma'] = bindKey(',', function() yabai_script('send_display.sh', {'2'}) end)
