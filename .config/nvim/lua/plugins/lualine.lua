@@ -1,12 +1,15 @@
 -- TODO:
 -- make the [+] a different colour?
 -- when transparent, could have capsule backgrounds behind the things, see https://hyprland.org/imgs/ricing_competitions/2/flafy.webp
--- pull transparentBg form main config
+-- pull transparent_bg from main config
+
 local colours = require('falcon.colours')
 local width_threshold = 120
 local width_secondary_threshold = 90
-local transparentBg = true
-local transparentInactive = true
+local transparent_bg = true
+local transparent_inactive = true
+local sub_separator = ''
+local fill_glyph = '┅'
 
 local line_only = {
   'fugitiveblame',
@@ -34,8 +37,8 @@ local config = {
         x = { fg = colours.mid_gray.hex, bg = colours.status.hex },
       },
       inactive = {
-        a = { fg = colours.mid_dark_gray.hex, bg = colours.bg.hex, gui = 'italic' },
-        x = { fg = colours.mid_dark_gray.hex, bg = colours.bg.hex, gui = 'italic' },
+        a = { fg = colours.dark_gray.hex, bg = colours.bg.hex, gui = 'italic' },
+        x = { fg = colours.dark_gray.hex, bg = colours.bg.hex, gui = 'italic' },
       },
     },
     ignore_focus = {
@@ -85,6 +88,7 @@ local conditions = {
   check_git_workspace = function()
     local filepath = vim.fn.expand('%:p:h')
     local gitdir = vim.fn.finddir('.git', filepath .. ';')
+
     return gitdir and #gitdir > 0 and #gitdir < #filepath
   end,
   check_line_filetype = function()
@@ -103,7 +107,7 @@ local fill_line = function ()
   local width = vim.fn.winwidth(0)
   local fill = ''
   for i = 1, width, 1 do
-    fill = fill .. '—'
+    fill = fill .. fill_glyph
   end
 
   return fill
@@ -206,7 +210,7 @@ local current_path = function()
 end
 
 local diagnostic_ok = function()
-  if (#vim.lsp.get_active_clients()) == 0 then return '-' end
+  if (#vim.lsp.get_active_clients()) == 0 then return '' end
   local diagnostics = vim.diagnostic.get(0)
   local error_count, warning_count
   local count = { 0, 0, 0, 0 }
@@ -228,10 +232,10 @@ local git_branch = function()
   local branch_name = vim.b.gitsigns_head
   if branch_name == nil then return '' end
   if (string.len(branch_name) > 19 and vim.fn.winwidth(0) < width_threshold) then
-    return ' ' .. string.sub(branch_name, 1, 16).."..."
+    return ' ' .. string.sub(branch_name, 1, 16) .. "…"
   end
 
-  return ' ' .. branch_name .. ' '
+  return ' ' .. branch_name
 end
 
 local mode_info = {
@@ -270,7 +274,7 @@ ins_a {
 
 ins_a {
   function ()
-    return '|'
+    return sub_separator
   end,
   color = { fg = colours.mid_dark_gray.hex },
   padding = { 0 },
@@ -280,7 +284,7 @@ ins_a {
 ins_a {
   current_path,
   color = { fg = colours.mid_gray.hex },
-  padding = { left = 1 },
+  padding = { 0 },
   cond = conditions.check_line_filetype,
 }
 
@@ -296,7 +300,7 @@ ins_a {
 
 ins_a {
   function ()
-    return ''
+    return  sub_separator
   end,
   color = { fg = colours.mid_dark_gray.hex },
   padding = { left = 1 },
@@ -329,7 +333,10 @@ ins_a {
   search_result,
   padding = {0},
   color = { fg = colours.mid_gray.hex },
-  cond = conditions.check_line_filetype and conditions.hide_in_secondary_width,
+  cond = function ()
+    return conditions.check_line_filetype() and
+      conditions.hide_in_secondary_width ()
+  end
 }
 
 ins_a {
@@ -350,6 +357,7 @@ ins_a {
   color = { fg = colours.mid_dark_gray.hex },
 }
 
+-- start of right, active
 ins_x {
   'diff',
   symbol_position = 'right',
@@ -358,19 +366,40 @@ ins_x {
 
 ins_x {
   git_branch,
-  cond = conditions.check_git_workspace and conditions.hide_in_secondary_width and conditions.check_line_filetype,
+  padding = {left = 1, right = 0},
+  cond = function ()
+    return conditions.check_git_workspace() and
+      conditions.hide_in_secondary_width() and
+      conditions.check_line_filetype()
+  end
+}
+
+ins_x {
+  function ()
+    return sub_separator
+  end,
+  color = { fg = colours.mid_dark_gray.hex },
+  cond = function()
+    return conditions.check_git_workspace() and
+      conditions.hide_in_secondary_width() and
+      conditions.check_line_filetype
+  end
 }
 
 ins_x {
   check_encoding,
   padding = { 0 },
-  cond = conditions.buffer_not_empty and conditions.check_line_filetype,
+  cond = function()
+    return conditions.buffer_not_empty() and conditions.check_line_filetype()
+  end
 }
 
 ins_x {
   check_fileformat,
   padding = { 0 },
-  cond = conditions.buffer_not_empty and conditions.check_line_filetype,
+  cond = function()
+    return conditions.buffer_not_empty() and conditions.check_line_filetype()
+  end
 }
 
 ins_x {
@@ -378,12 +407,14 @@ ins_x {
   icons_enabled = false,
   colored = false,
   padding = { left = 0, right = 1 },
-  cond = conditions.buffer_not_empty and conditions.check_line_filetype,
+  cond = function()
+    return conditions.buffer_not_empty() and conditions.check_line_filetype()
+  end
 }
 
 ins_x {
   function ()
-    return '|'
+    return sub_separator
   end,
   color = { fg = colours.mid_dark_gray.hex },
   padding = {0},
@@ -398,16 +429,16 @@ ins_x {
 
 table.insert(config.inactive_sections.lualine_a, {
   function ()
-    return '——'
+    return fill_glyph .. fill_glyph .. ' '
   end,
-  color = { fg = colours.mid_dark_gray.hex },
+  color = { fg = colours.dark_gray.hex },
   padding = {0},
   cond = conditions.check_line_filetype,
 })
 
 table.insert(config.inactive_sections.lualine_a, {
   'filename',
-  color = { fg = colours.mid_gray.hex, gui = 'italic' },
+  color = { fg = colours.mid_dark_gray.hex, gui = 'italic' },
   padding = {0},
   cond = conditions.check_line_filetype,
 })
@@ -429,38 +460,39 @@ table.insert(config.inactive_sections.lualine_a, {
       adj = adj + 4
     end
 
-    for i = 1, (width - string.len(filename) - string.len(location) - 4 - adj) , 1 do
-      fill = fill .. '—'
+    fill = ' '
+    for i = 1, (width - string.len(filename) - string.len(location) - 8 - adj) , 1 do
+      fill = fill .. fill_glyph
     end
 
     return fill
   end,
-  color = { fg = colours.mid_dark_gray.hex },
+  color = { fg = colours.dark_gray.hex },
   padding = {0},
   cond = conditions.check_line_filetype,
 })
 
 table.insert(config.inactive_sections.lualine_a, {
   function ()
-    return location_short()
+    return ' ' .. location_short()
   end,
-  color = { fg = colours.mid_gray.hex, gui = 'italic' },
+  color = { fg = colours.mid_dark_gray.hex, gui = 'italic' },
   padding = {0},
   cond = conditions.check_line_filetype,
 })
 
 table.insert(config.inactive_sections.lualine_a, {
   function ()
-    return '——'
+    return ' ' .. fill_glyph .. fill_glyph
   end,
-  color = { fg = colours.mid_dark_gray.hex },
+  color = { fg = colours.dark_gray.hex },
   padding = {0},
   cond = conditions.check_line_filetype,
 })
 
 table.insert(config.inactive_sections.lualine_a, {
   fill_line,
-  color = { fg = colours.mid_dark_gray.hex },
+  color = { fg = colours.dark_gray.hex },
   padding = {0},
   cond = function ()
     local in_line_list = conditions.check_line_filetype()
@@ -468,14 +500,14 @@ table.insert(config.inactive_sections.lualine_a, {
   end
 })
 
-if transparentBg then
+if transparent_bg then
   config.options.theme.normal.a.bg = 'NONE'
   config.options.theme.normal.x.bg = 'NONE'
   config.options.theme.inactive.a.bg = 'NONE'
   config.options.theme.inactive.x.bg = 'NONE'
 end
 
-if transparentInactive then
+if transparent_inactive then
   config.options.theme.inactive.a.bg = 'NONE'
   config.options.theme.inactive.x.bg = 'NONE'
 end
