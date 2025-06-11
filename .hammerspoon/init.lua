@@ -341,9 +341,12 @@ sk['r'] = bindKey('r', function() os.execute(G.yabai_path .. ' --restart-service
 -- todo2:
 -- - balancing/layout keys to set it to 1/3, 2/3 vs 1/2, 1/2 vs 2/3, 1/3
 -- - asd?
---
+sk['q'] = bindKey('q', function() yabai_script('resize.sh', {'x', '13', '0', '1'}) end)
+sk['w'] = bindKey('w', function() yabai_script('resize.sh', {'x', '12', '0', '1'}) end)
+sk['e'] = bindKey('e', function() yabai_script('resize.sh', {'x', '23', '0', '1'}) end)
+
 -- todo3:
--- - when we have two floated things, want to put them side by side, with some gap
+-- - when we have two floated things, want to put them side by side, keeping the size they are currently at
 --
 -- todo4:
 -- - easy way to go from one app to split screen with two apps, in case of just on laptop
@@ -392,13 +395,6 @@ sk['9'] = bindKey('9', function() yabai_script('resize.sh', {'c', '700,450', '1'
 -- toggle what happens when dropping a window on another
 -- I never use this...
 -- sk['p'] = bindKey('p', function() yabai_script('toggle_drop.sh', {}) end)
-
--- 1/3, 1/2, 2/3
--- todo: different thing here, layout instead of sizing of current window
--- - add that to resize.sh, maybe a mode, layout vs window
-sk['q'] = bindKey('q', function() yabai_script('resize.sh', {'x', '13', '0'}) end)
-sk['w'] = bindKey('w', function() yabai_script('resize.sh', {'x', '12', '0'}) end)
-sk['e'] = bindKey('e', function() yabai_script('resize.sh', {'x', '23', '0'}) end)
 
 sk['b'] = bindKey('b', function() yabai({'-m', 'space', '--balance'}) end)
 

@@ -78,18 +78,21 @@ if [[ $(echo "$W" | jq -re '."is-floating"') == false && "$DO_FLOAT" == 1 ]]; th
 fi
 
 resize_layout() {
-  WINDOWS=$(yabai -m query --windows --space | jq '[.[] | select(."is-visible" == true and ."is-floating" == false)]' | jq 'sort_by(.frame.x)' | jq -r '.[] .id | @sh')
-  WINDOW_COUNT=${#WINDOWS}
-  # todo: special handling when diff window counts
+  WINDOW_COUNT=$(yabai -m query --windows --space | jq '[.[] | select(."is-visible" == true and ."is-floating" == false)] | length')
+  yd "$WINDOW_COUNT" "window count"
+
+  if [[ "$WINDOW_COUNT" != 2 ]]; then
+    exit 0 # nothing to do, doesn't make sense
+  fi
 
   if [[ "$1" == "x" ]]; then
-    exit 1
+    exit 0
   elif [[ "$1" == "13" ]]; then
-    # do nothing
+    yabai -m window "$WID" --ratio "abs:0.333334"
   elif [[ "$1" == "12" ]]; then
-    # do nothing
-  elif [[ "$1" == "" ]]; then
-    # do nothing
+    yabai -m window "$WID" --ratio "abs:0.5"
+  elif [[ "$1" == "23" ]]; then
+    yabai -m window "$WID" --ratio "abs:0.666667"
   fi
 }
 
@@ -166,9 +169,9 @@ position_window() {
   exit 1
 }
 
-# if [[ "$DO_LAYOUT" == 1 ]]; then
-#   resize_layout "$2"
-# else
+if [[ "$DO_LAYOUT" == 1 ]]; then
+  resize_layout "$2"
+else
   resize_window "$2"
   position_window "$1"
-# fi
+fi
