@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env zsh
 
 CWD=$(pwd)
 SESSION_NAME="🐶"

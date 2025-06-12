@@ -464,6 +464,8 @@ return {
   -- https://github.com/Saghen/blink.pairs faster pair matching etc.
   -- https://github.com/iguanacucumber/magazine.nvim nvim-cmp fork
   -- https://github.com/Robitx/gp.nvim gpt prompting and library etc.
+  -- https://github.com/NStefan002/screenkey.nvim for showing which key(s) are being pressed
+  -- https://github.com/OXY2DEV/markview.nvim markdown viewer
   --
   -- plugin lists to look through:
   -- - https://github.com/yutkat/dotfiles/blob/master/.config/nvim/lua/rc/pluginlist.lua

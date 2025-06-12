@@ -1,6 +1,6 @@
 #! /usr/bin/env zsh
 
-# args: position size float layout
+# args: position size float layout space
 # sizes:
 # - x = leave as is
 # - 13 = 1/3

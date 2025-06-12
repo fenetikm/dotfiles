@@ -2,6 +2,9 @@
 -- make the [+] a different colour?
 -- when transparent, could have capsule backgrounds behind the things, see https://hyprland.org/imgs/ricing_competitions/2/flafy.webp
 -- pull transparent_bg from main config
+-- fix line gaps, probs need a "has diagnostics" and "has search" condition
+-- note: the | separator is left aligned
+-- put a sep between diff count and branch?
 
 local colours = require('falcon.colours')
 local width_threshold = 120
@@ -270,6 +273,7 @@ ins_a {
     return { fg = mode_info[vim.fn.mode()].fg.hex, gui = 'bold' }
   end,
   cond = conditions.check_line_filetype,
+  padding = {right = 1, left = 0}
 }
 
 ins_a {
@@ -294,16 +298,16 @@ ins_a {
     readonly = ' ',
   },
   color = { fg = colours.mid_gray_alt2.hex },
-  padding = { 0 },
+  padding = { left = 0, right = 1 },
   cond = conditions.check_line_filetype,
 }
 
 ins_a {
   function ()
-    return  sub_separator
+    return sub_separator
   end,
   color = { fg = colours.mid_dark_gray.hex },
-  padding = { left = 1 },
+  padding = { 0 },
   cond = conditions.check_line_filetype,
 }
 
@@ -318,20 +322,20 @@ ins_a {
     info = { fg = colours.mid_gray.hex },
     hint = { fg = colours.mid_gray.hex },
   },
-  padding = { left = 0 },
+  padding = { left = 1, right = 0},
   cond = conditions.check_line_filetype,
 }
 
 ins_a {
   diagnostic_ok,
-  padding = {0},
+  padding = { left = 0, right = 0},
   color = { fg = colours.green.hex },
   cond = conditions.check_line_filetype,
 }
 
 ins_a {
   search_result,
-  padding = {0},
+  padding = { 0 },
   color = { fg = colours.mid_gray.hex },
   cond = function ()
     return conditions.check_line_filetype() and
@@ -339,15 +343,17 @@ ins_a {
   end
 }
 
-ins_a {
-  fill_line,
-  color = { fg = colours.mid_dark_gray.hex },
-  padding = {0},
-  cond = function ()
-    local in_line_list = conditions.check_line_filetype()
-    return not in_line_list
-  end
-}
+-- ins_a {
+--   fill_line,
+--   color = { fg = colours.mid_dark_gray.hex },
+--   padding = {left = 1},
+--   cond = function ()
+--     local in_line_list = conditions.check_line_filetype()
+--     return not in_line_list
+--   end
+-- }
+
+-- note: the line vert separator has some space built into it
 
 ins_a {
   function ()
@@ -406,7 +412,7 @@ ins_x {
   'filetype',
   icons_enabled = false,
   colored = false,
-  padding = { left = 0, right = 1 },
+  padding = { left = 1 },
   cond = function()
     return conditions.buffer_not_empty() and conditions.check_line_filetype()
   end
@@ -417,7 +423,7 @@ ins_x {
     return sub_separator
   end,
   color = { fg = colours.mid_dark_gray.hex },
-  padding = {0},
+  padding = { left = 1 },
   cond = conditions.check_line_filetype,
 }
 

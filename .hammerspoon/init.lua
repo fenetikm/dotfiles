@@ -338,6 +338,8 @@ sk['r'] = bindKey('r', function() os.execute(G.yabai_path .. ' --restart-service
 -- when more than one app then insert accordingly
 -- e.g. put this app on space two, in position 1
 --
+--another one re sending something to space 6 and in the middle etc.
+--"present"
 -- todo2:
 -- - balancing/layout keys to set it to 1/3, 2/3 vs 1/2, 1/2 vs 2/3, 1/3
 -- - asd?
