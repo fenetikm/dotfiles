@@ -154,7 +154,7 @@ sketchybar \
    --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
    --subscribe battery system_woke power_source_change \
    --add item toggl right \
-   --set toggl update_freq=60 script="$PLUGIN_DIR/toggl.sh" \
+   --set toggl update_freq=120 script="$PLUGIN_DIR/toggl.sh" \
    --add item focus right \
    --set focus update_freq=30 script="$PLUGIN_DIR/focus.sh" \
    --add item pomo right \
