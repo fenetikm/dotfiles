@@ -4,7 +4,7 @@ return {
     dependencies = {
       'nvim-lua/plenary.nvim',
       {
-        "seanbreckenridge/gitsigns-yadm.nvim",
+        "purarue/gitsigns-yadm.nvim",
         opts = {
             shell_timeout_ms = 1000,
         },
