@@ -213,7 +213,7 @@ local current_path = function()
 end
 
 local diagnostic_ok = function()
-  if (#vim.lsp.get_active_clients()) == 0 then return '' end
+  if (#vim.lsp.get_clients()) == 0 then return '' end
   local diagnostics = vim.diagnostic.get(0)
   local error_count, warning_count
   local count = { 0, 0, 0, 0 }
