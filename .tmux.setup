@@ -1,0 +1,10 @@
+#!/usr/bin/env zsh
+
+if [[ $# -eq 0 ]]; then
+  # nothing to do here?
+  echo "No arguments supplied, requires name of session."
+  exit 0
+fi
+
+echo "hello from ~ .tmux.setup"
+echo $1
