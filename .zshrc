@@ -194,8 +194,16 @@ tmux-rename-window() {
   tmux rename-window $1
 }
 
+tmux-setup() {
+  if [[ -x ./.tmux.setup ]]; then
+      ./.tmux.setup $1
+  elif [[ -x ~/.tmux.setup ]]; then
+      ~/.tmux.setup $1
+  fi
+}
+
 alias ms='~/.config/tmux/split.sh'
-alias mn='~/.config/tmux/new.sh'
+alias mn='~/.config/tmux/new_session.sh'
 alias mpc='~/.config/tmux/pc.sh'
 alias ml='tmux ls'
 alias ma='tmux attach-session'
@@ -266,7 +274,7 @@ hugo-start-server() {
   hugo server -D -F --navigateToChanged --disableFastRender --renderToMemory --port $PORT
 }
 
-# hugo-migrate-images is in .zshenv so it works in neovim shell command
+# note: hugo-migrate-images is in .zshenv so it works in neovim shell command
 alias hi="hugo-migrate-images"
 alias hd="hugo-open-drafts"
 alias hl="hugo-open-latest"

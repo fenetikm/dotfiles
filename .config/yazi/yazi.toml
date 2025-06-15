@@ -1,4 +1,4 @@
 # yazi.toml
-[manager]
+[mgr]
 show_hidden = true
 ratio = [1, 3, 3] #parent, current, preview
