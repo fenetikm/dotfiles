@@ -6,5 +6,5 @@ if [[ $# -eq 0 ]]; then
   exit 0
 fi
 
-echo "hello from ~ .tmux.setup"
-echo $1
+tmux rename-window zsh
+clear

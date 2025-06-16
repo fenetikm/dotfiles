@@ -168,7 +168,7 @@ alias -s css=nvim
 alias -s tpl=nvim
 alias -s yml=nvim
 
-#global aliases, substitute anywhere
+# Global aliases, substitute anywhere
 alias -g L="| less"
 alias -g T="| tail"
 alias -g TL="| tail -20"
@@ -185,30 +185,20 @@ alias gp='git push'
 alias gb='git branch'
 alias g='_f() { if [[ $# == 0 ]]; then git status --short --branch; else git "$@"; fi }; _f'
 
-# tmux
-tmux-new-window() {
-  tmux new-window -n $1
-}
-
-tmux-rename-window() {
-  tmux rename-window $1
-}
-
+# used in new_session
+# either use the .tmux.setup in current directory or from root
 tmux-setup() {
   if [[ -x ./.tmux.setup ]]; then
-      ./.tmux.setup $1
+    ./.tmux.setup $1
   elif [[ -x ~/.tmux.setup ]]; then
-      ~/.tmux.setup $1
+    ~/.tmux.setup $1
+  else
+    echo "Oh noes! Couldn't find a .tmux.setup file."
   fi
 }
 
-alias ms='~/.config/tmux/split.sh'
 alias mn='~/.config/tmux/new_session.sh'
-alias mpc='~/.config/tmux/pc.sh'
-alias ml='tmux ls'
 alias ma='tmux attach-session'
-alias mw='tmux-new-window'
-alias mr='tmux-rename-window'
 
 # robo
 # alias rb='./vendor/bin/robo'
