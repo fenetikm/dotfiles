@@ -150,48 +150,11 @@ local launchOrFocus = function(appName, details)
   end
 end
 
--- from evantravers
--- h = hs.hotkey.modal.new({}, nil)
--- function h:bindHotKeys(mapping)
--- end
--- h:bindHotKeys({})
---
---
--- bindings = {
---   {'Thunderbird', 'b', nil, nil},
---   {'Finder', 'f', nil, nil},
---   {'Slack', 's', nil, nil},
---   {'Google Chrome', 'g', nil, nil},
---   -- {'Brave Browser', 'x', nil},
---   {'kitty', 'space', nil, nil},
---   {'Mail', 'e', nil, nil},
---   {nil, 'e', nil, 'obsidian://open?vault=personal'},
---   {'TablePlus', 'q', nil, nil},
---   {'Notes', 'n', nil, nil},
---   {'Calendar', 'c', nil, nil},
---   {'Jira', 'j', nil, nil},
---   {'Bitbucket', 'k', nil, nil},
---   {'Confluence', 'o', nil, nil},
---   {'Metabase', 'r', nil, nil},
---   {'Omnifocus', 'return', {'\''}, nil},
---   {nil, 'z', nil, 'obsidian://open?vault=zettelkasten'},
---   {nil, 'v', nil, 'obsidian://open?vault=PC'},
---   {'Messages', 'm', nil, nil},
---   {'Music', 'i', nil, nil},
--- }
---
--- hs.fnutils.each(bindings, function(bindingConfig)
---   local appName, globalBind, localBins = table.unpack(bindingConfig)
---   -- if globalBind then
---   -- end
--- end)
-
 hk = {}
 hs.fnutils.each({
   { key = "f", app = "Finder" },
   { key = "s", app = "Slack" },
   { key = "g", app = "Google Chrome" },
-  -- { key = "x", app = "Brave Browser" },
   { key = "space", app = "kitty", yabai_script = "kitty.sh" },
   { key = "e", app = "Mail"},
   { key = "p", url = "obsidian://open?vault=personal" },
@@ -213,12 +176,11 @@ hs.fnutils.each({
 end)
 
 G.reloadWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
-hs.alert.show('Hammerspoon reloaded')
+s('Hammerspoon reloaded')
 
 hk['l'] = hs.hotkey.bind(hyper_mapping, 'l', function() hs.caffeinate.systemSleep() end)
 
 -- begin yabai window management
--- todo: move into another file?
 local yabai = function(args, completion)
   local yabai_output = ""
   local yabai_error = ""
@@ -296,13 +258,6 @@ local bindKey = function(key, fn, modifier)
   return ret
 end
 
--- todo:
--- - qwe for resizing (floats)
--- - maybe flip insertion 1,2,3 to shift +qwe ?
--- - resizing unfloated items - could have one key for position and then another for size
--- - toggle sketchybar window info in title
--- - show all floating windows
-
 -- toggle float
 sk['space'] = bindKey('space', function() yabai_script('float.sh', {}) end)
 
@@ -379,7 +334,7 @@ sk['f'] = bindKey('f', chain_yabai({
 -- full screen but over the top bar
 sk['shift_f'] = bindKey('f', function() yabai_script('resize.sh', {'c', 'fullwindow', '1'}) end, 'shift')
 
--- screen recording sizes, todo something better here re which keys
+-- screen recording sizes, todo: something better here re which keys
 sk['0'] = bindKey('0', function() yabai_script('resize.sh', {'c', '1400,900', '1'}) end)
 -- gif recording
 sk['9'] = bindKey('9', function() yabai_script('resize.sh', {'c', '700,450', '1'}) end)
@@ -387,7 +342,7 @@ sk['9'] = bindKey('9', function() yabai_script('resize.sh', {'c', '700,450', '1'
 -- balance widths of the things
 sk['b'] = bindKey('b', function() yabai({'-m', 'space', '--balance'}) end)
 
--- set mode, todo better here, made one key and cycle?
+-- set mode, todo: better here, maybe one key and cycle? or a selector
 sk['z'] = bindKey('z', function() yabai({'-m', 'space', '--layout', 'bsp'}) end)
 sk['x'] = bindKey('x', function() yabai({'-m', 'space', '--layout', 'float'}) end)
 sk['c'] = bindKey('c', function() yabai({'-m', 'space', '--layout', 'stack'}) end)
@@ -396,6 +351,8 @@ sk['c'] = bindKey('c', function() yabai({'-m', 'space', '--layout', 'stack'}) en
 sk['g'] = bindKey('g', function() yabai_script('resize.sh', {'c', 'x'}) end)
  
 -- "smart" minimise
+-- if there is more than one window then use the minimise action
+-- otherwise use "hide"
 sk['m'] = bindKey('m', function()
   local frontmost = hs.application.frontmostApplication()
   local frontmost_windows = frontmost:allWindows()
@@ -405,31 +362,6 @@ sk['m'] = bindKey('m', function()
     frontmost:hide()
   end
 end)
-
--- todo: update to the bindKey style
-yabai_mode:bind('shift', 'm', function()
-  local frontmost = hs.application.frontmostApplication()
-  frontmost:hide()
-  yabai_mode:exit()
-end)
-
--- warp (split at the insert)
--- yabai_mode:bind('control+shift', 'h', function()
---   yabai({'-m', 'window', '--swap', 'west'})
---   yabai_mode:exit()
--- end)
--- yabai_mode:bind('control+shift', 'l', function()
---   yabai({'-m', 'window', '--swap', 'east'})
---   yabai_mode:exit()
--- end)
--- yabai_mode:bind('control+shift', 'j', function()
---   yabai({'-m', 'window', '--swap', 'south'})
---   yabai_mode:exit()
--- end)
--- yabai_mode:bind('control+shift', 'k', function()
---   yabai({'-m', 'window', '--swap', 'north'})
---   yabai_mode:exit()
--- end)
 
 -- todo: update to the bindKey style
 -- send to space and focus
