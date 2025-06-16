@@ -285,9 +285,10 @@ yabai_mode:bind('', 'escape', function()
   yabai_mode:exit()
 end)
 
-local bindKey = function(key, fn)
+local bindKey = function(key, fn, modifier)
+  modifier = modifier or ''
   local ret
-  ret = yabai_mode:bind('', key, function()
+  ret = yabai_mode:bind(modifier, key, function()
     fn()
     yabai_mode:exit()
   end)
@@ -305,30 +306,12 @@ end
 -- toggle float
 sk['space'] = bindKey('space', function() yabai_script('float.sh', {}) end)
 
+-- hide all floats on current space
+sk['shift_space'] = bindKey('space', function() yabai_script('hide_floats.sh', {}) end, 'shift')
+
 -- reload
 sk['r'] = bindKey('r', function() os.execute(G.yabai_path .. ' --restart-service') end)
 
--- resize.sh - args: position size float (defaults to no)
-
--- I don't use the z and c much, pointless? replace with 1/3 versions?
--- Also maybe shift zxc to go straight to the smaller version? wouldn't need the chain then
--- Todo: currently broken
--- sk['z'] = bindKey('z', chain_yabai({
---   { 'resize.sh', {'1', '2'} },
---   { 'resize.sh', {'1', '1'} },
--- }))
--- sk['x'] = bindKey('x', chain_yabai({
---   { 'resize.sh', {'2', '2'} },
---   { 'resize.sh', {'2', '1'} },
--- }))
--- sk['c'] = bindKey('c', chain_yabai({
---   { 'resize.sh', {'3', '2'} },
---   { 'resize.sh', {'3', '1'} },
--- }))
-
--- todo: replace hyper one with this one, add in support for running scripts after hyper
--- sk['k'] = hs.hotkey.bind(screen_mapping, 'k', function() yabai_script('kitty.sh', {}) end)
---
 -- todo: new idea:
 -- - more explicit, ok to be multi key
 -- - <key> <space> <position>
@@ -342,10 +325,28 @@ sk['r'] = bindKey('r', function() os.execute(G.yabai_path .. ' --restart-service
 --"present"
 -- todo2:
 -- - balancing/layout keys to set it to 1/3, 2/3 vs 1/2, 1/2 vs 2/3, 1/3
--- - asd?
-sk['q'] = bindKey('q', function() yabai_script('resize.sh', {'x', '13', '0', '1'}) end)
-sk['w'] = bindKey('w', function() yabai_script('resize.sh', {'x', '12', '0', '1'}) end)
-sk['e'] = bindKey('e', function() yabai_script('resize.sh', {'x', '23', '0', '1'}) end)
+-- - asd? home row probs better here, also could use wasd for doing the things instead of hjkl for ease
+-- ... or put everything under hjkl for ease?! could be nice!
+-- so hjkl for move
+-- shift hjkl for layout
+-- ctrl hjkl for insert
+-- meta hjkl for ?
+
+-- move / swap
+sk['h'] = bindKey('h', function() yabai({'-m', 'window', '--swap', 'west'}) end)
+sk['j'] = bindKey('j', function() yabai({'-m', 'window', '--swap', 'south'}) end)
+sk['k'] = bindKey('k', function() yabai({'-m', 'window', '--swap', 'north'}) end)
+sk['l'] = bindKey('l', function() yabai({'-m', 'window', '--swap', 'east'}) end)
+
+-- layout sizing
+sk['shift_h'] = bindKey('h', function() yabai_script('resize.sh', {'x', '13', '0', '1'}) end, 'shift')
+sk['shift_j'] = bindKey('j', function() yabai_script('resize.sh', {'x', '12', '0', '1'}) end, 'shift')
+sk['shift_k'] = bindKey('k', function() yabai_script('resize.sh', {'x', '23', '0', '1'}) end, 'shift')
+
+-- insert current window into position and balance
+sk['ctrl_h'] = bindKey('h', function() yabai_script('insert.sh', {'1'}) end, 'control')
+sk['ctrl_j'] = bindKey('j', function() yabai_script('insert.sh', {'2'}) end, 'control')
+sk['ctrl_k'] = bindKey('k', function() yabai_script('insert.sh', {'3'}) end, 'control')
 
 -- todo3:
 -- - when we have two floated things, want to put them side by side, keeping the size they are currently at
@@ -355,8 +356,6 @@ sk['e'] = bindKey('e', function() yabai_script('resize.sh', {'x', '23', '0', '1'
 --
 -- todo5:
 -- - when dragging a window, how to float whilst dragging? some other hot key, or double tap f19?!
---
--- todo6: shift left, right @done:
 
 -- send to other display
 sk['comma'] = bindKey(',', function() yabai_script('send_display.sh', {'2'}) end)
@@ -378,45 +377,23 @@ sk['f'] = bindKey('f', chain_yabai({
 }))
 
 -- full screen but over the top bar
-yabai_mode:bind('shift', 'f', function()
-  yabai_script('resize.sh', {'c', 'fullwindow', '1'})
-  yabai_mode:exit()
-end)
+sk['shift_f'] = bindKey('f', function() yabai_script('resize.sh', {'c', 'fullwindow', '1'}) end, 'shift')
 
--- screen recording sizes
+-- screen recording sizes, todo something better here re which keys
 sk['0'] = bindKey('0', function() yabai_script('resize.sh', {'c', '1400,900', '1'}) end)
 -- gif recording
 sk['9'] = bindKey('9', function() yabai_script('resize.sh', {'c', '700,450', '1'}) end)
 
--- insert current window into position and balance
--- haven't used for a long time, todo: revisit?
--- sk['q'] = bindKey('q', function() yabai_script('insert.sh', {'1'}) end)
--- sk['w'] = bindKey('w', function() yabai_script('insert.sh', {'2'}) end)
--- sk['e'] = bindKey('e', function() yabai_script('insert.sh', {'3'}) end)
-
--- toggle what happens when dropping a window on another
--- I never use this...
--- sk['p'] = bindKey('p', function() yabai_script('toggle_drop.sh', {}) end)
-
+-- balance widths of the things
 sk['b'] = bindKey('b', function() yabai({'-m', 'space', '--balance'}) end)
 
--- set mode
+-- set mode, todo better here, made one key and cycle?
 sk['z'] = bindKey('z', function() yabai({'-m', 'space', '--layout', 'bsp'}) end)
 sk['x'] = bindKey('x', function() yabai({'-m', 'space', '--layout', 'float'}) end)
 sk['c'] = bindKey('c', function() yabai({'-m', 'space', '--layout', 'stack'}) end)
 
 -- center
 sk['g'] = bindKey('g', function() yabai_script('resize.sh', {'c', 'x'}) end)
-
--- todo: zxc
--- - position 123
--- - resize 1/3, 1/2, 2/3? do that on a cycle
--- what I want to be able to do, is on screen 6, put something
-
--- todo:
--- - normal 'm' to hide app ()
--- - shift 'm' to minimize window
--- - how about `m` hides an app if only one window, otherwise the window? shift+h to hide app either way
  
 -- "smart" minimise
 sk['m'] = bindKey('m', function()
@@ -429,51 +406,10 @@ sk['m'] = bindKey('m', function()
   end
 end)
 
+-- todo: update to the bindKey style
 yabai_mode:bind('shift', 'm', function()
   local frontmost = hs.application.frontmostApplication()
   frontmost:hide()
-  yabai_mode:exit()
-end)
-
--- hide all floats on current space
-yabai_mode:bind('shift', 'space', function()
-  yabai_script('hide_floats.sh', {})
-  yabai_mode:exit()
-end)
-
--- focus, rarely needed but makes sense for the basic direction keys
--- yabai_mode:bind('', 'h', function()
---   yabai({'-m', 'window', '--focus', 'west'})
---   yabai_mode:exit()
--- end)
--- yabai_mode:bind('', 'l', function()
---   yabai({'-m', 'window', '--focus', 'east'})
---   yabai_mode:exit()
--- end)
--- yabai_mode:bind('', 'j', function()
---   yabai({'-m', 'window', '--focus', 'south'})
---   yabai_mode:exit()
--- end)
--- yabai_mode:bind('', 'k', function()
---   yabai({'-m', 'window', '--focus', 'north'})
---   yabai_mode:exit()
--- end)
-
--- swap
-yabai_mode:bind('', 'h', function()
-  yabai({'-m', 'window', '--swap', 'west'})
-  yabai_mode:exit()
-end)
-yabai_mode:bind('', 'l', function()
-  yabai({'-m', 'window', '--swap', 'east'})
-  yabai_mode:exit()
-end)
-yabai_mode:bind('', 'j', function()
-  yabai({'-m', 'window', '--swap', 'south'})
-  yabai_mode:exit()
-end)
-yabai_mode:bind('', 'k', function()
-  yabai({'-m', 'window', '--swap', 'north'})
   yabai_mode:exit()
 end)
 
@@ -495,24 +431,7 @@ end)
 --   yabai_mode:exit()
 -- end)
 
--- insert, set split position
--- yabai_mode:bind('control', 'h', function()
---   yabai({'-m', 'window', '--insert', 'west'})
---   yabai_mode:exit()
--- end)
--- yabai_mode:bind('control', 'l', function()
---   yabai({'-m', 'window', '--insert', 'east'})
---   yabai_mode:exit()
--- end)
--- yabai_mode:bind('control', 'j', function()
---   yabai({'-m', 'window', '--insert', 'south'})
---   yabai_mode:exit()
--- end)
--- yabai_mode:bind('control', 'k', function()
---   yabai({'-m', 'window', '--insert', 'north'})
---   yabai_mode:exit()
--- end)
-
+-- todo: update to the bindKey style
 -- send to space and focus
 yabai_mode:bind('shift', '1', function()
   yabai({'-m', 'window', '--space', '1'}, function()
@@ -546,14 +465,7 @@ yabai_mode:bind('shift', '5', function()
 end)
 yabai_mode:bind('shift', '6', function()
   yabai({'-m', 'window', '--space', '6'}, function()
-    yabai({'-m', 'space', '--focus', '5'})
+    yabai({'-m', 'space', '--focus', '6'})
     yabai_mode:exit()
   end)
 end)
-
--- stack the current window with the one currently underneath the mouse
--- comment out while I try both mode and non-mode versions
--- yabai_mode:bind('', 's', function()
---   yabai({'-m', 'window', '--stack', 'mouse'})
---   yabai_mode:exit()
--- end)
