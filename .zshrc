@@ -197,7 +197,7 @@ tmux-setup() {
   fi
 }
 
-alias mn='~/.config/tmux/new_session.sh'
+alias mn='~/.config/tmux/sesh.sh'
 alias ma='tmux attach-session'
 
 # robo
