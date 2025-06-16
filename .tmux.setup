@@ -1,10 +1,10 @@
 #!/usr/bin/env zsh
 
 if [[ $# -eq 0 ]]; then
-  # nothing to do here?
-  echo "No arguments supplied, requires name of session."
+  echo "Missing argument for session name."
   exit 0
 fi
 
+tmux rename-session $1
 tmux rename-window zsh
 clear
