@@ -5,6 +5,8 @@
 -- fix line gaps, probs need a "has diagnostics" and "has search" condition
 -- note: the | separator is left aligned
 -- put a sep between diff count and branch?
+-- in the position indicator, can put little dots when there is no number or leading 0 maybe... diff colour for the leading zero?
+-- can we find a less heavy "line" for the status line fill?
 
 local colours = require('falcon.colours')
 local width_threshold = 120
