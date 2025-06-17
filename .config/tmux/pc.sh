@@ -6,24 +6,30 @@ SESSION_NAME=pcp
 
 tmux new-window -t $SESSION_NAME:2 -n 'php'
 tmux new-window -t $SESSION_NAME:3 -n 'aptible'
+tmux new-window -t $SESSION_NAME:4 -n 'down'
 
 ## PHP Window
 tmux select-window -t $SESSION_NAME:2
 tmux split-window -h -l70
 
 tmux select-pane -t 1
-tmux send-keys "~pcp" C-m
-tmux send-keys "vl ep" C-m
+tmux send-keys '~pcp' C-m
+tmux send-keys 'vl ep' C-m
 tmux select-pane -t 2
-tmux send-keys "~pcp" C-m
-tmux send-keys "php -a" C-m
+tmux send-keys '~pcp' C-m
+tmux send-keys 'php -a' C-m
 tmux select-pane -t 1
 
 ## Aptible
 tmux select-window -t $SESSION_NAME:3
 tmux send-keys "~pcp" C-m
 
-## Main Window
+## Downloads
+tmux select-window -t $SESSION_NAME:4
+tmux rename-window 'down'
+tmux send-keys '~down' C-m
+
+## Code
 tmux select-window -t $SESSION_NAME:1
 tmux rename-window 'code'
 tmux split-window -h -l70
