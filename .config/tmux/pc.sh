@@ -4,11 +4,11 @@ SESSION_NAME=$(tmux display-message -p '#S')
 tmux rename-session -t $SESSION_NAME pcp
 SESSION_NAME=pcp
 
-tmux new-window -t $SESSION_NAME:2 -n 'php'
+tmux new-window -t $SESSION_NAME:2 -n 'repl'
 tmux new-window -t $SESSION_NAME:3 -n 'aptible'
 tmux new-window -t $SESSION_NAME:4 -n 'down'
 
-## PHP Window
+## PHP repl Window
 tmux select-window -t $SESSION_NAME:2
 tmux split-window -h -l70
 
@@ -26,7 +26,6 @@ tmux send-keys "~pcp" C-m
 
 ## Downloads
 tmux select-window -t $SESSION_NAME:4
-tmux rename-window 'down'
 tmux send-keys '~down' C-m
 
 ## Code
