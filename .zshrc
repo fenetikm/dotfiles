@@ -146,7 +146,7 @@ alias sv='sudo nvim'
 alias vl='run_vim_leader'
 
 edit-latest() {
-  nvim "$(find . -name '*.*' -print0 -maxdepth 1 | xargs -0 stat -f "%m %N" | sort -rn | head -1 | cut -f2- -d" ")"
+  nvim "$(find . -type f \( -name '*.md' -o -name '*.txt' -o -name '*.json' -o -name '*.csv' -o -name '*.yml' \) -print0 -maxdepth 1 | xargs -0 stat -f "%m %N" | sort -rn | head -1 | cut -f2- -d" ")"
 }
 alias el="edit-latest"
 
