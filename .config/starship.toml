@@ -8,7 +8,8 @@ command_timeout = 2000
 format = """
 $jobs\
 $username\
-$character
+$character\
+${custom.osc133}\
 """
 
 # right prompt
@@ -76,4 +77,11 @@ style = "fg:#707082"
 [custom.git_status]
 command = "~/.config/starship/git_status.sh"
 when = "true"
+format = "$output"
+
+# Put in a special OSC 133 (prompt indicator)
+[custom.osc133]
+command = 'echo "\\e]133;A\\e\\"'
+when = "true"
+unsafe_no_escape = true
 format = "$output"
