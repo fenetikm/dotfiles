@@ -81,6 +81,7 @@ when = "true"
 format = "$output"
 
 # Special OSC 133 for prompt start / end indication
+# See https://gitlab.freedesktop.org/Per_Bothner/specifications/blob/master/proposals/semantic-prompts.md
 [custom.prompt_start]
 command = 'echo "\\e]133;A\\e\\"'
 when = "true"

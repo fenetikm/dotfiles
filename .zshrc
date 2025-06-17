@@ -167,6 +167,7 @@ alias -s scss=nvim
 alias -s css=nvim
 alias -s tpl=nvim
 alias -s yml=nvim
+alias -s md=glow -p
 
 # Global aliases, substitute anywhere
 alias -g L="| less"
