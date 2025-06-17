@@ -6,10 +6,11 @@ command_timeout = 2000
 
 # left prompt
 format = """
+${custom.prompt_start}\
 $jobs\
 $username\
 $character\
-${custom.osc133}\
+${custom.prompt_end}\
 """
 
 # right prompt
@@ -79,9 +80,15 @@ command = "~/.config/starship/git_status.sh"
 when = "true"
 format = "$output"
 
-# Put in a special OSC 133 (prompt indicator)
-[custom.osc133]
+# Special OSC 133 for prompt start / end indication
+[custom.prompt_start]
 command = 'echo "\\e]133;A\\e\\"'
+when = "true"
+unsafe_no_escape = true
+format = "$output"
+
+[custom.prompt_end]
+command = 'echo "\\e]133;B\\e\\"'
 when = "true"
 unsafe_no_escape = true
 format = "$output"
