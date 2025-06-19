@@ -20,6 +20,8 @@
 # - 1 = turn on float
 # layout:
 # - 1 = affect layout instead of the window, extract into different thing? probs, looks simple
+# space:
+# - # = number of the space, 0 = don't move to space
 #
 # todo: allow resizing of non-floated windows
 # - refactor into separate methods?
@@ -68,54 +70,69 @@ if [[ "$DO_LAYOUT" == "" ]]; then
   DO_LAYOUT=0
 fi
 
+SPACE="$5"
+if [[ "$SPACE" == "" ]]; then
+  SPACE=0
+fi
+
 yd "$POSITION" "position"
 yd "$SIZE" "size"
 yd "$DO_FLOAT" "float"
 yd "$DO_LAYOUT" "layout"
+yd "$SPACE" "space"
 
 if [[ $(echo "$W" | jq -re '."is-floating"') == false && "$DO_FLOAT" == 1 ]]; then
   yabai -m window "$WID" --toggle float
 fi
 
+send_space() {
+  if [[ "$SPACE" == "0" ]]; then
+    return;
+  fi
+
+  # todo: handle space that doesn't exist
+  yabai -m window "$WID" --space "$SPACE"
+}
+
 resize_layout() {
-  WINDOW_COUNT=$(yabai -m query --windows --space | jq '[.[] | select(."is-visible" == true and ."is-floating" == false)] | length')
+  local WINDOW_COUNT=$(yabai -m query --windows --space | jq '[.[] | select(."is-visible" == true and ."is-floating" == false)] | length')
   yd "$WINDOW_COUNT" "window count"
 
   if [[ "$WINDOW_COUNT" != 2 ]]; then
     exit 0 # nothing to do, doesn't make sense
   fi
 
-  if [[ "$1" == "x" ]]; then
+  if [[ "$SIZE" == "x" ]]; then
     exit 0
-  elif [[ "$1" == "13" ]]; then
+  elif [[ "$SIZE" == "13" ]]; then
     yabai -m window "$WID" --ratio "abs:0.333334"
-  elif [[ "$1" == "12" ]]; then
+  elif [[ "$SIZE" == "12" ]]; then
     yabai -m window "$WID" --ratio "abs:0.5"
-  elif [[ "$1" == "23" ]]; then
+  elif [[ "$SIZE" == "23" ]]; then
     yabai -m window "$WID" --ratio "abs:0.666667"
   fi
 }
 
 resize_window() {
-  if [[ "$1" == "x" ]]; then
+  if [[ "$SIZE" == "x" ]]; then
     # do nothing
-  elif [[ "$1" =~ ".,." ]]; then
+  elif [[ "$SIZE" =~ ".,." ]]; then
     # specific size
-    WINDOW_WIDTH=$(echo "$1" | cut -d "," -f 1)
-    WINDOW_HEIGHT=$(echo "$1" | cut -d "," -f 2)
+    WINDOW_WIDTH=$(echo "$SIZE" | cut -d "," -f 1)
+    WINDOW_HEIGHT=$(echo "$SIZE" | cut -d "," -f 2)
 
     yabai -m window "$WID" --resize abs:"$WINDOW_WIDTH":"$WINDOW_HEIGHT"
-  elif [[ "$1" == "12" ]]; then
+  elif [[ "$SIZE" == "12" ]]; then
     WINDOW_WIDTH=$(( ("$WINDOW_WIDTH" - "$GAP") / 2))
     yabai -m window --grid '1:2:0:0:1:1'
-  elif [[ "$1" == "13" ]]; then
+  elif [[ "$SIZE" == "13" ]]; then
     WINDOW_WIDTH=$(( ("$WINDOW_WIDTH" - ("$GAP" * 2)) / 3))
     yabai -m window --grid '12:12:0:0:3:12'
-  elif [[ "$1" == "23" ]]; then
+  elif [[ "$SIZE" == "23" ]]; then
     # fixme: account for gap so this lines up with thirds
     WINDOW_WIDTH=$(( "$WINDOW_WIDTH" / 3 * 2))
     yabai -m window --grid '12:12:0:0:9:12'
-  elif [[ "$1" == "full" ]]; then
+  elif [[ "$SIZE" == "full" ]]; then
     # todo: handling when video is larger than screen
     if [[ "$APP" == '"VLC"' ]]; then
       # do I even need to care about the chrome?
@@ -137,11 +154,8 @@ resize_window() {
 
       yabai -m window --grid '1:1:0:0:1:1'
     fi
-  elif [[ "$1" == "fullwindow" ]]; then
+  elif [[ "$SIZE" == "fullwindow" ]]; then
     yabai -m window --toggle windowed-fullscreen
-
-    # early exit, doesn't need to position
-    exit 1
   fi
 }
 
@@ -152,26 +166,27 @@ position_window() {
   if [[ "$DISPLAY_IDX" == 2 ]]; then
     DISPLAY_X_OFFSET=$((0 - "$DISPLAY_WIDTH"))
   fi
-  if [[ "$1" == "c" ]]; then # centre window
+  if [[ "$POSITION" == "c" ]]; then # centre window
     # don't have to worry about padding since abs?
     NEW_X=$(( "$DISPLAY_X_OFFSET" + (("$DISPLAY_WIDTH" - "$WINDOW_WIDTH") / 2) ))
-    NEW_Y=$(( "$BAR_HEIGHT + "$PADDING" + (("$VIEWABLE_HEIGHT" - "$WINDOW_HEIGHT") / 2) ))
+    NEW_Y=$(( "$BAR_HEIGHT" + "$PADDING" + (("$VIEWABLE_HEIGHT" - "$WINDOW_HEIGHT") / 2) ))
 
     yabai -m window "$WID" --move abs:$NEW_X:$NEW_Y
-  elif [[ "$1" == "1" || "$1" == "2" || "$1" == "3" ]]; then
-    POS=$(( "$1" - 1))
+  elif [[ "$POSITION" == "1" || "$POSITION" == "2" || "$POSITION" == "3" ]]; then
+    POS=$(( "$POSITION" - 1 ))
     yabai -m window --grid '1:3:'"$POS"'0:1:1'
-  elif [[ "$1" == "a" || "$1" == "b" ]]; then
-    POS=$(( "$1" - 1))
+  elif [[ "$POSITION" == "a" || "$POSITION" == "b" ]]; then
+    POS=$(( "$POSITION" - 1 ))
     yabai -m window --grid '1:3:'"$POS"'0:1:1'
   fi
 
-  exit 1
+  exit 0
 }
 
 if [[ "$DO_LAYOUT" == 1 ]]; then
-  resize_layout "$2"
+  resize_layout
 else
-  resize_window "$2"
-  position_window "$1"
+  resize_window
+  position_window
+  send_space
 fi

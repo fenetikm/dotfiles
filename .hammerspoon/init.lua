@@ -334,8 +334,9 @@ sk['f'] = bindKey('f', chain_yabai({
 -- full screen but over the top bar
 sk['shift_f'] = bindKey('f', function() yabai_script('resize.sh', {'c', 'fullwindow', '1'}) end, 'shift')
 
+-- todo: be able to do the below with a browser tab
 -- presentation
-sk['p'] = bindKey('p', function() yabai_script('resize.sh', {'c', '1600,900', '1'}) end, 'shift')
+sk['p'] = bindKey('p', function() yabai_script('resize.sh', {'c', '1600,900', '1', '0', '6'}) end, 'shift')
 
 -- screen recording sizes, todo: something better here re which keys
 sk['0'] = bindKey('0', function() yabai_script('resize.sh', {'c', '1400,900', '1'}) end)
