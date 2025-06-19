@@ -34,6 +34,7 @@ tmux rename-window 'code'
 tmux split-window -h -l70
 
 tmux select-pane -t 2
+$HOME/.config/tmux/tree_rebuild.sh 1
 tmux send-keys "~pcp" C-m
 tmux send-keys "clear" C-m
 tmux select-pane -t 1

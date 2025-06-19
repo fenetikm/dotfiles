@@ -7,4 +7,5 @@ fi
 
 tmux rename-session $1
 tmux rename-window zsh
+$HOME/.config/tmux/tree_rebuild.sh 1
 clear
