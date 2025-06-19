@@ -200,6 +200,7 @@ tmux-setup() {
 
 alias mn='~/.config/tmux/sesh.sh'
 alias ma='tmux attach-session'
+alias mw='tmux new-window -n'
 
 # robo
 # alias rb='./vendor/bin/robo'
