@@ -90,8 +90,8 @@ send_space() {
     return;
   fi
 
-  # todo: handle space that doesn't exist
-  yabai -m window "$WID" --space "$SPACE"
+  # todo: handle space that doesn't exist, create?
+  yabai -m window "$WID" --space "$SPACE" --focus
 }
 
 resize_layout() {
@@ -179,8 +179,6 @@ position_window() {
     POS=$(( "$POSITION" - 1 ))
     yabai -m window --grid '1:3:'"$POS"'0:1:1'
   fi
-
-  exit 0
 }
 
 if [[ "$DO_LAYOUT" == 1 ]]; then

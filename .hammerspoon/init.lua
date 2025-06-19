@@ -38,10 +38,9 @@ G.alert_style = {
   textSize = 18,
   radius = 18,
   atScreenEdge = 2,
-  strokeColor = { white = 1, alpha = 0 },
   fadeInDuration = 0.05,
   fadeOutDuration = 0.05,
-  padding = 6
+  padding = 8
 }
 
 s = function(message)
@@ -88,8 +87,7 @@ end
 
 -- this is faster than os.execute with the env arg
 local yabai_script = function(script_name, args)
-  -- hs.alert.show('script')
-  -- hs.alert.show(script_name)
+  -- s('script!')
   local task = hs.task.new(os.getenv('HOME') .. '/.config/yabai/' .. script_name, nil, args)
   local env = task:environment()
   env['PATH'] = env['PATH'] .. ':' .. G.bin_path
@@ -180,6 +178,11 @@ s('Hammerspoon reloaded')
 
 hk['l'] = hs.hotkey.bind(hyper_mapping, 'l', function() hs.caffeinate.systemSleep() end)
 
+hk['='] = hs.hotkey.bind(hyper_mapping, '=', function()
+  hs.reload()
+  s('Hammerspoon config reloaded')
+end)
+
 -- begin yabai window management
 local yabai = function(args, completion)
   local yabai_output = ""
@@ -264,7 +267,7 @@ sk['space'] = bindKey('space', function() yabai_script('float.sh', {}) end)
 -- hide all floats on current space
 sk['shift_space'] = bindKey('space', function() yabai_script('hide_floats.sh', {}) end, 'shift')
 
--- reload
+-- reload yabai
 sk['r'] = bindKey('r', function() os.execute(G.yabai_path .. ' --restart-service') end)
 
 -- todo: new idea:
@@ -335,8 +338,8 @@ sk['f'] = bindKey('f', chain_yabai({
 sk['shift_f'] = bindKey('f', function() yabai_script('resize.sh', {'c', 'fullwindow', '1'}) end, 'shift')
 
 -- todo: be able to do the below with a browser tab
--- presentation
-sk['p'] = bindKey('p', function() yabai_script('resize.sh', {'c', '1600,900', '1', '0', '6'}) end, 'shift')
+-- presentation, doesn't work with p?
+sk['p'] = bindKey('p', function() yabai_script('resize.sh', {'c', '1600,1200', '1', '0', '6'}) end)
 
 -- screen recording sizes, todo: something better here re which keys
 sk['0'] = bindKey('0', function() yabai_script('resize.sh', {'c', '1400,900', '1'}) end)
