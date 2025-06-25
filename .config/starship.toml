@@ -82,6 +82,7 @@ format = "$output"
 
 # Special OSC 133 for prompt start / end indication
 # See https://gitlab.freedesktop.org/Per_Bothner/specifications/blob/master/proposals/semantic-prompts.md
+# See https://sw.kovidgoyal.net/kitty/shell-integration/ for kitty specific things
 [custom.prompt_start]
 command = 'echo "\\e]133;A\\e\\"'
 when = "true"

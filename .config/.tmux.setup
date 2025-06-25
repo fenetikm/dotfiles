@@ -21,6 +21,8 @@ tmux send-keys "v TODO.md" C-m
 # tmux
 tmux select-window -t $SESSION_NAME:3
 tmux split-window -h
+tmux select-pane -t 2
+tmux send-keys "~/.config/tmux" C-m
 tmux select-pane -t 1
 tmux send-keys "~" C-m
 tmux send-keys "vl et" C-m

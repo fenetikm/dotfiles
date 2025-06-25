@@ -4,23 +4,27 @@
 
 ACTION=$1
 if [[ "$ACTION" == "" ]]; then
-  ACTION="store"
+  ACTION="switch"
 fi
 
-LAST_LOC=`tmux showenv -g TMUX_CURRENT_LOC | sed -E 's/^(.*=)(.*)$/\\2/'`
-CURRENT_LOC=$(tmux display-message -p '#{session_name}:#{window_name}:#{pane_index}')
+if [[ "$ACTION" == "in" ]]; then
+  exit 0
+fi
 
-# hs -c "hs.alert.show('$LAST_LOC')"
-# hs -c "hs.alert.show('$CURRENT_LOC')"
+STATE_FILE="$HOME/.config/tmux/state.zsh"
+
+CURRENT_LOC="$2":"$3"."$4"
+
+source "$STATE_FILE"
 
 case "$ACTION" in
   out)
-    tmux setenv -g TMUX_CURRENT_LOC $(tmux display-message -p '#{session_name}:#{window_name}:#{pane_index}')
+    echo "LAST_LOC=$CURRENT_LOC" > "$STATE_FILE"
     ;;
   in)
-    # tmux setenv -g TMUX_CURRENT_LOC $(tmux display-message -p '#{session_name}:#{window_name}:#{pane_index}')
+    # not used
     ;;
   switch)
-    # tmux switch-client -t "$LAST_LOC"
+    tmux switch-client -t "$LAST_LOC"
     ;;
 esac

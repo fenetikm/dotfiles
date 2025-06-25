@@ -297,6 +297,7 @@ sk['k'] = bindKey('k', function() yabai({'-m', 'window', '--swap', 'north'}) end
 sk['l'] = bindKey('l', function() yabai({'-m', 'window', '--swap', 'east'}) end)
 
 -- layout sizing
+-- maybe change layout to something else besides hkjl
 sk['shift_h'] = bindKey('h', function() yabai_script('resize.sh', {'x', '13', '0', '1'}) end, 'shift')
 sk['shift_j'] = bindKey('j', function() yabai_script('resize.sh', {'x', '12', '0', '1'}) end, 'shift')
 sk['shift_k'] = bindKey('k', function() yabai_script('resize.sh', {'x', '23', '0', '1'}) end, 'shift')
@@ -350,6 +351,7 @@ sk['9'] = bindKey('9', function() yabai_script('resize.sh', {'c', '700,450', '1'
 sk['b'] = bindKey('b', function() yabai({'-m', 'space', '--balance'}) end)
 
 -- set mode, todo: better here, maybe one key and cycle? or a selector
+-- also reset transparency stuff after mode change
 sk['z'] = bindKey('z', function() yabai({'-m', 'space', '--layout', 'bsp'}) end)
 sk['x'] = bindKey('x', function() yabai({'-m', 'space', '--layout', 'float'}) end)
 sk['c'] = bindKey('c', function() yabai({'-m', 'space', '--layout', 'stack'}) end)
