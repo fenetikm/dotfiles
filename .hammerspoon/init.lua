@@ -4,6 +4,7 @@
 -- https://github.com/FelixKratz/SketchyVim also looks fun
 -- vivaldi browser for ricing
 -- https://github.com/ClementTsang/bottom another monitor like btop
+-- https://zzamboni.org/post/my-hammerspoon-configuration-with-commentary/ sendtoomnifocus looks interesting and others
 --
 -- how many layouts do we have for ultrawide:
 -- - 1 browser, 23 kitty
@@ -290,6 +291,30 @@ sk['r'] = bindKey('r', function() os.execute(G.yabai_path .. ' --restart-service
 -- ctrl hjkl for insert
 -- meta hjkl for ?
 
+-- ok, if we did spacefn, what would be the mapping?
+-- probs don't have enough things to require shft/ctrl to do things, also can chain things
+-- prefer home row where possible
+-- another idea: long hold , triggers hs mode? maybe too fiddly
+-- or can we do space, double tap the thing? good for send to space
+-- how about: spacefn+<key> or spacefn+<key><key> is mapped to f19 (go into hammerspoon mode, then sends either key or shift_key?!)
+-- hjkl - select window? we're not going up or down, leave that for mouse
+-- things I want to do regularly:
+-- - move window left/right
+-- - move window to next display (can we do that with left/right?)
+-- - change layout / window sizes: 1/3,1/2,1/4
+-- - center window
+-- - full screen, or focus size
+-- - put window on another space
+-- - present
+-- - toggle float
+-- - reload yabai
+-- - preset sizes
+-- - minimise / hide
+-- less often:
+-- - change space mode: bsp,stack,float
+-- - balance - useless if layout works?
+-- - send to display (remove, instead left/right or send to space)
+
 -- move / swap
 sk['h'] = bindKey('h', function() yabai({'-m', 'window', '--swap', 'west'}) end)
 sk['j'] = bindKey('j', function() yabai({'-m', 'window', '--swap', 'south'}) end)
@@ -338,8 +363,10 @@ sk['f'] = bindKey('f', chain_yabai({
 -- full screen but over the top bar
 sk['shift_f'] = bindKey('f', function() yabai_script('resize.sh', {'c', 'fullwindow', '1'}) end, 'shift')
 
+-- todo: hjkl to select a window, shift to move
+-- - then another for layout I think... above hjkl? yui?
+
 -- todo: be able to do the below with a browser tab
--- presentation, doesn't work with p?
 sk['p'] = bindKey('p', function() yabai_script('resize.sh', {'c', '1600,1200', '1', '0', '6'}) end)
 
 -- screen recording sizes, todo: something better here re which keys

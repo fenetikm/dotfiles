@@ -13,50 +13,50 @@ tmux new-window -t $SESSION_NAME:7 -n 'falcon'
 
 # neovim
 tmux select-window -t $SESSION_NAME:2
+tmux send-keys "~nv" C-m
 tmux split-window -h
 tmux select-pane -t 1
-tmux send-keys "~falcon" C-m
-tmux send-keys "v TODO.md" C-m
+tmux send-keys "v init.lua" C-m
 
 # tmux
 tmux select-window -t $SESSION_NAME:3
-tmux split-window -h
-tmux select-pane -t 2
 tmux send-keys "~/.config/tmux" C-m
+tmux split-window -h
 tmux select-pane -t 1
-tmux send-keys "~" C-m
 tmux send-keys "vl et" C-m
 
 # hammerspoon
 tmux select-window -t $SESSION_NAME:4
+tmux send-keys "~/.hammerspoon" C-m
 tmux split-window -h
 tmux select-pane -t 1
-tmux send-keys "~/.hammerspoon" C-m
 tmux send-keys "v init.lua" C-m
 
 # yabai
 tmux select-window -t $SESSION_NAME:5
+tmux send-keys "~y" C-m
 tmux split-window -h
 tmux select-pane -t 1
-tmux send-keys "~y" C-m
 tmux send-keys "v yabairc" C-m
 
 # sketchybar
 tmux select-window -t $SESSION_NAME:6
+tmux send-keys "~sb" C-m
 tmux split-window -h
 tmux select-pane -t 1
-tmux send-keys "~sb" C-m
 tmux send-keys "v sketchybarrc" C-m
 
 # falcon
 tmux select-window -t $SESSION_NAME:7
+tmux send-keys "~falcon" C-m
 tmux split-window -h
 tmux select-pane -t 1
-tmux send-keys "~falcon" C-m
 tmux send-keys "v TODO.md" C-m
 
 # zsh
 tmux select-window -t $SESSION_NAME:1
 tmux rename-window 'zsh'
 tmux send-keys "~" C-m
+tmux split-window -h
+tmux select-pane -t 1
 tmux send-keys "v .zshrc" C-m

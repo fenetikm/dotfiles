@@ -185,6 +185,6 @@ if [[ "$DO_LAYOUT" == 1 ]]; then
   resize_layout
 else
   resize_window
-  position_window
   send_space
+  position_window
 fi
