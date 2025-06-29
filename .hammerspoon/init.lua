@@ -353,6 +353,7 @@ sk['3'] = bindKey('3', function() yabai({'-m', 'space', '--focus', '3'}) end)
 sk['4'] = bindKey('4', function() yabai({'-m', 'space', '--focus', '4'}) end)
 sk['5'] = bindKey('5', function() yabai({'-m', 'space', '--focus', '5'}) end)
 sk['6'] = bindKey('6', function() yabai({'-m', 'space', '--focus', '6'}) end)
+sk['7'] = bindKey('7', function() yabai({'-m', 'space', '--focus', '7'}) end)
 
 -- float and full screen, then 1600x1200, then 1400x900
 sk['f'] = bindKey('f', chain_yabai({

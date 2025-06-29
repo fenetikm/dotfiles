@@ -76,6 +76,15 @@ setup_space() {
     DISPLAY_ID=1
   fi
 
+  # move space to second display if applicable
+  if [[ "$DISPLAY" == "2" ]]; then
+    SPACE=$(yabai -m query --spaces --space "$SPACE_ID")
+    SPACE_DISPLAY=$(echo "$SPACE" | jq -r '.display')
+    if [[ "$DISPLAY" != "$SPACE_DISPLAY" ]]; then
+      yabai -m space --display 2
+    fi
+  fi
+
   yabai -m space "$SPACE_ID" --label "$NAME"
   yabai -m config --space "$SPACE_ID" layout "$LAYOUT"
   yabai -m display "$DISPLAY_ID" --space "$SPACE_ID"
@@ -87,6 +96,8 @@ setup_space 3 chat stack 1
 setup_space 4 db stack 1
 setup_space 5 dev bsp 2
 setup_space 6 view float 2
+
+yabai -m space --focus 1
 
 # rules
 # unmanaged, exact matches
