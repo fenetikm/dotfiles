@@ -67,12 +67,12 @@ setup_space() {
   echo "Setup space $SPACE_ID : $NAME"
 
   SPACE=$(yabai -m query --spaces --space "$SPACE_ID")
-  if [ -z "$SPACE"]; then
+  if [[ -z "$SPACE" ]]; then
     yabai -m space --create "$DISPLAY"
   fi
 
-  DISPLAY=$(yabai -m query --spaces --space "$DISPLAY_ID")
-  if [ -z "$DISPLAY" ]; then
+  DISPLAY=$(yabai -m query --spaces --display "$DISPLAY_ID")
+  if [[ -z "$DISPLAY" ]]; then
     DISPLAY_ID=1
   fi
 
