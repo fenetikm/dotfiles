@@ -185,10 +185,9 @@ alias gl='git l'
 alias gp='git push'
 alias gb='git branch'
 alias g='_f() { if [[ $# == 0 ]]; then git status --short --branch; else git "$@"; fi }; _f'
-
-# used in new_session
-# either use the .tmux.setup in current directory or from root
+# used in .config/tmux/sesh.sh
 tmux_setup() {
+  # either use the .tmux.setup in current directory or from root
   if [[ -x ./.tmux.setup ]]; then
     ./.tmux.setup $1
   elif [[ -x ~/.tmux.setup ]]; then
@@ -198,6 +197,7 @@ tmux_setup() {
   fi
 }
 
+# tmux aliases
 alias mn='~/.config/tmux/sesh.sh'
 alias ma='tmux attach-session'
 alias mw='tmux new-window -n'
