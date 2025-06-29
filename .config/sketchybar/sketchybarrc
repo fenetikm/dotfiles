@@ -71,32 +71,47 @@ sketchybar \
             padding_left=0 padding_right=0 \
             icon.drawing=off label.drawing=off width=3
 
+SHOW_SYMBOLS=0
 SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
 
-for i in "${!SPACE_ICONS[@]}"
-do
-  sid="$(($i+1))"
-  space=(
-    space="$sid"
-    icon.font="${ICON_FONT}:${ICON_FONT_WEIGHT}:${ICON_SIZE}"
-    icon.padding_left=3
-    icon.padding_right=3
-    padding_left=5
-    padding_right=5
-    label.drawing=off
-    script="$PLUGIN_DIR/space.sh"
-  )
-  SPACE_ICON="${SPACE_ICONS[i]}"
-  case "$SPACE_ICON" in
-    1) SPACE_ICON=" " ;;
-    2) SPACE_ICON=" " ;;
-    3) SPACE_ICON="󰻞 " ;;
-    4) SPACE_ICON="󱘲 " ;;
-    5) SPACE_ICON="󰧛 " ;;
-    6) SPACE_ICON="󰛐 " ;;
-  esac
-  sketchybar --add space space."$sid" left --set space."$sid" "${space[@]}" icon="$SPACE_ICON"
-done
+if [[ "$SHOW_SYMBOLS" == "1" ]]; then
+  for i in "${!SPACE_ICONS[@]}"; do
+    sid="$(($i+1))"
+    space=(
+      space="$sid"
+      icon.font="${ICON_FONT}:${ICON_FONT_WEIGHT}:${ICON_SIZE}"
+      icon.padding_left=3
+      icon.padding_right=3
+      padding_left=5
+      padding_right=5
+      label.drawing=off
+      script="$PLUGIN_DIR/space.sh"
+    )
+    SPACE_ICON="${SPACE_ICONS[i]}"
+    case "$SPACE_ICON" in
+      1) SPACE_ICON=" " ;;
+      2) SPACE_ICON=" " ;;
+      3) SPACE_ICON="󰻞 " ;;
+      4) SPACE_ICON="󱘲 " ;;
+      5) SPACE_ICON="󰧛 " ;;
+      6) SPACE_ICON="󰛐 " ;;
+    esac
+    sketchybar --add space space."$sid" left --set space."$sid" "${space[@]}" icon="$SPACE_ICON"
+  done
+else
+  for i in "${!SPACE_ICONS[@]}"; do
+    sid="$(($i+1))"
+    space=(
+      space="$sid"
+      icon.drawing=off
+      padding_left=2
+      padding_right=2
+      label.drawing=on
+      script="$PLUGIN_DIR/space_no_symbols.sh"
+    )
+    sketchybar --add space space."$sid" left --set space."$sid" "${space[@]}" label="$sid"
+  done
+fi
 
 sketchybar --add item space.spacer_right left \
            --set      space.spacer_right background.drawing=off \
@@ -121,14 +136,6 @@ sketchybar --add item spaces_spacer_right left \
 
 # more left items
 sketchybar \
-  --add item cpu left \
-  --set cpu update_freq=10 script="$PLUGIN_DIR/cpu_load.sh" \
-  --add item disk left \
-  --set disk update_freq=130 script="$PLUGIN_DIR/disk.sh" \
-  --subscribe disk system_woke \
-  --add item timemachine left \
-  --set timemachine update_freq=86400 script="$PLUGIN_DIR/timemachine.sh" \
-  --subscribe timemachine system_woke \
   --add item front_app left \
   --set front_app script="$PLUGIN_DIR/front_app.sh" \
   --subscribe front_app front_app_switched
@@ -153,6 +160,14 @@ sketchybar \
    --add item battery right \
    --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
    --subscribe battery system_woke power_source_change \
+   --add item cpu right \
+   --set cpu update_freq=10 script="$PLUGIN_DIR/cpu_load.sh" \
+   --add item disk right \
+   --set disk update_freq=130 script="$PLUGIN_DIR/disk.sh" \
+   --subscribe disk system_woke \
+   --add item timemachine right \
+   --set timemachine update_freq=86400 script="$PLUGIN_DIR/timemachine.sh" \
+   --subscribe timemachine system_woke \
    --add item toggl right \
    --set toggl update_freq=120 script="$PLUGIN_DIR/toggl.sh" \
    --add item focus right \

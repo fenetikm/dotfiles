@@ -298,10 +298,10 @@ sk['r'] = bindKey('r', function() os.execute(G.yabai_path .. ' --restart-service
 -- or can we do space, double tap the thing? good for send to space
 -- how about: spacefn+<key> or spacefn+<key><key> is mapped to f19 (go into hammerspoon mode, then sends either key or shift_key?!)
 -- hjkl - select window? we're not going up or down, leave that for mouse
--- things I want to do regularly:
+-- things that I want to do regularly:
 -- - move window left/right
 -- - move window to next display (can we do that with left/right?)
--- - change layout / window sizes: 1/3,1/2,1/4
+-- - change layout / window sizes: 1/3,1/2,1/4,2/3
 -- - center window
 -- - full screen, or focus size
 -- - put window on another space
@@ -311,6 +311,7 @@ sk['r'] = bindKey('r', function() os.execute(G.yabai_path .. ' --restart-service
 -- - preset sizes
 -- - minimise / hide
 -- less often:
+-- - go from stack to split easily
 -- - change space mode: bsp,stack,float
 -- - balance - useless if layout works?
 -- - send to display (remove, instead left/right or send to space)
