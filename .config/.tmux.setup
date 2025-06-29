@@ -57,8 +57,17 @@ tmux send-keys "~sb" C-m
 tmux select-pane -t 1
 tmux send-keys "v sketchybarrc" C-m
 
-# falcon
+# karabiner
 tmux select-window -t $SESSION_NAME:7
+tmux send-keys "~/.config/karabiner" C-m
+tmux split-window -h
+tmux select-pane -t 2
+tmux send-keys "~/.config/karabiner" C-m
+tmux select-pane -t 1
+tmux send-keys "vl ek" C-m
+
+# falcon
+tmux select-window -t $SESSION_NAME:8
 tmux send-keys "~falcon" C-m
 tmux split-window -h
 tmux select-pane -t 2
