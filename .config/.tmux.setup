@@ -9,7 +9,8 @@ tmux new-window -t $SESSION_NAME:3 -n 'tmux'
 tmux new-window -t $SESSION_NAME:4 -n 'hammerspoon'
 tmux new-window -t $SESSION_NAME:5 -n 'yabai'
 tmux new-window -t $SESSION_NAME:6 -n 'sketchy'
-tmux new-window -t $SESSION_NAME:7 -n 'falcon'
+tmux new-window -t $SESSION_NAME:7 -n 'karabiner'
+tmux new-window -t $SESSION_NAME:8 -n 'falcon'
 
 # neovim
 tmux select-window -t $SESSION_NAME:2
