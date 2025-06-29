@@ -33,6 +33,6 @@ else
   tmux new-session -ds "$SESSION_NAME" -n setup -c "$DIR"
   tmux select-window -t "$SESSION_NAME":setup
   tmux select-pane -t 1
-  tmux send-keys -t "$SESSION_NAME":setup "tmux-setup $SESSION_NAME" C-m
+  tmux send-keys -t "$SESSION_NAME":setup "tmux_setup $SESSION_NAME" C-m
   switch_to_session "$SESSION_NAME"
 fi

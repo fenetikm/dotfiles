@@ -188,7 +188,7 @@ alias g='_f() { if [[ $# == 0 ]]; then git status --short --branch; else git "$@
 
 # used in new_session
 # either use the .tmux.setup in current directory or from root
-tmux-setup() {
+tmux_setup() {
   if [[ -x ./.tmux.setup ]]; then
     ./.tmux.setup $1
   elif [[ -x ~/.tmux.setup ]]; then
