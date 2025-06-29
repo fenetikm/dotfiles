@@ -29,4 +29,5 @@ if (( "$PERCENTAGE" < 15 )); then
   COLOUR=$ISSUE_COLOUR
 fi
 
+# todo: tweak the left gap on this...
 sketchybar --set "$NAME" label="${LABEL}" label.color="${COLOUR}" drawing=on

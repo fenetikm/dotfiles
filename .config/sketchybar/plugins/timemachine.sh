@@ -31,4 +31,4 @@ fi
 
 DIFF="$DIFF"d
 
-sketchybar --set "$NAME" label="T:${DIFF}" label.color="${COLOUR}" icon.drawing=off padding_right=0
+sketchybar --set "$NAME" label="T:${DIFF}" label.color="${COLOUR}" icon.drawing=off

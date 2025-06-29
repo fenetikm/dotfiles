@@ -39,7 +39,7 @@ if [[ "$SPACE_INFO" == *"could not retrieve"* ]]; then
   TITLE="$TITLE"
 else
   SPACE=$(echo "$SPACE_INFO" | jq -r '.label')
-  TITLE="[${SPACE}] :: $TITLE"
+  TITLE="[${SPACE}]  $TITLE"
 fi
 
 if [[ "$SENDER" = "front_app_switched" ]]; then
