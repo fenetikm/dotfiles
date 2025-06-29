@@ -15,6 +15,8 @@ tmux new-window -t $SESSION_NAME:7 -n 'falcon'
 tmux select-window -t $SESSION_NAME:2
 tmux send-keys "~nv" C-m
 tmux split-window -h
+tmux select-pane -t 2
+tmux send-keys "~nv" C-m
 tmux select-pane -t 1
 tmux send-keys "v init.lua" C-m
 
@@ -22,6 +24,8 @@ tmux send-keys "v init.lua" C-m
 tmux select-window -t $SESSION_NAME:3
 tmux send-keys "~/.config/tmux" C-m
 tmux split-window -h
+tmux select-pane -t 2
+tmux send-keys "~/.config/tmux" C-m
 tmux select-pane -t 1
 tmux send-keys "vl et" C-m
 
@@ -29,6 +33,8 @@ tmux send-keys "vl et" C-m
 tmux select-window -t $SESSION_NAME:4
 tmux send-keys "~/.hammerspoon" C-m
 tmux split-window -h
+tmux select-pane -t 2
+tmux send-keys "~/.hammerspoon" C-m
 tmux select-pane -t 1
 tmux send-keys "v init.lua" C-m
 
@@ -36,6 +42,8 @@ tmux send-keys "v init.lua" C-m
 tmux select-window -t $SESSION_NAME:5
 tmux send-keys "~y" C-m
 tmux split-window -h
+tmux select-pane -t 2
+tmux send-keys "~y" C-m
 tmux select-pane -t 1
 tmux send-keys "v yabairc" C-m
 
@@ -43,6 +51,8 @@ tmux send-keys "v yabairc" C-m
 tmux select-window -t $SESSION_NAME:6
 tmux send-keys "~sb" C-m
 tmux split-window -h
+tmux select-pane -t 2
+tmux send-keys "~sb" C-m
 tmux select-pane -t 1
 tmux send-keys "v sketchybarrc" C-m
 
@@ -50,6 +60,8 @@ tmux send-keys "v sketchybarrc" C-m
 tmux select-window -t $SESSION_NAME:7
 tmux send-keys "~falcon" C-m
 tmux split-window -h
+tmux select-pane -t 2
+tmux send-keys "~falcon" C-m
 tmux select-pane -t 1
 tmux send-keys "v TODO.md" C-m
 
@@ -58,5 +70,7 @@ tmux select-window -t $SESSION_NAME:1
 tmux rename-window 'zsh'
 tmux send-keys "~" C-m
 tmux split-window -h
+tmux select-pane -t 2
+tmux send-keys "~" C-m
 tmux select-pane -t 1
 tmux send-keys "v .zshrc" C-m
