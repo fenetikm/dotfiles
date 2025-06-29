@@ -295,7 +295,7 @@ sk['r'] = bindKey('r', function() os.execute(G.yabai_path .. ' --restart-service
 -- probs don't have enough things to require shft/ctrl to do things, also can chain things
 -- prefer home row where possible
 -- another idea: long hold , triggers hs mode? maybe too fiddly
--- or can we do space, double tap the thing? good for send to space
+-- or can we do space, double tap the thing? good for send to space or even just space and say `!` (shift+1)
 -- how about: spacefn+<key> or spacefn+<key><key> is mapped to f19 (go into hammerspoon mode, then sends either key or shift_key?!)
 -- hjkl - select window? we're not going up or down, leave that for mouse
 -- things that I want to do regularly:
