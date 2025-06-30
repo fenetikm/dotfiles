@@ -30,4 +30,5 @@ if (( "$PERCENTAGE" < 15 )); then
 fi
 
 # todo: tweak the left gap on this...
-sketchybar --set "$NAME" label="${LABEL}" label.color="${COLOUR}" drawing=on
+sketchybar --set "$NAME" label="${LABEL}" label.color="${COLOUR}" drawing=on \
+  icon.drawing=off padding_left=7
