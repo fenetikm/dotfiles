@@ -1,4 +1,7 @@
-# todo: modularise this into separate files e.g. prompt, aliases, fzf etc.
+# todo:
+# - modularise this into separate files e.g. prompt, aliases, fzf etc.
+
+# ======================================================
 # for profiling
 # simple profiling of zsh related things
 # zmodload zsh/zprof
@@ -21,17 +24,16 @@ zstyle ':omz:update' mode disabled
 export ZSH=$HOME/.oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
-# remove the right prompt extra space
+# remove the right prompt extra space at the end
 ZLE_RPROMPT_INDENT=0
 eval "$(starship init zsh)"
 
 # the following is now called from ~/.zshenv
 # source ~/.config/zsh/directory_hashes.zsh
 
-# exa colours
+# eza colours
 source $HOME/Documents/Work/internal/vim/colors/falcon/exa/EXA_COLORS_MODERN
 
-# User configuration.
 export PATH=":/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 export PATH="$PATH:$HOME/.composer/vendor/bin"
 
@@ -47,16 +49,20 @@ bindkey '^N' history-search-forward
 
 # change directory by just typing it's name
 setopt AUTO_CD
+
 # use the hash in the prompt
 setopt AUTO_NAME_DIRS
+
 # push previous directory on to the stack
 setopt AUTO_PUSHD
+
 # don't ignore dups in stack
 unsetopt PUSHD_IGNORE_DUPS
+
 # exchage meanings of + and -
 setopt PUSHD_MINUS
 
-# completion
+# completion options
 setopt AUTO_MENU
 setopt ALWAYS_TO_END
 setopt COMPLETE_IN_WORD
@@ -100,10 +106,10 @@ timezsh() {
 
 alias l='llm -m my-openai'
 alias lq='llm -m mlx-community/Qwen2.5-Coder-14B-Instruct-4bit'
-# alias l='ls -alhF'
-# alias lvr='ls -alR > /dev/null'
 
+# -i to stop overwrite
 alias mv='/bin/mv -i'
+# -i to always ask for confirmation
 alias rm='/bin/rm -i'
 alias srm='sudo /bin/rm -i'
 alias cx='chmod +x'
@@ -111,13 +117,11 @@ alias cx='chmod +x'
 # this thins local snapshots, 50gb, urgency of 4 (highest)
 alias tmthin='tmutil thinlocalsnapshots / $((50 * 1024 * 1024 * 1024)) 4'
 
-# reload
-alias reload="source ~/.zshrc"
-
-# eza (was exa)
+# eza, was exa, nicer ls
 alias e='eza -algB --group-directories-first'
 alias et='eza -algB --tree'
 alias es='eza --oneline --group-directories-first'
+
 alias cat='bat'
 alias c='bat'
 alias ping='prettyping'
@@ -134,6 +138,8 @@ paste_contents() {
 }
 alias paste='paste_contents'
 
+# this supports doing something like `vl et`
+# which loads up the tmux config via the <leader>et mapping
 run_vim_leader() {
   com="NormLead $1"
   nvim -c "$com"
@@ -145,6 +151,7 @@ alias v='nvim'
 alias sv='sudo nvim'
 alias vl='run_vim_leader'
 
+# edit the latest file in the directory
 edit-latest() {
   nvim "$(find . -type f \( -name '*.md' -o -name '*.txt' -o -name '*.json' -o -name '*.csv' -o -name '*.yml' \) -print0 -maxdepth 1 | xargs -0 stat -f "%m %N" | sort -rn | head -1 | cut -f2- -d" ")"
 }
@@ -170,6 +177,7 @@ alias -s yml=nvim
 alias -s md=glow -p
 
 # Global aliases, substitute anywhere
+# e.g. `cat tmp.txt L`
 alias -g L="| less"
 alias -g T="| tail"
 alias -g TL="| tail -20"
@@ -185,6 +193,7 @@ alias gl='git l'
 alias gp='git push'
 alias gb='git branch'
 alias g='_f() { if [[ $# == 0 ]]; then git status --short --branch; else git "$@"; fi }; _f'
+
 # used in .config/tmux/sesh.sh
 tmux_setup() {
   # either use the .tmux.setup in current directory or from root
@@ -202,8 +211,8 @@ alias mn='~/.config/tmux/sesh.sh'
 alias ma='tmux attach-session'
 alias mw='tmux new-window -n'
 
+# todo: shift these into a local thing
 # robo
-# alias rb='./vendor/bin/robo'
 alias rb='~pcp/vendor/bin/robo'
 alias rbd='docker exec -it -w /app nginx-pc vendor/bin/robo'
 
@@ -217,22 +226,13 @@ new-fortnightly () {
   nvim "$FN"
 }
 
-#virtual box
-alias vbox='vboxmanage'
-alias vboxr='vboxmanage list runningvms'
-
-#docker
-alias docker-restart="osascript -e 'quit app \"Docker\"'"
-
+# todo: shift into local stuffs
 # ssh
 alias ventrassh='ssh theoryz4@s03de.syd6.hostingplatform.net.au -p 2683 -i $HOME/.ssh/id_dsa'
 
-#ranger
-alias r='ranger'
-
 alias ..='cd ..'
 
-#hugo
+# hugo stuff
 hugo-new-post () {
   hugo new posts/"$1".md
   nvim "content/posts/$1.md"
