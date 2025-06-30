@@ -2,8 +2,8 @@
 
 # todo:
 # - MAX_WIN is not calculated, just hardcoded
-# - caching of tree
 
+# maximum window title length
 MAX_WIN=16
 OUTPUT=
 ESC_LOC="\e[38;2;87;87;94m"
@@ -34,7 +34,6 @@ for SESH in "${SESH_LINES[@]}"; do
 done
 
 for SESH in "${SESH_LINES[@]}"; do
-  # OUTPUT="${OUTPUT}[${SESH}]\n"
   WINDOWS=$(tmux list-windows -t "$SESH" -F '#{window_name} (#{session_name}:#{window_name})')
   WINDOWS_LINES=(${(f)WINDOWS})
   FIRST=1
