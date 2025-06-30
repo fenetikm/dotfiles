@@ -5,12 +5,12 @@
             "complex_modifications": {
                 "parameters": {
                     "basic.to_delayed_action_delay_milliseconds": 300,
-                    "basic.to_if_alone_timeout_milliseconds": 900,
+                    "basic.to_if_alone_timeout_milliseconds": 700,
                     "basic.to_if_held_down_threshold_milliseconds": 300
                 },
                 "rules": [
                     {
-                        "description": "SpaceFN: Space enables SpaceFN mode (see: https://geekhack.org/index.php?topic=51069.0)",
+                        "description": "SpaceFN: enable spacefn_mode",
                         "manipulators": [
                             {
                                 "from": {
@@ -34,12 +34,13 @@
                                     }
                                 ],
                                 "to_if_alone": [{ "key_code": "spacebar" }],
+                                "parameters": { "basic.to_if_alone_timeout_milliseconds": 200 },
                                 "type": "basic"
                             }
                         ]
                     },
                     {
-                        "description": "SpaceFN: Space+[hjkl] to Left, Down, Up, Right",
+                        "description": "SpaceFN: yabai controls",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -50,8 +51,7 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "h",
-                                    "modifiers": { "optional": ["any"] }
+                                    "key_code": "h"
                                 },
                                 "to": [
                                     { "key_code": "f19" },

@@ -104,8 +104,8 @@ else
     space=(
       space="$sid"
       icon.drawing=off
-      padding_left=2
-      padding_right=2
+      padding_left=3
+      padding_right=3
       label.drawing=on
       script="$PLUGIN_DIR/space_no_symbols.sh"
     )
