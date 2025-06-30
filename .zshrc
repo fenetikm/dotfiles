@@ -275,10 +275,10 @@ alias hn='hugo-new-post'
 alias ht='hugo-new-til'
 alias hk='hugo-new-link'
 
-#love framework
+# love framework
 alias love="/Applications/love.app/Contents/MacOS/love"
 
-#majyk
+# majyk
 devlog() {
   local MON=$(date -v -Mon +"%Y-%m-%d")
   if [[ -e "./content/devlog/$MON.md" ]]; then
@@ -290,7 +290,8 @@ devlog() {
   fi
 }
 
-#rando
+# todo: shift to local
+# rando
 alias dbd='rb db:dump --path="tmp/dump.sql" --sed=gsed --dirty'
 alias dbl='rb db:load --path="tmp/dump.sql"'
 alias dbd2='rb db:dump --path="tmp/dump2.sql" --sed=gsed --dirty'
@@ -300,11 +301,14 @@ alias dbl3='rb db:load --path="tmp/dump3.sql"'
 alias pcload='(cd ~pcp && rb db:load)'
 alias pcup='docker-compose -f misc/docker/docker-compose.yml -f misc/docker/docker-compose.override.yml up -d'
 alias pcdown='docker container stop $(docker container ls -aq)'
+
+# yt things
 alias ytbest='yt-dlp -f bestvideo+bestaudio --merge-output-format=mkv -4 --sleep-requests 2 --sleep-interval 2 --extractor-args "youtube:player-client=web_embedded"'
 alias yt1080='yt-dlp -S "height:1080" --merge-output-format=mkv -4 --sleep-requests 2 --sleep-interval 2 --extractor-args "youtube:player-client=web_embedded"'
 alias yt720='yt-dlp -S "height:720" --merge-output-format=mkv -4 --sleep-requests 2 --sleep-interval 2 --extractor-args "youtube:player-client=web_embedded"'
 alias ytaudio='yt-dlp --extract-audio -4 --sleep-requests 2 --sleep-interval 2 --extractor-args "youtube:player-client=web_embedded" --audio-format mp3 --audio-quality 0'
 
+# add in a secret for dot file mgmt
 secret_add() {
   local FILE=$(realpath $1)
   local FILEPATH="${FILE/"$HOME"\//}"
@@ -314,6 +318,7 @@ secret_add() {
   yadm commit -m "Added encrypted file"
 }
 
+# todo: maybe remove? kinda useless now
 # yabai
 yabai_windows () {
   yabai -m query --windows --space "$1" | jq -c -re '.[] | select(."is-visible" == true) | {id, title, app, "is-floating"}'
@@ -339,10 +344,10 @@ fancy-ctrl-z () {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
+# what does this do?!
 stty start undef stop undef
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-# source < (fzf --zsh)
 
 # fzf for checking out a branch
 fzf_git_checkout() {
@@ -428,6 +433,7 @@ export PATH="$GOPATH/bin:$PATH"
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 export PATH=/Applications/kitty.app/Contents/MacOS:$PATH
 
+# ripgrep config
 # ripgrep configufation
 export RIPGREP_CONFIG_PATH="$HOME/.rgrc"
 
@@ -441,8 +447,6 @@ alias kiw="kitty +kitten icat --align=left --background=#ffffff" #view image
 # generate a clean, up to date kitty config, see https://sw.kovidgoyal.net/kitty/conf/
 alias kc="kitty +runpy 'from kitty.config import *; print(commented_out_default_config())'"
 
-# nvm - replaced with volta
-
 lpass_export() {
   LPASS=`lpass status`
   if [[ "$LPASS" != *"Logged in"* ]]; then
@@ -454,7 +458,7 @@ lpass_export() {
   done <<< "$KEYS"
 }
 
-#load local env keys
+# load local env keys
 local_export() {
   KEYS=`cat ~/.env`
   while read -r key; do
@@ -480,10 +484,10 @@ if [[ ! ${zsh_plugins}.zsh -nt ${zsh_plugins}.txt ]]; then
   antidote bundle <${zsh_plugins}.txt >|${zsh_plugins}.zsh
 fi
 
-# Source your static plugins file.
+# Source the static plugins file
 source ${zsh_plugins}.zsh
 
-#zsh-history-substring-search key bindings
+# zsh-history-substring-search key bindings
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
@@ -530,4 +534,3 @@ fi
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/michaelwelford/.lmstudio/bin"
 # End of LM Studio CLI section
-
