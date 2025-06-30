@@ -7,6 +7,7 @@ PLUGIN_DIR="$CONFIG_DIR/plugins"
 # - click on wifi brings up something
 # - get more info from tmux using list-windows for frontapp
 # - how to get the bar to refresh when timer has started? (for dnd)
+# - put space name next to icons instead of front app thing
 # - items:
 #   - next meeting? not sure I want to look up for those?
 #   - next omnifocus? same ... but could go in the centre
