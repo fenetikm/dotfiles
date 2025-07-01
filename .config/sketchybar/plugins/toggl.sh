@@ -105,6 +105,8 @@ if [[ -n "$TEXT" ]]; then
     padding_right=7 \
     label.padding_right=8 \
     icon.padding_left=8 \
+    icon.y_offset=-1 \
+    y_offset=-1 \
     background.shadow.drawing=on background.shadow.distance=1 \
     background.drawing=on background.color=$BG_COLOUR \
     background.corner_radius=$BG_RADIUS background.height=$BG_HEIGHT

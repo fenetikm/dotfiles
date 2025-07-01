@@ -7,6 +7,7 @@ PLUGIN_DIR="$CONFIG_DIR/plugins"
 # - click on wifi brings up something
 # - get more info from tmux using list-windows for frontapp
 # - how to get the bar to refresh when timer has started? (for dnd)
+# - the background bar / pill, fix y position and height, make it perfect, same for overall text position
 # - items:
 #   - next meeting? not sure I want to look up for those?
 #   - next omnifocus? same ... but could go in the centre
@@ -63,13 +64,16 @@ sketchybar --default "${default[@]}"
 # left items
 sketchybar \
  --add item doge left \
- --set      doge icon=🐶 y_offset=2 label.drawing=off \
-                 icon.font="$ICON_FONT:$ICON_FONT_WEIGHT:14.0" icon.padding_left=0 \
-                 padding_right=11 \
- --add item space.spacer_left left \
- --set      space.spacer_left background.drawing=off \
-            padding_left=0 padding_right=0 \
-            icon.drawing=off label.drawing=off width=3
+ --set doge icon=🐶 y_offset=2 label.drawing=off \
+   icon.font="$ICON_FONT:$ICON_FONT_WEIGHT:14.0" icon.padding_left=0 \
+   padding_right=11
+
+sketchybar \
+  --add item space.spacer_left left \
+  --set space.spacer_left background.drawing=off \
+    padding_left=0 padding_right=0 \
+    icon.drawing=off label.drawing=off \
+    width=3
 
 SHOW_SYMBOLS=0
 SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
@@ -113,28 +117,39 @@ else
   done
 fi
 
-sketchybar --add item space.spacer_right left \
-           --set      space.spacer_right background.drawing=off \
-                      padding_left=0 padding_right=0 \
-                      icon.drawing=off label.drawing=off \
-                      width=3
+sketchybar \
+  --add item space.space_divider left \
+  --set space.space_divider background.drawing=off \
+    icon="|" icon.color="$DIV_COLOUR" label.drawing=off \
+    padding_left=0 padding_right=0 y_offset=-1 \
+    width=10
 
-sketchybar --add bracket spaces '/space\..*/'               \
-           --set         spaces background.color=$BG1_COLOUR \
-                                background.corner_radius=$BG_RADIUS \
-                                background.height=20 \
-                                background.shadow.drawing=on \
-                                background.shadow.distance=1 \
-                                background.border_color=$BG1_BORDER_COLOUR \
-                                background.border_width=$BG_BORDER_WIDTH
+sketchybar \
+  --add item space.space_name left \
+  --set space.space_name \
+    icon.drawing=off \
+    script="$PLUGIN_DIR/front_space.sh" \
+  --subscibe space.space_name front_app_switched
 
-sketchybar --add item spaces_spacer_right left \
-           --set      spaces_spacer_right background.drawing=off \
-                      icon.drawing=off label.drawing=off \
-                      padding_left=0 padding_right=0 \
-                      width=6
+# adds the right padding
+sketchybar \
+  --add item space.spacer_right left \
+  --set space.spacer_right background.drawing=off \
+    icon.drawing=off label.drawing=off \
+    padding_left=0 padding_right=0 \
+    width=6
 
-# more left items
+# notes: the way this works is that all items that match the regex end up in the pill / bracketd item
+sketchybar \
+  --add bracket spaces '/space\..*/' \
+  --set spaces background.color=$BG1_COLOUR \
+    background.corner_radius=$BG_RADIUS \
+    background.height=20 \
+    background.shadow.drawing=on \
+    background.shadow.distance=1 \
+    background.border_color=$BG1_BORDER_COLOUR \
+    background.border_width=$BG_BORDER_WIDTH
+
 sketchybar \
   --add item front_app left \
   --set front_app script="$PLUGIN_DIR/front_app.sh" \
@@ -170,6 +185,7 @@ sketchybar \
    --subscribe timemachine system_woke \
    --add item toggl right \
    --set toggl update_freq=120 script="$PLUGIN_DIR/toggl.sh" \
+   --subscribe toggl system_woke \
    --add item focus right \
    --set focus update_freq=30 script="$PLUGIN_DIR/focus.sh" \
    --add item pomo right \

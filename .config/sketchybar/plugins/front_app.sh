@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env zsh
 
 # todo:
 # - icons for some apps?
@@ -34,14 +34,7 @@ else
   fi
 fi
 
-SPACE_INFO=$(yabai -m query --spaces --space)
-if [[ "$SPACE_INFO" == *"could not retrieve"* ]]; then
-  TITLE="$TITLE"
-else
-  SPACE=$(echo "$SPACE_INFO" | jq -r '.label')
-  TITLE="[${SPACE}]  $TITLE"
-fi
-
+# only update when the app is switched
 if [[ "$SENDER" = "front_app_switched" ]]; then
   sketchybar --set "$NAME" label="${TITLE}" label.color=$DEFAULT_COLOUR icon="${ICON}" padding_left=0
 fi
