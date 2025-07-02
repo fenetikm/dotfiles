@@ -1,17 +1,18 @@
 source "$HOME/.config/sketchybar/vars.sh"
+
 PLUGIN_DIR="$CONFIG_DIR/plugins"
 
 # todo:
 # - different bar for laptop vs ultrawide
 # - diff bar background for pomo, could get rid of the terminal notifier stuff (boo to toasts)
-# - click on wifi brings up something
-# - get more info from tmux using list-windows for frontapp
-# - how to get the bar to refresh when timer has started? (for dnd)
 # - the background bar / pill, fix y position and height, make it perfect, same for overall text position
 # - items:
 #   - next meeting? not sure I want to look up for those?
 #   - next omnifocus? same ... but could go in the centre
 #   - brightness?
+#
+# someday:
+# - click on wifi brings up something
 
 # offset version
 # sketchybar --bar position=top height=32 margin=16 y_offset=16 \
