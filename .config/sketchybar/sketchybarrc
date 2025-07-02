@@ -73,7 +73,7 @@ sketchybar \
   --set space.spacer_left background.drawing=off \
     padding_left=0 padding_right=0 \
     icon.drawing=off label.drawing=off \
-    width=3
+    width=6
 
 SHOW_SYMBOLS=0
 SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
@@ -120,7 +120,7 @@ fi
 sketchybar \
   --add item space.space_divider left \
   --set space.space_divider background.drawing=off \
-    icon="|" icon.color="$DIV_COLOUR" label.drawing=off \
+    icon="•" icon.color="$DIV_COLOUR" label.drawing=off \
     padding_left=0 padding_right=0 y_offset=-1 \
     width=10
 
@@ -129,7 +129,7 @@ sketchybar \
   --set space.space_name \
     icon.drawing=off \
     script="$PLUGIN_DIR/front_space.sh" \
-  --subscibe space.space_name front_app_switched
+  --subscribe space.space_name front_app_switched
 
 # adds the right padding
 sketchybar \

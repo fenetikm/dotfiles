@@ -71,17 +71,17 @@ setup_space() {
     yabai -m space --create "$DISPLAY"
   fi
 
-  DISPLAY=$(yabai -m query --spaces --display "$DISPLAY_ID")
+  DISPLAY=$(yabai -m query --displays --display "$DISPLAY_ID")
   if [[ -z "$DISPLAY" ]]; then
     DISPLAY_ID=1
   fi
 
-  # move space to second display if applicable
-  if [[ "$DISPLAY" == "2" ]]; then
+  # todo: make more general, shift the reverse too
+  if [[ "$DISPLAY_ID" == "2" ]]; then
     SPACE=$(yabai -m query --spaces --space "$SPACE_ID")
     SPACE_DISPLAY=$(echo "$SPACE" | jq -r '.display')
-    if [[ "$DISPLAY" != "$SPACE_DISPLAY" ]]; then
-      yabai -m space --display 2
+    if [[ "$DISPLAY_ID" != "$SPACE_DISPLAY" ]]; then
+      yabai -m space "$SPACE_ID" --display "$DISPLAY_ID"
     fi
   fi
 
@@ -96,8 +96,6 @@ setup_space 3 chat stack 1
 setup_space 4 db stack 1
 setup_space 5 dev bsp 2
 setup_space 6 view float 2
-
-yabai -m space --focus 1
 
 # rules
 # unmanaged, exact matches
@@ -132,3 +130,5 @@ yabai -m signal --add event=application_visible action="$HOME/.config/yabai/appl
 yabai -m signal --add event=window_deminimized action="$HOME/.config/yabai/application_visible.sh"
 yabai -m signal --add event=display_added action="$HOME/.config/yabai/display_added.sh"
 yabai -m signal --add event=application_front_switched action="$HOME/.config/yabai/window_focused.sh"
+
+yabai -m space --focus 1
