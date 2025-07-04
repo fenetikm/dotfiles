@@ -4,58 +4,90 @@
         {
             "complex_modifications": {
                 "parameters": {
-                    "basic.to_delayed_action_delay_milliseconds": 300,
-                    "basic.to_if_alone_timeout_milliseconds": 700,
-                    "basic.to_if_held_down_threshold_milliseconds": 300
+                    "basic.simultaneous_threshold_milliseconds": 50,
+                    "basic.to_delayed_action_delay_milliseconds": 500,
+                    "basic.to_if_alone_timeout_milliseconds": 1000,
+                    "basic.to_if_held_down_threshold_milliseconds": 500
                 },
                 "rules": [
                     {
-                        "description": "SpaceFN: enable spacefn_mode",
+                        "description": "SpaceFN layer",
                         "manipulators": [
                             {
                                 "from": {
-                                    "key_code": "spacebar",
-                                    "modifiers": { "optional": ["any"] }
+                                    "simultaneous": [
+                                        {
+                                            "key_code": "spacebar"
+                                        },
+                                        {
+                                            "key_code": "b"
+                                        }
+                                    ],
+                                    "simultaneous_options": {
+                                        "key_down_order": "strict",
+                                        "key_up_order": "strict_inverse",
+                                        "to_after_key_up": [
+                                            {
+                                                "set_variable": {
+                                                    "name": "SpaceFN",
+                                                    "value": 0
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                "parameters": {
+                                    "basic.simultaneous_threshold_milliseconds": 500
                                 },
                                 "to": [
                                     {
                                         "set_variable": {
-                                            "name": "spacefn_mode",
+                                            "name": "SpaceFN",
                                             "value": 1
                                         }
-                                    }
-                                ],
-                                "to_after_key_up": [
+                                    },
                                     {
-                                        "set_variable": {
-                                            "name": "spacefn_mode",
-                                            "value": 0
-                                        }
+                                        "shell_command": "export PATH=/usr/local/bin:/usr/bin; /bin/zsh ~/.config/yabai/float.sh"
                                     }
                                 ],
-                                "to_if_alone": [{ "key_code": "spacebar" }],
-                                "parameters": { "basic.to_if_alone_timeout_milliseconds": 200 },
                                 "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "SpaceFN: yabai controls",
-                        "manipulators": [
+                            },
                             {
-                                "conditions": [
-                                    {
-                                        "name": "spacefn_mode",
-                                        "type": "variable_if",
-                                        "value": 1
-                                    }
-                                ],
                                 "from": {
-                                    "key_code": "h"
+                                    "simultaneous": [
+                                        {
+                                            "key_code": "spacebar"
+                                        },
+                                        {
+                                            "key_code": "B"
+                                        }
+                                    ],
+                                    "simultaneous_options": {
+                                        "key_down_order": "strict",
+                                        "key_up_order": "strict_inverse",
+                                        "to_after_key_up": [
+                                            {
+                                                "set_variable": {
+                                                    "name": "SpaceFN",
+                                                    "value": 0
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                "parameters": {
+                                    "basic.simultaneous_threshold_milliseconds": 500
                                 },
                                 "to": [
-                                    { "key_code": "f19" },
-                                    { "key_code": "h" }
+                                    {
+                                        "set_variable": {
+                                            "name": "SpaceFN",
+                                            "value": 1
+                                        }
+                                    },
+                                    {
+                                        "shell_command": "export PATH=/usr/local/bin:/usr/bin; /bin/zsh ~/.config/yabai/msg.sh"
+                                    }
                                 ],
                                 "type": "basic"
                             }

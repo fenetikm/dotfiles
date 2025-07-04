@@ -19,12 +19,6 @@
 -- 1 + 23
 -- 1/2 + 1/2
 -- 1 + 1 + 1
---
--- also I like the idea of headspace, which hides apps during a time period
---
--- like freedom I guess, maybe could just use that? or want to migrate away from that?
--- hide:
--- - slack, email... etc.
 
 G = {}
 G.log = hs.logger.new('mw', 'debug')
