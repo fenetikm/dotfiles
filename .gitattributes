@@ -2,3 +2,4 @@
 # test.txt filter=crypt diff=crypt merge=crypt
 # .config/test.txt filter=crypt diff=crypt merge=crypt
 .config/.env.keys filter=crypt diff=crypt merge=crypt
+.config/intelephense.txt filter=crypt diff=crypt merge=crypt
