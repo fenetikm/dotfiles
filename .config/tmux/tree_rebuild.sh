@@ -2,7 +2,7 @@
 
 FORCE=$1
 
-CACHE_LOC="$HOME/.config/tmux/tree_cache.txt"
+CACHE_LOC="$HOME/.config/tmux/tmp_tree_cache.txt"
 CACHE_BUILD="$HOME/.config/tmux/tree.sh"
 
 # only build cache if it doesn't exist or older than an hour

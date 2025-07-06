@@ -1,5 +1,8 @@
 #!/usr/bin/env zsh
 
+# for holding the previous state before switching
+STATE_FILE="$HOME/.config/tmux/tmp_state.zsh"
+
 # either focus based or use a stack somehow
 
 ACTION=$1
@@ -11,10 +14,7 @@ if [[ "$ACTION" == "in" ]]; then
   exit 0
 fi
 
-STATE_FILE="$HOME/.config/tmux/state.zsh"
-
 CURRENT_LOC="$2":"$3"."$4"
-
 source "$STATE_FILE"
 
 case "$ACTION" in
