@@ -1,2 +1,4 @@
 [pull]
-	rebase = false
+  rebase = false
+[core]
+  excludesFile = ~/.config/yadm/ignore

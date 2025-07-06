@@ -1,13 +1,12 @@
 [user]
-	name = Michael Welford
-	email = mail@michaelwelford.com
+  name = Michael Welford
+  email = mail@michaelwelford.com
 
 [push]
-	default = simple
+  default = simple
 
 [core]
-	excludesfile = /Users/mjw/.gitignore_global
-	# pager = diff-so-fancy | less --tabs=4 -RFX
+  excludesfile = /Users/mjw/.gitignore_global
   pager = delta
 
 [delta]
@@ -19,12 +18,12 @@
   diffFilter = delta --color-only
 
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
+  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+  path =
 
 [mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+  cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+  trustExitCode = true
 
 [color]
   ui = true
@@ -43,10 +42,10 @@
   whitespace = red reverse
 
 [color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold
-	newNormal = green bold
-	newHighlight = green bold
+  oldNormal = red bold
+  oldHighlight = red bold
+  newNormal = green bold
+  newHighlight = green bold
 
 [color "status"]
   added = green
@@ -57,6 +56,7 @@
   # mostly taken from Gary Bernhardt
   s = status
   st = status
+  stu = status . -u
   ci = commit --verbose
   cim = commit --verbose -m
   ca = commit --all --verbose
@@ -100,8 +100,13 @@
   ra = !git r --all
   l = "!. ~/.githelpers && pretty_git_log"
   la = !git l --all
-	dsf = "!f() { [ -z \"$GIT_PREFIX\" ] || cd \"$GIT_PREFIX\" && git diff --color \"$@\" | diff-so-fancy  | less --tabs=4 -RFX; }; f"
+  dsf = "!f() { [ -z \"$GIT_PREFIX\" ] || cd \"$GIT_PREFIX\" && git diff --color \"$@\" | diff-so-fancy  | less --tabs=4 -RFX; }; f"
+
 [init]
-	templatedir = ~/.git_template
+  templatedir = ~/.git_template
+
 [safe]
-	directory = /Users/mjw/.local/share/nvim/lazy/hererocks
+  directory = /Users/mjw/.local/share/nvim/lazy/hererocks
+
+[includeIf "gitdir:/Users/michael/.local/share/yadm/repo.git"]
+  path = .config/yadm/config
