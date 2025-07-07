@@ -256,14 +256,8 @@ local bindKey = function(key, fn, modifier)
   return ret
 end
 
--- toggle float
-sk['space'] = bindKey('space', function() yabai_script('float.sh', {}) end)
-
 -- hide all floats on current space
-sk['shift_space'] = bindKey('space', function() yabai_script('hide_floats.sh', {}) end, 'shift')
-
--- reload yabai
-sk['r'] = bindKey('r', function() os.execute(G.yabai_path .. ' --restart-service') end)
+-- sk['shift_space'] = bindKey('space', function() yabai_script('hide_floats.sh', {}) end, 'shift')
 
 -- todo: new idea:
 -- - more explicit, ok to be multi key
@@ -310,23 +304,11 @@ sk['r'] = bindKey('r', function() os.execute(G.yabai_path .. ' --restart-service
 -- - balance - useless if layout works?
 -- - send to display (remove, instead left/right or send to space)
 
--- move / swap
-sk['h'] = bindKey('h', function() yabai({'-m', 'window', '--swap', 'west'}) end)
--- sk['j'] = bindKey('j', function() yabai({'-m', 'window', '--swap', 'south'}) end)
--- sk['k'] = bindKey('k', function() yabai({'-m', 'window', '--swap', 'north'}) end)
-sk['l'] = bindKey('l', function() yabai({'-m', 'window', '--swap', 'east'}) end)
-
 -- layout sizing
 -- maybe change layout to something else besides hkjl
 sk['shift_h'] = bindKey('h', function() yabai_script('resize.sh', {'x', '13', '0', '1'}) end, 'shift')
 sk['shift_j'] = bindKey('j', function() yabai_script('resize.sh', {'x', '12', '0', '1'}) end, 'shift')
 sk['shift_k'] = bindKey('k', function() yabai_script('resize.sh', {'x', '23', '0', '1'}) end, 'shift')
-
--- insert current window into position and balance
--- nah, just unfloat and move
--- sk['ctrl_h'] = bindKey('h', function() yabai_script('insert.sh', {'1'}) end, 'control')
--- sk['ctrl_j'] = bindKey('j', function() yabai_script('insert.sh', {'2'}) end, 'control')
--- sk['ctrl_k'] = bindKey('k', function() yabai_script('insert.sh', {'3'}) end, 'control')
 
 -- todo3:
 -- - when we have two floated things, want to put them side by side, keeping the size they are currently at
@@ -336,13 +318,6 @@ sk['shift_k'] = bindKey('k', function() yabai_script('resize.sh', {'x', '23', '0
 --
 -- todo5:
 -- - when dragging a window, how to float whilst dragging? some other hot key, or double tap f19?!
-
--- float and full screen, then 1600x1200, then 1400x900
-sk['f'] = bindKey('f', chain_yabai({
-  { 'resize.sh', {'c', 'full', '1'} },
-  { 'resize.sh', {'c', '1600,1200', '1'} },
-  { 'resize.sh', {'c', '1400,900', '1'} },
-}))
 
 -- full screen but over the top bar
 -- sk['shift_f'] = bindKey('f', function() yabai_script('resize.sh', {'c', 'fullwindow', '1'}) end, 'shift')
