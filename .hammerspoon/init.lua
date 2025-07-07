@@ -256,9 +256,6 @@ end
 
 -- sk['p'] = bindKey('p', function() yabai_script('resize.sh', {'c', '1600,1200', '1', '0', '6'}) end)
 
--- balance widths of the things
--- sk['b'] = bindKey('b', function() yabai({'-m', 'space', '--balance'}) end)
-
 -- set mode, todo: better here, maybe one key and cycle? or a selector
 -- also reset transparency stuff after mode change
 -- sk['z'] = bindKey('z', function() yabai({'-m', 'space', '--layout', 'bsp'}) end)

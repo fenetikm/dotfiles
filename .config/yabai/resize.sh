@@ -98,6 +98,7 @@ resize_layout() {
   local WINDOW_COUNT=$(yabai -m query --windows --space | jq '[.[] | select(."is-visible" == true and ."is-floating" == false)] | length')
   yd "$WINDOW_COUNT" "window count"
 
+  # todo: when there are three, can make one of them 1/2 size
   if [[ "$WINDOW_COUNT" != 2 ]]; then
     exit 0 # nothing to do, doesn't make sense
   fi
@@ -110,6 +111,8 @@ resize_layout() {
     yabai -m window "$WID" --ratio "abs:0.5"
   elif [[ "$SIZE" == "23" ]]; then
     yabai -m window "$WID" --ratio "abs:0.666667"
+  elif [[ "$SIZE" == "14" ]]; then
+    yabai -m window "$WID" --ratio "abs:0.25"
   fi
 }
 
