@@ -1,24 +1,5 @@
 -- @todo:
--- https://github.com/Hammerspoon/hammerspoon/discussions/3254 using sockets to talk to yabai... but seems fast enough
--- https://github.com/FelixKratz/JankyBorders for controlling window border colours
--- https://github.com/FelixKratz/SketchyVim also looks fun
--- vivaldi browser for ricing
--- https://github.com/ClementTsang/bottom another monitor like btop
 -- https://zzamboni.org/post/my-hammerspoon-configuration-with-commentary/ sendtoomnifocus looks interesting and others
---
--- how many layouts do we have for ultrawide:
--- - 1 browser, 23 kitty
--- - 1 bitbucket, 1 browser, 1 browser
--- - 1/2 bitbucket, 1/2 browser
--- - 1 x, 23 Jira
--- - 1 x, 23 tableplus
--- - 1 obsidian, 23 slack video
--- - 1 x, 23 reports
---
--- so layouts are:
--- 1 + 23
--- 1/2 + 1/2
--- 1 + 1 + 1
 
 G = {}
 G.log = hs.logger.new('mw', 'debug')
@@ -62,7 +43,6 @@ local obsidianApp = appID('/Applications/obsidian.app')
 
 hs.window.animationDuration = 0
 
-local screen_mapping = {"cmd", "alt", "ctrl"}
 local hyper_mapping = {"cmd", "alt", "ctrl", "shift"}
 
 sk = {}
@@ -74,6 +54,7 @@ local reloadConfig = function(files)
       doReload = true
     end
   end
+
   if doReload then
     hs.reload()
     hs.alert.show('Hammerspoon config loaded')
@@ -82,7 +63,6 @@ end
 
 -- this is faster than os.execute with the env arg
 local yabai_script = function(script_name, args)
-  -- s('script!')
   local task = hs.task.new(os.getenv('HOME') .. '/.config/yabai/' .. script_name, nil, args)
   local env = task:environment()
   env['PATH'] = env['PATH'] .. ':' .. G.bin_path
@@ -90,7 +70,7 @@ local yabai_script = function(script_name, args)
   task:start()
 end
 
--- todo: handling of windows in other spaces, sometimes doesn't work? maybe when also minimized
+-- todo: handling of windows in other spaces, sometimes doesn't work? maybe when also minimized?
 local launchOrFocus = function(appName, details)
   if (details.url) then
     spoon.URLDispatcher.url_patterns = {
@@ -178,7 +158,6 @@ hk['='] = hs.hotkey.bind(hyper_mapping, '=', function()
   s('Hammerspoon config reloaded')
 end)
 
--- begin yabai window management
 local yabai = function(args, completion)
   local yabai_output = ""
   local yabai_error = ""
@@ -186,7 +165,6 @@ local yabai = function(args, completion)
   local yabai_task = hs.task.new(G.yabai_path, function(err, stdout, stderr)
     print()
   end, function(task, stdout, stderr)
-      -- print("stdout:"..stdout, "stderr:"..stderr)
       if stdout ~= nil then
         yabai_output = yabai_output .. stdout
       end
@@ -203,58 +181,12 @@ local yabai = function(args, completion)
   yabai_task:start()
 end
 
-local lastSeenChain = nil
-local lastSeenWindow = nil
-
--- adapted from wincent https://github.com/wincent/wincent/blob/master/roles/dotfiles/files/.hammerspoon/init.lua
-local chain_yabai = function(movements)
-  local chainResetInterval = 2 -- seconds
-  local cycleLength = #movements
-  local sequenceNumber = 1
-
-  return function()
-    local now = hs.timer.secondsSinceEpoch()
-
-    if
-      lastSeenChain ~= movements or
-      lastSeenAt < now - chainResetInterval
-    then
-      sequenceNumber = 1
-      lastSeenChain = movements
-    elseif (sequenceNumber == 1) then
-      -- At end of chain, restart chain on next screen.
-      -- screen = screen:next()
-    end
-    lastSeenAt = now
-
-    if string.find(movements[sequenceNumber][1], ".sh") then
-      yabai_script(movements[sequenceNumber][1], movements[sequenceNumber][2])
-    else
-      -- todo: non script call
-      hs.alert.show('non script call')
-    end
-
-    sequenceNumber = sequenceNumber % cycleLength + 1
-  end
-end
-
-local yabai_mode = hs.hotkey.modal.new('', 'f19')
-function yabai_mode:entered() s('WM?') end
-function yabai_mode:exited() s('WM!') end
-yabai_mode:bind('', 'escape', function()
-  yabai_mode:exit()
-end)
-
-local bindKey = function(key, fn, modifier)
-  modifier = modifier or ''
-  local ret
-  ret = yabai_mode:bind(modifier, key, function()
-    fn()
-    yabai_mode:exit()
-  end)
-
-  return ret
-end
+-- local yabai_mode = hs.hotkey.modal.new('', 'f19')
+-- function yabai_mode:entered() s('WM?') end
+-- function yabai_mode:exited() s('WM!') end
+-- yabai_mode:bind('', 'escape', function()
+--   yabai_mode:exit()
+-- end)
 
 -- hide all floats on current space
 -- sk['shift_space'] = bindKey('space', function() yabai_script('hide_floats.sh', {}) end, 'shift')
@@ -322,12 +254,12 @@ end
 -- full screen but over the top bar
 -- sk['shift_f'] = bindKey('f', function() yabai_script('resize.sh', {'c', 'fullwindow', '1'}) end, 'shift')
 
-sk['p'] = bindKey('p', function() yabai_script('resize.sh', {'c', '1600,1200', '1', '0', '6'}) end)
+-- sk['p'] = bindKey('p', function() yabai_script('resize.sh', {'c', '1600,1200', '1', '0', '6'}) end)
 
 -- screen recording sizes, todo: something better here re which keys
-sk['0'] = bindKey('0', function() yabai_script('resize.sh', {'c', '1400,900', '1'}) end)
+-- sk['0'] = bindKey('0', function() yabai_script('resize.sh', {'c', '1400,900', '1'}) end)
 -- gif recording
-sk['9'] = bindKey('9', function() yabai_script('resize.sh', {'c', '700,450', '1'}) end)
+-- sk['9'] = bindKey('9', function() yabai_script('resize.sh', {'c', '700,450', '1'}) end)
 
 -- balance widths of the things
 -- sk['b'] = bindKey('b', function() yabai({'-m', 'space', '--balance'}) end)
