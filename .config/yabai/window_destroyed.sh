@@ -1,7 +1,8 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
 
-echo '################'
-echo 'window destroyed'
+source "$HOME/.config/yabai/tools.sh"
+
+yd "window_destroyed.sh"
 
 # todo: pull this in from an env variable?
 FIX_OPACITY=on
@@ -31,4 +32,4 @@ if [[ $(echo "$SPACE" | jq -re '."type" == "stack"') == "true" && "$FIX_OPACITY"
   done
 fi
 
-source "$HOME"/.config/yabai/balance.sh
+source "$HOME/.config/yabai/balance.sh"

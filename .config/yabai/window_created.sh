@@ -1,6 +1,7 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
 
-echo '################'
-echo 'window created'
+source "$HOME/.config/yabai/tools.sh"
 
-source "$HOME"/.config/yabai/balance.sh
+yd "window_created.sh"
+
+source "$HOME/.config/yabai/balance.sh"

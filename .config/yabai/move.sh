@@ -1,5 +1,9 @@
 #!/usr/bin/env zsh
 
+source "$HOME/.config/yabai/tools.sh"
+
+yd "move.sh"
+
 D=$(yabai -m query --displays --display)
 DC=$(yabai -m query --displays | jq 'length')
 W=$(yabai -m query --windows --window)

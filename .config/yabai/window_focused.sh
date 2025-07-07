@@ -1,7 +1,8 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
 
-echo '################'
-echo 'window focused / switched'
+source "$HOME/.config/yabai/tools.sh"
+
+yd "window_focused.sh"
 
 # fixme: pull in from env variable?
 FIX_OPACITY=on
@@ -19,7 +20,7 @@ else
   WINDOW=$(yabai -m query --windows --window "$WID")
 fi
 if [[ $(echo "$WINDOW" | jq -re '."is-floating"') == "true" ]]; then
-  exit 1
+  exit 0
 fi
 
 # this resets the opacity to 1.0
@@ -41,7 +42,7 @@ if [[ $(echo "$SPACE" | jq -re '."type" == "stack"') == true && "$FIX_OPACITY" =
           yabai -m window "$i" --opacity 0.001
         else
           # once this is false, all other windows are hidden (it seems!)
-          exit 1
+          exit 0
         fi
       fi
       C=$((C+1))

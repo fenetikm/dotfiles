@@ -1,4 +1,8 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
+
+source "$HOME/.config/yabai/tools.sh"
+
+yd "unhide_all.sh"
 
 # unhide hidden floating apps
 HAS_HIDDEN=$(yabai -m query --windows --space | jq '[.[] | select(."is-visible" == false)]')

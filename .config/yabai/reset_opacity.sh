@@ -1,4 +1,4 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
 
 if [[ "$1" == "" ]]; then
   echo "Missing space index argument."

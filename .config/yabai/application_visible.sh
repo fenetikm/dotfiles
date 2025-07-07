@@ -1,7 +1,7 @@
 #! /usr/bin/env zsh
 
-# unhide a window
-echo '################'
-echo 'application visible'
+source "$HOME"/.config/yabai/tools.sh
 
-source "$HOME"/.config/yabai/balance.sh
+yd "application_visible.sh"
+
+source "$HOME/.config/yabai/balance.sh"

@@ -26,7 +26,7 @@
 # todo: allow resizing of non-floated windows
 # - refactor into separate methods?
 
-source "$HOME"/.config/yabai/tools.sh
+source "$HOME/.config/yabai/tools.sh"
 
 yd "RESIZE.SH"
 

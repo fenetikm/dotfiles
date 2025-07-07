@@ -1,13 +1,16 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
 
-SPACE=$1
+source "$HOME/.config/yabai/tools.sh"
+
+yd "send_space.sh"
+
+SPACE="$1"
 if [[ "$SPACE" == "" ]]; then
   exit 0
 fi
 
-FOCUS=$2
+FOCUS="$2"
 
-WINDOW=$(yabai -m query --windows --window | jq '.id')
 if [[ $(yabai -m query --windows --window | jq -re '."is-floating"') == false ]]; then
   yabai -m window --toggle float
 fi

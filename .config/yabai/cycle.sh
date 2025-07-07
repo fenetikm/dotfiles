@@ -1,10 +1,8 @@
 #!/usr/bin/env zsh
 
 # usage:
-# cycle.sh fullscreen full 1600,900 1200,900
-# ... returns the cycled option, wraps around if applicable
-#
-# todo: check for enough args
+# e.g. cycle.sh fullscreen full 1600,900 1200,900
+# ... returns the cycled option, wraps around to first option
 
 CYCLE_INTERVAL=2
 CYCLE=$1
@@ -12,6 +10,7 @@ CYCLE=$1
 # slice, arg 2 onwards
 CYCLE_OPTIONS=("${@:2}")
 
+# we have the path in here for when this is called via karabiner
 TIMESTAMP=$(/bin/date +%s)
 
 CYCLE_LOC="$HOME/.config/yabai/cycle_state_${CYCLE}.sh"
@@ -21,6 +20,7 @@ CYCLE_OPTION_VAR="CYCLE_${CYCLE}_OPTION"
 if [[ ! -e "$CYCLE_LOC" ]]; then
   eval "${CYCLE_TIMESTAMP_VAR}=\"$TIMESTAMP\""
   eval "${CYCLE_OPTION_VAR}=\"$2\""
+  # store state
   echo "${CYCLE_TIMESTAMP_VAR}=$TIMESTAMP\n${CYCLE_OPTION_VAR}=$2" > "$CYCLE_LOC"
 
   echo "$2"
