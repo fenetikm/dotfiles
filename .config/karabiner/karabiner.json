@@ -29,7 +29,7 @@
                                         "to_after_key_up": [
                                             {
                                                 "set_variable": {
-                                                    "name": "SpaceFN",
+                                                    "name": "space_fn_mode",
                                                     "value": 0
                                                 }
                                             }
@@ -42,7 +42,7 @@
                                 "to": [
                                     {
                                         "set_variable": {
-                                            "name": "SpaceFN",
+                                            "name": "space_fn_mode",
                                             "value": 1
                                         }
                                     },
@@ -53,42 +53,267 @@
                                 "type": "basic"
                             },
                             {
+                                "type": "basic",
+                                "conditions": [
+                                    { "type": "variable_if", "name": "space_fn_mode_1", "value": 1 }
+                                ],
+                                "from": {
+                                    "key_code": "1"
+                                },
+                                "to": [
+                                    { "set_variable": { "name": "space_fn_mode", "value": 0 } },
+                                    { "set_variable": { "name": "space_fn_mode_1", "value": 0 } },
+                                    { "shell_command": "export PATH=/usr/local/bin:/usr/bin; /bin/zsh ~/.config/yabai/send_space.sh 1 1" }
+                                ]
+                            },
+                            {
                                 "from": {
                                     "simultaneous": [
-                                        {
-                                            "key_code": "spacebar"
-                                        },
-                                        {
-                                            "key_code": "B"
-                                        }
+                                        {"key_code": "spacebar"},
+                                        {"key_code": "1"}
                                     ],
                                     "simultaneous_options": {
-                                        "key_down_order": "strict",
-                                        "key_up_order": "strict_inverse",
-                                        "to_after_key_up": [
-                                            {
-                                                "set_variable": {
-                                                    "name": "SpaceFN",
-                                                    "value": 0
-                                                }
-                                            }
-                                        ]
+                                        "key_down_order": "strict"
                                     }
                                 },
                                 "parameters": {
                                     "basic.simultaneous_threshold_milliseconds": 500
                                 },
                                 "to": [
-                                    {
-                                        "set_variable": {
-                                            "name": "SpaceFN",
-                                            "value": 1
-                                        }
-                                    },
-                                    {
-                                        "shell_command": "export PATH=/usr/local/bin:/usr/bin; /bin/zsh ~/.config/yabai/msg.sh"
-                                    }
+                                    { "set_variable": { "name": "space_fn_mode", "value": 1 } },
+                                    { "set_variable": { "name": "space_fn_mode_1", "value": 1 } }
                                 ],
+                                "to_delayed_action": {
+                                    "to_if_invoked": [
+                                        { "set_variable": { "name": "space_fn_mode", "value": 0 } },
+                                        { "set_variable": { "name": "space_fn_mode_1", "value": 0 } },
+                                        {"shell_command": "export PATH=/usr/local/bin:/usr/bin; yabai -m space --focus 1"}
+                                    ],
+                                    "to_if_canceled": [
+                                        { "set_variable": { "name": "space_fn_mode", "value": 0 } },
+                                        { "set_variable": { "name": "space_fn_mode_1", "value": 0 } }
+                                    ]
+                                },
+                                "type": "basic"
+                            },
+                            {
+                                "type": "basic",
+                                "conditions": [
+                                    { "type": "variable_if", "name": "space_fn_mode_2", "value": 1 }
+                                ],
+                                "from": {
+                                    "key_code": "2"
+                                },
+                                "to": [
+                                    { "set_variable": { "name": "space_fn_mode", "value": 0 } },
+                                    { "set_variable": { "name": "space_fn_mode_2", "value": 0 } },
+                                    { "shell_command": "export PATH=/usr/local/bin:/usr/bin; /bin/zsh ~/.config/yabai/send_space.sh 2 1" }
+                                ]
+                            },
+                            {
+                                "from": {
+                                    "simultaneous": [
+                                        {"key_code": "spacebar"},
+                                        {"key_code": "2"}
+                                    ],
+                                    "simultaneous_options": {
+                                        "key_down_order": "strict"
+                                    }
+                                },
+                                "parameters": {
+                                    "basic.simultaneous_threshold_milliseconds": 500
+                                },
+                                "to": [
+                                    { "set_variable": { "name": "space_fn_mode", "value": 1 } },
+                                    { "set_variable": { "name": "space_fn_mode_2", "value": 1 } }
+                                ],
+                                "to_delayed_action": {
+                                    "to_if_invoked": [
+                                        { "set_variable": { "name": "space_fn_mode", "value": 0 } },
+                                        { "set_variable": { "name": "space_fn_mode_2", "value": 0 } },
+                                        {"shell_command": "export PATH=/usr/local/bin:/usr/bin; yabai -m space --focus 2"}
+                                    ],
+                                    "to_if_canceled": [
+                                        { "set_variable": { "name": "space_fn_mode", "value": 0 } },
+                                        { "set_variable": { "name": "space_fn_mode_2", "value": 0 } }
+                                    ]
+                                },
+                                "type": "basic"
+                            },
+                            {
+                                "type": "basic",
+                                "conditions": [
+                                    { "type": "variable_if", "name": "space_fn_mode_3", "value": 1 }
+                                ],
+                                "from": {
+                                    "key_code": "3"
+                                },
+                                "to": [
+                                    { "set_variable": { "name": "space_fn_mode", "value": 0 } },
+                                    { "set_variable": { "name": "space_fn_mode_3", "value": 0 } },
+                                    { "shell_command": "export PATH=/usr/local/bin:/usr/bin; /bin/zsh ~/.config/yabai/send_space.sh 3 1" }
+                                ]
+                            },
+                            {
+                                "from": {
+                                    "simultaneous": [
+                                        {"key_code": "spacebar"},
+                                        {"key_code": "3"}
+                                    ],
+                                    "simultaneous_options": {
+                                        "key_down_order": "strict"
+                                    }
+                                },
+                                "parameters": {
+                                    "basic.simultaneous_threshold_milliseconds": 500
+                                },
+                                "to": [
+                                    { "set_variable": { "name": "space_fn_mode", "value": 1 } },
+                                    { "set_variable": { "name": "space_fn_mode_3", "value": 1 } }
+                                ],
+                                "to_delayed_action": {
+                                    "to_if_invoked": [
+                                        { "set_variable": { "name": "space_fn_mode", "value": 0 } },
+                                        { "set_variable": { "name": "space_fn_mode_3", "value": 0 } },
+                                        {"shell_command": "export PATH=/usr/local/bin:/usr/bin; yabai -m space --focus 3"}
+                                    ],
+                                    "to_if_canceled": [
+                                        { "set_variable": { "name": "space_fn_mode", "value": 0 } },
+                                        { "set_variable": { "name": "space_fn_mode_3", "value": 0 } }
+                                    ]
+                                },
+                                "type": "basic"
+                            },
+                            {
+                                "type": "basic",
+                                "conditions": [
+                                    { "type": "variable_if", "name": "space_fn_mode_4", "value": 1 }
+                                ],
+                                "from": {
+                                    "key_code": "4"
+                                },
+                                "to": [
+                                    { "set_variable": { "name": "space_fn_mode", "value": 0 } },
+                                    { "set_variable": { "name": "space_fn_mode_4", "value": 0 } },
+                                    { "shell_command": "export PATH=/usr/local/bin:/usr/bin; /bin/zsh ~/.config/yabai/send_space.sh 4 1" }
+                                ]
+                            },
+                            {
+                                "from": {
+                                    "simultaneous": [
+                                        {"key_code": "spacebar"},
+                                        {"key_code": "4"}
+                                    ],
+                                    "simultaneous_options": {
+                                        "key_down_order": "strict"
+                                    }
+                                },
+                                "parameters": {
+                                    "basic.simultaneous_threshold_milliseconds": 500
+                                },
+                                "to": [
+                                    { "set_variable": { "name": "space_fn_mode", "value": 1 } },
+                                    { "set_variable": { "name": "space_fn_mode_4", "value": 1 } }
+                                ],
+                                "to_delayed_action": {
+                                    "to_if_invoked": [
+                                        { "set_variable": { "name": "space_fn_mode", "value": 0 } },
+                                        { "set_variable": { "name": "space_fn_mode_4", "value": 0 } },
+                                        {"shell_command": "export PATH=/usr/local/bin:/usr/bin; yabai -m space --focus 4"}
+                                    ],
+                                    "to_if_canceled": [
+                                        { "set_variable": { "name": "space_fn_mode", "value": 0 } },
+                                        { "set_variable": { "name": "space_fn_mode_4", "value": 0 } }
+                                    ]
+                                },
+                                "type": "basic"
+                            },
+                            {
+                                "type": "basic",
+                                "conditions": [
+                                    { "type": "variable_if", "name": "space_fn_mode_5", "value": 1 }
+                                ],
+                                "from": {
+                                    "key_code": "5"
+                                },
+                                "to": [
+                                    { "set_variable": { "name": "space_fn_mode", "value": 0 } },
+                                    { "set_variable": { "name": "space_fn_mode_5", "value": 0 } },
+                                    { "shell_command": "export PATH=/usr/local/bin:/usr/bin; /bin/zsh ~/.config/yabai/send_space.sh 5 1" }
+                                ]
+                            },
+                            {
+                                "from": {
+                                    "simultaneous": [
+                                        {"key_code": "spacebar"},
+                                        {"key_code": "5"}
+                                    ],
+                                    "simultaneous_options": {
+                                        "key_down_order": "strict"
+                                    }
+                                },
+                                "parameters": {
+                                    "basic.simultaneous_threshold_milliseconds": 500
+                                },
+                                "to": [
+                                    { "set_variable": { "name": "space_fn_mode", "value": 1 } },
+                                    { "set_variable": { "name": "space_fn_mode_5", "value": 1 } }
+                                ],
+                                "to_delayed_action": {
+                                    "to_if_invoked": [
+                                        { "set_variable": { "name": "space_fn_mode", "value": 0 } },
+                                        { "set_variable": { "name": "space_fn_mode_5", "value": 0 } },
+                                        {"shell_command": "export PATH=/usr/local/bin:/usr/bin; yabai -m space --focus 5"}
+                                    ],
+                                    "to_if_canceled": [
+                                        { "set_variable": { "name": "space_fn_mode", "value": 0 } },
+                                        { "set_variable": { "name": "space_fn_mode_5", "value": 0 } }
+                                    ]
+                                },
+                                "type": "basic"
+                            },
+                            {
+                                "type": "basic",
+                                "conditions": [
+                                    { "type": "variable_if", "name": "space_fn_mode_6", "value": 1 }
+                                ],
+                                "from": {
+                                    "key_code": "6"
+                                },
+                                "to": [
+                                    { "set_variable": { "name": "space_fn_mode", "value": 0 } },
+                                    { "set_variable": { "name": "space_fn_mode_6", "value": 0 } },
+                                    { "shell_command": "export PATH=/usr/local/bin:/usr/bin; /bin/zsh ~/.config/yabai/send_space.sh 6 1" }
+                                ]
+                            },
+                            {
+                                "from": {
+                                    "simultaneous": [
+                                        {"key_code": "spacebar"},
+                                        {"key_code": "6"}
+                                    ],
+                                    "simultaneous_options": {
+                                        "key_down_order": "strict"
+                                    }
+                                },
+                                "parameters": {
+                                    "basic.simultaneous_threshold_milliseconds": 500
+                                },
+                                "to": [
+                                    { "set_variable": { "name": "space_fn_mode", "value": 1 } },
+                                    { "set_variable": { "name": "space_fn_mode_6", "value": 1 } }
+                                ],
+                                "to_delayed_action": {
+                                    "to_if_invoked": [
+                                        { "set_variable": { "name": "space_fn_mode", "value": 0 } },
+                                        { "set_variable": { "name": "space_fn_mode_6", "value": 0 } },
+                                        {"shell_command": "export PATH=/usr/local/bin:/usr/bin; yabai -m space --focus 6"}
+                                    ],
+                                    "to_if_canceled": [
+                                        { "set_variable": { "name": "space_fn_mode", "value": 0 } },
+                                        { "set_variable": { "name": "space_fn_mode_6", "value": 0 } }
+                                    ]
+                                },
                                 "type": "basic"
                             }
                         ]

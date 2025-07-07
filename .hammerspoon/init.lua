@@ -337,8 +337,8 @@ sk['ctrl_k'] = bindKey('k', function() yabai_script('insert.sh', {'3'}) end, 'co
 -- - when dragging a window, how to float whilst dragging? some other hot key, or double tap f19?!
 
 -- send to other display
-sk['comma'] = bindKey(',', function() yabai_script('send_display.sh', {'2'}) end)
-sk['period'] = bindKey('.', function() yabai_script('send_display.sh', {'1'}) end)
+-- sk['comma'] = bindKey(',', function() yabai_script('send_display.sh', {'2'}) end)
+-- sk['period'] = bindKey('.', function() yabai_script('send_display.sh', {'1'}) end)
 
 -- space mapping
 sk['1'] = bindKey('1', function() yabai({'-m', 'space', '--focus', '1'}) end)
