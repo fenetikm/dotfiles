@@ -14,43 +14,61 @@
                         "description": "SpaceFN layer",
                         "manipulators": [
                             {
+                                "type": "basic",
                                 "from": {
                                     "simultaneous": [
-                                        {
-                                            "key_code": "spacebar"
-                                        },
-                                        {
-                                            "key_code": "b"
-                                        }
+                                        { "key_code": "spacebar" },
+                                        { "key_code": "b" }
                                     ],
                                     "simultaneous_options": {
                                         "key_down_order": "strict",
                                         "key_up_order": "strict_inverse",
-                                        "to_after_key_up": [
-                                            {
-                                                "set_variable": {
-                                                    "name": "space_fn_mode",
-                                                    "value": 0
-                                                }
-                                            }
-                                        ]
+                                        "to_after_key_up": [{ "set_variable": { "name": "space_fn_mode", "value": 0 }}]
                                     }
                                 },
-                                "parameters": {
-                                    "basic.simultaneous_threshold_milliseconds": 500
-                                },
+                                "parameters": { "basic.simultaneous_threshold_milliseconds": 500 },
                                 "to": [
-                                    {
-                                        "set_variable": {
-                                            "name": "space_fn_mode",
-                                            "value": 1
-                                        }
-                                    },
-                                    {
-                                        "shell_command": "export PATH=/usr/local/bin:/usr/bin; /bin/zsh ~/.config/yabai/float.sh"
+                                    { "set_variable": { "name": "space_fn_mode", "value": 1} },
+                                    { "shell_command": "export PATH=/usr/local/bin:/usr/bin; /bin/zsh ~/.config/yabai/float.sh" }
+                                ]
+                            },
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "simultaneous": [
+                                        { "key_code": "spacebar" },
+                                        { "key_code": "m" }
+                                    ],
+                                    "simultaneous_options": {
+                                        "key_down_order": "strict",
+                                        "key_up_order": "strict_inverse",
+                                        "to_after_key_up": [{ "set_variable": { "name": "space_fn_mode", "value": 0 }}]
                                     }
-                                ],
-                                "type": "basic"
+                                },
+                                "parameters": { "basic.simultaneous_threshold_milliseconds": 500 },
+                                "to": [
+                                    { "set_variable": { "name": "space_fn_mode", "value": 1} },
+                                    { "shell_command": "export PATH=/usr/local/bin:/usr/bin; hs -c 'smartMinimise()'" }
+                                ]
+                            },
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "simultaneous": [
+                                        { "key_code": "spacebar" },
+                                        { "key_code": "g" }
+                                    ],
+                                    "simultaneous_options": {
+                                        "key_down_order": "strict",
+                                        "key_up_order": "strict_inverse",
+                                        "to_after_key_up": [{ "set_variable": { "name": "space_fn_mode", "value": 0 }}]
+                                    }
+                                },
+                                "parameters": { "basic.simultaneous_threshold_milliseconds": 500 },
+                                "to": [
+                                    { "set_variable": { "name": "space_fn_mode", "value": 1} },
+                                    { "shell_command": "export PATH=/usr/local/bin:/usr/bin; /bin/zsh ~/.config/yabai/resize.sh c x" }
+                                ]
                             },
                             {
                                 "type": "basic",
