@@ -12,7 +12,7 @@ CYCLE=$1
 # slice, arg 2 onwards
 CYCLE_OPTIONS=("${@:2}")
 
-TIMESTAMP=$(date +%s)
+TIMESTAMP=$(/bin/date +%s)
 
 CYCLE_LOC="$HOME/.config/yabai/cycle_state_${CYCLE}.sh"
 CYCLE_TIMESTAMP_VAR="CYCLE_${CYCLE}_TIMESTAMP"
@@ -24,6 +24,7 @@ if [[ ! -e "$CYCLE_LOC" ]]; then
   echo "${CYCLE_TIMESTAMP_VAR}=$TIMESTAMP\n${CYCLE_OPTION_VAR}=$2" > "$CYCLE_LOC"
 
   echo "$2"
+
   exit 0
 else
   source "$CYCLE_LOC"
@@ -53,7 +54,7 @@ else
   NEXT_OPTION="$2"
 fi
 
-echo "$NEXT_OPTION"
-
 # store state
 echo "${CYCLE_TIMESTAMP_VAR}=$TIMESTAMP\n${CYCLE_OPTION_VAR}=$NEXT_OPTION" > "$CYCLE_LOC"
+
+echo "$NEXT_OPTION"
