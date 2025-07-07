@@ -1,14 +1,16 @@
 #!/usr/bin/env zsh
 
 # usage:
-# e.g. cycle.sh fullscreen full 1600,900 1200,900
+# cycle.sh <what> <dir> <options...>
+# e.g. cycle.sh fullscreen 1 full 1600,900 1200,900
 # ... returns the cycled option, wraps around to first option
 
 CYCLE_INTERVAL=2
 CYCLE=$1
+DIR=$2
 
 # slice, arg 2 onwards
-CYCLE_OPTIONS=("${@:2}")
+CYCLE_OPTIONS=("${@:3}")
 
 # we have the path in here for when this is called via karabiner
 TIMESTAMP=$(/bin/date +%s)
@@ -19,11 +21,11 @@ CYCLE_OPTION_VAR="CYCLE_${CYCLE}_OPTION"
 
 if [[ ! -e "$CYCLE_LOC" ]]; then
   eval "${CYCLE_TIMESTAMP_VAR}=\"$TIMESTAMP\""
-  eval "${CYCLE_OPTION_VAR}=\"$2\""
+  eval "${CYCLE_OPTION_VAR}=\"$3\""
   # store state
-  echo "${CYCLE_TIMESTAMP_VAR}=$TIMESTAMP\n${CYCLE_OPTION_VAR}=$2" > "$CYCLE_LOC"
+  echo "${CYCLE_TIMESTAMP_VAR}=$TIMESTAMP\n${CYCLE_OPTION_VAR}=$3" > "$CYCLE_LOC"
 
-  echo "$2"
+  echo "$3"
 
   exit 0
 else
@@ -44,14 +46,19 @@ if (( ("$LAST_TIMESTAMP" + "$CYCLE_INTERVAL") >= "$TIMESTAMP" )); then
     fi
   done
 
-  NEXT_OPTION_INDEX=$(( "$OPTION_INDEX" + 1))
-  if [[ "$NEXT_OPTION_INDEX" > "${#CYCLE_OPTIONS}" ]]; then
+  NEXT_OPTION_INDEX=$(( "$OPTION_INDEX" + "$DIR" ))
+  if [[ "$NEXT_OPTION_INDEX" > "${#CYCLE_OPTIONS}" && "$DIR" == 1 ]]; then
     NEXT_OPTION_INDEX=1
+  fi
+
+  if [[ "$NEXT_OPTION_INDEX" == 0 && "$DIR" == -1 ]]; then
+    NEXT_OPTION_INDEX="${#CYCLE_OPTIONS}"
   fi
 
   NEXT_OPTION="${CYCLE_OPTIONS[$NEXT_OPTION_INDEX]}"
 else
-  NEXT_OPTION="$2"
+  # just return the first one if time elapsed
+  NEXT_OPTION="$3"
 fi
 
 # store state

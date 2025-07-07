@@ -256,11 +256,6 @@ end
 
 -- sk['p'] = bindKey('p', function() yabai_script('resize.sh', {'c', '1600,1200', '1', '0', '6'}) end)
 
--- screen recording sizes, todo: something better here re which keys
--- sk['0'] = bindKey('0', function() yabai_script('resize.sh', {'c', '1400,900', '1'}) end)
--- gif recording
--- sk['9'] = bindKey('9', function() yabai_script('resize.sh', {'c', '700,450', '1'}) end)
-
 -- balance widths of the things
 -- sk['b'] = bindKey('b', function() yabai({'-m', 'space', '--balance'}) end)
 
