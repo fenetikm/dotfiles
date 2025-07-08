@@ -159,7 +159,7 @@ local location_short = function()
 end
 
 local location_progress = function()
-  local space_glyph = '◦'
+  local space_glyph = '⋅'
   local line_num = vim.fn.line('.')
   local total_lines = vim.fn.line('$')
   if total_lines == nil then total_lines = 0 end
@@ -171,16 +171,16 @@ local location_progress = function()
 
   local perc = ''
   if line_num == 1 then
-    perc = ' BoF'
+    perc = 'BoF'
   elseif line_num == total_lines then
-    perc = ' EoF'
+    perc = 'EoF'
   else
-    perc = string.format(' %2d', math.floor(line_num / total_lines * 100)) .. '%%'
-    local perc_chars = string.len(perc)
-    perc = rpad(perc, 2, space_glyph)
+    perc = string.format('%2d', math.floor(line_num / total_lines * 100)) .. '%%'
+    perc = perc:gsub('%s+', '')
+    perc = rpad(perc, 4, space_glyph)
   end
 
-  perc = perc .. ' '
+  perc = ' ' .. perc
 
   return line_column .. perc
 end
