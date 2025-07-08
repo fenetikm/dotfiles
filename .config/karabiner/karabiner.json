@@ -94,7 +94,7 @@
                                 "from": {
                                     "simultaneous": [
                                         { "key_code": "spacebar" },
-                                        { "key_code": "j" }
+                                        { "key_code": "h" }
                                     ],
                                     "simultaneous_options": {
                                         "key_down_order": "strict",
@@ -113,7 +113,7 @@
                                 "from": {
                                     "simultaneous": [
                                         { "key_code": "spacebar" },
-                                        { "key_code": "k" }
+                                        { "key_code": "l" }
                                     ],
                                     "simultaneous_options": {
                                         "key_down_order": "strict",
@@ -227,7 +227,7 @@
                                 "from": {
                                     "simultaneous": [
                                         { "key_code": "spacebar" },
-                                        { "key_code": "h" }
+                                        { "key_code": "j" }
                                     ],
                                     "simultaneous_options": {
                                         "key_down_order": "strict",
@@ -246,7 +246,7 @@
                                 "from": {
                                     "simultaneous": [
                                         { "key_code": "spacebar" },
-                                        { "key_code": "l" }
+                                        { "key_code": "k" }
                                     ],
                                     "simultaneous_options": {
                                         "key_down_order": "strict",

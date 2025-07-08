@@ -159,25 +159,30 @@ local location_short = function()
 end
 
 local location_progress = function()
-  local line = vim.fn.line('.')
+  local space_glyph = '◦'
+  local line_num = vim.fn.line('.')
   local total_lines = vim.fn.line('$')
   if total_lines == nil then total_lines = 0 end
+
+  local total_chars = string.len(tostring(total_lines))
   local column = vim.fn.col('.')
-  local line_column = tostring(line) .. ':' .. lpad(tostring(column), 2, ' ')
+  local line_stat = rpad(tostring(line_num), total_chars, space_glyph)
+  local line_column = line_stat .. ':' .. lpad(tostring(column), 2, space_glyph)
+
   local perc = ''
-  if line == 1 then
+  if line_num == 1 then
     perc = ' BoF'
-  elseif line == total_lines then
+  elseif line_num == total_lines then
     perc = ' EoF'
   else
-    perc = string.format(' %2d', math.floor(line / total_lines * 100)) .. '%%'
+    perc = string.format(' %2d', math.floor(line_num / total_lines * 100)) .. '%%'
+    local perc_chars = string.len(perc)
+    perc = rpad(perc, 2, space_glyph)
   end
 
   perc = perc .. ' '
 
-  local total_chars = string.len(tostring(total_lines))
-  local line_width = total_chars + 4
-  return rpad(line_column, line_width, ' ') .. perc
+  return line_column .. perc
 end
 
 local check_encoding = function()
