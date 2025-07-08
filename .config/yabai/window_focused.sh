@@ -4,8 +4,8 @@ source "$HOME/.config/yabai/tools.sh"
 
 yd "window_focused.sh"
 
-# fixme: pull in from env variable?
-FIX_OPACITY=on
+# fixme: pull in from global env variable?
+FIX_OPACITY=1
 
 # process ID is set via application_front_switched
 PID="${YABAI_PROCESS_ID}"
@@ -28,7 +28,7 @@ yabai -m window "$WID" --opacity 0.0
 
 # first scenario, stacked space
 SPACE=$(yabai -m query --spaces --space)
-if [[ $(echo "$SPACE" | jq -re '."type" == "stack"') == true && "$FIX_OPACITY" == "on" ]]; then
+if [[ $(echo "$SPACE" | jq -re '."type" == "stack"') == true && "$FIX_OPACITY" == "1" ]]; then
   echo "fixing opacity"
   WINDOW_IDS=($(echo "$SPACE" | jq -r '."windows" | @sh'))
   if [[ "${WINDOW_IDS[1]}" == "$WID" ]]; then

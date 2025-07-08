@@ -45,8 +45,6 @@ hs.window.animationDuration = 0
 
 local hyper_mapping = {"cmd", "alt", "ctrl", "shift"}
 
-sk = {}
-
 local reloadConfig = function(files)
   doReload = false
   for _, file in pairs(files) do
@@ -180,81 +178,6 @@ local yabai = function(args, completion)
   end
   yabai_task:start()
 end
-
--- local yabai_mode = hs.hotkey.modal.new('', 'f19')
--- function yabai_mode:entered() s('WM?') end
--- function yabai_mode:exited() s('WM!') end
--- yabai_mode:bind('', 'escape', function()
---   yabai_mode:exit()
--- end)
-
--- hide all floats on current space
--- sk['shift_space'] = bindKey('space', function() yabai_script('hide_floats.sh', {}) end, 'shift')
-
--- todo: new idea:
--- - more explicit, ok to be multi key
--- - <key> <space> <position>
--- could have keys instead of numbers for spaces, home row even?
--- where position can be 1,2,3
--- if currently only one app visible, then puts the new window to the left or right (1 = left, 2 = right)
--- when more than one app then insert accordingly
--- e.g. put this app on space two, in position 1
---
---another one re sending something to space 6 and in the middle etc.
---"present"
--- todo2:
--- - balancing/layout keys to set it to 1/3, 2/3 vs 1/2, 1/2 vs 2/3, 1/3
--- - asd? home row probs better here, also could use wasd for doing the things instead of hjkl for ease
--- ... or put everything under hjkl for ease?! could be nice!
--- so hjkl for move
--- shift hjkl for layout
--- ctrl hjkl for insert
--- meta hjkl for ?
-
--- ok, if we did spacefn, what would be the mapping?
--- probs don't have enough things to require shft/ctrl to do things, also can chain things
--- prefer home row where possible
--- another idea: long hold , triggers hs mode? maybe too fiddly
--- or can we do space, double tap the thing? good for send to space or even just space and say `!` (shift+1)
--- how about: spacefn+<key> or spacefn+<key><key> is mapped to f19 (go into hammerspoon mode, then sends either key or shift_key?!)
--- hjkl - select window? we're not going up or down, leave that for mouse
--- things that I want to do regularly:
--- - move window left/right
--- - move window to next display (can we do that with left/right?)
--- - change layout / window sizes: 1/3,1/2,1/4,2/3
--- - center window
--- - full screen, or focus size
--- - put window on another space
--- - present
--- - toggle float
--- - reload yabai
--- - preset sizes
--- - minimise / hide
--- less often:
--- - go from stack to split easily
--- - change space mode: bsp,stack,float
--- - balance - useless if layout works?
--- - send to display (remove, instead left/right or send to space)
-
--- layout sizing
--- maybe change layout to something else besides hkjl
--- sk['shift_h'] = bindKey('h', function() yabai_script('resize.sh', {'x', '13', '0', '1'}) end, 'shift')
--- sk['shift_j'] = bindKey('j', function() yabai_script('resize.sh', {'x', '12', '0', '1'}) end, 'shift')
--- sk['shift_k'] = bindKey('k', function() yabai_script('resize.sh', {'x', '23', '0', '1'}) end, 'shift')
-
--- todo3:
--- - when we have two floated things, want to put them side by side, keeping the size they are currently at
---
--- todo4:
--- - easy way to go from one app to split screen with two apps, in case of just on laptop
---
--- todo5:
--- - when dragging a window, how to float whilst dragging? some other hot key, or double tap f19?!
-
--- full screen but over the top bar
--- sk['shift_f'] = bindKey('f', function() yabai_script('resize.sh', {'c', 'fullwindow', '1'}) end, 'shift')
-
--- sk['p'] = bindKey('p', function() yabai_script('resize.sh', {'c', '1600,1200', '1', '0', '6'}) end)
 
 -- set mode, todo: better here, maybe one key and cycle? or a selector
 -- also reset transparency stuff after mode change

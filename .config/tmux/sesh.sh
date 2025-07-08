@@ -1,8 +1,9 @@
 #!/usr/bin/env zsh
 
 # usage:
-# - $1: session name, defaults to directory name
-# - $2: target directory, defaults to current directory
+# sesh.sh <session_name> <target_directory>
+# <session_name>, defaults to directory name
+# <target_directory>, defaults to current directory
 
 switch_to_session() {
     if [[ -z "$TMUX" ]]; then
@@ -34,5 +35,6 @@ else
   tmux select-window -t "$SESSION_NAME":setup
   tmux select-pane -t 1
   tmux send-keys -t "$SESSION_NAME":setup "tmux_setup $SESSION_NAME" C-m
+
   switch_to_session "$SESSION_NAME"
 fi

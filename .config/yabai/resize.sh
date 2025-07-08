@@ -1,6 +1,11 @@
 #! /usr/bin/env zsh
 
 # args: position size float layout space
+# positions:
+# - 1,2,3 (thirds)
+# - a, b (halves)
+# - c (centre)
+# - x (leave as is)
 # sizes:
 # - x = leave as is
 # - 13 = 1/3
@@ -11,13 +16,8 @@
 # - full = full-size, but below the bar
 # - fullwindow = full, over the bar
 # - equal = make all equal (call balance?)
-# positions:
-# - 1,2,3 (thirds)
-# - a, b (halves)
-# - c (centre)
-# - x (leave as is)
 # float:
-# - 1 = turn on float
+# - 1 = turn on float, default 0
 # layout:
 # - 1 = affect layout instead of the window, extract into different thing? probs, looks simple
 # space:
