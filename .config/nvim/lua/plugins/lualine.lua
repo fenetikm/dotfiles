@@ -14,7 +14,7 @@ local width_secondary_threshold = 90
 local transparent_bg = true
 local transparent_inactive = true
 local sub_separator = ''
-local fill_glyph = '┅'
+local fill_glyph = '⠤'
 
 local line_only = {
   'fugitiveblame',

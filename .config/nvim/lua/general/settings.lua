@@ -47,7 +47,7 @@ vim.o.fillchars = ''
 vim.o.fillchars = vim.o.fillchars .. 'vert:┃' -- vertical sep fill character
 vim.o.fillchars = vim.o.fillchars .. ',fold:' -- fold fill character
 vim.o.fillchars = vim.o.fillchars .. ',diff:╱' -- diff fill background character
-vim.o.fillchars = vim.o.fillchars .. ',stl:┅,stlnc:┅' -- status line fill character
+vim.o.fillchars = vim.o.fillchars .. ',stl:⠤,stlnc:⠤' -- status line fill character
 
 vim.o.ruler = true --show column/row/line number position
 vim.o.number = true --show line numbers
