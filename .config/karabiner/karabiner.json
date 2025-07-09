@@ -1,5 +1,5 @@
 {
-    "global": { "show_in_menu_bar": false },
+    "global": { "show_in_menu_bar": true },
     "profiles": [
         {
             "complex_modifications": {
@@ -616,6 +616,25 @@
                                     {
                                         "key_code": "f19",
                                         "lazy": true
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Equals and delete together to forward delete",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "simultaneous": [
+                                        { "key_code": "equal_sign" },
+                                        { "key_code": "delete_or_backspace" }
+                                    ]
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "delete_forward"
                                     }
                                 ],
                                 "type": "basic"

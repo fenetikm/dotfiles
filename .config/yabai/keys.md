@@ -50,8 +50,10 @@ b - balance - not that useful, replace with layout @done
 - minimise all others
 
 ## Going from stack to split
+Now:
 - change mode
 - minimise all others
+- open the one you want with the split
 
 ## Nice to have / gold plating
 - when kitty open on a large screen by it self with margins
