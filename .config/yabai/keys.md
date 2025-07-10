@@ -24,13 +24,14 @@ things that I want to do regularly:
 hl -     select window (left/right) @done
 jk -     move window left/right @done
 jk -     move window to next display (can we do that with left/right? have seen a script that does) @done
+jk -     move window to next display, working with floats?
 g -      center window @done
 f -      full screen, or one of a few sizes (cycle) @done
 z -      toggle zoomed full screen @done
 p -      present (send to 6, center) @done
 n -      toggle float @done
 r -      reload yabai @done
-90 -     preset sizes?
+90 -     preset sizes? can just use the full screen sizes then use position
 m -      minimise / hide @done
 shift or double tap numbers, or qwerty (what about reload though?) - gone with double tap, yes - @done
 123456 - change focused space @done

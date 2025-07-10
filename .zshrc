@@ -254,6 +254,10 @@ hugo-open-latest() {
   nvim $(find content -name '*.md' -print0 | xargs -0 stat -f "%m %N" | sort -rn | head -1 | cut -f2- -d" ")
 }
 
+hugo-select-latest() {
+  nvim $(grep -l "draft: false" **/*.md(.omr) G content | fzf --no-multi --preview 'bat --color=always --line-range :500 {}')
+}
+
 hugo-open-drafts() {
   nvim $(hugo list drafts | cut -d"," -f1 | grep content | fzf --no-multi --preview 'bat --color=always --line-range :500 {}')
 }
@@ -269,7 +273,8 @@ hugo-start-server() {
 # note: hugo-migrate-images is in .zshenv so it works in neovim shell command
 alias hi="hugo-migrate-images"
 alias hd="hugo-open-drafts"
-alias hl="hugo-open-latest"
+alias hel="hugo-open-latest"
+alias hl="hugo-select-latest"
 alias ho="hugo-open-post"
 alias hn='hugo-new-post'
 alias ht='hugo-new-til'

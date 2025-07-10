@@ -7,6 +7,7 @@ if [[ "$SPACE_INFO" == *"could not retrieve"* ]]; then
   SPACE=
 else
   SPACE=$(echo "$SPACE_INFO" | jq -r '.label')
+  SPACE="${(C)SPACE}"
 fi
 
 sketchybar \
