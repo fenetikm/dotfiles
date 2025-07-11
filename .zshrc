@@ -247,7 +247,7 @@ hugo-new-link () {
 }
 
 hugo-open-post() {
-  nvim $(find content -name '*.md' | fzf --no-multi --preview 'bat --color=always --line-range :500 {}')
+  find content -name '*.md' P
 }
 
 hugo-open-latest() {
@@ -255,11 +255,11 @@ hugo-open-latest() {
 }
 
 hugo-select-latest() {
-  nvim $(grep -l "draft: false" **/*.md(.omr) G content | fzf --no-multi --preview 'bat --color=always --line-range :500 {}')
+  grep -l "draft: false" **/*.md(.omr) G content P
 }
 
 hugo-open-drafts() {
-  nvim $(hugo list drafts | cut -d"," -f1 | grep content | fzf --no-multi --preview 'bat --color=always --line-range :500 {}')
+  hugo list drafts | cut -d"," -f1 G content P
 }
 
 hugo-start-server() {
