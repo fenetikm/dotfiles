@@ -259,7 +259,7 @@ hugo-select-latest() {
 }
 
 hugo-open-drafts() {
-  hugo list drafts | cut -d"," -f1 G content P
+  grep -l "draft: true" **/*.md(.omr) G content P
 }
 
 hugo-start-server() {

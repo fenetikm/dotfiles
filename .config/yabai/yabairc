@@ -97,6 +97,16 @@ setup_space 4 db stack 1
 setup_space 5 dev bsp 2
 setup_space 6 view float 2
 
+# remove space 7, sometimes shows up?
+# todo: make this more general, destroy all empty spaces that we don't want
+SPACE7=$(yabai -m query --spaces --space 7)
+if [[ ! "$SPACE7" =~ 'could not locate' ]]; then
+  WINDOW_IDS=($(echo "$SPACE7" | jq -r '."windows" | @sh'))
+  if [[ "$WINDOW_IDS" == "" ]]; then
+    yabai -m space --destroy 7
+  fi
+fi
+
 # rules
 # unmanaged, exact matches
 yabai -m rule --add app="^(Calculator|Software Update|Dictionary|VLC|zoom.us|Photo Booth|Archive Utility|LibreOffice|App Store|Steam|Alfred|Alfred Preferences|Activity Monitor|System Information|Karabiner-Elements|Karabiner-EventViewer|Preview|Disk Utility|Connect to Server|Anki|Docker Desktop|VeraCrypt|qView|Transmit|Transmission)$" manage=off
