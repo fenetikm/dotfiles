@@ -10,6 +10,7 @@ PLUGIN_DIR="$CONFIG_DIR/plugins"
 #   - next meeting? not sure I want to look up for those?
 #   - next omnifocus? same ... but could go in the centre
 #   - brightness?
+# - tighter between things
 #
 # someday:
 # - click on wifi brings up something

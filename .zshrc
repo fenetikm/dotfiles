@@ -175,6 +175,7 @@ alias -s css=nvim
 alias -s tpl=nvim
 alias -s yml=nvim
 alias -s md=glow -p
+export CLICOLOR_FORCE=1
 
 # Global aliases, substitute anywhere
 # e.g. `cat tmp.txt L`
@@ -183,8 +184,12 @@ alias -g T="| tail"
 alias -g TL="| tail -20"
 alias -g C="| pbcopy"
 alias -g G="| grep"
+alias -g R="| rg"
+
 # Preview via fzf, edit with enter
-alias -g P="| fzf --preview 'bat --color=always --line-range :500 {}' --bind 'enter:execute(nvim {})'"
+alias -g P="| fzf --preview 'bat --color=always --line-range :500' --bind 'enter:execute(nvim {})'"
+alias -g PMD="| fzf --preview 'echo {} | cut -d\" \" -f1 | sed \"s/://\" | xargs cat | bat --color=always --line-range :500 --language=md' --bind 'enter:execute(nvim {})'"
+alias -g PG="| fzf --preview 'export CLICOLOR_FORCE=1; echo {} | cut -d\" \" -f1 | sed \"s/://\" | xargs cat | glow -s dark | cat' --bind 'enter:execute(nvim {})'"
 
 # git aliases
 alias gs='git s'
@@ -270,11 +275,17 @@ hugo-start-server() {
   hugo server -D -F --navigateToChanged --disableFastRender --renderToMemory --port $PORT
 }
 
+# todo re hugo opener:
+# - options: all, ordered by modified, maybe we throw whether draft or not in there?
+# - ordered by published?
+# - other binds: view in browser?
+
 # note: hugo-migrate-images is in .zshenv so it works in neovim shell command
 alias hi="hugo-migrate-images"
 alias hd="hugo-open-drafts"
-alias hel="hugo-open-latest"
-alias hl="hugo-select-latest"
+alias hl="hugo-open-latest"
+alias hlp="rg --files-with-matches 'draft: false' **/*.md(.omr) R 'content' P"
+alias hld="rg --files-with-matches 'draft: true' **/*.md(.omr) R 'content' P"
 alias ho="hugo-open-post"
 alias hn='hugo-new-post'
 alias ht='hugo-new-til'
