@@ -6,7 +6,6 @@
 # for holding the previous state before switching
 STATE_FILE="$HOME/.config/tmux/tmp_state.zsh"
 
-# either focus based or use a stack somehow
 
 ACTION=$1
 if [[ "$ACTION" == "" ]]; then
@@ -19,6 +18,11 @@ fi
 
 CURRENT_LOC="$2":"$3"."$4"
 source "$STATE_FILE"
+
+# can match if focus happened some external way
+if [[ "$CURRENT_LOC" == "$LAST_LOC" ]]; then
+  exit 0
+fi
 
 case "$ACTION" in
   out)

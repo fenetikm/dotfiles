@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# todo:
+# - fix the gap issue by having multiple then reset the scroll at just the right time?
+
 source "$HOME/.config/sketchybar/vars.sh"
 
 DO_SCROLL=on
