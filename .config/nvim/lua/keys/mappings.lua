@@ -111,10 +111,12 @@ vim.cmd([[
   "yanking and pasting from a register with indent
   "can these be made shorter? better?
   "TODO use these more? change?
-  nnoremap <leader>y "uyy
+  " nnoremap <leader>y "uyy
   " nnoremap <leader>d "udd
-  nnoremap <leader>p "up=iB
-  nnoremap <leader>P "uP=iB
+  " nnoremap <leader>p "up=iB
+  " nnoremap <leader>P "uP=iB
+  " paste without destroying what was previously yanked
+  vnoremap <leader>p "_dP
 
   "visual mode
   xnoremap <leader>y "uyy
