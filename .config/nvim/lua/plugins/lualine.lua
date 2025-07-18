@@ -251,8 +251,8 @@ end
 local mode_info = {
   c      = { fg = colours.yellow,      label = 'C'},
   cv     = { fg = colours.yellow,      label = 'C'},
-  i      = { fg = colours.mid_green,     label = 'I'},
-  ic     = { fg = colours.mid_green,     label = 'I'},
+  i      = { fg = colours.mid_green,   label = 'I'},
+  ic     = { fg = colours.mid_green,   label = 'I'},
   n      = { fg = colours.normal_gray, label = 'N'},
   r      = { fg = colours.orange,      label = 'R'},
   rm     = { fg = colours.orange,      label = 'R'},
@@ -263,11 +263,11 @@ local mode_info = {
   S      = { fg = colours.blue_gray,   label = 'S'},
   [''] = { fg = colours.blue_gray,   label = 'S'},
   t      = { fg = colours.purple,      label = 'T'},
-  v      = { fg = colours.br_indigo,      label = 'V'},
-  V      = { fg = colours.br_indigo,      label = 'V'},
-  [''] = { fg = colours.br_indigo,      label = 'V'},
-  ['!']  = { fg = colours.br_indigo,      label = '!'},
-  ['']   = { fg = colours.br_indigo,      label = '-'}
+  v      = { fg = colours.br_indigo,   label = 'V'},
+  V      = { fg = colours.br_indigo,   label = 'V'},
+  [''] = { fg = colours.br_indigo,   label = 'V'},
+  ['!']  = { fg = colours.br_indigo,   label = '!'},
+  ['']   = { fg = colours.br_indigo,   label = '-'}
 }
 
 ins_a {

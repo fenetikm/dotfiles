@@ -4,6 +4,8 @@ source "$HOME/.config/yabai/tools.sh"
 
 yd "move.sh"
 
+FLOAT_ACROSS=0
+
 D=$(yabai -m query --displays --display)
 DC=$(yabai -m query --displays | jq 'length')
 W=$(yabai -m query --windows --window)
@@ -40,12 +42,15 @@ if [[ "$IS_FLOATING" == 1 ]]; then
 fi
 
 # todo: generalise
+# handle non floating windows
 # handle sending to display if east or west most
 if [[ "$DIR" == "east" ]]; then
   EAST_WINDOW_ID=$(yabai -m query --windows --space | jq '[.[] | select(."is-visible" == true and ."is-floating" == false)] | sort_by(.frame.x) | reverse | .[0] .id')
 
   if [[ "$EAST_WINDOW_ID" == "$W_ID" && "$D_INDEX" == 2 ]]; then
-    yabai -m window "$W_ID" --toggle float
+    if [[ "$FLOAT_ACROSS" == "1" ]]; then
+      yabai -m window "$W_ID" --toggle float
+    fi
     yabai -m window "$W_ID" --display 1
     yabai -m window "$W_ID" --focus
 
@@ -55,7 +60,9 @@ else
   WEST_WINDOW_ID=$(yabai -m query --windows --space | jq '[.[] | select(."is-visible" == true and ."is-floating" == false)] | sort_by(.frame.x) | .[0] .id')
 
   if [[ "$WEST_WINDOW_ID" == "$W_ID" && "$D_INDEX" == 1 ]]; then
-    yabai -m window "$W_ID" --toggle float
+    if [[ "$FLOAT_ACROSS" == "1" ]]; then
+      yabai -m window "$W_ID" --toggle float
+    fi
     yabai -m window "$W_ID" --display 2
     yabai -m window "$W_ID" --focus
 

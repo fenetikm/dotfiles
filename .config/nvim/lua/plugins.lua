@@ -187,6 +187,14 @@ return {
   -- see luasnip.lua for snippets
 
   -- LSP see file lsp.lua
+  -- configs are here: https://github.com/neovim/nvim-lspconfig/tree/master/lsp
+
+  -- External pacakage manager
+  {
+    "mason-org/mason.nvim",
+    event = 'VeryLazy',
+    opts = {}
+  },
 
   -- Treesitter see file treesitter.lua
 

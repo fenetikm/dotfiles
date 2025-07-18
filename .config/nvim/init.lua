@@ -1,3 +1,4 @@
+-- shift somewhere else so can run general by itself
 require('general.disable_builtin')
 
 -- bootstrap lazy.nvim
@@ -52,15 +53,18 @@ require('lazy').setup("plugins",
   }
 )
 
+-- replace with just "general"
 require('general.folding')
 require('general.filetypes')
 require('general.auto_commands')
 require('general.commands')
 require('general.highlights')
+require('general.lsp')
 
 require('keys.mappings')
 require('keys.toggle')
 require('keys.searchreplace')
 
+-- todo: what are these, push to falcon?
 vim.api.nvim_set_hl(0, "TextInfo", { fg = "#e0def4" })
 vim.api.nvim_set_hl(0, "TextMuted", { fg = "#6e6a86" })
