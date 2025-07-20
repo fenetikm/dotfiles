@@ -53,7 +53,7 @@ require('lazy').setup("plugins",
   }
 )
 
--- replace with just "general"
+-- replace with just "general", create init.lua
 require('general.folding')
 require('general.filetypes')
 require('general.auto_commands')
@@ -61,6 +61,7 @@ require('general.commands')
 require('general.highlights')
 require('general.lsp')
 
+-- replace with just "keys" via init.lua
 require('keys.mappings')
 require('keys.toggle')
 require('keys.searchreplace')

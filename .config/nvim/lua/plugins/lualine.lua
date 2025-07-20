@@ -329,7 +329,7 @@ ins_a {
     info = { fg = colours.mid_gray.hex },
     hint = { fg = colours.mid_gray.hex },
   },
-  padding = { left = 1, right = 0},
+  padding = { left = 1, right = 1},
   cond = conditions.check_line_filetype,
 }
 
