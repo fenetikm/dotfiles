@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 
 hash -d sys=~/Documents/Work/internal/vms/sys
 hash -d blog=~/Documents/Work/internal/blog/hugo/mwcom
@@ -15,7 +15,7 @@ hash -d pcw=~/Documents/Work/personify_care/repos/personify-care-web
 hash -d pcmhau=~/Documents/Work/personify_care/repos/mhau
 hash -d pw=~/Documents/Work/personify_care/video/product_weekly/
 hash -d nv=~/.config/nvim
-hash -d z=~/zettelkasten
+hash -d z=~/Library/Mobile\ Documents/com~apple~CloudDocs/Docs/vaults/zettelkasten/
 hash -d icloud=~/Library/Mobile\ Documents/com~apple~CloudDocs/
 hash -d yt=~/Downloads/yt
 hash -d crafting=~/Documents/Work/internal/projects/interpreters/crafting

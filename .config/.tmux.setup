@@ -84,3 +84,6 @@ tmux select-pane -t 2
 tmux send-keys "~" C-m
 tmux select-pane -t 1
 tmux send-keys "v .zshrc" C-m
+
+$HOME/.config/tmux/tree_rebuild.sh 1
+clear

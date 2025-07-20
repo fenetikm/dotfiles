@@ -1,0 +1,23 @@
+#!/usr/bin/env zsh
+
+SESSION_NAME=$(tmux display-message -p '#S')
+tmux rename-session -t $SESSION_NAME zettels
+SESSION_NAME=zettels
+
+tmux rename-session $1
+
+tmux new-window -t $SESSION_NAME:2 -n 'diary'
+
+# diary
+tmux select-window -t $SESSION_NAME:2
+tmux send-keys "diary" C-m
+
+# edit
+tmux select-window -t $SESSION_NAME:1
+tmux rename-window 'edit'
+tmux split-window -h
+tmux select-pane -t 1
+tmux send-keys "el" C-m
+
+$HOME/.config/tmux/tree_rebuild.sh 1
+clear

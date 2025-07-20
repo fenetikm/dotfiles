@@ -120,7 +120,10 @@ alias tmthin='tmutil thinlocalsnapshots / $((50 * 1024 * 1024 * 1024)) 4'
 # eza, was exa, nicer ls
 alias e='eza -algB --group-directories-first'
 alias et='eza -algB --tree'
+# just the file names
 alias es='eza --oneline --group-directories-first'
+# just directories
+alias ed='eza -algBD'
 
 alias cat='bat'
 alias c='bat'
@@ -290,6 +293,19 @@ alias ho="hugo-open-post"
 alias hn='hugo-new-post'
 alias ht='hugo-new-til'
 alias hk='hugo-new-link'
+
+diary() {
+  local TODAY=$(date +"%Y-%m-%d")
+  local FILE_PATH="$TODAY".md
+  local ENTRY_DIR=$(echo ~z)
+  local FULL_PATH="$ENTRY_DIR/80-Diary/$FILE_PATH"
+  if [[ ! -f "$FULL_PATH" ]]; then
+    echo "# $TODAY\n" > "$FULL_PATH"
+    nvim -c "lua vim.api.nvim_win_set_cursor(0, {2,1})" "$FULL_PATH"
+  else
+    nvim "$FULL_PATH"
+  fi
+}
 
 # love framework
 alias love="/Applications/love.app/Contents/MacOS/love"

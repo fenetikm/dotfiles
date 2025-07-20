@@ -67,6 +67,7 @@ format = "[$path]($style)"
 '~pc/repos/personify-care-web' = '~pcw'
 '~/.config/nvim' = '~nv'
 '~/Library/Mobile Documents/com~apple~CloudDocs' = '~icloud'
+'~icloud/Docs/vaults/zettelkasten' = '~z'
 '~/.config/yabai' = '~y'
 '~/.config/sketchybar' = '~sb'
 
