@@ -141,5 +141,4 @@ yabai -m signal --add event=window_deminimized action="$HOME/.config/yabai/appli
 yabai -m signal --add event=display_added action="$HOME/.config/yabai/display_added.sh"
 yabai -m signal --add event=application_front_switched action="$HOME/.config/yabai/window_focused.sh"
 
-# this doesn't seem to do much on reload, but eh
-yabai -m space --focus 1
+yabai -m space 1 --focus

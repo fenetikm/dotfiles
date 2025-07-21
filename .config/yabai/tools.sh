@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env zsh
 
 yd() {
   echo '################' >> /tmp/yabai_michael.out.log

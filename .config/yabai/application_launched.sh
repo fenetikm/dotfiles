@@ -1,4 +1,4 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
 
 source "$HOME"/.config/yabai/tools.sh
 
