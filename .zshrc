@@ -299,13 +299,13 @@ diary() {
   local FILE_PATH="$TODAY".md
   local ENTRY_DIR=$(echo ~z)
   local FULL_PATH="$ENTRY_DIR/80-Diary/$FILE_PATH"
+
   if [[ ! -f "$FULL_PATH" ]]; then
     echo "# $TODAY\n" > "$FULL_PATH"
-    # put cursor on the last line
-    nvim -c "lua vim.api.nvim_win_set_cursor(0, {#vim.api.nvim_buf_get_lines(0, 0, -1, false),1})" "$FULL_PATH"
-  else
-    nvim "$FULL_PATH"
   fi
+
+  # Put cursor on the last line
+  nvim -c "lua vim.api.nvim_win_set_cursor(0, {#vim.api.nvim_buf_get_lines(0, 0, -1, false),1})" "$FULL_PATH"
 }
 
 # love framework

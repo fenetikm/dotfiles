@@ -54,6 +54,8 @@ if [[ "$DIR" == "east" ]]; then
     yabai -m window "$W_ID" --display 1
     yabai -m window "$W_ID" --focus
 
+    source "$HOME"/.config/yabai/balance.sh
+
     exit 0
   fi
 else
@@ -65,6 +67,8 @@ else
     fi
     yabai -m window "$W_ID" --display 2
     yabai -m window "$W_ID" --focus
+
+    source "$HOME"/.config/yabai/balance.sh
 
     exit 0
   fi

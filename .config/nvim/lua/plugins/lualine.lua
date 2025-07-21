@@ -14,7 +14,7 @@ local width_secondary_threshold = 90
 local transparent_bg = true
 local transparent_inactive = true
 local sub_separator = ''
-local fill_glyph = '⠤'
+local fill_glyph = '·' -- note: need to change in settings.lua too
 
 local line_only = {
   'fugitiveblame',
@@ -105,6 +105,18 @@ local conditions = {
     end
 
     return true
+  end,
+  has_diff = function()
+    local lualine_require = require('lualine_require')
+    local modules = lualine_require.lazy_require {
+      git_diff = 'lualine.components.diff.git_diff',
+    }
+    local git_diff = modules.git_diff.get_sign_count(vim.api.nvim_get_current_buf())
+    if git_diff == nil then
+      return false
+    end
+
+    return (git_diff.added > 0 or git_diff.modified > 0 or git_diff.removed > 0)
   end
 }
 
@@ -360,9 +372,15 @@ ins_a {
 --   end
 -- }
 
--- note: the line vert separator has some space built into it
-
 ins_a {
+  function ()
+    return ' '
+  end,
+  padding = {0},
+  color = { fg = colours.mid_dark_gray.hex },
+}
+
+ins_x {
   function ()
     return ' '
   end,
@@ -373,13 +391,22 @@ ins_a {
 -- start of right, active
 ins_x {
   'diff',
+  padding = {left = 0, right = 1},
   symbol_position = 'right',
-  cond = conditions.check_line_filetype,
+  cond = conditions.has_diff,
+}
+
+ins_x {
+  function ()
+    return sub_separator
+  end,
+  padding = {left = 0, right = 1},
+  cond = conditions.has_diff,
 }
 
 ins_x {
   git_branch,
-  padding = {left = 1, right = 0},
+  padding = {left = 0, right = 0},
   cond = function ()
     return conditions.check_git_workspace() and
       conditions.hide_in_secondary_width() and
@@ -392,10 +419,11 @@ ins_x {
     return sub_separator
   end,
   color = { fg = colours.mid_dark_gray.hex },
+  padding = {left = 1, right = 0},
   cond = function()
     return conditions.check_git_workspace() and
       conditions.hide_in_secondary_width() and
-      conditions.check_line_filetype
+      conditions.check_line_filetype()
   end
 }
 
@@ -403,7 +431,8 @@ ins_x {
   check_encoding,
   padding = { 0 },
   cond = function()
-    return conditions.buffer_not_empty() and conditions.check_line_filetype()
+    return conditions.buffer_not_empty() and
+      conditions.check_line_filetype()
   end
 }
 
@@ -411,7 +440,8 @@ ins_x {
   check_fileformat,
   padding = { 0 },
   cond = function()
-    return conditions.buffer_not_empty() and conditions.check_line_filetype()
+    return conditions.buffer_not_empty() and
+      conditions.check_line_filetype()
   end
 }
 
@@ -419,7 +449,7 @@ ins_x {
   'filetype',
   icons_enabled = false,
   colored = false,
-  padding = { left = 1 },
+  padding = { left = 0 },
   cond = function()
     return conditions.buffer_not_empty() and conditions.check_line_filetype()
   end

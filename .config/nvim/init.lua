@@ -1,5 +1,4 @@
--- shift somewhere else so can run general by itself
-require('general.disable_builtin')
+require('disable_builtin')
 
 -- bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
@@ -20,7 +19,7 @@ vim.g.localvimrc_ask = 0
 vim.g.localvimrc_sandbox = 0
 
 require('keys.escape')
-require('general.settings')
+require('settings')
 
 require('lazy').setup("plugins",
   {
@@ -54,12 +53,13 @@ require('lazy').setup("plugins",
 )
 
 -- replace with just "general", create init.lua
-require('general.folding')
-require('general.filetypes')
-require('general.auto_commands')
-require('general.commands')
-require('general.highlights')
-require('general.lsp')
+require('general')
+-- require('general.folding')
+-- require('general.filetypes')
+-- require('general.auto_commands')
+-- require('general.commands')
+-- require('general.highlights')
+-- require('general.lsp')
 
 -- replace with just "keys" via init.lua
 require('keys.mappings')
