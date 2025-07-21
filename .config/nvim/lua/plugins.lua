@@ -74,7 +74,7 @@ return {
   -- Tmux
   { 'benmills/vimux', event = 'VeryLazy'},
 
-  -- Distraction
+  -- Focus mode
   {'junegunn/goyo.vim', event = 'VeryLazy'},
 
   -- Motion
@@ -82,11 +82,10 @@ return {
   { 'christoomey/vim-tmux-navigator', event = 'VeryLazy'},--navigate betwenn tmux splits and vim together
 
   -- Search
-  {'BurntSushi/ripgrep', event = 'VeryLazy'}, --ripgrep support, neuron and telescope want it
+  {'BurntSushi/ripgrep', event = 'VeryLazy'},
   -- {'wincent/loupe', event = 'VeryLazy'}, --nicer search highlighting
   -- {'wincent/ferret', event = 'VeryLazy'}, --multi file search
-  -- { dir = '/usr/local/opt/fzf', event = 'VeryLazy' }, --fzf
-  -- { 'junegunn/fzf.vim', event = 'VeryLazy' }, --fuzzy finder stuff
+  --
   {'nelstrom/vim-visual-star-search', event = 'VeryLazy'}, --use * in visual mode to search
   -- {'jesseleite/vim-agriculture', event = 'VeryLazy'}, --pass things through to rg
   {
@@ -376,7 +375,7 @@ return {
       {
         'folke/twilight.nvim',
         opts = {
-          context = 12,
+          context = 15,
           dimming = {
             alpha = 0.5
           }
@@ -396,7 +395,7 @@ return {
       },
       plugins = {
         tmux = { enabled = true },
-        kitty = {
+        kitty = { -- sometimes fails after sleeping because wrong port
           enabled = true,
           font = "+4",
         },
