@@ -90,6 +90,7 @@ if has_cmp_nvim_lsp then
 end
 
 -- set default config
+-- todo: handlers?
 vim.lsp.config('*', {
   capabilities = capabilities,
 })

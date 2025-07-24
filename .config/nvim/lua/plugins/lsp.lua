@@ -33,10 +33,14 @@ return {
     event = 'VeryLazy',
   },
   {
+    'neovim/nvim-lspconfig',
+    event = 'VeryLazy',
+  },
+  {
     'folke/trouble.nvim',
     event = 'VeryLazy',
     keys = {
-      {'<leader>xx', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>', silent = true, noremap = true, desc="Disagnostics (Trouble)"},
+      {'<leader>xx', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>', silent = true, noremap = true, desc="Diagnostics (Trouble)"},
     },
     opts = {
       signs = {
