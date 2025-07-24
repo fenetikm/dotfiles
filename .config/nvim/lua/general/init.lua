@@ -1,0 +1,6 @@
+require('general.folding')
+require('general.filetypes')
+require('general.auto_commands')
+require('general.commands')
+require('general.highlights')
+require('general.lsp')
