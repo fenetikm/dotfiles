@@ -50,5 +50,10 @@ return {
         hint = '⚑'
       },
     }
+  },
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    config = true,
   }
 }

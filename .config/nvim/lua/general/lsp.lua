@@ -9,7 +9,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     if client:supports_method('textDocument/documentHighlight') then
       local highlight_group = vim.api.nvim_create_augroup('mw_lsp_highlight', {})
       vim.api.nvim_create_autocmd({ 'CursorHold' }, {
-        group = vim.api.nvim_create_augroup('mw_lsp_highlight', { clear = true }),
+        group = vim.api.nvim_create_augroup('mw_lsp_highlight', { clear = false }),
         buffer = bufnr,
         callback = function()
           vim.lsp.buf.document_highlight()
@@ -28,7 +28,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     if not client:supports_method('textDocument/willSaveWaitUntil')
         and client:supports_method('textDocument/formatting') then
       vim.api.nvim_create_autocmd('BufWritePre', {
-        group = vim.api.nvim_create_augroup('my_lsp_formatter', { clear = true }),
+        group = vim.api.nvim_create_augroup('my_lsp_formatter', { clear = false }),
         buffer = args.buf,
         callback = function()
           vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
@@ -95,6 +95,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
       else
         vim.diagnostic.config({ virtual_lines = true })
       end
+    end, { buffer = true, silent = true })
+
+    -- toggle inlay hints
+    vim.keymap.set('n', 'gi', function()
+      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
     end, { buffer = true, silent = true })
   end,
 })
