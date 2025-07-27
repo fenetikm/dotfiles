@@ -1,9 +1,9 @@
 return {
   flags = { debounce_text_changes = 150 },
   cmd = { 'intelephense', '--stdio' },
-  filetypes = { "php" },
+  filetypes = { 'php' },
   root_dir = vim.fs.dirname(
-    vim.fs.find({'.git', 'composer.json'}, { upward = true })[1]
+    vim.fs.find({ '.git', 'composer.json' }, { upward = true })[1]
   ),
   root_markers = { '.git', 'composer.json' },
   init_options = {

@@ -8,14 +8,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     if client:supports_method('textDocument/documentHighlight') then
       local highlight_group = vim.api.nvim_create_augroup('mw_lsp_highlight', {})
-      vim.api.nvim_create_autocmd({'CursorHold'}, {
-        group = highlight_group,
+      vim.api.nvim_create_autocmd({ 'CursorHold' }, {
+        group = vim.api.nvim_create_augroup('mw_lsp_highlight', { clear = true }),
         callback = function()
           vim.lsp.buf.document_highlight()
         end
       })
 
-      vim.api.nvim_create_autocmd({'CursorMoved'}, {
+      vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
         group = highlight_group,
         callback = function()
           vim.lsp.buf.clear_references()
@@ -26,7 +26,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     if not client:supports_method('textDocument/willSaveWaitUntil')
         and client:supports_method('textDocument/formatting') then
       vim.api.nvim_create_autocmd('BufWritePre', {
-        group = vim.api.nvim_create_augroup('my_lsp_formatter', {clear=false}),
+        group = vim.api.nvim_create_augroup('my_lsp_formatter', { clear = true }),
         buffer = args.buf,
         callback = function()
           vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
@@ -45,41 +45,41 @@ vim.api.nvim_create_autocmd('LspAttach', {
       update_in_insert = false,
     })
 
-    vim.keymap.set('n', 'gd', function() vim.lsp.buf.declaration()     end, { buffer = true, silent = true})
-    vim.keymap.set('n', 'gD', function() vim.lsp.buf.definition()      end, { buffer = true, silent = true})
+    vim.keymap.set('n', 'gd', function() vim.lsp.buf.declaration() end, { buffer = true, silent = true })
+    vim.keymap.set('n', 'gD', function() vim.lsp.buf.definition() end, { buffer = true, silent = true })
 
     -- defaults, for completeness
-    vim.keymap.set('n', 'grn', function() vim.lsp.buf.rename()         end, { buffer = true, silent = true})
-    vim.keymap.set('n', 'gra', function() vim.lsp.buf.code_action()    end, { buffer = true, silent = true})
-    vim.keymap.set('n', 'gri', function() vim.lsp.buf.implementation() end, { buffer = true, silent = true})
-    vim.keymap.set('n', 'grr', function() vim.lsp.buf.references()     end, { buffer = true, silent = true})
-    vim.keymap.set('n', 'gO', function()  vim.lsp.buf.document_symbol() end, { buffer = true, silent = true})
+    vim.keymap.set('n', 'grn', function() vim.lsp.buf.rename() end, { buffer = true, silent = true })
+    vim.keymap.set('n', 'gra', function() vim.lsp.buf.code_action() end, { buffer = true, silent = true })
+    vim.keymap.set('n', 'gri', function() vim.lsp.buf.implementation() end, { buffer = true, silent = true })
+    vim.keymap.set('n', 'grr', function() vim.lsp.buf.references() end, { buffer = true, silent = true })
+    vim.keymap.set('n', 'gO', function() vim.lsp.buf.document_symbol() end, { buffer = true, silent = true })
 
     -- end defaults
     -- changed from the default ctrl-s
     vim.keymap.set('i', '<c-h>', function()
       vim.lsp.buf.signature_help()
-    end, { buffer = true, silent = true})
+    end, { buffer = true, silent = true })
 
     vim.keymap.set('n', 'grl', function()
       vim.diagnostic.open_float({ border = 'rounded' })
-    end, { buffer = true, silent = true})
+    end, { buffer = true, silent = true })
 
     vim.keymap.set('n', '[d', function()
       vim.diagnostic.jump({ count = -1, float = { border = 'rounded' } })
-    end, { buffer = true, silent = true})
+    end, { buffer = true, silent = true })
 
     vim.keymap.set('n', 'd]', function()
       vim.diagnostic.jump({ count = 1, float = { border = 'rounded' } })
-    end, { buffer = true, silent = true})
+    end, { buffer = true, silent = true })
 
     vim.keymap.set('n', 'gh', function()
       vim.lsp.buf.hover()
-    end, { buffer = true, silent = true})
+    end, { buffer = true, silent = true })
 
     vim.keymap.set('n', 'gs', function()
       vim.lsp.buf.signature_help()
-    end, { buffer = true, silent = true})
+    end, { buffer = true, silent = true })
 
     -- toggle virtual lines
     vim.keymap.set('n', 'gl', function()
@@ -89,7 +89,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.diagnostic.config({ virtual_lines = true })
       end
     end, { buffer = true, silent = true })
-
   end,
 })
 
@@ -173,31 +172,26 @@ if vim.fn.executable('typescript-language-server') == 1 then
   vim.lsp.enable('ts_ls')
 end
 
-if vim.fn.executable('typescript-language-server') == 1 then
+if vim.fn.executable('vscode-json-language-server') == 1 then
   vim.lsp.enable('jsonls')
 end
 
-if vim.fn.executable('typescript-language-server') == 1 then
+if vim.fn.executable('bash-language-server') == 1 then
   vim.lsp.enable('bashls')
 end
 
-if vim.fn.executable('typescript-language-server') == 1 then
+if vim.fn.executable('vscode-html-language-server') == 1 then
   vim.lsp.enable('html')
-end
-
-if vim.fn.executable('typescript-language-server') == 1 then
-  vim.lsp.enable('vimls')
-end
-
-if vim.fn.executable('typescript-language-server') == 1 then
-  vim.lsp.enable('yamlls')
-end
-
-if vim.fn.executable('typescript-language-server') == 1 then
-  vim.lsp.enable('cssls')
 end
 
 if vim.fn.executable('vim-language-server') == 1 then
   vim.lsp.enable('vimls')
 end
 
+if vim.fn.executable('yaml-language-server') == 1 then
+  vim.lsp.enable('yamlls')
+end
+
+if vim.fn.executable('vscode-css-language-server') == 1 then
+  vim.lsp.enable('cssls')
+end

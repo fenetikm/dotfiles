@@ -106,6 +106,7 @@ timezsh() {
 
 alias l='llm -m my-openai'
 alias lq='llm -m mlx-community/Qwen2.5-Coder-14B-Instruct-4bit'
+alias lc='claude -p'
 
 # -i to stop overwrite
 alias mv='/bin/mv -i'
