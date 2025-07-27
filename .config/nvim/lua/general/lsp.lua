@@ -83,6 +83,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.lsp.buf.signature_help()
     end, { buffer = true, silent = true })
 
+    -- instead of shift+k
+    vim.keymap.set('n', 'gk', function()
+      vim.lsp.buf.hover()
+    end, { buffer = true, silent = true })
+
     -- toggle virtual lines
     vim.keymap.set('n', 'gl', function()
       if vim.diagnostic.config().virtual_lines then

@@ -103,6 +103,7 @@ return {
     opts = {
       mode = "cursor",
       max_lines = 3,
+      separator = ' ',
     },
   }
 }
