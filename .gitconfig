@@ -108,5 +108,5 @@
 [safe]
   directory = /Users/mjw/.local/share/nvim/lazy/hererocks
 
-[includeIf "gitdir:/Users/michael/.local/share/yadm/repo.git"]
+[includeIf "gitdir:~/.local/share/yadm/repo.git"]
   path = .config/yadm/config
