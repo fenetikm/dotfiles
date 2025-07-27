@@ -12,7 +12,16 @@
 
 .config/kitty/*.swp
 .config/scripts/toggl_*.json
+.config/scripts/project_*.json
+.config/scripts/task_*.json
 
 # tmux temp working files
 .config/tmux/tmp_state.zsh
 .config/tmux/tmp_tree_cache.txt
+
+.config/karabiner/automatic_backups**
+
+.config/htop
+.config/fish
+.config/uv
+.config/yazi/yazi.toml*
