@@ -101,15 +101,29 @@ if [[ -n "$TEXT" ]]; then
     FG_COLOUR="$DEFAULT_COLOUR"
   fi
 
+  # haven't got the right balance here with respect to info vs colour
+  # icon is kind of pointless
   sketchybar --set "$NAME" icon="$ICON" icon.color="${FG_COLOUR}" label="${TEXT}" label.color="${FG_COLOUR}" drawing=on \
     padding_right=7 \
     label.padding_right=8 \
     icon.padding_left=8 \
     icon.y_offset=-1 \
     y_offset=-1 \
-    background.shadow.drawing=on background.shadow.distance=1 \
-    background.drawing=on background.color=$BG_COLOUR \
+    background.shadow.drawing=off \
+    background.color=0x00000000 \
+    background.drawing=on \
+    background.border_color=$BG_COLOUR background.border_width=2 \
     background.corner_radius=$BG_RADIUS background.height=$BG_HEIGHT
+
+  # sketchybar --set "$NAME" icon="$ICON" icon.color="${FG_COLOUR}" label="${TEXT}" label.color="${FG_COLOUR}" drawing=on \
+  #   padding_right=7 \
+  #   label.padding_right=8 \
+  #   icon.padding_left=8 \
+  #   icon.y_offset=-1 \
+  #   y_offset=-1 \
+  #   background.shadow.drawing=on background.shadow.distance=1 \
+  #   background.drawing=on background.color=$BG_COLOUR \
+  #   background.corner_radius=$BG_RADIUS background.height=$BG_HEIGHT
 else
   sketchybar --set "$NAME" drawing=off
 fi
