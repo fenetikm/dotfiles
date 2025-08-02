@@ -9,7 +9,7 @@ return {
     dir = '~/Documents/Work/internal/vim/colors/falcon',
     lazy = false,
     priority = 1000,
-    dependencies = {'rktjmp/lush.nvim'},
+    dependencies = { 'rktjmp/lush.nvim' },
     config = function()
       vim.g.falcon_settings = {
         italic_comments = false,
@@ -47,9 +47,9 @@ return {
   },
   {
     'gregsexton/MatchTag',
-    ft = {'html'}, --html tag matching
+    ft = { 'html' }, --html tag matching
   },
-  {'andymass/vim-matchup', event = 'VimEnter'},
+  { 'andymass/vim-matchup',   event = 'VimEnter' },
 
   -- Git - see git.lua
 
@@ -62,31 +62,31 @@ return {
       'TestFile',
     },
     keys = {
-      {'<leader>oo', '<cmd>TestLast<cr>', silent = true, noremap = true},
-      {'<leader>on', '<cmd>TestNearest<cr>', silent = true, noremap = true},
-      {'<leader>of', '<cmd>TestFile<cr>', silent = true, noremap = true},
+      { '<leader>oo', '<cmd>TestLast<cr>',    silent = true, noremap = true },
+      { '<leader>on', '<cmd>TestNearest<cr>', silent = true, noremap = true },
+      { '<leader>of', '<cmd>TestFile<cr>',    silent = true, noremap = true },
     }
   },
 
   -- Spelling
-  {'tpope/vim-abolish'},
+  { 'tpope/vim-abolish' },
 
   -- Tmux
-  { 'benmills/vimux', event = 'VeryLazy'},
+  { 'benmills/vimux',                  event = 'VeryLazy' },
 
   -- Focus mode
-  {'junegunn/goyo.vim', event = 'VeryLazy'},
+  { 'junegunn/goyo.vim',               event = 'VeryLazy' },
 
   -- Motion
-  { 'chaoren/vim-wordmotion', event = 'VeryLazy'},--Expand the definition of what a word is
-  { 'christoomey/vim-tmux-navigator', event = 'VeryLazy'},--navigate betwenn tmux splits and vim together
+  { 'chaoren/vim-wordmotion',          event = 'VeryLazy' }, --Expand the definition of what a word is
+  { 'christoomey/vim-tmux-navigator',  event = 'VeryLazy' }, --navigate betwenn tmux splits and vim together
 
   -- Search
-  {'BurntSushi/ripgrep', event = 'VeryLazy'},
+  { 'BurntSushi/ripgrep',              event = 'VeryLazy' },
   -- {'wincent/loupe', event = 'VeryLazy'}, --nicer search highlighting
   -- {'wincent/ferret', event = 'VeryLazy'}, --multi file search
   --
-  {'nelstrom/vim-visual-star-search', event = 'VeryLazy'}, --use * in visual mode to search
+  { 'nelstrom/vim-visual-star-search', event = 'VeryLazy' }, --use * in visual mode to search
   -- {'jesseleite/vim-agriculture', event = 'VeryLazy'}, --pass things through to rg
   {
     'folke/flash.nvim',
@@ -97,11 +97,11 @@ return {
       }
     },
     keys = {
-      { "<leader>j", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-      { "<leader>J", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+      { "<leader>j", mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
+      { "<leader>J", mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
+      { "r",         mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
+      { "R",         mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>",     mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
     },
   },
 
@@ -119,8 +119,8 @@ return {
           options = {
             ['ignore-case'] = {
               value = "--ignore-case",
-              icon ="[I]",
-              desc ="ignore case"
+              icon = "[I]",
+              desc = "ignore case"
             },
           }
         },
@@ -133,25 +133,32 @@ return {
   {
     'monaqa/dial.nvim',
     keys = {
-      {'+', '<Plug>(dial-increment)', desc = 'Increment value'},
-      {'-', '<Plug>(dial-decrement)', desc = 'Decrement value'},
+      { '+', '<Plug>(dial-increment)', desc = 'Increment value' },
+      { '-', '<Plug>(dial-decrement)', desc = 'Decrement value' },
     },
     config = function()
       local augend = require('dial.augend')
-      require('dial.config').augends:register_group{
+      require('dial.config').augends:register_group {
         default = {
           augend.integer.alias.decimal_int,
           augend.date.alias['%Y-%m-%d'],
           augend.misc.alias.markdown_header,
           augend.constant.alias.bool,
-          augend.constant.new{
-            elements = {'False', 'True'},
+          augend.constant.new {
+            elements = { 'False', 'True' },
             word = true,
             cyclic = true,
           },
         }
       }
     end,
+  },
+  {
+    'echasnovski/mini.splitjoin',
+    version = '*',
+    config = function()
+      require('mini.splitjoin').setup()
+    end
   },
 
   -- Statusline, see lualine.lua file
@@ -163,8 +170,8 @@ return {
   -- Formatting
   {
     'junegunn/vim-easy-align',
-    cmd = {'EasyAlign'},
-    config = function ()
+    cmd = { 'EasyAlign' },
+    config = function()
       vim.g.easy_align_bypass_fold = 1
       vim.g.easy_align_ignore_groups = {}
     end
@@ -174,11 +181,11 @@ return {
   {
     'jpalardy/vim-slime',
     event = 'VeryLazy',
-    config = function ()
+    config = function()
       vim.g.slime_target = 'tmux'
       vim.g.slime_default_config = {
-            socket_name = 'default',
-            target_pane = '{right}'
+        socket_name = 'default',
+        target_pane = '{right}'
       }
     end
   }, --send output from buffer to tmux / repl
@@ -202,14 +209,14 @@ return {
   -- Syntax
   {
     'preservim/vim-markdown',
-    ft = {'markdown'},
+    ft = { 'markdown' },
     config = function()
       vim.g.vim_markdown_frontmatter = 1
-      vim.g.vim_markdown_strikethrough = 1 --strikethrough support, with two tildes ~~
+      vim.g.vim_markdown_strikethrough = 1             --strikethrough support, with two tildes ~~
       vim.g.vim_markdown_no_extensions_in_markdown = 1 --.md not required in links
-      vim.g.vim_markdown_auto_insert_bullets = 0 --disable new line bullets
-      vim.g.vim_markdown_new_list_item_indent = 0 --disable the indenting
-      vim.g.vim_markdown_autowrite = 1 --save file when following a link
+      vim.g.vim_markdown_auto_insert_bullets = 0       --disable new line bullets
+      vim.g.vim_markdown_new_list_item_indent = 0      --disable the indenting
+      vim.g.vim_markdown_autowrite = 1                 --save file when following a link
       vim.g.vim_markdown_folding_style_pythonic = 1
     end
   },
@@ -217,7 +224,7 @@ return {
     'norcalli/nvim-colorizer.lua',
     opts = { 'css', 'html' },
     ft = { 'css', 'html' },
-    cmd = {'ColorizerAttachToBuffer', 'ColorizerToggle'}
+    cmd = { 'ColorizerAttachToBuffer', 'ColorizerToggle' }
   },
 
   -- Text objects
@@ -268,8 +275,8 @@ return {
     'chrisgrieser/nvim-various-textobjs',
     event = 'VeryLazy',
     keys = {
-      {'ii', '<cmd>lua require("various-textobjs").indentation("inner", "inner")<cr>', mode = {"x", "o"}, silent = true},
-      {'ai', '<cmd>lua require("various-textobjs").indentation("outer", "inner")<cr>', mode = {"x", "o"}, silent = true},
+      { 'ii', '<cmd>lua require("various-textobjs").indentation("inner", "inner")<cr>', mode = { "x", "o" }, silent = true },
+      { 'ai', '<cmd>lua require("various-textobjs").indentation("outer", "inner")<cr>', mode = { "x", "o" }, silent = true },
     }
   },
 
@@ -277,8 +284,8 @@ return {
   -- PHP
   {
     'fenetikm/phpfolding.vim',
-    ft = {'php'},
-    config = function ()
+    ft = { 'php' },
+    config = function()
       vim.g.PHPFoldingCollapsedSymbol = '+'
       vim.g.PHPFoldingRepeatSymbol = ''
       vim.g.PHPFoldingShowPercentage = 0
@@ -286,10 +293,10 @@ return {
       vim.g.DisableAutoPHPFolding = 1
     end
   },
-  {'alvan/vim-php-manual', ft = {'php'}}, --php manual
+  { 'alvan/vim-php-manual',    ft = { 'php' } }, --php manual
 
   -- Java
-  {'mfussenegger/nvim-jdtls', ft = {'java'}},
+  { 'mfussenegger/nvim-jdtls', ft = { 'java' } },
 
   -- Debugging see debugging.lua
 
@@ -301,9 +308,9 @@ return {
     "kkoomen/vim-doge",
     event = 'VeryLazy',
     keys = {
-      {'<leader>dd', '<plug>(doge-generate)'}
+      { '<leader>dd', '<plug>(doge-generate)' }
     },
-    init = function ()
+    init = function()
       vim.g.doge_enable_mappings = 0
       vim.g.doge_mapping_comment_jump_forward = '<c-j>'
       vim.g.doge_mapping_comment_jump_backward = '<c-n>'
@@ -315,9 +322,9 @@ return {
   -- Other
   {
     'dkarter/bullets.vim',
-    ft = {'markdown','text'},
-    init = function ()
-      vim.g.bullets_enabled_file_types = {'markdown', 'text'}
+    ft = { 'markdown', 'text' },
+    init = function()
+      vim.g.bullets_enabled_file_types = { 'markdown', 'text' }
       vim.g.bullets_enable_in_empty_buffers = 0
       vim.g.bullets_pad_right = 0
       vim.g.bullets_checkbox_markers = ' .oOX'
@@ -328,15 +335,15 @@ return {
       }
     end
   },
-  {'tpope/vim-unimpaired', event = 'VimEnter'}, --Various dual pair commands
-  {'tpope/vim-repeat', event = 'VimEnter'}, --Repeat plugin commands
-  {'Valloric/ListToggle', event = 'VeryLazy'}, --Toggle quickfix and location lists
+  { 'tpope/vim-unimpaired', event = 'VimEnter' }, --Various dual pair commands
+  { 'tpope/vim-repeat',     event = 'VimEnter' }, --Repeat plugin commands
+  { 'Valloric/ListToggle',  event = 'VeryLazy' }, --Toggle quickfix and location lists
   {
-    'Wansmer/sibling-swap.nvim', -- swap nodes e.g. params/args, conditions etc.
+    'Wansmer/sibling-swap.nvim',                  -- swap nodes e.g. params/args, conditions etc.
     event = 'VeryLazy',
     keys = {
-      {'<C-.>', function () require('sibling-swap').swap_with_right() end, desc = "Swap with right node"},
-      {'<C-,>', function () require('sibling-swap').swap_with_left() end, desc = "Swap with left node"},
+      { '<C-.>', function() require('sibling-swap').swap_with_right() end, desc = "Swap with right node" },
+      { '<C-,>', function() require('sibling-swap').swap_with_left() end,  desc = "Swap with left node" },
     },
     config = function()
       require('sibling-swap').setup({
@@ -383,7 +390,7 @@ return {
       }
     },
     keys = {
-      {'<leader>z', function() require('zen-mode').toggle() end},
+      { '<leader>z', function() require('zen-mode').toggle() end },
     },
     opts = {
       window = {

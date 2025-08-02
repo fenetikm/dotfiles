@@ -27,5 +27,5 @@ fi
 if [[ "$SELECTED" == "true" ]]; then
   sketchybar --set "$NAME" label.color="$SELECTED_COLOUR"
 else
-  sketchybar --set "$NAME" label.color="$ICON_COLOUR"
+  sketchybar --set "$NAME" label.color="$PASSIVE_COLOUR"
 fi

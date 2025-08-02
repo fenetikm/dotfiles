@@ -1,23 +1,25 @@
 -- center the screen on the cursor when jumping around methods
-vim.keymap.set('n', '[m', '[mzz', {noremap = true})
-vim.keymap.set('n', ']m', ']mzz', {noremap = true})
+vim.keymap.set('n', '[m', '[mzz', { noremap = true })
+vim.keymap.set('n', ']m', ']mzz', { noremap = true })
 
 -- yank to end of line, just like shit-d, shift-c
-vim.keymap.set('n', '<s-y>', 'y$', {noremap = true})
+vim.keymap.set('n', '<s-y>', 'y$', { noremap = true })
 
 -- move selection up and down, thanks prime
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 -- open file under cursor
-vim.keymap.set('n', 'gx', [[:execute '!open ' . shellescape(expand('<cfile>'), 1)<CR>]], {noremap = true, silent = true})
+vim.keymap.set('n', 'gx', [[:execute '!open ' . shellescape(expand('<cfile>'), 1)<CR>]],
+  { noremap = true, silent = true })
 
 -- if current line is empty, send to _ register, otherwise copy
-vim.keymap.set("n", "dd", function ()
+vim.keymap.set("n", "dd", function()
   if vim.fn.getline(".") == "" then return '"_dd' end
   return "dd"
-end, {expr = true})
+end, { expr = true })
 
+-- previous mappings
 -- redoo shift+u
 vim.keymap.set('n', 'U', '<c-r>')
 
@@ -26,23 +28,25 @@ vim.keymap.set('n', 'j', 'v:count ? "j" : "gj"', { noremap = true, expr = true }
 vim.keymap.set('n', 'k', 'v:count ? "k" : "gk"', { noremap = true, expr = true })
 
 -- bigger move up and down
-vim.keymap.set('n', 'J', '6j', {}) vim.keymap.set('n', 'K', '6k', {})
+vim.keymap.set('n', 'J', '6j', {})
+vim.keymap.set('n', 'K', '6k', {})
 
 -- replace join (now taken by the above)
 -- vim.keymap.set('n', '<c-o>', '<cmd>join<cr>')
 
 -- keep cursor in middle of page when going to next search hit
-vim.keymap.set('n', 'n', 'nzzzv', {noremap = true})
-vim.keymap.set('n', 'N', 'Nzzzv', {noremap = true})
+vim.keymap.set('n', 'n', 'nzzzv', { noremap = true })
+vim.keymap.set('n', 'N', 'Nzzzv', { noremap = true })
 
 -- fast split switching
-vim.keymap.set('n', '<c-h>', '<c-w>h', {noremap = true})
-vim.keymap.set('n', '<c-j>', '<c-w>j', {noremap = true})
-vim.keymap.set('n', '<c-k>', '<c-w>k', {noremap = true})
-vim.keymap.set('n', '<c-l>', '<c-w>l', {noremap = true})
+vim.keymap.set('n', '<c-h>', '<c-w>h', { noremap = true })
+vim.keymap.set('n', '<c-j>', '<c-w>j', { noremap = true })
+vim.keymap.set('n', '<c-k>', '<c-w>k', { noremap = true })
+vim.keymap.set('n', '<c-l>', '<c-w>l', { noremap = true })
 
 -- swap window direction
-vim.keymap.set('n', '<c-w>s', '<cmd>call custom#ToggleWindowHorizontalVerticalSplit()<cr>', {noremap = true, silent = true})
+vim.keymap.set('n', '<c-w>s', '<cmd>call custom#ToggleWindowHorizontalVerticalSplit()<cr>',
+  { noremap = true, silent = true })
 
 -- switch tabs
 vim.keymap.set('n', '<c-w>n', '<c-pagedown>', { noremap = true })
@@ -50,6 +54,18 @@ vim.keymap.set('n', '<c-w>p', '<c-pageup>', { noremap = true })
 
 -- focus fold, close others
 vim.keymap.set('n', 'z<space>', 'zMzAzz', { noremap = true })
+
+-- navigate folds
+vim.keymap.set('n', '[z', 'zk', { noremap = true })
+vim.keymap.set('n', 'z]', 'zj', { noremap = true })
+
+-- in visual mode can go back and forward on the current selection
+vim.keymap.set('v', '*', '<cmd>call VisualSelection("f")', { noremap = true, silent = true })
+vim.keymap.set('v', '#', '<cmd>call VisualSelection("b")', { noremap = true, silent = true })
+
+-- get the selection back after indenting
+vim.keymap.set('x', '<', '<gv', { noremap = true })
+vim.keymap.set('x', '>', '>gv', { noremap = true })
 
 vim.cmd([[
   "Redo for shift-u
@@ -59,45 +75,9 @@ vim.cmd([[
   " not sure how to use this!
   " nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
 
-  "treat long lines as break lines, but don't mess with the count for relative numbering
-  " nnoremap <expr> j v:count ? 'j' : 'gj'
-  " nnoremap <expr> k v:count ? 'k' : 'gk'
-
-  " Keep search matches in the middle of the window, n goes forward, N goes back
-  " How to make this work?
-  " nnoremap <expr> n  'Nn'[v:searchforward] . 'zv'
-  " xnoremap <expr> n  'Nn'[v:searchforward]
-  " onoremap <expr> n  'Nn'[v:searchforward]
-  "
-  " nnoremap <expr> N  'nN'[v:searchforward] . 'zv'
-  " xnoremap <expr> N  'nN'[v:searchforward]
-  " onoremap <expr> N  'nN'[v:searchforward]
-  " nnoremap n nzzzv
-  " nnoremap N Nzzzv
-
-  " Fast switching between splits
-  " nnoremap <c-h> <c-w>h
-  " nnoremap <c-j> <c-w>j
-  " nnoremap <c-k> <c-w>k
-  " nnoremap <c-l> <c-w>l
-
-  "s for `swap` direction
-  " nnoremap <silent> <c-w>s :call custom#ToggleWindowHorizontalVerticalSplit()<cr>
-
-  " switch tabs
-  " nnoremap <c-w>n <c-pagedown>
-  " nnoremap <c-w>p <c-pageup>
-
-  "focus the current fold
-  " nnoremap z<space> zMzAzz
-
-  " Folds navigation
-  nnoremap [z zk
-  nnoremap ]z zj
-
   "visual mode pressing * or # searches for the current selection
-  vnoremap <silent> * :call VisualSelection('f')<cr>
-  vnoremap <silent> # :call VisualSelection('b')<cr>
+  " vnoremap <silent> * :call VisualSelection('f')<cr>
+  " vnoremap <silent> # :call VisualSelection('b')<cr>
 
   "remap ` to '
   "` jumps to the line and column marked with ma
@@ -105,8 +85,8 @@ vim.cmd([[
   nnoremap ` '
 
   "get the selection back after indenting
-  xnoremap <  <gv
-  xnoremap >  >gv
+  " xnoremap <  <gv
+  " xnoremap >  >gv
 
   "yanking and pasting from a register with indent
   "can these be made shorter? better?
@@ -115,7 +95,8 @@ vim.cmd([[
   " nnoremap <leader>d "udd
   " nnoremap <leader>p "up=iB
   " nnoremap <leader>P "uP=iB
-  " paste without destroying what was previously yanked
+
+  " paste without destroying what was previously yanked, neat
   vnoremap <leader>p "_dP
 
   "visual mode
@@ -158,7 +139,7 @@ vim.cmd([[
   nnoremap Q <nop>
 
   "this breaks things... somewhere
-  map <c-,> nop
+  " map <c-,> nop
 
   "region expanding
   vmap v <Plug>(expand_region_expand)

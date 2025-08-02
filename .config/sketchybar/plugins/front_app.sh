@@ -36,5 +36,5 @@ fi
 
 # only update when the app is switched
 if [[ "$SENDER" = "front_app_switched" ]]; then
-  sketchybar --set "$NAME" label="${TITLE}" label.color=$DEFAULT_COLOUR icon="${ICON}" padding_left=0
+  sketchybar --set "$NAME" label="${TITLE}" label.color=$PASSIVE_COLOUR icon="${ICON}" padding_left=0
 fi

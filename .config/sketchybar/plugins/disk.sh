@@ -9,7 +9,7 @@ THRESHOLD=100
 SPACE=$(df -h --si "/" | tail -n 1 | cut -w -f4)
 NUM=$(echo $SPACE | sed -E 's/G//')
 ICON=
-COLOUR=$DEFAULT_COLOUR
+COLOUR=$PASSIVE_COLOUR
 if (( "$NUM" < 20 )); then
   COLOUR=$WARNING_COLOUR
 fi

@@ -13,11 +13,12 @@ vim.cmd([[
   " map! <F19> <c-.>
 
   " control-[ is now f20 via karabiner elements
-  nnoremap <F18> <c-t>
+  " nnoremap <F18> <c-t>
   "apparently this is f18 in tmux?
-  nnoremap <S-F6> <c-t>
+  " nnoremap <S-F6> <c-t>
 
   "without this the world dies when <c-,> is hit?
-  inoremap <F18> <nop>
+  " inoremap <F18> <nop>
+,
 
 ]])
