@@ -15,6 +15,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- haven't yet worked out where to put these but here works
+-- todo: replace with exrc
 vim.g.localvimrc_ask = 0
 vim.g.localvimrc_sandbox = 0
 

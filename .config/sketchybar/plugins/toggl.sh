@@ -14,7 +14,7 @@ PROJECT_NAME=
 PROJECT_COLOUR=
 TASK_NAME=
 TEXT=
-COLOUR=$DEFAULT_COLOUR
+COLOUR=$ACTIVE_COLOUR
 # STYLE=contrast
 STYLE=subtle
 
@@ -98,22 +98,23 @@ if [[ -n "$TEXT" ]]; then
     FG_COLOUR="$PROJECT_COLOUR"
   else
     BG_COLOUR="0x50$PROJECT_COLOUR"
-    FG_COLOUR="$DEFAULT_COLOUR"
+    FG_COLOUR="$ACTIVE_COLOUR"
   fi
 
-  # haven't got the right balance here with respect to info vs colour
-  # icon is kind of pointless
-  sketchybar --set "$NAME" icon="$ICON" icon.color="${FG_COLOUR}" label="${TEXT}" label.color="${FG_COLOUR}" drawing=on \
-    padding_right=7 \
-    label.padding_right=8 \
-    icon.padding_left=8 \
-    icon.y_offset=-1 \
-    y_offset=-1 \
-    background.shadow.drawing=off \
-    background.color=0x00000000 \
-    background.drawing=on \
-    background.border_color=$BG_COLOUR background.border_width=2 \
-    background.corner_radius=$BG_RADIUS background.height=$BG_HEIGHT
+  # sketchybar --set "$NAME" icon="$ICON" icon.color="${FG_COLOUR}" label="${TEXT}" label.color="${FG_COLOUR}" drawing=on \
+  #   padding_right=7 \
+  #   label.padding_right=8 \
+  #   icon.padding_left=8 \
+  #   icon.y_offset=-1 \
+  #   y_offset=-1 \
+  #   background.shadow.drawing=off \
+  #   background.color=0x00000000 \
+  #   background.drawing=on \
+  #   background.border_color=$BG_COLOUR background.border_width=2 \
+  #   background.corner_radius=$BG_RADIUS background.height=$BG_HEIGHT
+
+  sketchybar --set "$NAME" label="T:${TEXT}" label.color="${FG_COLOUR}" drawing=on \
+    padding_right=6
 
   # sketchybar --set "$NAME" icon="$ICON" icon.color="${FG_COLOUR}" label="${TEXT}" label.color="${FG_COLOUR}" drawing=on \
   #   padding_right=7 \

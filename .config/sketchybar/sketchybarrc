@@ -55,7 +55,7 @@ default=(
   icon.font="$ICON_FONT:$ICON_FONT_WEIGHT:${ICON_SIZE}"
   label.font="${FONT}:${FONT_WEIGHT}:${FONT_SIZE}"
   icon.color=$ICON_COLOUR
-  label.color=$DEFAULT_COLOUR
+  label.color=$PASSIVE_COLOUR
   icon.padding_left=4
   icon.padding_right=3
   label.padding_left=2
@@ -127,11 +127,20 @@ sketchybar \
     width=10
 
 sketchybar \
-  --add item space.space_name left \
-  --set space.space_name \
+  --add item space.space_name_1 left \
+  --set space.space_name_1 \
     icon.drawing=off \
-    script="$PLUGIN_DIR/front_space.sh" \
-  --subscribe space.space_name front_app_switched
+    display=1 \
+    script="$PLUGIN_DIR/front_space_1.sh" \
+  --subscribe space.space_name_1 front_app_switched
+
+sketchybar \
+  --add item space.space_name_2 left \
+  --set space.space_name_2 \
+    icon.drawing=off \
+    display=2 \
+    script="$PLUGIN_DIR/front_space_2.sh" \
+  --subscribe space.space_name_2 front_app_switched
 
 # adds the right padding
 sketchybar \
@@ -141,7 +150,7 @@ sketchybar \
     padding_left=0 padding_right=0 \
     width=6
 
-# notes: the way this works is that all items that match the regex end up in the pill / bracketd item
+# notes: the way this works is that all items that match the regex end up in the pill / bracketed item
 sketchybar \
   --add bracket spaces '/space\..*/' \
   --set spaces background.color=$BG1_COLOUR \

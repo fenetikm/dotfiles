@@ -4,5 +4,5 @@
 if [ "$SENDER" = "volume_change" ]; then
   VOLUME="$INFO"
 
-  sketchybar --set "$NAME" label="V:$VOLUME" icon.drawing=off
+  sketchybar --set "$NAME" label="V:$VOLUME" icon.drawing=off padding_right=4
 fi
