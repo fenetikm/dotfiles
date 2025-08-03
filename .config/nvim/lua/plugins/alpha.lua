@@ -1,12 +1,12 @@
 local function generateArt()
-  
+
 end
 
 return {
   {
     'goolord/alpha-nvim',
     lazy = false,
-    config = function ()
+    config = function()
       local path_ok, plenary_path = pcall(require, "plenary.path")
       if not path_ok then
         return
@@ -16,8 +16,8 @@ return {
       local cdir = vim.fn.getcwd()
       local if_nil = vim.F.if_nil
 
-      local alpha = require'alpha'
-      local fortune = require'alpha.fortune'
+      local alpha = require 'alpha'
+      local fortune = require 'alpha.fortune'
 
       local atari_art = {
         [[                oo ooooo oo                ]],
@@ -40,7 +40,7 @@ return {
       local function lineToStartGradient(lines)
         local out = {}
         for i, line in ipairs(lines) do
-          table.insert(out, { hi = "StartLogo"..i, line = line})
+          table.insert(out, { hi = "StartLogo" .. i, line = line })
         end
 
         return out
@@ -80,7 +80,7 @@ return {
         local fb_hl = {}
 
         local cd_cmd = (autocd and " | cd %:p:h" or "")
-        local file_button_el = dashboard.button(sc, ico_txt .. short_fn, "<cmd>e " .. fn .. cd_cmd .." <CR>")
+        local file_button_el = dashboard.button(sc, ico_txt .. short_fn, "<cmd>e " .. fn .. cd_cmd .. " <CR>")
         local fn_start = short_fn:match(".*[/\\]")
         if fn_start ~= nil then
           table.insert(fb_hl, { "Comment", #ico_txt - 2, #fn_start + #ico_txt })
@@ -212,8 +212,8 @@ return {
         },
         opts = {
           margin = 5,
-          setup = function ()
-            vim.opt_local.fillchars = 'vert:|,stl: ,stlnc: '
+          setup = function()
+            vim.opt_local.fillchars = 'vert:|,stl: ,stlnc: ,eob: '
           end,
           noautocmd = true,
         },
