@@ -14,10 +14,10 @@ if [[ "$PERCENTAGE" == "100" ]]; then
   exit 0;
 fi
 
-LABEL="B:"
+LABEL="E:"
 
 if [[ "$CHARGING" != "" ]]; then
-  LABEL="P:"
+  LABEL="E:"
 fi
 LABEL="$LABEL$PERCENTAGE"
 

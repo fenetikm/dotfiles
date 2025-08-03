@@ -58,9 +58,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     -- end defaults
     -- changed from the default ctrl-s
-    vim.keymap.set('i', '<c-h>', function()
-      vim.lsp.buf.signature_help()
-    end, { buffer = true, silent = true })
+    vim.keymap.set({ 'i' }, '<c-h>', function()
+      require('lsp_signature').toggle_float_win()
+    end, { silent = true, noremap = true, desc = 'toggle signature' })
 
     vim.keymap.set('n', 'grl', function()
       vim.diagnostic.open_float({ border = 'rounded' })

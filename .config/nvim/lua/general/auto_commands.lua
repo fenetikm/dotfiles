@@ -12,7 +12,7 @@ vim.api.nvim_create_autocmd({ 'InsertEnter', 'WinLeave' }, {
   group = mw_group
 })
 
--- reload window when gaining focus - is this right?!
+-- reload window when gaining focus
 vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter' }, {
   pattern = '*',
   command = 'silent! !',
@@ -37,7 +37,7 @@ vim.api.nvim_create_autocmd({ 'BufReadPost' }, {
   group = mw_group
 })
 
--- tweak yank highlight timing
+-- tweak yank highlight timing so we can see it do the thing
 vim.api.nvim_create_autocmd({ 'TextYankPost' }, {
   pattern = '*',
   callback = function()

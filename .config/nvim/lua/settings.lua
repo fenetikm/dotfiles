@@ -1,39 +1,39 @@
-vim.o.compatible = false --disable compatibility with vi
-vim.o.scrolloff = 5 --set number of lines to show above and below cursor
-vim.o.sidescrolloff=5 -- same as scrolloff, but for columns
-vim.o.history = 999 --number of lines of history
-vim.o.cursorline = true --highlight the line the cursor is on
+vim.o.compatible = false    --disable compatibility with vi
+vim.o.scrolloff = 5         --set number of lines to show above and below cursor
+vim.o.sidescrolloff = 5     -- same as scrolloff, but for columns
+vim.o.history = 999         --number of lines of history
+vim.o.cursorline = true     --highlight the line the cursor is on
 vim.o.clipboard = 'unnamed' --for copy and paste, anonymous register aliased to * register
-vim.o.autoread = true --set to auto read when a file is changed from the outside
-vim.o.report = 0 --Always report line changes
-vim.o.mouse = 'nv' -- mouse only enabled in normal and visual
-vim.o.showcmd = false --hide the command showing in the status
-vim.o.nrformats = "" --force decimal-based arithmetic
-vim.o.termguicolors = true --24bitcolors
-vim.o.errorbells = false --no annoying beeps
-vim.o.visualbell = false --no screen flashes on errors
-vim.o.timeoutlen = 1000 --timeout for leader key
-vim.o.ttimeoutlen = 5 --timeout for key code delays
-vim.o.showmode = false --hide showing which mode we are in, the status bar is fine
+vim.o.autoread = true       --set to auto read when a file is changed from the outside
+vim.o.report = 0            --Always report line changes
+vim.o.mouse = 'nv'          -- mouse only enabled in normal and visual
+vim.o.showcmd = false       --hide the command showing in the status
+vim.o.nrformats = ""        --force decimal-based arithmetic
+vim.o.termguicolors = true  --24bitcolors
+vim.o.errorbells = false    --no annoying beeps
+vim.o.visualbell = false    --no screen flashes on errors
+vim.o.timeoutlen = 1000     --timeout for leader key
+vim.o.ttimeoutlen = 5       --timeout for key code delays
+vim.o.showmode = false      --hide showing which mode we are in, the status bar is fine
 
-vim.o.splitbelow = true --horizontal split shows up below
-vim.o.previewheight = 10 --preview window height
+vim.o.splitbelow = true     --horizontal split shows up below
+vim.o.previewheight = 10    --preview window height
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 
-vim.o.encoding = "utf-8" -- standard encoding
-vim.o.hidden = true -- hide buffers instead of closing them
-vim.o.expandtab = true --substitute tabs with spaces
-vim.o.smarttab = true --delete spaces when appropriate
-vim.o.shiftwidth = 2 --how far to shift when indenting
-vim.o.tabstop = 2 --how many columns does a tab count for
-vim.o.lbr = true --enable linebreaking
-vim.o.breakindent = true --indent lines that are broken
+vim.o.encoding = "utf-8"         -- standard encoding
+vim.o.hidden = true              -- hide buffers instead of closing them
+vim.o.expandtab = true           --substitute tabs with spaces
+vim.o.smarttab = true            --delete spaces when appropriate
+vim.o.shiftwidth = 2             --how far to shift when indenting
+vim.o.tabstop = 2                --how many columns does a tab count for
+vim.o.lbr = true                 --enable linebreaking
+vim.o.breakindent = true         --indent lines that are broken
 vim.o.breakindentopt = "shift:1" --when breaking, shift by 1 column to emphasise the break
-vim.o.tw = 0 --max width of text being inserted, a lower number will be broken by this number
-vim.o.autoindent = true --copy indent from current line when starting new line
-vim.o.wrap = true --wrap visually, don't actually change file
+vim.o.tw = 0                     --max width of text being inserted, a lower number will be broken by this number
+vim.o.autoindent = true          --copy indent from current line when starting new line
+vim.o.wrap = true                --wrap visually, don't actually change file
 
 vim.o.list = true
 vim.o.listchars = ''
@@ -97,22 +97,24 @@ vim.o.wildignore = vim.o.wildignore .. 'tmp/**'
 vim.o.wildignore = vim.o.wildignore .. 'vendor/cache/**'
 
 -- Search
-vim.o.infercase = true --adjust case when searching
-vim.o.ignorecase = true --ignore case when searching
-vim.o.smartcase = true --use case searching if uppercase in query
-vim.o.hlsearch = true --highlight search results
-vim.o.incsearch = true --incremental search, doesn't required enter
-vim.o.inccommand = 'nosplit' --show replacements live
-vim.o.magic = true --more "normal" regex matching
-vim.o.showmatch = true --show matching parens, brackets, braces when cursor is on one
-vim.o.mat = 2 --tenths of a second to show match
+vim.o.infercase = true                 --adjust case when searching
+vim.o.ignorecase = true                --ignore case when searching
+vim.o.smartcase = true                 --use case searching if uppercase in query
+vim.o.hlsearch = true                  --highlight search results
+vim.o.incsearch = true                 --incremental search, doesn't required enter
+vim.o.inccommand = 'nosplit'           --show replacements live
+vim.o.magic = true                     --more "normal" regex matching
+vim.o.showmatch = true                 --show matching parens, brackets, braces when cursor is on one
+vim.o.mat = 2                          --tenths of a second to show match
 
 vim.o.completeopt = 'menuone,noselect' --show popupmenu when one or more completions
-                                       --don't select any completions by default
+--don't select any completions by default
 
 vim.o.shada = '!,\'100,<50,s10,h,%' -- shared data file settings
-                                     -- save global variables with uppercase
-                                     -- save buffer list
-                                     -- 100 previous file marks, disable hlsearch effect
-                                     -- 50 line max for registers
-                                     -- 10kb max for any item
+-- save global variables with uppercase
+-- save buffer list
+-- 100 previous file marks, disable hlsearch effect
+-- 50 line max for registers
+-- 10kb max for any item
+
+vim.o.exrc = true --project local config

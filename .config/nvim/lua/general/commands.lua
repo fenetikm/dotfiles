@@ -1,12 +1,20 @@
+vim.api.nvim_create_user_command('RenameFile', 'call custom#RenameFile()', { bang = true })
+
+vim.api.nvim_create_user_command('RemoveFancyCharacters', 'call custom#RemoveFancyCharacters()', { bang = true })
+
+vim.api.nvim_create_user_command('RemoveQuotes', 'call custom#RemoveQuotes()', { bang = true })
+
+vim.api.nvim_create_user_command('TrimWhiteSpace', 'call custom#TrimWhiteSpace()', { bang = true })
+
 vim.cmd([[
-  command! RenameFile :call custom#RenameFile()
+  " command! RenameFile :call custom#RenameFile()
 
-  command! TrimWhiteSpace :call custom#TrimWhiteSpace()
-  command! RemoveFancyCharacters :call custom#RemoveFancyCharacters()
-  command! RemoveQuotes :call custom#RemoveQuotes()
+  " command! TrimWhiteSpace :call custom#TrimWhiteSpace()
+  " command! RemoveFancyCharacters :call custom#RemoveFancyCharacters()
+  " command! RemoveQuotes :call custom#RemoveQuotes()
 
-  command! Bdi :call custom#DeleteInactiveBufs()
-  command! DeleteInactiveBuffers :call custom#DeleteInactiveBufs()
+  " command! Bdi :call custom#DeleteInactiveBufs()
+  " command! DeleteInactiveBuffers :call custom#DeleteInactiveBufs()
 
   command! StartProfile call custom#StartProfile()
   command! StopProfile call custom#StopProfile()

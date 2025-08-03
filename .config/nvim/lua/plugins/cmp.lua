@@ -10,12 +10,9 @@ return {
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-nvim-lua',
-      -- 'quangnguyen30192/cmp-nvim-ultisnips',
       'saadparwaiz1/cmp_luasnip',
-      -- 'amarakon/nvim-cmp-buffer-lines',
-      -- 'hrsh7th/cmp-nvim-lsp-signature-help', -- tends to give two windows then
     },
-    config = function ()
+    config = function()
       -- local lspkind = require('lspkind')
       -- lspkind.init()
       local cmp = require('cmp')
@@ -92,14 +89,14 @@ return {
           --     end
           --   end,
           ['<c-e>'] = function(fallback)
-              if cmp.visible() then
-                -- close and move to end
-                cmp.mapping.close()
-                fallback()
-              else
-                fallback()
-              end
-            end,
+            if cmp.visible() then
+              -- close and move to end
+              cmp.mapping.close()
+              fallback()
+            else
+              fallback()
+            end
+          end,
           ['<c-cr>'] = cmp.mapping.confirm({ select = true }),
           ['<c-j'] = cmp.mapping(function(fallback)
             if cmp.visible() then
@@ -109,7 +106,7 @@ return {
                 fallback()
               end
             end
-          end, {'i', 's'}),
+          end, { 'i', 's' }),
           ['<c-k'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               fallback()
@@ -118,37 +115,28 @@ return {
             else
               fallback()
             end
-          end, {'i', 's'}),
+          end, { 'i', 's' }),
         }),
         sources = cmp.config.sources({
-          { name = 'nvim_lua', max_item_count = 15 },
-          { name = 'nvim_lsp', max_item_count = 15},
-          { name = 'luasnip', priority = 1, max_item_count = 7 },
-          -- { name = 'nvim_lsp_signature_help'},
-        },
-        {
-          { name = 'path', max_item_count = 15, keyword_length = 5 },
-          {
-            name = 'buffer',
-            max_item_count = 15,
-            get_bufnrs = function()
-              -- complete from visible buffers
-              local bufs = {}
-              for _, win in ipairs(vim.api.nvim_list_wins()) do
-                bufs[vim.api.nvim_win_get_buf(win)] = true
-              end
-              return vim.tbl_keys(bufs)
-            end
+            { name = 'nvim_lua', max_item_count = 15 },
+            { name = 'nvim_lsp', max_item_count = 15 },
+            { name = 'luasnip',  priority = 1,       max_item_count = 7 },
           },
-          -- {
-          --   name = 'buffer-lines',
-          --   option = {
-          --     leading_whitespace = false,
-          --     max_size = 50, -- max filesize in KB
-          --   },
-          --   max_item_count = 5,
-          -- }
-        }),
+          {
+            { name = 'path', max_item_count = 15, keyword_length = 5 },
+            {
+              name = 'buffer',
+              max_item_count = 15,
+              get_bufnrs = function()
+                -- complete from visible buffers
+                local bufs = {}
+                for _, win in ipairs(vim.api.nvim_list_wins()) do
+                  bufs[vim.api.nvim_win_get_buf(win)] = true
+                end
+                return vim.tbl_keys(bufs)
+              end
+            },
+          }),
         formatting = {
           format = function(entry, vim_item)
             vim_item.kind = string.format('%s', vim_item.kind)
@@ -196,9 +184,9 @@ return {
       -- filetype specific setup
       cmp.setup.filetype({ 'markdown', 'help' }, {
         sources = {
-          { name = 'luasnip'},
-          { name = 'path'},
-          { name = 'buffer'},
+          { name = 'luasnip' },
+          { name = 'path' },
+          { name = 'buffer' },
         },
         completion = {
           autocomplete = false
