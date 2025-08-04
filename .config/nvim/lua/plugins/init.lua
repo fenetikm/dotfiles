@@ -27,10 +27,6 @@ return {
   {
     'dbakker/vim-projectroot'
   },
-  {
-    'embear/vim-localvimrc',
-    lazy = false,
-  },
 
   -- Matching
   {

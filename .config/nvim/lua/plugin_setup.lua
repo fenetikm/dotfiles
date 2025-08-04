@@ -1,5 +1,6 @@
 require('lazy').setup(
   {
+    root = vim.fn.stdpath("data") .. "/lazy",
     import = 'plugins',
     change_detection = {
       enabled = false,
