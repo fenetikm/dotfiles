@@ -4,12 +4,11 @@
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-    local bufnr = args.buf
 
     if client:supports_method('textDocument/documentHighlight') then
       vim.api.nvim_create_autocmd({ 'CursorHold' }, {
         group = vim.api.nvim_create_augroup('mw_lsp_highlight_hold', { clear = false }),
-        buffer = bufnr,
+        buffer = args.buf,
         callback = function()
           vim.lsp.buf.document_highlight()
         end
@@ -17,7 +16,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
       vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
         group = vim.api.nvim_create_augroup('mw_lsp_highlight_moved', { clear = false }),
-        buffer = bufnr,
+        buffer = args.buf,
         callback = function()
           vim.lsp.buf.clear_references()
         end
@@ -36,8 +35,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
 
     require('lsp_signature').on_attach({
-      hint_enable = false
-    }, bufnr)
+      hint_enable = false -- trying this out, trigger with c-h, see below
+    }, args.buf)
 
     vim.diagnostic.config({
       underline = true,
@@ -46,8 +45,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
       update_in_insert = false,
     })
 
-    vim.keymap.set('n', 'gd', function() vim.lsp.buf.declaration() end, { buffer = true, silent = true })
-    vim.keymap.set('n', 'gD', function() vim.lsp.buf.definition() end, { buffer = true, silent = true })
+    -- Disable document colors, instead use Colorizer
+    if client:supports_method('textDocument/documentColor') then
+      vim.lsp.document_color.enable(false, args.buf)
+    end
+
+    -- Defaults overridden elsewhere
+    -- vim.keymap.del('n', 'K', { buffer = args.buf })
+    -- vim.keymap.del('n', 'c-s', { buffer = args.buf })
 
     -- defaults, for completeness
     vim.keymap.set('n', 'grn', function() vim.lsp.buf.rename() end, { buffer = true, silent = true })
@@ -57,10 +62,16 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'gO', function() vim.lsp.buf.document_symbol() end, { buffer = true, silent = true })
 
     -- end defaults
-    -- changed from the default ctrl-s
+    -- instead of the default ctrl-s
     vim.keymap.set({ 'i' }, '<c-h>', function()
       require('lsp_signature').toggle_float_win()
-    end, { silent = true, noremap = true, desc = 'toggle signature' })
+    end, { silent = true, noremap = true })
+
+    -- Where the var is set
+    vim.keymap.set('n', 'gd', function() vim.lsp.buf.declaration() end, { buffer = true, silent = true })
+
+    -- Where the var is defined
+    vim.keymap.set('n', 'gD', function() vim.lsp.buf.definition() end, { buffer = true, silent = true })
 
     vim.keymap.set('n', 'grl', function()
       vim.diagnostic.open_float({ border = 'rounded' })
@@ -87,7 +98,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.lsp.buf.hover()
     end, { buffer = true, silent = true })
 
-    -- toggle virtual lines
+    -- toggle virtual lines, nifty
     vim.keymap.set('n', 'gl', function()
       if vim.diagnostic.config().virtual_lines then
         vim.diagnostic.config({ virtual_lines = false })

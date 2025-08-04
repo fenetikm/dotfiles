@@ -3,7 +3,7 @@ return {
     'nvim-treesitter/nvim-treesitter',
     version = false,
     build = ':TSUpdate',
-    event = {'VeryLazy'},
+    event = { 'VeryLazy' },
     init = function(plugin)
       -- PERF: add nvim-treesitter queries to the rtp and it's custom query predicates early
       -- This is needed because a bunch of plugins no longer `require("nvim-treesitter")`, which
@@ -46,9 +46,9 @@ return {
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
     keys = {
       { "<c-space>", desc = "Increment selection" },
-      { "<bs>", desc = "Decrement selection", mode = "x" },
+      { "<bs>",      desc = "Decrement selection", mode = "x" },
     },
-    config = function ()
+    config = function()
       local ts_configs = require('nvim-treesitter.configs')
       ts_configs.setup {
         ensure_installed = {
@@ -62,7 +62,7 @@ return {
         -- context_commentstring = { enable = true, enable_autocmd = false },
         highlight = {
           enable = true,
-          disable = {'markdown'},
+          disable = { 'markdown' },
         },
         indent = { enable = true },
         incremental_selection = {
@@ -83,6 +83,7 @@ return {
             goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer" },
           },
         },
+        -- using the LSP instead of these
         -- refactor = {
         --   smart_rename = {enable = true, keymaps = {smart_rename = "grr"}},
         --   highlight_definitions = {enable = true}
@@ -94,7 +95,7 @@ return {
   {
     'nvim-treesitter/playground',
     keys = {
-      {'<c-b>', '<cmd>TSHighlightCapturesUnderCursor<cr>', silent = false, noremap = true}
+      { '<c-b>', '<cmd>TSHighlightCapturesUnderCursor<cr>', silent = false, noremap = true }
     },
   },
   {

@@ -1,4 +1,5 @@
 require('disable_builtin')
+require('terminal_remap')
 require('bootstrap_lazy')
 require('settings')
 require('plugin_setup')
