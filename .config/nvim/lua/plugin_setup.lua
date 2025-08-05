@@ -1,4 +1,5 @@
-require('lazy').setup("plugins",
+require('lazy').setup(
+  "plugins",
   {
     root = vim.fn.stdpath("data") .. "/lazy",
     change_detection = {
@@ -6,7 +7,7 @@ require('lazy').setup("plugins",
       notify = false,
     },
     rocks = {
-      hererocks = true
+      hererocks = true,
     },
     performance = {
       rtp = {

@@ -35,6 +35,7 @@ vim.o.tw = 0                     --max width of text being inserted, a lower num
 vim.o.autoindent = true          --copy indent from current line when starting new line
 vim.o.wrap = true                --wrap visually, don't actually change file
 
+-- Strings to use in 'list' mode and for the |:list| command.
 vim.o.list = true
 vim.o.listchars = ''
 vim.o.listchars = vim.o.listchars .. 'nbsp:⦸'
@@ -43,6 +44,7 @@ vim.o.listchars = vim.o.listchars .. ',extends:»'
 vim.o.listchars = vim.o.listchars .. ',precedes:«'
 vim.o.listchars = vim.o.listchars .. ',trail:•'
 
+-- Characters to fill the statuslines, vertical separators and special lines in the window.
 vim.o.fillchars = ''
 vim.o.fillchars = vim.o.fillchars .. 'vert:┃' -- vertical sep fill character
 vim.o.fillchars = vim.o.fillchars .. ',fold:' -- fold fill character
@@ -60,7 +62,8 @@ vim.o.backspace = 'eol,start,indent' --delete over end of line, autoindent, star
 vim.o.whichwrap = 'b,s,<,>,[,],h,l' --which keys move to the next / previous line when at end / start
 vim.o.joinspaces = false -- don't insert two spaces after . or ?
 
-vim.o.shortmess = '' -- simplify messages
+-- Customise messages shown at the bottom
+vim.o.shortmess = ''
 vim.o.shortmess = vim.o.shortmess .. 't' -- truncate file messages that are too long
 vim.o.shortmess = vim.o.shortmess .. 'T' -- truncate in the middle if too long
 vim.o.shortmess = vim.o.shortmess .. 'o' -- overwrite message for writing to a file

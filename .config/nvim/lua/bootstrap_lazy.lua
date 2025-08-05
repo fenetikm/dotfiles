@@ -1,4 +1,4 @@
--- check to see if lazy.nvim is installed
+-- install lazy if required
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"

@@ -50,7 +50,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.lsp.document_color.enable(false, args.buf)
     end
 
-    -- Defaults overridden elsewhere
+    -- Defaults, overridden elsewhere
     -- vim.keymap.del('n', 'K', { buffer = args.buf })
     -- vim.keymap.del('n', 'c-s', { buffer = args.buf })
 
@@ -91,11 +91,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     vim.keymap.set('n', 'gs', function()
       vim.lsp.buf.signature_help()
-    end, { buffer = true, silent = true })
-
-    -- instead of shift+k
-    vim.keymap.set('n', 'gk', function()
-      vim.lsp.buf.hover()
     end, { buffer = true, silent = true })
 
     -- toggle virtual lines, nifty
