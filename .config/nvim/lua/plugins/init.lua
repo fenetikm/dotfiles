@@ -278,17 +278,17 @@ return {
 
   -- Languages
   -- PHP
-  {
-    'fenetikm/phpfolding.vim',
-    ft = { 'php' },
-    config = function()
-      vim.g.PHPFoldingCollapsedSymbol = '+'
-      vim.g.PHPFoldingRepeatSymbol = ''
-      vim.g.PHPFoldingShowPercentage = 0
-      vim.g.phpDocIncludedPostfix = ''
-      vim.g.DisableAutoPHPFolding = 1
-    end
-  },
+  -- {
+  --   'fenetikm/phpfolding.vim',
+  --   ft = { 'php' },
+  --   config = function()
+  --     vim.g.PHPFoldingCollapsedSymbol = '+'
+  --     vim.g.PHPFoldingRepeatSymbol = ''
+  --     vim.g.PHPFoldingShowPercentage = 0
+  --     vim.g.phpDocIncludedPostfix = ''
+  --     vim.g.DisableAutoPHPFolding = 1
+  --   end
+  -- },
   { 'alvan/vim-php-manual',    ft = { 'php' } }, --php manual
 
   -- Java
@@ -297,6 +297,16 @@ return {
   -- Debugging see debugging.lua
 
   -- Telescope see telescope.lua
+
+  -- Folding
+  -- {
+  --   'bbjornstad/pretty-fold.nvim',
+  --   event = 'VeryLazy',
+  --   config = function()
+  --     print('enable pretty folds')
+  --     require('pretty-fold').setup()
+  --   end
+  -- },
 
   -- Code documentor
   -- had to run :call doge#install() to get this going
