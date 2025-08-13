@@ -225,6 +225,10 @@ alias mw='tmux new-window -n'
 alias rb='~pcp/vendor/bin/robo'
 alias rbd='docker exec -it -w /app nginx-pc vendor/bin/robo'
 
+# redis stuff
+# see functions.sh
+alias rp='redis_picker'
+
 new-fortnightly () {
   cd ~pcp/../../video/product_weekly
   local YEAR=$(date -u +%Y)
