@@ -4,6 +4,7 @@
 
 CLIENT_WIDTH=$(tmux display-message -p '#{client_width}')
 
+# todo: put tmp files in temp
 if (( "$CLIENT_WIDTH" < 160 )); then
   # no preview when not much space
   cat "$HOME/.config/tmux/tmp_tree_cache.txt" |
