@@ -602,6 +602,45 @@
               },
               {
                 "type": "basic",
+                "from": {
+                  "simultaneous": [
+                    {
+                      "key_code": "spacebar"
+                    },
+                    {
+                      "key_code": "0"
+                    }
+                  ],
+                  "simultaneous_options": {
+                    "key_down_order": "strict",
+                    "key_up_order": "strict_inverse",
+                    "to_after_key_up": [
+                      {
+                        "set_variable": {
+                          "name": "space_fn_mode",
+                          "value": 0
+                        }
+                      }
+                    ]
+                  }
+                },
+                "parameters": {
+                  "basic.simultaneous_threshold_milliseconds": 500
+                },
+                "to": [
+                  {
+                    "set_variable": {
+                      "name": "space_fn_mode",
+                      "value": 1
+                    }
+                  },
+                  {
+                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/present.sh 800 500"
+                  }
+                ]
+              },
+              {
+                "type": "basic",
                 "conditions": [
                   {
                     "type": "variable_if",

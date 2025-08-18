@@ -37,3 +37,10 @@ redis_picker() {
         --bind 'ctrl-d:+reload(redis_keys "'"$SEARCH"'")' \
         --bind 'enter:execute(echo {} | sed "s/^/GET /" | redis-cli --json | php -r "print_r(unserialize(json_decode(file_get_contents(\"php://stdin\"))));" | nvim -c "set nofoldenable")'
 }
+
+file_paste() {
+  SOURCE_FILE=$(pbpaste)
+  DEST_FILE="$1"
+
+  cp "$SOURCE_FILE" "$DEST_FILE"
+}

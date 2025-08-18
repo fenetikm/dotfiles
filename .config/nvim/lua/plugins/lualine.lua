@@ -27,8 +27,8 @@ local line_only = {
 local config = {
   options = {
     icons_enabled = true,
-    component_separators = { left = '', right = ''},
-    section_separators = { left = '', right = ''},
+    component_separators = { left = '', right = '' },
+    section_separators = { left = '', right = '' },
     disabled_filetypes = {
       statusline = {
         'startify',
@@ -120,7 +120,7 @@ local conditions = {
   end
 }
 
-local fill_line = function ()
+local fill_line = function()
   local width = vim.fn.winwidth(0)
   local fill = ''
   for i = 1, width, 1 do
@@ -130,11 +130,11 @@ local fill_line = function ()
   return fill
 end
 
-local ins_a = function (component)
+local ins_a = function(component)
   table.insert(config.sections.lualine_a, component)
 end
 
-local ins_x = function (component)
+local ins_x = function(component)
   table.insert(config.sections.lualine_x, component)
 end
 
@@ -261,42 +261,42 @@ local git_branch = function()
 end
 
 local mode_info = {
-  c      = { fg = colours.yellow,      label = 'C'},
-  cv     = { fg = colours.yellow,      label = 'C'},
-  i      = { fg = colours.mid_green,   label = 'I'},
-  ic     = { fg = colours.mid_green,   label = 'I'},
-  n      = { fg = colours.normal_gray, label = 'N'},
-  r      = { fg = colours.orange,      label = 'R'},
-  rm     = { fg = colours.orange,      label = 'R'},
-  R      = { fg = colours.orange,      label = 'R'},
-  Rv     = { fg = colours.orange,      label = 'R'},
-  ['r?'] = { fg = colours.orange,      label = 'R'},
-  s      = { fg = colours.blue_gray,   label = 'S'},
-  S      = { fg = colours.blue_gray,   label = 'S'},
-  [''] = { fg = colours.blue_gray,   label = 'S'},
-  t      = { fg = colours.purple,      label = 'T'},
-  v      = { fg = colours.br_indigo,   label = 'V'},
-  V      = { fg = colours.br_indigo,   label = 'V'},
-  [''] = { fg = colours.br_indigo,   label = 'V'},
-  ['!']  = { fg = colours.br_indigo,   label = '!'},
-  ['']   = { fg = colours.br_indigo,   label = '-'}
+  c      = { fg = colours.yellow, label = 'C' },
+  cv     = { fg = colours.yellow, label = 'C' },
+  i      = { fg = colours.mid_green, label = 'I' },
+  ic     = { fg = colours.mid_green, label = 'I' },
+  n      = { fg = colours.normal_gray, label = 'N' },
+  r      = { fg = colours.orange, label = 'R' },
+  rm     = { fg = colours.orange, label = 'R' },
+  R      = { fg = colours.orange, label = 'R' },
+  Rv     = { fg = colours.orange, label = 'R' },
+  ['r?'] = { fg = colours.orange, label = 'R' },
+  s      = { fg = colours.blue_gray, label = 'S' },
+  S      = { fg = colours.blue_gray, label = 'S' },
+  ['']  = { fg = colours.blue_gray, label = 'S' },
+  t      = { fg = colours.purple, label = 'T' },
+  v      = { fg = colours.br_indigo, label = 'V' },
+  V      = { fg = colours.br_indigo, label = 'V' },
+  ['']  = { fg = colours.br_indigo, label = 'V' },
+  ['!']  = { fg = colours.br_indigo, label = '!' },
+  ['']   = { fg = colours.br_indigo, label = '-' }
 }
 
 ins_a {
-  function ()
+  function()
     local mode = mode_info[vim.fn.mode()]
 
     return '' .. mode.label
   end,
-  color = function ()
+  color = function()
     return { fg = mode_info[vim.fn.mode()].fg.hex, gui = 'bold' }
   end,
   cond = conditions.check_line_filetype,
-  padding = {right = 1, left = 0}
+  padding = { right = 1, left = 0 }
 }
 
 ins_a {
-  function ()
+  function()
     return sub_separator
   end,
   color = { fg = colours.mid_dark_gray.hex },
@@ -322,7 +322,7 @@ ins_a {
 }
 
 ins_a {
-  function ()
+  function()
     return sub_separator
   end,
   color = { fg = colours.mid_dark_gray.hex },
@@ -333,7 +333,8 @@ ins_a {
 ins_a {
   'diagnostics',
   sources = { 'nvim_diagnostic' },
-  symbols = { error = '', warn = '▲', info = '', hint = '⚑' },
+  -- symbols = { error = '', warn = '▲', info = '', hint = '⚑' },
+  symbols = { error = 'e', warn = 'w', info = 'i', hint = 'h' },
   symbol_position = 'right',
   diagnostics_color = {
     error = { fg = colours.mid_red.hex },
@@ -341,13 +342,13 @@ ins_a {
     info = { fg = colours.mid_gray.hex },
     hint = { fg = colours.mid_gray.hex },
   },
-  padding = { left = 1, right = 1},
+  padding = { left = 1, right = 1 },
   cond = conditions.check_line_filetype,
 }
 
 ins_a {
   diagnostic_ok,
-  padding = { left = 0, right = 0},
+  padding = { left = 0, right = 0 },
   color = { fg = colours.green.hex },
   cond = conditions.check_line_filetype,
 }
@@ -356,9 +357,9 @@ ins_a {
   search_result,
   padding = { 0 },
   color = { fg = colours.mid_gray.hex },
-  cond = function ()
+  cond = function()
     return conditions.check_line_filetype() and
-      conditions.hide_in_secondary_width ()
+        conditions.hide_in_secondary_width()
   end
 }
 
@@ -373,57 +374,57 @@ ins_a {
 -- }
 
 ins_a {
-  function ()
+  function()
     return ' '
   end,
-  padding = {0},
+  padding = { 0 },
   color = { fg = colours.mid_dark_gray.hex },
 }
 
 ins_x {
-  function ()
+  function()
     return ' '
   end,
-  padding = {0},
+  padding = { 0 },
   color = { fg = colours.mid_dark_gray.hex },
 }
 
 -- start of right, active
 ins_x {
   'diff',
-  padding = {left = 0, right = 1},
+  padding = { left = 0, right = 1 },
   symbol_position = 'right',
   cond = conditions.has_diff,
 }
 
 ins_x {
-  function ()
+  function()
     return sub_separator
   end,
-  padding = {left = 0, right = 1},
+  padding = { left = 0, right = 1 },
   cond = conditions.has_diff,
 }
 
 ins_x {
   git_branch,
-  padding = {left = 0, right = 0},
-  cond = function ()
+  padding = { left = 0, right = 0 },
+  cond = function()
     return conditions.check_git_workspace() and
-      conditions.hide_in_secondary_width() and
-      conditions.check_line_filetype()
+        conditions.hide_in_secondary_width() and
+        conditions.check_line_filetype()
   end
 }
 
 ins_x {
-  function ()
+  function()
     return sub_separator
   end,
   color = { fg = colours.mid_dark_gray.hex },
-  padding = {left = 1, right = 0},
+  padding = { left = 1, right = 0 },
   cond = function()
     return conditions.check_git_workspace() and
-      conditions.hide_in_secondary_width() and
-      conditions.check_line_filetype()
+        conditions.hide_in_secondary_width() and
+        conditions.check_line_filetype()
   end
 }
 
@@ -432,7 +433,7 @@ ins_x {
   padding = { 0 },
   cond = function()
     return conditions.buffer_not_empty() and
-      conditions.check_line_filetype()
+        conditions.check_line_filetype()
   end
 }
 
@@ -441,7 +442,7 @@ ins_x {
   padding = { 0 },
   cond = function()
     return conditions.buffer_not_empty() and
-      conditions.check_line_filetype()
+        conditions.check_line_filetype()
   end
 }
 
@@ -456,7 +457,7 @@ ins_x {
 }
 
 ins_x {
-  function ()
+  function()
     return sub_separator
   end,
   color = { fg = colours.mid_dark_gray.hex },
@@ -466,28 +467,28 @@ ins_x {
 
 ins_x {
   location_progress,
-  padding = {0},
+  padding = { 0 },
   cond = conditions.check_line_filetype,
 }
 
 table.insert(config.inactive_sections.lualine_a, {
-  function ()
+  function()
     return fill_glyph .. fill_glyph .. ' '
   end,
   color = { fg = colours.dark_gray.hex },
-  padding = {0},
+  padding = { 0 },
   cond = conditions.check_line_filetype,
 })
 
 table.insert(config.inactive_sections.lualine_a, {
   'filename',
   color = { fg = colours.mid_dark_gray.hex, gui = 'italic' },
-  padding = {0},
+  padding = { 0 },
   cond = conditions.check_line_filetype,
 })
 
 table.insert(config.inactive_sections.lualine_a, {
-  function ()
+  function()
     local width = vim.fn.winwidth(0)
     local filename = vim.fn.expand('%:t')
     if filename == '' then
@@ -504,40 +505,40 @@ table.insert(config.inactive_sections.lualine_a, {
     end
 
     fill = ' '
-    for i = 1, (width - string.len(filename) - string.len(location) - 8 - adj) , 1 do
+    for i = 1, (width - string.len(filename) - string.len(location) - 8 - adj), 1 do
       fill = fill .. fill_glyph
     end
 
     return fill
   end,
   color = { fg = colours.dark_gray.hex },
-  padding = {0},
+  padding = { 0 },
   cond = conditions.check_line_filetype,
 })
 
 table.insert(config.inactive_sections.lualine_a, {
-  function ()
+  function()
     return ' ' .. location_short()
   end,
   color = { fg = colours.mid_dark_gray.hex, gui = 'italic' },
-  padding = {0},
+  padding = { 0 },
   cond = conditions.check_line_filetype,
 })
 
 table.insert(config.inactive_sections.lualine_a, {
-  function ()
+  function()
     return ' ' .. fill_glyph .. fill_glyph
   end,
   color = { fg = colours.dark_gray.hex },
-  padding = {0},
+  padding = { 0 },
   cond = conditions.check_line_filetype,
 })
 
 table.insert(config.inactive_sections.lualine_a, {
   fill_line,
   color = { fg = colours.dark_gray.hex },
-  padding = {0},
-  cond = function ()
+  padding = { 0 },
+  cond = function()
     local in_line_list = conditions.check_line_filetype()
     return not in_line_list
   end
