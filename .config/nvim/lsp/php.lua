@@ -11,6 +11,9 @@ return {
   },
   settings = {
     intelephense = {
+      format = {
+        enable = false,
+      },
       files = {
         exclude = {
           "**/.git/**",
