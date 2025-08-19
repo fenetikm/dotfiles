@@ -7,13 +7,16 @@
 -- put a sep between diff count and branch?
 -- in the position indicator, can put little dots when there is no number or leading 0 maybe... diff colour for the leading zero?
 -- can we find a less heavy "line" for the status line fill?
+-- separator padding, configurable or can we get a centred one? gah
+-- also a lighter middot would be nice
 
 local colours = require('falcon.colours')
 local width_threshold = 120
 local width_secondary_threshold = 90
 local transparent_bg = true
 local transparent_inactive = true
-local sub_separator = ''
+-- local sub_separator = '󰇝' 󰇝     
+local sub_separator = ''
 local fill_glyph = '·' -- note: need to change in settings.lua too
 
 local line_only = {
@@ -292,7 +295,7 @@ ins_a {
     return { fg = mode_info[vim.fn.mode()].fg.hex, gui = 'bold' }
   end,
   cond = conditions.check_line_filetype,
-  padding = { right = 1, left = 0 }
+  padding = { right = 0, left = 0 }
 }
 
 ins_a {
@@ -300,7 +303,7 @@ ins_a {
     return sub_separator
   end,
   color = { fg = colours.mid_dark_gray.hex },
-  padding = { 0 },
+  padding = { right = 1, left = 0 },
   cond = conditions.check_line_filetype,
 }
 
@@ -317,7 +320,7 @@ ins_a {
     readonly = ' ',
   },
   color = { fg = colours.mid_gray_alt2.hex },
-  padding = { left = 0, right = 1 },
+  padding = { 0 },
   cond = conditions.check_line_filetype,
 }
 
@@ -326,7 +329,7 @@ ins_a {
     return sub_separator
   end,
   color = { fg = colours.mid_dark_gray.hex },
-  padding = { 0 },
+  padding = { left = 0, right = 1 },
   cond = conditions.check_line_filetype,
 }
 
@@ -342,25 +345,25 @@ ins_a {
     info = { fg = colours.mid_gray.hex },
     hint = { fg = colours.mid_gray.hex },
   },
-  padding = { left = 1, right = 1 },
+  padding = { 0 },
   cond = conditions.check_line_filetype,
 }
 
 ins_a {
   diagnostic_ok,
-  padding = { left = 0, right = 0 },
+  padding = { 0 },
   color = { fg = colours.green.hex },
   cond = conditions.check_line_filetype,
 }
 
 ins_a {
   search_result,
-  padding = { 0 },
   color = { fg = colours.mid_gray.hex },
   cond = function()
     return conditions.check_line_filetype() and
         conditions.hide_in_secondary_width()
-  end
+  end,
+  padding = { 0 },
 }
 
 -- ins_a {
@@ -389,10 +392,10 @@ ins_x {
   color = { fg = colours.mid_dark_gray.hex },
 }
 
--- start of right, active
+-- start of right section, active
 ins_x {
   'diff',
-  padding = { left = 0, right = 1 },
+  padding = { 0 },
   symbol_position = 'right',
   cond = conditions.has_diff,
 }
@@ -420,7 +423,7 @@ ins_x {
     return sub_separator
   end,
   color = { fg = colours.mid_dark_gray.hex },
-  padding = { left = 1, right = 0 },
+  padding = { left = 0, right = 1 },
   cond = function()
     return conditions.check_git_workspace() and
         conditions.hide_in_secondary_width() and
@@ -461,7 +464,7 @@ ins_x {
     return sub_separator
   end,
   color = { fg = colours.mid_dark_gray.hex },
-  padding = { left = 1 },
+  padding = { left = 0, right = 1 },
   cond = conditions.check_line_filetype,
 }
 

@@ -20,7 +20,7 @@ redis_keys() {
   if [[ ! -z "$1" ]]; then
     SEARCH=$1
   fi
-  redis-cli KEYS "$SEARCH" | cut -d"\"" -f2 | sed "s/\"//g"
+  redis-cli --raw KEYS "$SEARCH"
 }
 
 # todo: fix unserialize when not needed e.g. dev_ua_...
