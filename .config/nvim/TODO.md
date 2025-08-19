@@ -17,7 +17,8 @@
 
 ## Folding notes
 - https://github.com/fenetikm/phpfolding.vim/blob/master/ftplugin/php/phpfolding.vim
-- https://github.com/bbjornstad/pretty-fold.nvim
+- https://github.com/bbjornstad/pretty-fold.nvim seems unmaintained?
 - https://neovim.io/doc/user/fold.html
 - Try out the intelephense one and LSP folding
 - This one looks interesting, nifty: https://github.com/kevinhwang91/nvim-ufo
+- https://github.com/chrisgrieser/nvim-origami Chris Geiser one

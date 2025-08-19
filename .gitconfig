@@ -6,7 +6,7 @@
   default = simple
 
 [core]
-  excludesfile = /Users/mjw/.gitignore_global
+	excludesfile = /Users/michaelwelford/.gitignore_global
   pager = delta
 
 [delta]
@@ -18,12 +18,12 @@
   diffFilter = delta --color-only
 
 [difftool "sourcetree"]
-  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-  path =
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
 
 [mergetool "sourcetree"]
-  cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-  trustExitCode = true
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
 
 [color]
   ui = true

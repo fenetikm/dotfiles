@@ -276,6 +276,107 @@ return {
     }
   },
 
+  -- Folding
+  {
+    'kevinhwang91/nvim-ufo',
+    event = 'VeryLazy',
+    dependencies = {
+      'kevinhwang91/promise-async',
+    },
+    config = function()
+      local handler = function(virtText, lnum, endLnum, width, truncate, ctx)
+        local newVirtText = {}
+        local foldedLines = endLnum - lnum
+        local suffix = ("{%d}"):format(foldedLines)
+        local sufWidth = vim.fn.strdisplaywidth(suffix)
+        local targetWidth = width - sufWidth
+        local curWidth = 0
+        for _, chunk in ipairs(virtText) do
+          local chunkText = chunk[1]
+          local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+          print('chunk text')
+          print(chunkText)
+          print(chunkWidth)
+          print(targetWidth)
+          print(width)
+          -- not sure what the point of this is
+          -- it looks to be truncating the "chunk"
+          -- but that doesn't always work
+          if targetWidth > curWidth + chunkWidth then
+            -- just print at the end, as is
+            -- table.insert(newVirtText, chunk)
+            print('if')
+          else
+            print('else')
+            -- chunkText = truncate(chunkText, targetWidth - curWidth)
+            -- chunkText = truncate(chunkText, 20)
+            local hlGroup = chunk[2]
+            -- table.insert(newVirtText, { chunkText, hlGroup })
+            chunkWidth = vim.fn.strdisplaywidth(chunkText)
+            if curWidth + chunkWidth < targetWidth then
+              suffix = suffix .. (" "):rep(targetWidth - curWidth - chunkWidth)
+            end
+            break
+          end
+          curWidth = curWidth + chunkWidth
+        end
+        local fill = '╴'
+        local rAlignAppndx = math.max(math.min(vim.api.nvim_win_get_width(0), width - 1) - curWidth - sufWidth - 1, 0)
+        print('ralign')
+        print(rAlignAppndx)
+        rAlignAppndx = 20
+        suffix = ' ' .. (fill):rep(rAlignAppndx) .. suffix
+        -- local thing = (' '):rep(40)
+        -- table.insert(newVirtText, { thing, "MoreMsg" })
+        -- table.insert(newVirtText, { suffix, "MoreMsg" })
+        table.insert(newVirtText, { 'hello', 'MoreMsg' })
+        return newVirtText
+      end
+
+      require('ufo').setup({
+        fold_virt_text_handler = handler,
+        -- to see exactly what is in the virtual text, example:
+        --[[
+        -- virtText:  { { "function ", "UfoFoldedFg" }, { "long_function_name
+", 1007 }, { "(", 1010 }, { "arg_one", "@lsp.type.parameter.lua" }, { ",", 101
+4 }, { " ", "UfoFoldedFg" }, { "arg_two", "@lsp.type.parameter.lua" }, { ",",
+1014 }, { " ", "UfoFoldedFg" }, { "arg_three", "@lsp.type.parameter.lua" }, {
+",", 1014 }, { " ", "UfoFoldedFg" }, { "arg_fasdfg", "@lsp.type.parameter.lua"
+ }, { ",", 1014 }, { " ", "UfoFoldedFg" }, { "a", "@lsp.type.parameter.lua" },
+ { ")", 1010 } }
+        -- ]]
+        -- fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate, ctx)
+        --   for i = lnum, endLnum do
+        --     print('lnum: ', i, ', virtText: ', vim.inspect(ctx.get_fold_virt_text(i)))
+        --   end
+        --   return virtText
+        -- end,
+        enable_get_fold_virt_text = true,
+      })
+    end
+  },
+
+  -- a simple fold status column
+  {
+    'luukvbaal/statuscol.nvim',
+    event = 'VeryLazy',
+    config = function()
+      local builtin = require('statuscol.builtin')
+      require('statuscol').setup({
+        -- relculright = true,
+        segments = {
+          { text = { builtin.foldfunc }, click = 'v:lua.ScFa' },
+          { text = { '%s' },             click = 'v:lua.ScSa' },
+          {
+            text = { builtin.lnumfunc, ' ' },
+            condition = { true, builtin.not_empty },
+            click = 'v:lua.ScLa',
+          },
+        }
+      })
+    end,
+  },
+
   -- Languages
   -- PHP
   -- {
