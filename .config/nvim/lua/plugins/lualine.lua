@@ -336,8 +336,7 @@ ins_a {
 ins_a {
   'diagnostics',
   sources = { 'nvim_diagnostic' },
-  -- symbols = { error = '', warn = '▲', info = '', hint = '⚑' },
-  symbols = { error = 'e', warn = 'w', info = 'i', hint = 'h' },
+  symbols = { error = '!', warn = 'w', info = 'i', hint = 'h' },
   symbol_position = 'right',
   diagnostics_color = {
     error = { fg = colours.mid_red.hex },
@@ -365,16 +364,6 @@ ins_a {
   end,
   padding = { 0 },
 }
-
--- ins_a {
---   fill_line,
---   color = { fg = colours.mid_dark_gray.hex },
---   padding = {left = 1},
---   cond = function ()
---     local in_line_list = conditions.check_line_filetype()
---     return not in_line_list
---   end
--- }
 
 ins_a {
   function()

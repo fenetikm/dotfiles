@@ -44,10 +44,10 @@ return {
     },
     opts = {
       signs = {
-        error = '',
-        warning = '▲',
-        information = '',
-        hint = '⚑'
+        error = '!',
+        warning = '?',
+        information = 'i',
+        hint = 'h'
       },
     }
   },

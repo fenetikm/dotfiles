@@ -124,12 +124,8 @@ vim.lsp.config('*', {
 })
 
 local signs = {
-  -- Error = '✖',
-  -- Warn = '▲',
-  -- Info = '',
-  -- Hint = '⚑',
-  Error = 'e',
-  Warn = 'w',
+  Error = '!',
+  Warn = '?',
   Info = 'i',
   Hint = 'h',
 }
