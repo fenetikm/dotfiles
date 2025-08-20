@@ -47,20 +47,25 @@ vim.o.listchars = vim.o.listchars .. ',trail:•'
 -- Characters to fill the statuslines, vertical separators and special lines in the window.
 vim.o.fillchars = ''
 vim.o.fillchars = vim.o.fillchars .. 'vert:┃' -- vertical sep fill character
-vim.o.fillchars = vim.o.fillchars .. ',fold:' -- fold fill character
+vim.o.fillchars = vim.o.fillchars .. ',fold: ' -- fold fill character
 vim.o.fillchars = vim.o.fillchars .. ',diff:╱' -- diff fill background character
 vim.o.fillchars = vim.o.fillchars .. ',stl:·,stlnc:·' -- status line fill character
 vim.o.fillchars = vim.o.fillchars .. ',eob: ' -- char at end of buffer
+vim.o.fillchars = vim.o.fillchars .. ',foldopen:,foldsep: ,foldclose:'
 
-vim.o.ruler = true --show column/row/line number position
-vim.o.number = true --show line numbers
-vim.o.relativenumber = true --show numbers relative to current line number
-vim.o.signcolumn = 'yes' --always have room for sign columns
-vim.o.cmdheight = 2 --height of the command bar
-vim.o.laststatus = 2 --always give a window a statusline
+-- vim.o.foldcolumn = '1'
+-- vim.o.foldlevel = 99
+-- vim.o.foldlevelstart = 99
+
+vim.o.ruler = true                   --show column/row/line number position
+vim.o.number = true                  --show line numbers
+vim.o.relativenumber = true          --show numbers relative to current line number
+vim.o.signcolumn = 'yes'             --always have room for sign columns
+vim.o.cmdheight = 2                  --height of the command bar
+vim.o.laststatus = 2                 --always give a window a statusline
 vim.o.backspace = 'eol,start,indent' --delete over end of line, autoindent, start of insert
-vim.o.whichwrap = 'b,s,<,>,[,],h,l' --which keys move to the next / previous line when at end / start
-vim.o.joinspaces = false -- don't insert two spaces after . or ?
+vim.o.whichwrap = 'b,s,<,>,[,],h,l'  --which keys move to the next / previous line when at end / start
+vim.o.joinspaces = false             -- don't insert two spaces after . or ?
 
 -- Customise messages shown at the bottom
 vim.o.shortmess = ''

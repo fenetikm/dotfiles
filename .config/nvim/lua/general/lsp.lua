@@ -34,9 +34,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
       })
     end
 
-    require('lsp_signature').on_attach({
-      hint_enable = false -- trying this out, trigger with c-h, see below
-    }, args.buf)
+    -- require('lsp_signature').on_attach({
+    --   hint_enable = false -- trying this out, trigger with c-h, see below
+    -- }, args.buf)
 
     vim.diagnostic.config({
       underline = true,
@@ -46,7 +46,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     })
 
     -- Disable document colors, instead use Colorizer
-    -- todo: neovim 0.12?
+    -- todo: waiting for 0.12!
     -- if client:supports_method('textDocument/documentColor') then
     --   vim.lsp.document_color.enable(false, args.buf)
     -- end
@@ -116,6 +116,14 @@ local has_cmp_nvim_lsp, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
 if has_cmp_nvim_lsp then
   capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 end
+
+capabilities.textDocument.foldingRange = {
+  dynamicRegistration = false,
+  lineFoldingOnly = true,
+}
+
+vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
+vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
 
 -- set default config
 -- todo: handlers?
