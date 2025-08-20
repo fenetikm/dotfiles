@@ -336,7 +336,7 @@ ins_a {
 ins_a {
   'diagnostics',
   sources = { 'nvim_diagnostic' },
-  symbols = { error = '!', warn = 'w', info = 'i', hint = 'h' },
+  symbols = { error = '!', warn = '?', info = 'i', hint = 'h' },
   symbol_position = 'right',
   diagnostics_color = {
     error = { fg = colours.mid_red.hex },
