@@ -46,9 +46,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
     })
 
     -- Disable document colors, instead use Colorizer
-    if client:supports_method('textDocument/documentColor') then
-      vim.lsp.document_color.enable(false, args.buf)
-    end
+    -- todo: neovim 0.12?
+    -- if client:supports_method('textDocument/documentColor') then
+    --   vim.lsp.document_color.enable(false, args.buf)
+    -- end
 
     -- Defaults, overridden elsewhere
     -- vim.keymap.del('n', 'K', { buffer = args.buf })
