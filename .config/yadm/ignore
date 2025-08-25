@@ -11,6 +11,7 @@
 .config/yarn
 .config/iterm2
 .config/configstore
+.config/envman
 
 .config/kitty/*.swp
 .config/scripts/toggl_*.json

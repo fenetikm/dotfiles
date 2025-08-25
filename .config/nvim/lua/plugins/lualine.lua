@@ -1,14 +1,11 @@
 -- TODO:
 -- make the [+] a different colour?
 -- when transparent, could have capsule backgrounds behind the things, see https://hyprland.org/imgs/ricing_competitions/2/flafy.webp
--- pull transparent_bg from main config
--- fix line gaps, probs need a "has diagnostics" and "has search" condition
--- note: the | separator is left aligned
 -- put a sep between diff count and branch?
 -- in the position indicator, can put little dots when there is no number or leading 0 maybe... diff colour for the leading zero?
--- can we find a less heavy "line" for the status line fill?
--- separator padding, configurable or can we get a centred one? gah
 -- also a lighter middot would be nice
+-- fix the padding and separatorss, it's a mess
+-- diff counts, doesn't need colour
 
 local colours = require('falcon.colours')
 local width_threshold = 120
@@ -236,6 +233,21 @@ end
 
 local diagnostic_ok = function()
   if (#vim.lsp.get_clients()) == 0 then return '' end
+  local ok_symbol = ' '
+
+  -- use native diagnostics
+
+  if vim.diagnostic.count ~= nil then -- neovim >= 0.10.0
+    local diag_count
+    diag_count = vim.diagnostic.count(0)
+    if (diag_count[vim.diagnostic.severity.ERROR] or 0) == 0 and (diag_count[vim.diagnostic.severity.WARN] or 0) == 0 then
+      return ok_symbol
+    else
+      return ''
+    end
+  end
+
+  -- lsp fallback
   local diagnostics = vim.diagnostic.get(0)
   local error_count, warning_count
   local count = { 0, 0, 0, 0 }
@@ -244,6 +256,7 @@ local diagnostic_ok = function()
       count[diagnostic.severity] = count[diagnostic.severity] + 1
     end
   end
+
   error_count = count[vim.diagnostic.severity.ERROR]
   warning_count = count[vim.diagnostic.severity.WARN]
   if error_count == 0 and warning_count == 0 then

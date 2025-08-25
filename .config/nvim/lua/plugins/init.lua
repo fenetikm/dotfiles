@@ -595,6 +595,7 @@ return {
   -- https://github.com/Robitx/gp.nvim gpt prompting and library etc.
   -- https://github.com/NStefan002/screenkey.nvim for showing which key(s) are being pressed
   -- https://github.com/OXY2DEV/markview.nvim markdown viewer
+  -- https://github.com/stevearc/quicker.nvim quickfix editing etc.
   --
   -- new neovim features:
   -- https://gpanders.com/blog/whats-new-in-neovim-0-11/ virtual lines looks cool
