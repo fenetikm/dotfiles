@@ -2,7 +2,8 @@
 [status]
 sep_left = { open = "", close = "" }
 sep_right = { open = "", close = "" }
-#
+
+# see https://github.com/sxyazi/yazi/blob/main/yazi-config/preset/theme-dark.toml
 # disable icons
 [icon]
 globs = []
