@@ -104,6 +104,7 @@
 
 [init]
   templatedir = ~/.git_template
+	defaultBranch = main
 
 [safe]
   directory = /Users/mjw/.local/share/nvim/lazy/hererocks

@@ -6,6 +6,8 @@
 
 .config/yabai/cycle_state_*
 
+.config/envman
+
 .config/yarn
 .config/iterm2
 .config/configstore

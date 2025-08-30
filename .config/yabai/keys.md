@@ -21,10 +21,10 @@ have to store the items in the cycle somewhere, another file?
 
 ## Mappings
 things that I want to do regularly:
-hl -     select window (left/right) @done
-jk -     move window left/right @done
-jk -     move window to next display (can we do that with left/right? have seen a script that does) @done
-jk -     move window to next display, working with floats?
+h/l -     select window (left/right) @done
+j/k -     move window left/right @done
+j/k -     move window to next display (can we do that with left/right? have seen a script that does) @done
+j/k -     move window to next display, working with floats?
 g -      center window @done
 f -      full screen, or one of a few sizes (cycle) @done
 z -      toggle zoomed full screen @done
@@ -35,12 +35,15 @@ r -      reload yabai @done
 m -      minimise / hide @done
 shift or double tap numbers, or qwerty (what about reload though?) - gone with double tap, yes - @done
 123456 - change focused space @done
-ui     - change layout / window size (non-float): 1/3,1/2,1/4,2/3,1/4 (cycle)
-ui     - change position (float): 1/3,1/2,1/4,2/3,1/4 (cycle)
+u/i     - change layout / window size (non-float): 1/3,1/2,1/4,2/3,1/4 (cycle)
+u/i     - change position (float): 1/3,1/2,1/4,2/3,1/4 (cycle)
 a      - autolayout (for floats e.g. side by side)
 ? -      change position (floated window) (as above) (cycle)
 ,. -     change width/metrics (on floated window) (1/3, 1/2, 1/4, 2/3 etc.) (cycle)
 s -      toggle space mode between stack / bsp... float? is that useful? can't remember last time wanted float mode @done
+
+todo:
+- feedback - don't know what is happening, what the state is
 
 less often:
 - go from stack to split easily, esp. on laptop screen

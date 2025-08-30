@@ -1,0 +1,16 @@
+# simplify the status
+[status]
+sep_left = { open = "", close = "" }
+sep_right = { open = "", close = "" }
+#
+# disable icons
+[icon]
+globs = []
+dirs  = []
+files = []
+exts  = []
+conds = [
+  { if = "dir", text = "" },
+  { if = "exec", text = "" },
+  { if = "!dir", text = "" },
+]

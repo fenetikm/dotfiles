@@ -117,13 +117,14 @@ if has_cmp_nvim_lsp then
   capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 end
 
-capabilities.textDocument.foldingRange = {
-  dynamicRegistration = false,
-  lineFoldingOnly = true,
-}
+-- whilst we fix ufo
+-- capabilities.textDocument.foldingRange = {
+--   dynamicRegistration = false,
+--   lineFoldingOnly = true,
+-- }
 
-vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
-vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
+-- vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
+-- vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
 
 -- set default config
 -- todo: handlers?
