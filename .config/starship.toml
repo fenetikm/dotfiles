@@ -41,7 +41,7 @@ format = "[$duration ]($style)"
 
 [git_branch]
 style = "fg:#707082"
-symbol = ""
+symbol = " "
 format = "[$symbol$branch ]($style)"
 truncation_length = 32
 
