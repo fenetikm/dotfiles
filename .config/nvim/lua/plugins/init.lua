@@ -279,6 +279,7 @@ return {
   -- Folding
   {
     'kevinhwang91/nvim-ufo',
+    enabled = false,
     event = 'VeryLazy',
     enabled = false,
     dependencies = {
@@ -292,23 +293,27 @@ return {
         local sufWidth = vim.fn.strdisplaywidth(suffix)
         local targetWidth = width - sufWidth
         local curWidth = 0
+        local fullText = ""
+
         for _, chunk in ipairs(virtText) do
+          -- chunks are made of the text and the highlight
           local chunkText = chunk[1]
           local chunkWidth = vim.fn.strdisplaywidth(chunkText)
-          print('chunk text')
-          print(chunkText)
-          print(chunkWidth)
-          print(targetWidth)
-          print(width)
+          -- print('chunk text')
+          -- print(chunkText)
+          -- print(chunkWidth)
+          -- print(targetWidth)
+          -- print(width)
           -- not sure what the point of this is
           -- it looks to be truncating the "chunk"
           -- but that doesn't always work
+          -- if the text goes right to the end truncating the chunk doesn't help
           if targetWidth > curWidth + chunkWidth then
             -- just print at the end, as is
             -- table.insert(newVirtText, chunk)
-            print('if')
+            -- print('if')
           else
-            print('else')
+            -- print('else')
             -- chunkText = truncate(chunkText, targetWidth - curWidth)
             -- chunkText = truncate(chunkText, 20)
             local hlGroup = chunk[2]
@@ -320,17 +325,19 @@ return {
             break
           end
           curWidth = curWidth + chunkWidth
+          fullText = fullText .. chunkText
         end
         local fill = '╴'
         local rAlignAppndx = math.max(math.min(vim.api.nvim_win_get_width(0), width - 1) - curWidth - sufWidth - 1, 0)
-        print('ralign')
-        print(rAlignAppndx)
+        -- print('ralign')
+        -- print(rAlignAppndx)
         rAlignAppndx = 20
         suffix = ' ' .. (fill):rep(rAlignAppndx) .. suffix
         -- local thing = (' '):rep(40)
         -- table.insert(newVirtText, { thing, "MoreMsg" })
         -- table.insert(newVirtText, { suffix, "MoreMsg" })
-        table.insert(newVirtText, { 'hello', 'MoreMsg' })
+        -- table.insert(newVirtText, { 'hello', 'MoreMsg' })
+        table.insert(newVirtText, { fullText, 'MoreMsg' })
         return newVirtText
       end
 
@@ -595,6 +602,7 @@ return {
   -- https://github.com/Robitx/gp.nvim gpt prompting and library etc.
   -- https://github.com/NStefan002/screenkey.nvim for showing which key(s) are being pressed
   -- https://github.com/OXY2DEV/markview.nvim markdown viewer
+  -- https://github.com/stevearc/quicker.nvim quickfix editing etc.
   --
   -- new neovim features:
   -- https://gpanders.com/blog/whats-new-in-neovim-0-11/ virtual lines looks cool

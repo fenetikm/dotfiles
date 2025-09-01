@@ -46,10 +46,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
     })
 
     -- Disable document colors, instead use Colorizer
-    -- todo: waiting for 0.12!
-    -- if client:supports_method('textDocument/documentColor') then
-    --   vim.lsp.document_color.enable(false, args.buf)
-    -- end
+    if client:supports_method('textDocument/documentColor') then
+      if vim.lsp.document_color then
+        vim.lsp.document_color.enable(false, args.buf)
+      end
+    end
 
     -- Defaults, overridden elsewhere
     -- vim.keymap.del('n', 'K', { buffer = args.buf })
@@ -117,7 +118,7 @@ if has_cmp_nvim_lsp then
   capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 end
 
--- whilst we fix ufo
+-- disable ufo for now
 -- capabilities.textDocument.foldingRange = {
 --   dynamicRegistration = false,
 --   lineFoldingOnly = true,
