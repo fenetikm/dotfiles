@@ -1,0 +1,3 @@
+set -s -t "_popup_" status off
+set -s -t "_popup_" window-active-style "bg=#020223"
+set -s -t "_popup_" pane-border-status off
