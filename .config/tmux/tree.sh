@@ -34,6 +34,11 @@ for SESH in "${SESH_LINES[@]}"; do
 done
 
 for SESH in "${SESH_LINES[@]}"; do
+  # ignore _popup_
+  if [[ "$SESH" =~ "_popup_" ]]; then
+    continue
+  fi
+
   WINDOWS=$(tmux list-windows -t "$SESH" -F '#{window_name} (#{session_name}:#{window_name})')
   WINDOWS_LINES=(${(f)WINDOWS})
   FIRST=1
