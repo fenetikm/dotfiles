@@ -387,17 +387,17 @@ return {
 
   -- Languages
   -- PHP
-  -- {
-  --   'fenetikm/phpfolding.vim',
-  --   ft = { 'php' },
-  --   config = function()
-  --     vim.g.PHPFoldingCollapsedSymbol = '+'
-  --     vim.g.PHPFoldingRepeatSymbol = ''
-  --     vim.g.PHPFoldingShowPercentage = 0
-  --     vim.g.phpDocIncludedPostfix = ''
-  --     vim.g.DisableAutoPHPFolding = 1
-  --   end
-  -- },
+  {
+    'fenetikm/phpfolding.vim',
+    ft = { 'php' },
+    config = function()
+      vim.g.PHPFoldingCollapsedSymbol = '+'
+      vim.g.PHPFoldingRepeatSymbol = ''
+      vim.g.PHPFoldingShowPercentage = 0
+      vim.g.phpDocIncludedPostfix = ''
+      vim.g.DisableAutoPHPFolding = 1
+    end
+  },
   { 'alvan/vim-php-manual',    ft = { 'php' } }, --php manual
 
   -- Java
