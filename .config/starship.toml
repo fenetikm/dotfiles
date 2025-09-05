@@ -33,7 +33,7 @@ format = '[\[$number\]]($style) '
 [character]
 success_symbol = "[==>](fg:#5521d9)"
 error_symbol = "[==>](red)"
-vimcmd_symbol = "[  ▼](dimmed green)"
+vimcmd_symbol = "[--V](dimmed green)"
 
 [cmd_duration]
 style = "italic fg:#707082"
