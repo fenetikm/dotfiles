@@ -131,6 +131,7 @@ alias c='bat'
 alias ping='prettyping'
 alias top='sudo htop'
 alias du="ncdu --color off -rr -x --exclude .git --exclude node_modules"
+alias ld="lazydocker"
 
 copy_contents() {
   cat $1 | pbcopy
