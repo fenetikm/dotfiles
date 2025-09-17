@@ -6,7 +6,7 @@ yd "kitty.sh"
 
 # find the kitty window
 # place it far right
-KITTY=$(yabai -m query --windows | jq -r '.[] | select(."app" == "kitty")')
+KITTY=$(yabai -m query --windows | jq -r '.[] | select(."app" == "kitty" and ."is-visible" == true)')
 if [[ "$KITTY" == "" ]]; then
   exit 0
 fi
