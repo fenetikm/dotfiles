@@ -173,6 +173,17 @@ return {
     end
   },
 
+  -- Markdown
+  {
+    "OXY2DEV/markview.nvim",
+    ft = { 'markdown', 'md' },
+    config = {
+      preview = {
+        enable = false
+      }
+    }
+  },
+
   -- Repl
   {
     'jpalardy/vim-slime',
