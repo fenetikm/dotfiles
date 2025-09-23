@@ -5,14 +5,14 @@ return {
   },
   {
     'fenetikm/oil.nvim', -- fork that hides files icons but keeps folder icons
-    event = 'VeryLazy',
+    cmd = "Oil",
     keys = {
-      {'<c-e>', '<cmd>Oil<cr>', silent = true, noremap = true},
+      { '<c-e>', '<cmd>Oil<cr>', silent = true, noremap = true },
     },
     opts = {
       default_file_explorer = true,
       columns = {
-        {'icon', directory_only = true, file_icon = '┊'},
+        { 'icon', directory_only = true, file_icon = '┊' },
       },
       view_options = {
         show_hidden = true,
@@ -37,7 +37,6 @@ return {
         ["g\\"] = "actions.toggle_trash",
       },
     },
-    -- Optional dependencies
     dependencies = { "nvim-tree/nvim-web-devicons" },
   }
 }

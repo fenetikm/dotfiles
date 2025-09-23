@@ -188,7 +188,6 @@ vim.cmd([[
     endif
   endfunction
   nnoremap <leader>ev :call OpenOrSplit($MYVIMRC)<cr>
-  nnoremap <leader>ed :call OpenOrSplit("~/.drush/aliases.drushrc.php")<cr>
   nnoremap <leader>et :call OpenOrSplit("~/.tmux.conf")<cr>
   nnoremap <leader>ek :call OpenOrSplit("~/.config/karabiner/karabiner.json")<cr>
   nnoremap <leader>ey :call OpenOrSplit("~/.config/kitty/kitty.conf")<cr>
@@ -196,7 +195,6 @@ vim.cmd([[
   nnoremap <leader>eh :call OpenOrSplit("~/.hammerspoon/init.lua")<cr>
   nnoremap <leader>ez :call OpenOrSplit("~/.zshrc")<cr>
   nnoremap <leader>eg :call OpenOrSplit("~/.gitconfig")<cr>
-  nnoremap <leader>ew :call OpenOrSplit("~/.taskrc")<cr>
   nnoremap <leader>eu :lua require'luasnip.loaders'.edit_snippet_files({edit = function(file) vim.cmd("vsp " .. file)end})<cr>
   nnoremap <leader>ep :call StartSlime()<cr>
 

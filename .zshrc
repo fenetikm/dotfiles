@@ -159,9 +159,10 @@ alias vt='nvim TODO.md'
 
 # edit the latest file in the directory
 edit-latest() {
-  nvim "$(find . -type f \( -name '*.md' -o -name '*.txt' -o -name '*.json' -o -name '*.csv' -o -name '*.yml' \) -print0 -maxdepth 1 | xargs -0 stat -f "%m %N" | sort -rn | head -1 | cut -f2- -d" ")"
+  nvim `print -rl *(D^/Om) | head -n 1`
 }
 alias el="edit-latest"
+alias ed="nvim -c \"Oil\""
 
 # yazi alias
 function y() {
