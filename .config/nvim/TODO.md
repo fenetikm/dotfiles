@@ -10,6 +10,7 @@
 - - don't need colour re git modifications
 - Integrate exrc instead of vimrclocal plugin https://neovim.io/doc/user/options.html#'exrc'
 - Can we use ftplugin for lsp enablement? e.g. https://dev.to/vonheikemen/a-guide-on-neovims-lsp-client-mn0
+- Finish setting up markview.
 
 
 ## Refs

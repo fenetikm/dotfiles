@@ -3,6 +3,7 @@
 .config/sketchybar/plugins/weather.json
 .config/sketchybar/plugins/task_*
 .config/sketchybar/plugins/project_*
+.config/sketchybar/plugins/vol_state.sh
 
 .config/yabai/cycle_state_*
 
