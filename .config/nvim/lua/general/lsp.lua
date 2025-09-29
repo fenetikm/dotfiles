@@ -70,10 +70,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end, { silent = true, noremap = true })
 
     -- Where the var is set
-    vim.keymap.set('n', 'gd', function() vim.lsp.buf.declaration() end, { buffer = true, silent = true })
+    vim.keymap.set('n', 'gD', function() vim.lsp.buf.declaration() end, { buffer = true, silent = true })
 
     -- Where the var is defined
-    vim.keymap.set('n', 'gD', function() vim.lsp.buf.definition() end, { buffer = true, silent = true })
+    vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, { buffer = true, silent = true })
 
     vim.keymap.set('n', 'grl', function()
       vim.diagnostic.open_float({ border = 'rounded' })
