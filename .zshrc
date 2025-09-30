@@ -99,13 +99,6 @@ setopt HIST_IGNORE_SPACE
 setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 
-timezsh() {
-  shell=${1-$SHELL}
-  for i in $(seq 1 10); do /usr/bin/time $shell -i -c exit; done
-}
-
-alias l='llm -m my-openai'
-alias lq='llm -m mlx-community/Qwen2.5-Coder-14B-Instruct-4bit'
 alias lc='claude -p'
 
 # -i to stop overwrite
@@ -118,7 +111,7 @@ alias cx='chmod +x'
 # this thins local snapshots, 50gb, urgency of 4 (highest)
 alias tmthin='tmutil thinlocalsnapshots / $((50 * 1024 * 1024 * 1024)) 4'
 
-# eza, was exa, nicer ls
+# eza
 alias e='eza -algB --group-directories-first'
 alias et='eza -algB --tree'
 # just the file names
@@ -133,21 +126,10 @@ alias top='sudo htop'
 alias du="ncdu --color off -rr -x --exclude .git --exclude node_modules"
 alias ld="lazydocker"
 
-copy_contents() {
-  cat $1 | pbcopy
-}
-alias copy='copy_contents'
-
-paste_contents() {
-  pbpaste >> $1
-}
-alias paste='paste_contents'
-
 # this supports doing something like `vl et`
 # which loads up the tmux config via the <leader>et mapping
 run_vim_leader() {
-  com="NormLead $1"
-  nvim -c "$com"
+  nvim -c "NormLead $1"
 }
 
 # nvim aliases
@@ -159,20 +141,10 @@ alias vt='nvim TODO.md'
 
 # edit the latest file in the directory
 edit-latest() {
-  nvim `print -rl *(D^/Om) | head -n 1`
+  nvim `print -rl *(D^/Om[1])`
 }
 alias el="edit-latest"
 alias ed="nvim -c \"Oil\""
-
-# yazi alias
-function y() {
-  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-  yazi "$@" --cwd-file="$tmp"
-  if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-    builtin cd -- "$cwd"
-  fi
-  rm -f -- "$tmp"
-}
 
 # suffix aliases: typing name of file with suffix will use that program
 alias -s php=nvim
@@ -206,32 +178,18 @@ alias gp='git push'
 alias gb='git branch'
 alias g='_f() { if [[ $# == 0 ]]; then git status --short --branch; else git "$@"; fi }; _f'
 
-# used in .config/tmux/sesh.sh
-tmux_setup() {
-  # either use the .tmux.setup in current directory or from root
-  if [[ -x ./.tmux.setup ]]; then
-    ./.tmux.setup $1
-  elif [[ -x ~/.tmux.setup ]]; then
-    ~/.tmux.setup $1
-  else
-    echo "Oh noes! Couldn't find a .tmux.setup file."
-  fi
-}
-
-# tmux aliases
-alias mn='~/.config/tmux/sesh.sh'
-alias ma='tmux attach-session'
-alias mw='tmux new-window -n'
-
 # todo: shift these into a local thing
 # robo
 alias rb='~pcp/vendor/bin/robo'
 alias rbd='docker exec -it -w /app nginx-pc vendor/bin/robo'
 
-# redis stuff
-# see functions.sh
-alias rp='redis_picker'
+# redis
+# see ~/.config/zsh/redis.sh
 
+# tmux
+# see ~/.config/zsh/tmux.sh
+
+# todo: shift to local
 new-fortnightly () {
   cd ~pcp/../../video/product_weekly
   local YEAR=$(date -u +%Y)
@@ -249,72 +207,7 @@ alias ventrassh='ssh theoryz4@s03de.syd6.hostingplatform.net.au -p 2683 -i $HOME
 alias ..='cd ..'
 
 # hugo stuff
-hugo-new-post () {
-  hugo new posts/"$1".md
-  nvim "content/posts/$1.md"
-}
-
-hugo-new-til () {
-  hugo new til/"$1".md --editor nvim
-}
-
-hugo-new-link () {
-  hugo new link/"$1".md --editor nvim
-}
-
-hugo-open-post() {
-  find content -name '*.md' P
-}
-
-hugo-open-latest() {
-  nvim $(find content -name '*.md' -print0 | xargs -0 stat -f "%m %N" | sort -rn | head -1 | cut -f2- -d" ")
-}
-
-hugo-select-latest() {
-  grep -l "draft: false" **/*.md(.omr) G content P
-}
-
-hugo-open-drafts() {
-  grep -l "draft: true" **/*.md(.omr) G content P
-}
-
-hugo-start-server() {
-  local PORT="$1"
-  if [[ "$PORT" == "" ]]; then
-    PORT=1337
-  fi
-  hugo server -D -F --navigateToChanged --disableFastRender --renderToMemory --port $PORT
-}
-
-# todo re hugo opener:
-# - options: all, ordered by modified, maybe we throw whether draft or not in there?
-# - ordered by published?
-# - other binds: view in browser?
-
-# note: hugo-migrate-images is in .zshenv so it works in neovim shell command
-alias hi="hugo-migrate-images"
-alias hd="hugo-open-drafts"
-alias hl="hugo-open-latest"
-alias hlp="rg --files-with-matches 'draft: false' **/*.md(.omr) R 'content' P"
-alias hld="rg --files-with-matches 'draft: true' **/*.md(.omr) R 'content' P"
-alias ho="hugo-open-post"
-alias hn='hugo-new-post'
-alias ht='hugo-new-til'
-alias hk='hugo-new-link'
-
-diary() {
-  local TODAY=$(date +"%Y-%m-%d")
-  local FILE_PATH="$TODAY".md
-  local ENTRY_DIR=$(echo ~z)
-  local FULL_PATH="$ENTRY_DIR/80-Diary/$FILE_PATH"
-
-  if [[ ! -f "$FULL_PATH" ]]; then
-    echo "# $TODAY\n" > "$FULL_PATH"
-  fi
-
-  # Put cursor on the last line
-  nvim -c "lua vim.api.nvim_win_set_cursor(0, {#vim.api.nvim_buf_get_lines(0, 0, -1, false),1})" "$FULL_PATH"
-}
+# see ~/.config/zsh/hugo.sh
 
 # love framework
 alias love="/Applications/love.app/Contents/MacOS/love"
@@ -349,29 +242,6 @@ alias yt1080='yt-dlp -S "height:1080" --merge-output-format=mkv -4 --sleep-reque
 alias yt720='yt-dlp -S "height:720" --merge-output-format=mkv -4 --sleep-requests 2 --sleep-interval 2 --extractor-args "youtube:player-client=web_embedded"'
 alias ytaudio='yt-dlp --extract-audio -4 --sleep-requests 2 --sleep-interval 2 --extractor-args "youtube:player-client=web_embedded" --audio-format mp3 --audio-quality 0'
 
-# add in a secret for dot file mgmt
-secret_add() {
-  local FILE=$(realpath $1)
-  local FILEPATH="${FILE/"$HOME"\//}"
-  echo "$FILEPATH filter=crypt diff=crypt merge=crypt" >> ~/.gitattributes
-  yadm add "$1"
-  yadm add ~/.gitattributes
-  yadm commit -m "Added encrypted file"
-}
-
-# todo: maybe remove? kinda useless now
-# yabai
-yabai_windows () {
-  yabai -m query --windows --space "$1" | jq -c -re '.[] | select(."is-visible" == true) | {id, title, app, "is-floating"}'
-}
-
-yabai_spaces () {
-  yabai -m query --spaces --space "$1" | jq -c -re '{id, index, label, type}'
-}
-
-alias ys="yabai_spaces"
-alias yw="yabai_windows"
-
 # function to toggle fg/bg on control z
 fancy-ctrl-z () {
   if [[ $#BUFFER -eq 0 ]]; then
@@ -390,82 +260,8 @@ stty start undef stop undef
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# fzf for checking out a branch
-fzf_git_checkout() {
-  result=$(git branch -a | grep -v '/HEAD\s' | sort |
-    fzf --ansi --height 50% --border --tac --preview-window right:70% \
-      --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed s/^..// <<< {} | cut -d" " -f1) | head -'$LINES |
-    sed 's/^..//' | cut -d' ' -f1)
-
-  if [[ $result != "" ]]; then
-    if [[ $result == remotes/* ]]; then
-      git checkout --track $(echo $result | sed 's#remotes/##')
-    else
-      git checkout "$result"
-    fi
-  fi
-}
-
-# fzf git log
-fzf_git_log() {
-    local commits=$(
-      git ll --color=always "$@" |
-        fzf --no-sort --height 100% \
-            --preview "echo {} | grep -o '[a-f0-9]\{7\}' | head -1 |
-                       xargs -I@ sh -c 'git show --color=always @'"
-      )
-    if [[ -n $commits ]]; then
-        local hashes=$(printf "$commits" | cut -d' ' -f2 | tr '\n' ' ')
-        git show $hashes
-    fi
-}
-
-# fzf find a file by name and edit
-fzf_find_edit() {
-    local file=$(
-      fzf --no-multi --preview 'bat --color=always --line-range :500 {}'
-      )
-    if [[ -n $file ]]; then
-        $EDITOR $file
-    fi
-}
-
-# fzf find a file with text and edit
-fzf_grep_edit(){
-    if [[ $# == 0 ]]; then
-        echo 'Error: search term was not provided.'
-        return
-    fi
-    local match=$(
-      rg --color=never --line-number "$1" |
-        fzf --no-multi --delimiter : \
-            --preview "bat --color=always --line-range {2}: {1}"
-      )
-    local file=$(echo "$match" | cut -d':' -f1)
-    if [[ -n $file ]]; then
-        $EDITOR $file +$(echo "$match" | cut -d':' -f2)
-    fi
-}
-
-# fkill - kill processes - list only the ones you can kill. Modified the earlier script.
-fzf_kill_process() {
-    local pid
-    if [ "$UID" != "0" ]; then
-        pid=$(ps -f -u $UID | sed 1d | fzf -m | awk '{print $2}')
-    else
-        pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
-    fi
-
-    if [ "x$pid" != "x" ]
-    then
-        echo $pid | xargs kill -${1:-9}
-    fi
-}
-alias fkill='fzf_kill_process'
-alias fge='fzf_grep_edit'
-alias ffe='fzf_find_edit'
-alias fgl="fzf_git_log"
-alias fco="fzf_git_checkout"
+# fzf
+# see ~/.config/zsh/fzf.sh
 
 # todo: update re new mac
 # export PATH="/usr/local/opt/ncurses/bin:$PATH"
@@ -487,17 +283,6 @@ alias ki="kitty +kitten icat --align=left" #view image
 alias kiw="kitty +kitten icat --align=left --background=#ffffff" #view image
 # generate a clean, up to date kitty config, see https://sw.kovidgoyal.net/kitty/conf/
 alias kc="kitty +runpy 'from kitty.config import *; print(commented_out_default_config())'"
-
-lpass_export() {
-  LPASS=`lpass status`
-  if [[ "$LPASS" != *"Logged in"* ]]; then
-    lpass login michael@theoryz.com.au
-  fi
-  KEYS=`lpass show --notes keys`
-  while read -r key; do
-      export "$key"
-  done <<< "$KEYS"
-}
 
 # load local env keys
 local_export() {
@@ -561,6 +346,7 @@ alias luamake=$HOME/tmp/lua-language-server/3rd/luamake/luamake
 
 eval "$(zoxide init zsh)"
 
+# todo: some more general way of doing this
 if [[ -f ~pc/.aliases.zsh ]]; then
   source ~pc/.aliases.zsh
 fi
