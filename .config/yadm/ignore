@@ -9,6 +9,8 @@
 
 .config/envman
 
+.config/git
+
 .config/yarn
 .config/iterm2
 .config/configstore

@@ -1,7 +1,4 @@
-# todo:
-# - modularise this into separate files e.g. prompt, aliases, fzf etc.
-
-# ======================================================
+# {{{ profiling start
 # for profiling
 # simple profiling of zsh related things
 # zmodload zsh/zprof
@@ -12,7 +9,9 @@
 # PS4='+$EPOCHREALTIME %N:%i> '
 # exec 3>&2 2> startlog.$$
 # setopt xtrace prompt_subst
+# }}}
 
+# {{{ prompt
 # disable the update prompt
 DISABLE_UPDATE_PROMPT=true
 DISABLE_AUTO_TITLE=true
@@ -27,7 +26,7 @@ source $ZSH/oh-my-zsh.sh
 # remove the right prompt extra space at the end
 ZLE_RPROMPT_INDENT=0
 eval "$(starship init zsh)"
-
+# }}}
 # the following is now called from ~/.zshenv
 # source ~/.config/zsh/directory_hashes.zsh
 
@@ -99,6 +98,7 @@ setopt HIST_IGNORE_SPACE
 setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 
+# {{{ aliases
 alias lc='claude -p'
 
 # -i to stop overwrite
@@ -242,6 +242,8 @@ alias yt1080='yt-dlp -S "height:1080" --merge-output-format=mkv -4 --sleep-reque
 alias yt720='yt-dlp -S "height:720" --merge-output-format=mkv -4 --sleep-requests 2 --sleep-interval 2 --extractor-args "youtube:player-client=web_embedded"'
 alias ytaudio='yt-dlp --extract-audio -4 --sleep-requests 2 --sleep-interval 2 --extractor-args "youtube:player-client=web_embedded" --audio-format mp3 --audio-quality 0'
 
+# }}}
+
 # function to toggle fg/bg on control z
 fancy-ctrl-z () {
   if [[ $#BUFFER -eq 0 ]]; then
@@ -355,16 +357,16 @@ if [[ -f "$HOME/.local/bin/env" ]]; then
   . "$HOME/.local/bin/env"
 fi
 
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/michaelwelford/.lmstudio/bin"
+# End of LM Studio CLI section
+
+# {{{
+# profiling end
 # simple profiling and output
 # zprof > ~/tmp/prof.txt
 
 # more complete profiling
 # unsetopt xtrace
 # exec 2>&3 3>&-
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/michaelwelford/.lmstudio/bin"
-# End of LM Studio CLI section
-
-# Generated for envman. Do not edit.
-[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+# }}}

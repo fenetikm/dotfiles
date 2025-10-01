@@ -3,5 +3,13 @@ snippet en "Err != nil"
           $0
         }
 
-snippet pl "fmt.Println"
+snippet fpl "fmt.Println"
         fmt.Println($0)
+
+snippet lf "log.Fatalln"
+        log.Fatalln($0)
+
+snippet enf "Err != nil and log fatal"
+        if err != nil {
+          log.Fatalln($0)
+        }
