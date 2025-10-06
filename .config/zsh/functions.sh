@@ -1,42 +1,12 @@
 #!/usr/bin/env zsh
 
-hugo-migrate-images() {
-  local CONV="$1"
-  if [[ "$CONV" == "" ]]; then
-    CONV=$(find content \( -path '**/posts/**' -or -path '**/til/**' -or -path '**/devlog/**' \) -not -name 'index.md' -name '*.md' | fzf --no-multi --preview 'bat --color=always --line-range :500 {}' | gsed -E 's/\.md//g')
-  fi
-  # it will be empty if it was cancelled
-  if [[ "$CONV" != "" ]]; then
-    mkdir "$CONV"
-    cp "$CONV.md" "$CONV.bak"
-    mv "$CONV.md" "$CONV/index.md"
-    mkdir "$CONV/images"
-    echo "Migrated $CONV to support images."
-  fi
-}
+# get the current directory `0`, `A` (absolute), `h` just the head for the dir
+DIR=${0:A:h}
 
-redis_keys() {
-  local SEARCH="dev_*"
-  if [[ ! -z "$1" ]]; then
-    SEARCH=$1
-  fi
-  redis-cli --raw KEYS "$SEARCH"
-}
-
-# todo: fix unserialize when not needed e.g. dev_ua_...
-redis_picker() {
-  local SEARCH="dev_*"
-  if [[ ! -z "$1" ]]; then
-    SEARCH=$1
-  fi
-  redis_keys "$SEARCH" |
-      fzf \
-        --with-shell 'zsh -c' \
-        --preview 'echo {} | sed "s/^/GET /" | redis-cli --json | php -r "print_r(unserialize(json_decode(file_get_contents(\"php://stdin\"))));"' \
-        --bind 'ctrl-d:execute-silent(echo {} | sed "s/^/DEL /" | redis-cli)' \
-        --bind 'ctrl-d:+reload(redis_keys "'"$SEARCH"'")' \
-        --bind 'enter:execute(echo {} | sed "s/^/GET /" | redis-cli --json | php -r "print_r(unserialize(json_decode(file_get_contents(\"php://stdin\"))));" | nvim -c "set nofoldenable")'
-}
+source "$DIR"/hugo.sh
+source "$DIR"/redis.sh
+source "$DIR"/tmux.sh
+source "$DIR"/fzf.sh
 
 file_paste() {
   SOURCE_FILE=$(pbpaste)
@@ -44,3 +14,50 @@ file_paste() {
 
   cp "$SOURCE_FILE" "$DEST_FILE"
 }
+
+# add in a secret for dot file mgmt
+secret_add() {
+  local FILE=$(realpath $1)
+  local FILEPATH="${FILE/"$HOME"\//}"
+  echo "$FILEPATH filter=crypt diff=crypt merge=crypt" >> ~/.gitattributes
+  yadm add "$1"
+  yadm add ~/.gitattributes
+  yadm commit -m "Added encrypted file"
+}
+
+# assumes running from ~z dir
+diary() {
+  local TODAY=$(date +"%Y-%m-%d")
+  local FILE_PATH="$TODAY".md
+  local ENTRY_DIR=$(echo ~z)
+  local FULL_PATH="$ENTRY_DIR/80-Diary/$FILE_PATH"
+
+  if [[ ! -f "$FULL_PATH" ]]; then
+    echo "# $TODAY\n" > "$FULL_PATH"
+  fi
+
+  # Put cursor on the last line
+  nvim -c "lua vim.api.nvim_win_set_cursor(0, {#vim.api.nvim_buf_get_lines(0, 0, -1, false),1})" "$FULL_PATH"
+}
+
+lpass_export() {
+  LPASS=`lpass status`
+  if [[ "$LPASS" != *"Logged in"* ]]; then
+    lpass login michael@theoryz.com.au
+  fi
+  KEYS=`lpass show --notes keys`
+  while read -r key; do
+      export "$key"
+  done <<< "$KEYS"
+}
+
+# yazi alias
+function y() {
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+  yazi "$@" --cwd-file="$tmp"
+  if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+    builtin cd -- "$cwd"
+  fi
+  rm -f -- "$tmp"
+}
+
