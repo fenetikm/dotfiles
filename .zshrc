@@ -271,6 +271,7 @@ export GOPATH="$HOME/go"
 export PATH="$GOPATH/bin:$PATH"
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 export PATH=/Applications/kitty.app/Contents/MacOS:$PATH
+export PATH="$HOME/tmp/google-cloud-sdk/bin":$PATH
 
 # ripgrep config
 # ripgrep configufation

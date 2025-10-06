@@ -55,5 +55,9 @@ return {
     "folke/lazydev.nvim",
     ft = "lua",
     config = true,
+  },
+  {
+    "lukas-reineke/lsp-format.nvim",
+    event = 'VeryLazy',
   }
 }
