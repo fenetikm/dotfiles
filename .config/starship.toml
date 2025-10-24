@@ -70,6 +70,7 @@ format = "[$path]($style)"
 '~icloud/Docs/vaults/zettelkasten' = '~z'
 '~/.config/yabai' = '~y'
 '~/.config/sketchybar' = '~sb'
+'~w/internal/projects/majyk' = '~m'
 
 # name of python virtual env if applicable
 [python]
