@@ -125,6 +125,10 @@ alias ping='prettyping'
 alias top='sudo htop'
 alias du="ncdu --color off -rr -x --exclude .git --exclude node_modules"
 alias ld="lazydocker"
+mkdir_enter() {
+  mkdir -p $1 && cd $1
+}
+alias mkd="mkdir_enter"
 
 # this supports doing something like `vl et`
 # which loads up the tmux config via the <leader>et mapping
@@ -371,3 +375,6 @@ export PATH="$PATH:/Users/michaelwelford/.lmstudio/bin"
 # unsetopt xtrace
 # exec 2>&3 3>&-
 # }}}
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
