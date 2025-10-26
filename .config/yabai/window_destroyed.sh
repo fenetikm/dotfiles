@@ -5,7 +5,7 @@ source "$HOME/.config/yabai/tools.sh"
 yd "window_destroyed.sh"
 
 # todo: pull this in from an env variable?
-FIX_OPACITY=on
+FIX_OPACITY=off
 
 # fixme: instead of this, go through all spaces that have stacks and do it, more reliable
 SPACE=$(yabai -m query --spaces --space)

@@ -5,7 +5,7 @@ source "$HOME/.config/yabai/tools.sh"
 yd "window_focused.sh"
 
 # fixme: pull in from global env variable?
-FIX_OPACITY=1
+FIX_OPACITY=0
 
 # process ID is set via application_front_switched
 PID="${YABAI_PROCESS_ID}"

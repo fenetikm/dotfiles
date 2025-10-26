@@ -158,6 +158,7 @@ alias -s css=nvim
 alias -s tpl=nvim
 alias -s yml=nvim
 alias -s md=glow -p
+# this is for glow to always output colour but doesn't always work
 export CLICOLOR_FORCE=1
 
 # Global aliases, substitute anywhere
