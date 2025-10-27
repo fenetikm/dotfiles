@@ -43,7 +43,7 @@ local obsidianApp = appID('/Applications/obsidian.app')
 
 hs.window.animationDuration = 0
 
-local hyper_mapping = {"cmd", "alt", "ctrl", "shift"}
+local hyper_mapping = { "cmd", "alt", "ctrl", "shift" }
 
 local reloadConfig = function(files)
   doReload = false
@@ -72,7 +72,7 @@ end
 local launchOrFocus = function(appName, details)
   if (details.url) then
     spoon.URLDispatcher.url_patterns = {
-      {'obsidian:', obsidianApp},
+      { 'obsidian:', obsidianApp },
       -- {'https:', chromeApp},
       -- {'http:', chromeApp}
     }
@@ -123,27 +123,27 @@ end
 
 hk = {}
 hs.fnutils.each({
-  { key = "f", app = "Finder" },
-  { key = "s", app = "Slack" },
-  { key = "g", app = "Google Chrome" },
-  { key = "space", app = "kitty", yabai_script = "kitty.sh" },
-  { key = "e", app = "Mail"},
-  { key = "p", url = "obsidian://open?vault=personal" },
-  { key = "q", app = "TablePlus"},
-  { key = "n", app = "Notes"},
-  { key = "c", app = "Calendar"},
-  { key = "j", app = "Jira"},
-  { key = "k", app = "Bitbucket"},
-  { key = "o", app = "Confluence"},
-  { key = "r", app = "Metabase"},
-  { key = "return", app = "Omnifocus"},
-  { key = "z", url = "obsidian://open?vault=zettelkasten" },
-  { key = "v", url = "obsidian://open?vault=PC" },
-  { key = "m", app = "Messages"},
-  { key = "i", app = "Music"},
-  { key = "b", app = "BoltAI" },
+  { key = "f",      app = "Finder" },
+  { key = "s",      app = "Slack" },
+  { key = "g",      app = "Google Chrome" },
+  { key = "space",  app = "kitty",                             yabai_script = "kitty.sh" },
+  { key = "e",      app = "Mail" },
+  { key = "p",      url = "obsidian://open?vault=personal" },
+  { key = "q",      app = "TablePlus" },
+  { key = "n",      app = "Notes" },
+  { key = "c",      app = "Calendar" },
+  { key = "j",      app = "Jira" },
+  { key = "k",      app = "Bitbucket" },
+  { key = "o",      app = "Confluence" },
+  { key = "r",      app = "Metabase" },
+  { key = "return", app = "Omnifocus" },
+  { key = "z",      url = "obsidian://open?vault=zettelkasten" },
+  { key = "v",      url = "obsidian://open?vault=PC" },
+  { key = "m",      app = "Messages" },
+  { key = "i",      app = "Music" },
+  { key = "b",      app = "BoltAI" },
 }, function(object)
-    hk[object.key] = hs.hotkey.bind(hyper_mapping, object.key, function() launchOrFocus(object.app, object) end)
+  hk[object.key] = hs.hotkey.bind(hyper_mapping, object.key, function() launchOrFocus(object.app, object) end)
 end)
 
 G.reloadWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
@@ -156,6 +156,41 @@ hk['='] = hs.hotkey.bind(hyper_mapping, '=', function()
   s('Hammerspoon config reloaded')
 end)
 
+-- get the current url and send to clipboard
+hk['u'] = hs.hotkey.bind(hyper_mapping, 'u', function()
+  -- get the window title
+  local win = hs.window.focusedWindow()
+  local title = win:title()
+
+  -- get any selected text or empty string
+  local elem = hs.uielement.focusedElement()
+  local sel = nil
+  if elem then
+    sel = elem:selectedText()
+  end
+  local quote = ""
+  if sel ~= nil then
+    if sel:sub(-1) ~= "\n" then sel = sel .. "\n" end
+    local lines = sel:gmatch("(.-)\n")
+    for line in lines do
+      quote = quote .. "> " .. line .. "\n"
+    end
+  end
+
+  -- get the url via selecting it an clipboard
+  hs.eventtap.keyStroke('command', 'l')
+  hs.eventtap.keyStroke('command', 'c')
+  local url = hs.pasteboard.readString()
+  hs.eventtap.keyStroke({}, 'escape')
+
+  -- build the snippet
+  local snip = quote .. '- [' .. title .. '](' .. url .. ')'
+
+  -- set the clipboard
+  hs.pasteboard.setContents(snip)
+  s('Snipped!')
+end)
+
 local yabai = function(args, completion)
   local yabai_output = ""
   local yabai_error = ""
@@ -163,14 +198,14 @@ local yabai = function(args, completion)
   local yabai_task = hs.task.new(G.yabai_path, function(err, stdout, stderr)
     print()
   end, function(task, stdout, stderr)
-      if stdout ~= nil then
-        yabai_output = yabai_output .. stdout
-      end
-      if stderr ~= nil then
-        yabai_error = yabai_error .. stderr
-      end
-      return true
-    end, args)
+    if stdout ~= nil then
+      yabai_output = yabai_output .. stdout
+    end
+    if stderr ~= nil then
+      yabai_error = yabai_error .. stderr
+    end
+    return true
+  end, args)
   if type(completion) == "function" then
     yabai_task:setCallback(function()
       completion(yabai_output, yabai_error)
@@ -190,7 +225,7 @@ function smartMinimise()
   local frontmost = hs.application.frontmostApplication()
   local frontmost_windows = frontmost:allWindows()
   if (#frontmost_windows > 1) then
-    yabai({'-m', 'window', '--minimize'})
+    yabai({ '-m', 'window', '--minimize' })
   else
     frontmost:hide()
   end
