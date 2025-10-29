@@ -158,18 +158,22 @@ end)
 
 -- get the current url and send to clipboard
 hk['u'] = hs.hotkey.bind(hyper_mapping, 'u', function()
-  -- get the window title
   local win = hs.window.focusedWindow()
   local title = win:title()
+  local quote = ""
 
-  -- get any selected text or empty string
   local elem = hs.uielement.focusedElement()
   local sel = nil
   if elem then
     sel = elem:selectedText()
   end
-  local quote = ""
-  if sel ~= nil then
+  if sel == nil then
+    -- no selection, check for image URL in clipboard
+    local url = hs.pasteboard.readString()
+    if url:match(".png$") or url:match(".jpe?g$") or url:match(".gif$") or url:match(".webp$") then
+      quote = '![image from ' .. title .. '](' .. url .. ')' .. "\n"
+    end
+  else
     if sel:sub(-1) ~= "\n" then sel = sel .. "\n" end
     local lines = sel:gmatch("(.-)\n")
     for line in lines do
@@ -177,16 +181,14 @@ hk['u'] = hs.hotkey.bind(hyper_mapping, 'u', function()
     end
   end
 
-  -- get the url via selecting it an clipboard
   hs.eventtap.keyStroke('command', 'l')
   hs.eventtap.keyStroke('command', 'c')
   local url = hs.pasteboard.readString()
+  -- deselect
   hs.eventtap.keyStroke({}, 'escape')
 
-  -- build the snippet
   local snip = quote .. '- [' .. title .. '](' .. url .. ')'
 
-  -- set the clipboard
   hs.pasteboard.setContents(snip)
   s('Snipped!')
 end)
