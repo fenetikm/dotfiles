@@ -15,6 +15,7 @@
 .config/iterm2
 .config/configstore
 .config/envman
+.config/gcloud
 
 .config/kitty/*.swp
 .config/scripts/toggl_*.json
