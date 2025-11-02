@@ -35,6 +35,7 @@ source $HOME/Documents/Work/internal/vim/colors/falcon/exa/EXA_COLORS_MODERN
 
 export PATH=":/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 export PATH="$PATH:$HOME/.composer/vendor/bin"
+export XDG_CONFIG_HOME="$HOME/.config"
 
 # set how long to wait for a sequence
 KEYTIMEOUT=1
@@ -125,6 +126,8 @@ alias ping='prettyping'
 alias top='sudo htop'
 alias du="ncdu --color off -rr -x --exclude .git --exclude node_modules"
 alias ld="lazydocker"
+alias lg="lazygit"
+alias ly="yadm enter lazygit"
 mkdir_enter() {
   mkdir -p $1 && cd $1
 }
