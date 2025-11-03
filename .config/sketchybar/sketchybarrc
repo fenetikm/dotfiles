@@ -186,8 +186,6 @@ sketchybar \
    --add item battery right \
    --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
    --subscribe battery system_woke power_source_change \
-   --add item cpu right \
-   --set cpu update_freq=10 script="$PLUGIN_DIR/cpu_load.sh" \
    --add item disk right \
    --set disk update_freq=130 script="$PLUGIN_DIR/disk.sh" \
    --subscribe disk system_woke \
@@ -195,7 +193,7 @@ sketchybar \
    --set timemachine update_freq=86400 script="$PLUGIN_DIR/timemachine.sh" \
    --subscribe timemachine system_woke \
    --add item toggl right \
-   --set toggl update_freq=120 script="$PLUGIN_DIR/toggl.sh" \
+   --set toggl update_freq=180 script="$PLUGIN_DIR/toggl.sh" \
    --subscribe toggl system_woke \
    --add item focus right \
    --set focus update_freq=30 script="$PLUGIN_DIR/focus.sh" \
@@ -203,6 +201,10 @@ sketchybar \
    --set pomo update_freq=30 script="$PLUGIN_DIR/pomo.sh" \
    --add item music right \
    --set music update_freq=20 script="$PLUGIN_DIR/music.sh"
+
+   # this seems too heavy for now
+   # --add item cpu right \
+   # --set cpu update_freq=10 script="$PLUGIN_DIR/cpu_load.sh" \
 
 # update all items
 sketchybar --update
