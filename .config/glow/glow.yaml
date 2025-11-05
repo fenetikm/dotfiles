@@ -1,5 +1,5 @@
 # style name or JSON path (default "auto")
-style: ~falcon/glow/falcon_modern.json
+style: theme.json
 # mouse support (TUI-mode only)
 mouse: false
 # use pager to display markdown

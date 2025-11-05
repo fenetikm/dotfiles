@@ -1,5 +1,5 @@
 return {
-  {
+  --[[ {
     "robitx/gp.nvim",
     config = function()
       local config = {
@@ -16,5 +16,5 @@ return {
 
       -- Setup shortcuts here (see Usage > Shortcuts in the Documentation/Readme)
     end,
-  }
+  } ]]
 }

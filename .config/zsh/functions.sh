@@ -8,6 +8,8 @@ source "$DIR"/redis.sh
 source "$DIR"/tmux.sh
 source "$DIR"/fzf.sh
 
+alias cg="$DIR/claude-glow.sh"
+
 file_paste() {
   SOURCE_FILE=$(pbpaste)
   DEST_FILE="$1"
@@ -25,7 +27,6 @@ secret_add() {
   yadm commit -m "Added encrypted file"
 }
 
-# assumes running from ~z dir
 diary() {
   local TODAY=$(date +"%Y-%m-%d")
   local FILE_PATH="$TODAY".md
