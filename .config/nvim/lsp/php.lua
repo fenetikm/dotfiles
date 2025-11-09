@@ -12,7 +12,7 @@ return {
   settings = {
     intelephense = {
       format = {
-        enable = false,
+        enable = true,
       },
       files = {
         exclude = {
