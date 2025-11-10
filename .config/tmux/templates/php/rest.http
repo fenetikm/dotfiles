@@ -1,0 +1,12 @@
+### Simple get
+GET https://
+
+### Simple post with JSON
+POST https://jsonplaceholder.typicode.com/posts
+Content-Type: application/json; charset=UTF-8
+
+{
+  "title": "foo",
+  "body": "bar",
+  "userId": 1
+}

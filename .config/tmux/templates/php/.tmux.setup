@@ -1,0 +1,41 @@
+#!/usr/bin/env zsh
+
+SESSION_NAME=$(tmux display-message -p '#S')
+tmux rename-session -t $SESSION_NAME $1
+SESSION_NAME=$1
+
+tmux new-window -t $SESSION_NAME:2 -n 'repl'
+tmux new-window -t $SESSION_NAME:3 -n 'rest'
+
+## PHP repl Window
+tmux select-window -t $SESSION_NAME:2
+tmux split-window -h -l70
+
+tmux select-pane -t 1
+tmux send-keys 'clear' C-m
+tmux send-keys 'vl ep' C-m
+tmux select-pane -t 2
+tmux send-keys 'clear' C-m
+tmux send-keys 'php -a' C-m
+tmux select-pane -t 1
+
+# Rest client
+tmux select-window -t $SESSION_NAME:3
+tmux send-keys "cp $HOME/.config/tmux/templates/php/rest.http ." C-m
+tmux send-keys 'clear' C-m
+tmux send-keys 'v rest.http' C-m
+
+# Code
+tmux select-window -t $SESSION_NAME:1
+tmux rename-window 'code'
+tmux split-window -h -l70
+tmux select-pane -t 1
+tmux send-keys "cp $HOME/.config/tmux/templates/php/.nvim.lua ." C-m
+tmux send-keys "cp $HOME/.config/tmux/templates/php/plan.md ." C-m
+tmux send-keys "cp $HOME/.config/tmux/templates/php/.ignore ." C-m
+tmux send-keys "cp $HOME/.config/tmux/templates/php/.gitignore ." C-m
+tmux send-keys "clear" C-m
+tmux send-keys "v plan.md" C-m
+
+$HOME/.config/tmux/tree_rebuild.sh 1
+clear

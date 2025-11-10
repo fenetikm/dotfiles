@@ -67,7 +67,7 @@ return {
   -- Spelling
   { 'tpope/vim-abolish' },
 
-  -- Tmux
+  -- Tmux integration
   { 'benmills/vimux',                  event = 'VeryLazy' },
 
   -- Focus mode

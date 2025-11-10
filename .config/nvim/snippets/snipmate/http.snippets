@@ -1,0 +1,14 @@
+snippet get "Simple get request"
+        ### Simple get
+        GET https://$0
+
+snippet post "Simple JSON post request"
+        ### Simple post with JSON
+        POST https://${1:jsonplaceholder.typicode.com/posts}
+        Content-Type: application/json; charset=UTF-8
+
+        {
+          "title": "foo",
+          "body": "bar",
+          "userId": 1
+        }

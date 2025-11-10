@@ -346,6 +346,8 @@ export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 export PATH="$PATH:/Users/michael/.local/bin"
 
+alias phpd="php -d xdebug.mode=debug -d xdebug.start_with_request=yes"
+
 # zsh falcon colouring
 source $HOME/Documents/Work/internal/vim/colors/falcon/zsh/falcon.zsh
 

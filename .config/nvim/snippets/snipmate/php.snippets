@@ -41,3 +41,34 @@ snippet ae "Assert equals"
 
 snippet am "Assert empty"
         \$this->assertEmpty($0)
+
+snippet reactloop "React php loop example"
+        $loop = React\EventLoop\Loop::get();
+
+        $timer = $loop->addPeriodicTimer(0.1, function () {
+            echo 'Tick' . PHP_EOL;
+        });
+
+        $loop->addTimer(1.0, function () use ($loop, $timer) {
+            $loop->cancelTimer($timer);
+            echo 'Done' . PHP_EOL;
+        });
+
+        $loop->run();
+
+snippet guzzle "Guzzle request example"
+        \$client = new GuzzleHttp\Client();
+        \$res = \$client->request('GET', 'https://jsonplaceholder.typicode.com/posts/1', [
+            'example' => ['user', 'pass']
+            'headers' => [
+                'User-Agent' => 'testing/1.0',
+                'Accept'     => 'application/json',
+            ]
+        ]);
+        echo \$res->getStatusCode();
+        // "200"
+        echo \$res->getHeader('content-type')[0];
+        // 'application/json; charset=utf8'
+        echo \$res->getBody();
+        // {"type":"User"...'
+
