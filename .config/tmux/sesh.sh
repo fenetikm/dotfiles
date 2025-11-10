@@ -1,10 +1,12 @@
 #!/usr/bin/env zsh
 
 # usage:
+#
 # sesh.sh <template> <session_name> <target_directory>
-# <template> - auto (default) or specific
-# <session_name>, defaults to directory name
-# <target_directory>, defaults to current directory
+#
+# - <template> - auto (default) or specific
+# - <session_name>, defaults to directory name
+# - <target_directory>, defaults to current directory
 
 switch_to_session() {
     if [[ -z "$TMUX" ]]; then
