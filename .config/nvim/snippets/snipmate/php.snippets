@@ -18,7 +18,7 @@ snippet vdd "var_dump die;"
         die;
 
 snippet vdf "var dump to file_put_contents to temp file"
-        file_put_contents('temp_alskjdflkjlkd.txt', print_r($0, true) . "\n", FILE_APPEND);
+        file_put_contents('temp.txt', print_r($0, true) . "\n", FILE_APPEND);
 
 snippet doc "Basic doc block"
         /**
@@ -72,3 +72,31 @@ snippet guzzle "Guzzle request example"
         echo \$res->getBody();
         // {"type":"User"...'
 
+snippet flock "Flock (file lock) example"
+        \$fp = fopen("/tmp/lock.txt", "r+");
+
+        if (flock(\$fp, LOCK_EX)) {  // acquire an exclusive lock
+            ftruncate(\$fp, 0);      // truncate file
+            fwrite(\$fp, "Write something here\n");
+            fflush(\$fp);            // flush output before releasing the lock
+            flock(\$fp, LOCK_UN);    // release the lock
+        } else {
+            echo "Couldn't get the lock!";
+        }
+
+        fclose(\$fp);
+
+snippet randhex "Random hex chars function"
+        function generateRandomHex(\$length = 10) {
+            return bin2hex(random_bytes(\$length / 2));
+        }
+
+snippet randchars "Random alpha chars function"
+        function generateRandomAlpha(\$length = 10) {
+            \$characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            \$result = '';
+            for (\$i = 0; \$i < \$length; \$i++) {
+                \$result .= \$characters[random_int(0, strlen(\$characters) - 1)];
+            }
+            return \$result;
+        }
