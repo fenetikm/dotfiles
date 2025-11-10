@@ -1,5 +1,5 @@
 ### Simple get
-GET https://
+GET https://jsonplaceholder.typicode.com/todos/1
 
 ### Simple post with JSON
 POST https://jsonplaceholder.typicode.com/posts
