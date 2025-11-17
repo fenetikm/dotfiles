@@ -81,8 +81,13 @@ return {
       local dap = require('dap')
       local dapui = require('dapui')
       vim.fn.sign_define('DapBreakpoint', { text = '●', texthl = 'DapBreakpoint', linehl = '', numhl = '' })
-      vim.fn.sign_define('DapBreakpointCondition', { text = '◆', texthl = 'DapBreakpointCondition', linehl = '', numhl =
-      '' })
+      vim.fn.sign_define('DapBreakpointCondition', {
+        text = '◆',
+        texthl = 'DapBreakpointCondition',
+        linehl = '',
+        numhl =
+        ''
+      })
       vim.fn.sign_define('DapStopped', { text = '▶', texthl = 'DapStopped', linehl = '', numhl = '' })
 
       dap.listeners.before.attach.dapui_config = function()
@@ -97,7 +102,6 @@ return {
       dap.listeners.before.event_exited.dapui_config = function()
         dapui.close()
       end
-
 
       --[[ dap.adapters.php = {
         type = 'executable',
@@ -114,10 +118,6 @@ return {
           name = 'Listen for Xdebug (9003)',
           port = 9003,
           log = true,
-          pathMappings = {
-            ['/app/'] = '/Users/michael/Documents/Work/personify_care/repos/personify-care-platform/',
-            ['/app/application/'] = '/Users/michael/Documents/Work/personify_care/repos/personify-care-platform/application/',
-          },
         },
         {
           type = 'php',

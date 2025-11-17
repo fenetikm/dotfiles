@@ -10,6 +10,9 @@
 # exec 3>&2 2> startlog.$$
 # setopt xtrace prompt_subst
 # }}}
+# {{{ inspo
+# https://evanhahn.com/scripts-i-wrote-that-i-use-all-the-time/
+# }}}
 
 # {{{ prompt
 # disable the update prompt

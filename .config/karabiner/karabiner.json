@@ -13,6 +13,49 @@
         },
         "rules": [
           {
+            "description": "F21 layer",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "simultaneous": [
+                    {
+                      "key_code": "f21"
+                    },
+                    {
+                      "key_code": "a"
+                    }
+                  ],
+                  "simultaneous_options": {
+                    "key_down_order": "strict",
+                    "to_after_key_up": [
+                      {
+                        "set_variable": {
+                          "name": "f21_fn_mode",
+                          "value": 0
+                        }
+                      }
+                    ]
+                  }
+                },
+                "parameters": {
+                  "basic.simultaneous_threshold_milliseconds": 500
+                },
+                "to": [
+                  {
+                    "set_variable": {
+                      "name": "f21_fn_mode",
+                      "value": 1
+                    }
+                  },
+                  {
+                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/move.sh west"
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "description": "SpaceFN layer",
             "manipulators": [
               {

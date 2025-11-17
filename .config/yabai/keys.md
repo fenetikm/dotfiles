@@ -19,6 +19,32 @@ set a "last called" file which has the trigger and a timestamp, compare, run nex
 have to store the items in the cycle somewhere, another file?
 @done
 
+## Mappings v2
+What about if we went with asd instead?
+a/d - move window left/right
+f - full screen
+g - center
+z? - toggle float
+r - reload yabai
+x? - minimise
+c? - balance
+1x - change focused space
+1x double - shift to that space
+w/s - modes?
+q/e - select window to left or right?
+? - change mode
+
+Can I use something like f19 instead of space then? and make it super robust since not space?
+
+key down f19
+then any of the above
+
+if release f19 before the above then the above is normal
+I think this works?
+
+Map right option on mac to f19... somehow?
+all other keyboards map to f19 via qmk etc.
+
 ## Mappings
 things that I want to do regularly:
 h/l -     select window (left/right) @done

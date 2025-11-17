@@ -1,6 +1,4 @@
-local function generateArt()
-
-end
+-- see https://gitlab.com/dwt1/shell-color-scripts for some other nice art
 
 return {
   {

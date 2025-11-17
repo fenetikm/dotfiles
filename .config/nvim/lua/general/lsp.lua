@@ -32,13 +32,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     if not client:supports_method('textDocument/willSaveWaitUntil')
         and client:supports_method('textDocument/formatting') then
       require("lsp-format").on_attach(client, args.buf)
-      -- vim.api.nvim_create_autocmd('BufWritePre', {
-      --   group = vim.api.nvim_create_augroup('my_lsp_formatter', { clear = false }),
-      --   buffer = args.buf,
-      --   callback = function()
-      --     vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
-      --   end,
-      -- })
     end
 
     -- require('lsp_signature').on_attach({
@@ -115,6 +108,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'gi', function()
       vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
     end, { buffer = true, silent = true })
+
+    -- toggle formatting
+    vim.keymap.set('n', 'grf', '<cmd>FormatToggle<cr>', { buffer = true, silent = true })
   end,
 })
 
