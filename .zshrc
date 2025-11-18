@@ -191,27 +191,11 @@ alias gp='git push'
 alias gb='git branch'
 alias g='_f() { if [[ $# == 0 ]]; then git status --short --branch; else git "$@"; fi }; _f'
 
-# todo: shift these into a local thing
-# robo
-alias rb='~pcp/vendor/bin/robo'
-alias rbd='docker exec -it -w /app nginx-pc vendor/bin/robo'
-
 # redis
 # see ~/.config/zsh/redis.sh
 
 # tmux
 # see ~/.config/zsh/tmux.sh
-
-# todo: shift to local
-new-fortnightly () {
-  cd ~pcp/../../video/product_weekly
-  local YEAR=$(date -u +%Y)
-  local MONTH=$(date -u +%m)
-  local DAY=$(date -u +%d)
-  local FN=fortnightly_"$DAY"_"$MONTH"_"$YEAR".html
-  cp template.html "$FN"
-  nvim "$FN"
-}
 
 # todo: shift into local stuffs
 # ssh
@@ -236,18 +220,6 @@ devlog() {
     hugo new "devlog/$MON.md" --editor nvim
   fi
 }
-
-# todo: shift to local
-# rando
-alias dbd='rb db:dump --path="tmp/dump.sql" --sed=gsed --dirty'
-alias dbl='rb db:load --path="tmp/dump.sql"'
-alias dbd2='rb db:dump --path="tmp/dump2.sql" --sed=gsed --dirty'
-alias dbl2='rb db:load --path="tmp/dump2.sql"'
-alias dbd3='rb db:dump --path="tmp/dump3.sql" --sed=gsed --dirty'
-alias dbl3='rb db:load --path="tmp/dump3.sql"'
-alias pcload='(cd ~pcp && rb db:load)'
-alias pcup='docker-compose -f misc/docker/docker-compose.yml -f misc/docker/docker-compose.override.yml up -d'
-alias pcdown='docker container stop $(docker container ls -aq)'
 
 # yt things
 alias ytbest='yt-dlp -f bestvideo+bestaudio --merge-output-format=mkv -4 --sleep-requests 2 --sleep-interval 2 --extractor-args "youtube:player-client=web_embedded"'
