@@ -3,7 +3,7 @@ snippet en "Err != nil"
           $0
         }
 
-snippet fpl "fmt.Println"
+snippet pl "fmt.Println"
         fmt.Println($0)
 
 snippet lf "log.Fatalln"
@@ -13,3 +13,39 @@ snippet enf "Err != nil and log fatal"
         if err != nil {
           log.Fatalln($0)
         }
+
+snippet randchars "Generate a string of random characters"
+        func RandChars(n int) string {
+        	r := []rune("qwertyuipoasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM")
+        	ret := make([]rune, n)
+        	for i := range n {
+        		ret[i] = r[rand.Intn(len(r))]
+        	}
+
+        	return string(ret)
+        }
+
+snippet ticker "Example using a ticker"
+        func (q *Queue) Start(limit int) {
+        	ticker := time.NewTicker(CADENCE * time.Millisecond)
+        	done := make(chan bool)
+
+        	go func() {
+        		for {
+        			select {
+        			case <-done:
+        				return
+        			case <-ticker.C:
+        				fmt.Println("Tick:", t)
+        			}
+        		}
+        	}()
+
+        	d := fmt.Sprintf("%ds", limit)
+        	dur, _ := time.ParseDuration(d)
+        	time.Sleep(dur)
+        	ticker.Stop()
+        	done <- true
+        }
+
+
