@@ -1060,7 +1060,7 @@
             ]
           },
           {
-            "description": "Change right option to f19, only inbuilt",
+            "description": "Change right option to f21, only inbuilt",
             "manipulators": [
               {
                 "conditions": [
@@ -1089,7 +1089,7 @@
                 },
                 "to": [
                   {
-                    "key_code": "f19",
+                    "key_code": "f21",
                     "lazy": true
                   }
                 ],

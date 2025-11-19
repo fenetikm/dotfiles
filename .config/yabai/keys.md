@@ -1,27 +1,13 @@
 # New window mgmt mapping
-Can also do more chording instead of modifiers?! but how does that work with sequence?!
-
 ## Goals
-- Ergonomic, easy and logical for both hands (space wins here)
-- Not many clashes with programs e.g. Thunderbird with ctrl+shift+command
-
-## Approaches
-- Simultaneous -> shell call
-- SpaceFN via non-simultaneous -> shell call @yep!
-- SpaceFN using firmware -> shell call
-- Hammerspoon mode via, say, F19
-
-## To try
-- SpaceFN + double tap, vs single tap @done, all good!
-
-## How to do the chaining thing via shell?
-set a "last called" file which has the trigger and a timestamp, compare, run next one
-have to store the items in the cycle somewhere, another file?
-@done
+-~~ Ergonomic, easy and logical for both hands (space wins here)~~
+- Minimise clashes -- SpaceFN was ok but `space` is too fiddly to work
+- Reliable
+- _Majority_ of combos are easy to reach
 
 ## Mappings v2
-What about if we went with asd instead?
-using f21.
+Based around `wasd` and F21.
+
 a/d - move window left/right
 f - full screen
 enter - present @done
@@ -29,21 +15,21 @@ r - restart yabai
 c - center @done
 z - toggle float @done
 r - restart yabai @done
-x - minimise (change to something else) @done
+x - minimise @done
 b - balance @done
 1x - change focused space
 1x double - shift to that space
 w/s - select window to left or right? or maybe make window smaller/larger, yes, do this
-q/e? - change mode?
+q/e? - change space mode?
 
 for change mode:
 - `                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/toggle_mode.sh"
 `
 
-Map right option on mac to f19... somehow? guess karabiner.
-all other keyboards map to f19 via qmk etc.
+Map right option on inbuilt to F21 via karabiner.
+Other keyboards use QMK.
 
-## Mappings
+## Previous mappings with SpaceFN
 things that I want to do regularly:
 h/l -     select window (left/right) @done
 j/k -     move window left/right @done
@@ -66,9 +52,6 @@ a      - autolayout (for floats e.g. side by side)
 ,. -     change width/metrics (on floated window) (1/3, 1/2, 1/4, 2/3 etc.) (cycle)
 s -      toggle space mode between stack / bsp... float? is that useful? can't remember last time wanted float mode @done
 
-todo:
-- feedback - don't know what is happening, what the state is
-
 less often:
 - go from stack to split easily, esp. on laptop screen
 - change space mode: bsp,stack,float
@@ -80,13 +63,13 @@ b - balance - not that useful, replace with layout @done
 ## Going from stack to split
 Now:
 - change mode
-- minimise all others
+- minimise all others... how?!
 - open the one you want with the split
+
+Next?:
+- If you have a stack, select the top app
+- Then select the next one
+- Hit key to switch to split which should show just the top 2 side by side
 
 ## Nice to have / gold plating
 - when kitty open on a large screen by it self with margins
-
-## Other
-Double tapping (working for now) reference:
-- https://github.com/pqrs-org/Karabiner-Elements/issues/2532
-- https://agileadam.com/2024/11/double-tap-modifier-hotkeys-in-any-application/
