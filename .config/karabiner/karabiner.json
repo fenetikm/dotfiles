@@ -1060,44 +1060,6 @@
             ]
           },
           {
-            "description": "Change right option to f21, only inbuilt",
-            "manipulators": [
-              {
-                "conditions": [
-                  {
-                    "identifiers": [
-                      {
-                        "vendor_id": 1452
-                      },
-                      {
-                        "vendor_id": 76
-                      },
-                      {
-                        "is_built_in_keyboard": true
-                      }
-                    ],
-                    "type": "device_if"
-                  }
-                ],
-                "from": {
-                  "key_code": "right_option",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "key_code": "f21",
-                    "lazy": true
-                  }
-                ],
-                "type": "basic"
-              }
-            ]
-          },
-          {
             "description": "Equals and delete together to forward delete",
             "manipulators": [
               {
@@ -1301,44 +1263,6 @@
                 "to_if_alone": [
                   {
                     "key_code": "down_arrow"
-                  }
-                ],
-                "type": "basic"
-              }
-            ]
-          },
-          {
-            "description": "Right Option to Command + Option + Control, not fjell / keycult zero",
-            "manipulators": [
-              {
-                "conditions": [
-                  {
-                    "identifiers": [
-                      {
-                        "vendor_id": 25986
-                      },
-                      {
-                        "vendor_id": 35176
-                      }
-                    ],
-                    "type": "device_unless"
-                  }
-                ],
-                "from": {
-                  "key_code": "right_option",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "key_code": "right_option",
-                    "modifiers": [
-                      "right_command",
-                      "right_control"
-                    ]
                   }
                 ],
                 "type": "basic"
@@ -1695,50 +1619,18 @@
       "devices": [
         {
           "identifiers": {
-            "aka": "daskeyboard",
             "is_keyboard": true,
-            "product_id": 8211,
-            "vendor_id": 1241
+            "product_id": 832,
+            "vendor_id": 1452
           },
-          "manipulate_caps_lock_led": false,
           "simple_modifications": [
-            {
-              "from": {
-                "key_code": "left_command"
-              },
-              "to": [
-                {
-                  "key_code": "left_option"
-                }
-              ]
-            },
-            {
-              "from": {
-                "key_code": "left_option"
-              },
-              "to": [
-                {
-                  "key_code": "left_command"
-                }
-              ]
-            },
-            {
-              "from": {
-                "key_code": "right_command"
-              },
-              "to": [
-                {
-                  "key_code": "right_option"
-                }
-              ]
-            },
             {
               "from": {
                 "key_code": "right_option"
               },
               "to": [
                 {
-                  "key_code": "right_command"
+                  "key_code": "f21"
                 }
               ]
             }
