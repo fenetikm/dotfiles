@@ -170,7 +170,7 @@ hk['u'] = hs.hotkey.bind(hyper_mapping, 'u', function()
   if sel == nil then
     -- no selection, check for image URL in clipboard
     local url = hs.pasteboard.readString()
-    if url:match(".png$") or url:match(".jpe?g$") or url:match(".gif$") or url:match(".webp$") then
+    if url ~= nil and (url:match(".png$") or url:match(".jpe?g$") or url:match(".gif$") or url:match(".webp$")) then
       quote = '![image from ' .. title .. '](' .. url .. ')' .. "\n"
     end
   else
