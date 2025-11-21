@@ -33,7 +33,7 @@ fi
 
 temp_file=$(mktemp /tmp/claude-response.XXXXXX)
 
-echo "Asking..." >&2
+echo "\nAsking..." >&2
 if ! claude -p "$query" > "$temp_file" 2>&1; then
   echo "Error: Claude CLI failed. Check authentication or try running 'claude' interactively first." >&2
   rm "$temp_file"
@@ -47,7 +47,7 @@ if [[ ! -s "$temp_file" ]]; then
   exit 1
 fi
 
-cat "$temp_file" | glow
+cat "$temp_file" | glow --config "$HOME/.config/glow/glow.yaml"
 
 # Clean up temp file
 rm "$temp_file"

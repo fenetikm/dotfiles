@@ -103,10 +103,7 @@ setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 
 # {{{ aliases
-alias lc='claude -p'
-alias cc='claude'
-# see ~/.config/zsh/claude-glow.sh
-
+# general
 # -i to stop overwrite
 alias mv='/bin/mv -i'
 # -i to always ask for confirmation
@@ -139,7 +136,7 @@ mkdir_enter() {
 alias mkd="mkdir_enter"
 
 # this supports doing something like `vl et`
-# which loads up the tmux config via the <leader>et mapping
+# this example would load up the tmux config via the <leader>et mapping
 run_vim_leader() {
   nvim -c "NormLead $1"
 }
@@ -166,7 +163,8 @@ alias -s css=nvim
 alias -s tpl=nvim
 alias -s yml=nvim
 alias -s md=glow -p
-# this is for glow to always output colour but doesn't always work
+
+# this is for glow to always output colour (doesn't always work)
 export CLICOLOR_FORCE=1
 
 # Global aliases, substitute anywhere
@@ -226,6 +224,12 @@ alias ytbest='yt-dlp -f bestvideo+bestaudio --merge-output-format=mkv -4 --sleep
 alias yt1080='yt-dlp -S "height:1080" --merge-output-format=mkv -4 --sleep-requests 2 --sleep-interval 2 --extractor-args "youtube:player-client=web_embedded"'
 alias yt720='yt-dlp -S "height:720" --merge-output-format=mkv -4 --sleep-requests 2 --sleep-interval 2 --extractor-args "youtube:player-client=web_embedded"'
 alias ytaudio='yt-dlp --extract-audio -4 --sleep-requests 2 --sleep-interval 2 --extractor-args "youtube:player-client=web_embedded" --audio-format mp3 --audio-quality 0'
+
+# claude
+# alias lc='claude -p'
+alias cc='claude'
+alias lc="$HOME/.config/zsh/claude-glow.sh"
+# see ~/.config/zsh/claude-glow.sh
 
 # }}}
 
