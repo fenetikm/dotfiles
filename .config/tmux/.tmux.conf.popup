@@ -1,3 +1,12 @@
-set -s -t "_popup_" status off
-set -s -t "_popup_" window-active-style "bg=#020223"
-set -s -t "_popup_" pane-border-status off
+#!/usr/bin/env zsh
+SESSIONS=$(tmux list-sessions -F '#{session_name}')
+SESH_LINES=(${(f)SESSIONS})
+for SESH in "${SESH_LINES[@]}"; do
+  if [[ "$SESH" =~ "_popup_" ]]; then
+    tmux set -s -t "$SESH" status off
+    tmux set -s -t "$SESH" window-active-style "bg=#020223"
+    tmux set -s -t "$SESH" pane-border-status off
+  fi
+done
+
+exit 0
