@@ -20,11 +20,14 @@ b - balance @done
 1x - change focused space
 1x double - shift to that space
 w/s - select window to left or right? or maybe make window smaller/larger, yes, do this
-q/e? - change space mode?
+q/e? - change space mode? focus / select window to left or right?
 
 for change mode:
 - `                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/toggle_mode.sh"
 `
+
+for focus a direction:
+` "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; yabai -m window --focus west || yabai -m display --focus west"`
 
 Map right option on inbuilt to F21 via karabiner.
 Other keyboards use QMK.
