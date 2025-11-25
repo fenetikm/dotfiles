@@ -5,8 +5,11 @@
 - Reliable
 - _Majority_ of combos are easy to reach
 
+## Thoughts
+- `Never break rollover. Only create layers from keys typically followed by a space. e.g., ., ,, ’, tab, ;, -.`
+
 ## Mappings v2
-Based around `wasd` and F21.
+Based around `wasd` for the left hand, generally, and F21.
 
 a/d - move window left/right
 f - full screen
@@ -31,6 +34,9 @@ for focus a direction:
 
 Map right option on inbuilt to F21 via karabiner.
 Other keyboards use QMK.
+
+### To-do
+- [ ] Change it so that the mode is engaged when f21 is held down so that can do multiple taps, esp when shifting windows
 
 ## Previous mappings with SpaceFN
 things that I want to do regularly:
