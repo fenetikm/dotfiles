@@ -10,7 +10,7 @@ UNTRACKED_INDICATOR="${GRAY}+ ${RESET}"
 AHEAD_INDICATOR="${WHITE}↑ ${RESET}"
 BEHIND_INDICATOR="${WHITE}↓ ${RESET}"
 DIVERGE_INDICATOR="${WHITE}󰤻  ${RESET}"
-OK_INDICATOR="${GREEN}  ${RESET}"
+OK_INDICATOR="${GREEN}✓ ${RESET}"
 STATUS=
 
 if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
