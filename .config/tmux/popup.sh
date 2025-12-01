@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 # usage:
-# - popup.sh <name|script> <title>
+# - popup.sh <name|script> <arg1> <arg2>
 
 # "smart" sizing
 PERC=80
@@ -39,5 +39,5 @@ if [[ "$1" == "scratch" ]]; then
   fi
 else
   # ephemeral
-  tmux display-popup -d rounded -w "$WIDTH" -h "$HEIGHT" -T "$2" -s "bg=#020223" -E "$1 $2"
+  tmux display-popup -d rounded -w "$WIDTH" -h "$HEIGHT" -T "$2" -s "bg=#020223" -E "$1 $3"
 fi
