@@ -156,6 +156,12 @@ hk['='] = hs.hotkey.bind(hyper_mapping, '=', function()
   s('Hammerspoon config reloaded')
 end)
 
+-- shift current tab to separate window
+hk['t'] = hs.hotkey.bind(hyper_mapping, 't', function()
+  local frontApp = hs.application.frontmostApplication()
+  frontApp:selectMenuItem("Move Tab to New Window")
+end)
+
 -- get the current url and send to clipboard
 hk['u'] = hs.hotkey.bind(hyper_mapping, 'u', function()
   local win = hs.window.focusedWindow()
