@@ -37,6 +37,13 @@ hugo-rename-tag() {
 }
 alias htag="hugo-rename-tag"
 
+hugo-list-series () {
+  FILES=$(ls -1 content/(articles|tils|links)/**/*.md)
+  for FILE in $(echo "$FILES"); do
+    yq --front-matter=extract '.series' "$FILE"
+  done
+}
+
 hugo-new-article () {
   hugo new articles/"$1".md
   nvim "content/articles/$1.md"

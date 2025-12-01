@@ -614,6 +614,7 @@ return {
   -- https://github.com/NStefan002/screenkey.nvim for showing which key(s) are being pressed
   -- https://github.com/OXY2DEV/markview.nvim markdown viewer
   -- https://github.com/stevearc/quicker.nvim quickfix editing etc.
+  -- https://github.com/TaDaa/vimade for fading inactive window
   --
   -- new neovim features:
   -- https://gpanders.com/blog/whats-new-in-neovim-0-11/ virtual lines looks cool

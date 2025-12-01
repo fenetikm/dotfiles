@@ -1,5 +1,5 @@
 # style name or JSON path (default "auto")
-style: ./theme.json
+# set via the env variable
 # mouse support (TUI-mode only)
 mouse: false
 # use pager to display markdown
