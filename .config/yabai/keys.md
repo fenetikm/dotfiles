@@ -5,8 +5,11 @@
 - Reliable
 - _Majority_ of combos are easy to reach
 
+## Thoughts
+- `Never break rollover. Only create layers from keys typically followed by a space. e.g., ., ,, ’, tab, ;, -.`
+
 ## Mappings v2
-Based around `wasd` and F21.
+Based around `wasd` for the left hand, generally, and F21.
 
 a/d - move window left/right
 f - full screen
@@ -20,14 +23,21 @@ b - balance @done
 1x - change focused space
 1x double - shift to that space
 w/s - select window to left or right? or maybe make window smaller/larger, yes, do this
-q/e? - change space mode?
+q/e? - focus / select window to left or right? @done
+m - toggle mode
 
 for change mode:
 - `                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/toggle_mode.sh"
 `
 
+for focus a direction:
+` "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; yabai -m window --focus west || yabai -m display --focus west"`
+
 Map right option on inbuilt to F21 via karabiner.
 Other keyboards use QMK.
+
+### To-do
+- [ ] Change it so that the mode is engaged when f21 is held down so that can do multiple taps, esp when shifting windows
 
 ## Previous mappings with SpaceFN
 things that I want to do regularly:

@@ -44,8 +44,8 @@ hugo-list-series () {
   done
 }
 
-hugo-new-post () {
-  hugo new po/"$1".md
+hugo-new-article () {
+  hugo new articles/"$1".md
   nvim "content/articles/$1.md"
 }
 
@@ -57,7 +57,7 @@ hugo-new-link () {
   hugo new links/"$1".md --editor nvim
 }
 
-hugo-open-post() {
+hugo-open () {
   find content -name '*.md' P
 }
 
@@ -93,7 +93,7 @@ alias hd="hugo-open-drafts"
 alias hl="hugo-open-latest"
 alias hlp="rg --files-with-matches 'draft: false' **/*.md(.omr) R 'content' P"
 alias hld="rg --files-with-matches 'draft: true' **/*.md(.omr) R 'content' P"
-alias ho="hugo-open-post"
-alias hn='hugo-new-post'
+alias ho="hugo-open"
+alias ha='hugo-new-article'
 alias ht='hugo-new-til'
 alias hk='hugo-new-link'

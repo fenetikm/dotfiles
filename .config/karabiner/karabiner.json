@@ -1,22 +1,80 @@
 {
-  "global": {
-    "show_in_menu_bar": true
-  },
   "profiles": [
     {
       "complex_modifications": {
-        "parameters": {
-          "basic.simultaneous_threshold_milliseconds": 50,
-          "basic.to_delayed_action_delay_milliseconds": 500,
-          "basic.to_if_alone_timeout_milliseconds": 1000,
-          "basic.to_if_held_down_threshold_milliseconds": 500
-        },
         "rules": [
+          {
+            "description": "Mac OSX: double-tap left shift key → caps lock toggle",
+            "manipulators": [
+              {
+                "conditions": [
+                  {
+                    "name": "left_shift pressed",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "from": {
+                  "key_code": "left_shift",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "caps_lock"
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "from": {
+                  "key_code": "left_shift",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "set_variable": {
+                      "name": "left_shift pressed",
+                      "value": 1
+                    }
+                  },
+                  {
+                    "key_code": "left_shift"
+                  }
+                ],
+                "to_delayed_action": {
+                  "to_if_canceled": [
+                    {
+                      "set_variable": {
+                        "name": "left_shift pressed",
+                        "value": 0
+                      }
+                    }
+                  ],
+                  "to_if_invoked": [
+                    {
+                      "set_variable": {
+                        "name": "left_shift pressed",
+                        "value": 0
+                      }
+                    }
+                  ]
+                },
+                "type": "basic"
+              }
+            ]
+          },
           {
             "description": "F21 layer",
             "manipulators": [
               {
-                "type": "basic",
                 "from": {
                   "simultaneous": [
                     {
@@ -51,14 +109,52 @@
                   {
                     "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/move.sh west"
                   }
-                ]
+                ],
+                "type": "basic"
               },
               {
-                "type": "basic",
+                "from": {
+                  "simultaneous": [
+                    {
+                      "key_code": "f21"
+                    },
+                    {
+                      "key_code": "m"
+                    }
+                  ],
+                  "simultaneous_options": {
+                    "key_down_order": "strict",
+                    "to_after_key_up": [
+                      {
+                        "set_variable": {
+                          "name": "f21_fn_mode",
+                          "value": 0
+                        }
+                      }
+                    ]
+                  }
+                },
+                "parameters": {
+                  "basic.simultaneous_threshold_milliseconds": 500
+                },
+                "to": [
+                  {
+                    "set_variable": {
+                      "name": "f21_fn_mode",
+                      "value": 1
+                    }
+                  },
+                  {
+                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/toggle_mode.sh"
+                  }
+                ],
+                "type": "basic"
+              },
+              {
                 "conditions": [
                   {
-                    "type": "variable_if",
                     "name": "f21_fn_mode_1",
+                    "type": "variable_if",
                     "value": 1
                   }
                 ],
@@ -81,10 +177,10 @@
                   {
                     "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/send_space.sh 1 1"
                   }
-                ]
+                ],
+                "type": "basic"
               },
               {
-                "type": "basic",
                 "from": {
                   "simultaneous": [
                     {
@@ -116,6 +212,20 @@
                   }
                 ],
                 "to_delayed_action": {
+                  "to_if_canceled": [
+                    {
+                      "set_variable": {
+                        "name": "f21_fn_mode",
+                        "value": 0
+                      }
+                    },
+                    {
+                      "set_variable": {
+                        "name": "f21_fn_mode_1",
+                        "value": 0
+                      }
+                    }
+                  ],
                   "to_if_invoked": [
                     {
                       "set_variable": {
@@ -132,25 +242,87 @@
                     {
                       "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; yabai -m space --focus 1"
                     }
-                  ],
-                  "to_if_canceled": [
-                    {
-                      "set_variable": {
-                        "name": "f21_fn_mode",
-                        "value": 0
-                      }
-                    },
-                    {
-                      "set_variable": {
-                        "name": "f21_fn_mode_1",
-                        "value": 0
-                      }
-                    }
                   ]
-                }
+                },
+                "type": "basic"
               },
               {
-                "type": "basic",
+                "from": {
+                  "simultaneous": [
+                    {
+                      "key_code": "f21"
+                    },
+                    {
+                      "key_code": "q"
+                    }
+                  ],
+                  "simultaneous_options": {
+                    "key_down_order": "strict",
+                    "to_after_key_up": [
+                      {
+                        "set_variable": {
+                          "name": "f21_fn_mode",
+                          "value": 0
+                        }
+                      }
+                    ]
+                  }
+                },
+                "parameters": {
+                  "basic.simultaneous_threshold_milliseconds": 500
+                },
+                "to": [
+                  {
+                    "set_variable": {
+                      "name": "f21_fn_mode",
+                      "value": 1
+                    }
+                  },
+                  {
+                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; yabai -m window --focus west || yabai -m display --focus west"
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "from": {
+                  "simultaneous": [
+                    {
+                      "key_code": "f21"
+                    },
+                    {
+                      "key_code": "e"
+                    }
+                  ],
+                  "simultaneous_options": {
+                    "key_down_order": "strict",
+                    "to_after_key_up": [
+                      {
+                        "set_variable": {
+                          "name": "f21_fn_mode",
+                          "value": 0
+                        }
+                      }
+                    ]
+                  }
+                },
+                "parameters": {
+                  "basic.simultaneous_threshold_milliseconds": 500
+                },
+                "to": [
+                  {
+                    "set_variable": {
+                      "name": "f21_fn_mode",
+                      "value": 1
+                    }
+                  },
+                  {
+                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; yabai -m window --focus east || yabai -m display --focus east"
+                  }
+                ],
+                "type": "basic"
+              },
+              {
                 "from": {
                   "simultaneous": [
                     {
@@ -185,10 +357,10 @@
                   {
                     "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; yabai -m space --balance"
                   }
-                ]
+                ],
+                "type": "basic"
               },
               {
-                "type": "basic",
                 "from": {
                   "simultaneous": [
                     {
@@ -223,10 +395,10 @@
                   {
                     "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; hs -c 'smartMinimise()'"
                   }
-                ]
+                ],
+                "type": "basic"
               },
               {
-                "type": "basic",
                 "from": {
                   "simultaneous": [
                     {
@@ -261,10 +433,10 @@
                   {
                     "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/present.sh"
                   }
-                ]
+                ],
+                "type": "basic"
               },
               {
-                "type": "basic",
                 "from": {
                   "simultaneous": [
                     {
@@ -299,10 +471,10 @@
                   {
                     "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/fullscreen.sh"
                   }
-                ]
+                ],
+                "type": "basic"
               },
               {
-                "type": "basic",
                 "from": {
                   "simultaneous": [
                     {
@@ -337,10 +509,10 @@
                   {
                     "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/float.sh"
                   }
-                ]
+                ],
+                "type": "basic"
               },
               {
-                "type": "basic",
                 "from": {
                   "simultaneous": [
                     {
@@ -375,10 +547,10 @@
                   {
                     "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/move.sh east"
                   }
-                ]
+                ],
+                "type": "basic"
               },
               {
-                "type": "basic",
                 "from": {
                   "simultaneous": [
                     {
@@ -413,10 +585,10 @@
                   {
                     "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; yabai --restart-service"
                   }
-                ]
+                ],
+                "type": "basic"
               },
               {
-                "type": "basic",
                 "from": {
                   "simultaneous": [
                     {
@@ -451,10 +623,10 @@
                   {
                     "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/resize.sh c x"
                   }
-                ]
+                ],
+                "type": "basic"
               },
               {
-                "type": "basic",
                 "from": {
                   "simultaneous": [
                     {
@@ -489,10 +661,10 @@
                   {
                     "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/present.sh 800 500"
                   }
-                ]
+                ],
+                "type": "basic"
               },
               {
-                "type": "basic",
                 "from": {
                   "simultaneous": [
                     {
@@ -527,14 +699,14 @@
                   {
                     "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/present.sh 1280 720"
                   }
-                ]
+                ],
+                "type": "basic"
               },
               {
-                "type": "basic",
                 "conditions": [
                   {
-                    "type": "variable_if",
                     "name": "f21_fn_mode_2",
+                    "type": "variable_if",
                     "value": 1
                   }
                 ],
@@ -557,7 +729,8 @@
                   {
                     "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/send_space.sh 2 1"
                   }
-                ]
+                ],
+                "type": "basic"
               },
               {
                 "from": {
@@ -591,6 +764,20 @@
                   }
                 ],
                 "to_delayed_action": {
+                  "to_if_canceled": [
+                    {
+                      "set_variable": {
+                        "name": "f21_fn_mode",
+                        "value": 0
+                      }
+                    },
+                    {
+                      "set_variable": {
+                        "name": "f21_fn_mode_2",
+                        "value": 0
+                      }
+                    }
+                  ],
                   "to_if_invoked": [
                     {
                       "set_variable": {
@@ -607,30 +794,15 @@
                     {
                       "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; yabai -m space --focus 2"
                     }
-                  ],
-                  "to_if_canceled": [
-                    {
-                      "set_variable": {
-                        "name": "f21_fn_mode",
-                        "value": 0
-                      }
-                    },
-                    {
-                      "set_variable": {
-                        "name": "f21_fn_mode_2",
-                        "value": 0
-                      }
-                    }
                   ]
                 },
                 "type": "basic"
               },
               {
-                "type": "basic",
                 "conditions": [
                   {
-                    "type": "variable_if",
                     "name": "f21_fn_mode_3",
+                    "type": "variable_if",
                     "value": 1
                   }
                 ],
@@ -653,7 +825,8 @@
                   {
                     "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/send_space.sh 3 1"
                   }
-                ]
+                ],
+                "type": "basic"
               },
               {
                 "from": {
@@ -687,6 +860,20 @@
                   }
                 ],
                 "to_delayed_action": {
+                  "to_if_canceled": [
+                    {
+                      "set_variable": {
+                        "name": "f21_fn_mode",
+                        "value": 0
+                      }
+                    },
+                    {
+                      "set_variable": {
+                        "name": "f21_fn_mode_3",
+                        "value": 0
+                      }
+                    }
+                  ],
                   "to_if_invoked": [
                     {
                       "set_variable": {
@@ -703,30 +890,15 @@
                     {
                       "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; yabai -m space --focus 3"
                     }
-                  ],
-                  "to_if_canceled": [
-                    {
-                      "set_variable": {
-                        "name": "f21_fn_mode",
-                        "value": 0
-                      }
-                    },
-                    {
-                      "set_variable": {
-                        "name": "f21_fn_mode_3",
-                        "value": 0
-                      }
-                    }
                   ]
                 },
                 "type": "basic"
               },
               {
-                "type": "basic",
                 "conditions": [
                   {
-                    "type": "variable_if",
                     "name": "f21_fn_mode_4",
+                    "type": "variable_if",
                     "value": 1
                   }
                 ],
@@ -749,7 +921,8 @@
                   {
                     "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/send_space.sh 4 1"
                   }
-                ]
+                ],
+                "type": "basic"
               },
               {
                 "from": {
@@ -783,6 +956,20 @@
                   }
                 ],
                 "to_delayed_action": {
+                  "to_if_canceled": [
+                    {
+                      "set_variable": {
+                        "name": "f21_fn_mode",
+                        "value": 0
+                      }
+                    },
+                    {
+                      "set_variable": {
+                        "name": "f21_fn_mode_4",
+                        "value": 0
+                      }
+                    }
+                  ],
                   "to_if_invoked": [
                     {
                       "set_variable": {
@@ -799,30 +986,15 @@
                     {
                       "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; yabai -m space --focus 4"
                     }
-                  ],
-                  "to_if_canceled": [
-                    {
-                      "set_variable": {
-                        "name": "f21_fn_mode",
-                        "value": 0
-                      }
-                    },
-                    {
-                      "set_variable": {
-                        "name": "f21_fn_mode_4",
-                        "value": 0
-                      }
-                    }
                   ]
                 },
                 "type": "basic"
               },
               {
-                "type": "basic",
                 "conditions": [
                   {
-                    "type": "variable_if",
                     "name": "f21_fn_mode_5",
+                    "type": "variable_if",
                     "value": 1
                   }
                 ],
@@ -845,7 +1017,8 @@
                   {
                     "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/send_space.sh 5 1"
                   }
-                ]
+                ],
+                "type": "basic"
               },
               {
                 "from": {
@@ -879,6 +1052,20 @@
                   }
                 ],
                 "to_delayed_action": {
+                  "to_if_canceled": [
+                    {
+                      "set_variable": {
+                        "name": "f21_fn_mode",
+                        "value": 0
+                      }
+                    },
+                    {
+                      "set_variable": {
+                        "name": "f21_fn_mode_5",
+                        "value": 0
+                      }
+                    }
+                  ],
                   "to_if_invoked": [
                     {
                       "set_variable": {
@@ -895,30 +1082,15 @@
                     {
                       "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; yabai -m space --focus 5"
                     }
-                  ],
-                  "to_if_canceled": [
-                    {
-                      "set_variable": {
-                        "name": "f21_fn_mode",
-                        "value": 0
-                      }
-                    },
-                    {
-                      "set_variable": {
-                        "name": "f21_fn_mode_5",
-                        "value": 0
-                      }
-                    }
                   ]
                 },
                 "type": "basic"
               },
               {
-                "type": "basic",
                 "conditions": [
                   {
-                    "type": "variable_if",
                     "name": "f21_fn_mode_6",
+                    "type": "variable_if",
                     "value": 1
                   }
                 ],
@@ -941,7 +1113,8 @@
                   {
                     "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/send_space.sh 6 1"
                   }
-                ]
+                ],
+                "type": "basic"
               },
               {
                 "from": {
@@ -975,6 +1148,20 @@
                   }
                 ],
                 "to_delayed_action": {
+                  "to_if_canceled": [
+                    {
+                      "set_variable": {
+                        "name": "f21_fn_mode",
+                        "value": 0
+                      }
+                    },
+                    {
+                      "set_variable": {
+                        "name": "f21_fn_mode_6",
+                        "value": 0
+                      }
+                    }
+                  ],
                   "to_if_invoked": [
                     {
                       "set_variable": {
@@ -990,20 +1177,6 @@
                     },
                     {
                       "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; yabai -m space --focus 6"
-                    }
-                  ],
-                  "to_if_canceled": [
-                    {
-                      "set_variable": {
-                        "name": "f21_fn_mode",
-                        "value": 0
-                      }
-                    },
-                    {
-                      "set_variable": {
-                        "name": "f21_fn_mode_6",
-                        "value": 0
-                      }
                     }
                   ]
                 },
@@ -1668,6 +1841,25 @@
             "vendor_id": 39572
           },
           "ignore": true
+        },
+        {
+          "identifiers": {
+            "is_keyboard": true,
+            "product_id": 832,
+            "vendor_id": 1452
+          },
+          "simple_modifications": [
+            {
+              "from": {
+                "key_code": "right_option"
+              },
+              "to": [
+                {
+                  "key_code": "f21"
+                }
+              ]
+            }
+          ]
         }
       ],
       "fn_function_keys": [
