@@ -3,7 +3,7 @@
 hugo-migrate-images() {
   local CONV="$1"
   if [[ "$CONV" == "" ]]; then
-    CONV=$(find content \( -path '**/posts/**' -or -path '**/til/**' -or -path '**/devlog/**' \) -not -name 'index.md' -name '*.md' | fzf --no-multi --preview 'bat --color=always --line-range :500 {}' | gsed -E 's/\.md//g')
+    CONV=$(find content \( -path '**/articles/**' -or -path '**/tils/**' -or -path '**/devlog/**' \) -not -name 'index.md' -name '*.md' | fzf --no-multi --preview 'bat --color=always --line-range :500 {}' | gsed -E 's/\.md//g')
   fi
   # it will be empty if it was cancelled
   if [[ "$CONV" != "" ]]; then
@@ -28,7 +28,7 @@ hugo-rename-tag() {
     return 1
   fi
 
-  FILES=$(ls -1 content/(posts|til|link)/**/*.md)
+  FILES=$(ls -1 content/(articles|tils|links)/**/*.md)
   for FILE in $(echo "$FILES"); do
     yq --front-matter=process '.tags |= map(select(. == "'"$TAG"'") = "'"$REPLACE"'" // .)' "$FILE" | sponge "$FILE"
   done
@@ -37,17 +37,24 @@ hugo-rename-tag() {
 }
 alias htag="hugo-rename-tag"
 
+hugo-list-series () {
+  FILES=$(ls -1 content/(articles|tils|links)/**/*.md)
+  for FILE in $(echo "$FILES"); do
+    yq --front-matter=extract '.series' "$FILE"
+  done
+}
+
 hugo-new-post () {
-  hugo new posts/"$1".md
-  nvim "content/posts/$1.md"
+  hugo new po/"$1".md
+  nvim "content/articles/$1.md"
 }
 
 hugo-new-til () {
-  hugo new til/"$1".md --editor nvim
+  hugo new tils/"$1".md --editor nvim
 }
 
 hugo-new-link () {
-  hugo new link/"$1".md --editor nvim
+  hugo new links/"$1".md --editor nvim
 }
 
 hugo-open-post() {
