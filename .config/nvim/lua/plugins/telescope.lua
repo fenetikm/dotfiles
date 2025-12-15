@@ -44,7 +44,7 @@ return {
     keys = {
       {'<leader>,', '<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>', desc = 'Switch buffer'},
       {'<c-p>', "<cmd>lua require'telescope.builtin'.find_files(falcon_theme)<cr>", noremap = true, desc = 'Find files' },
-      {'<c-s-p>', "<cmd>lua require'telescope.builtin'.find_files(get_falcon_theme({hidden = true, no_ignore=true}))<cr>", noremap = true, desc = 'Find files' },
+      {'<c-s-p>', "<cmd>lua require'telescope.builtin'.find_files(get_falcon_theme({hidden = true, no_ignore=true}))<cr>", noremap = true, desc = 'Find all files' },
       {'<leader>fh', "<cmd>lua require'telescope.builtin'.oldfiles(falcon_theme)<cr>", silent = true, noremap = true, desc = 'Find old files'},
       {'<leader>fc', "<cmd>lua require'telescope.builtin'.commands(falcon_theme)<cr>", silent = true, noremap = true, desc = 'Find commands'},
       {'<leader>fm', "<cmd>lua require'telescope.builtin'.keymaps(simple_falcon_theme)<cr>", silent = true, noremap = true, desc = 'Find key maps'},
