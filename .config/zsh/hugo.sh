@@ -44,6 +44,14 @@ hugo-list-series () {
   done
 }
 
+hugo-list-tags () {
+  # todo: sort and unique the list
+  FILES=$(ls -1 content/(articles|tils|links)/**/*.md)
+  for FILE in $(echo "$FILES"); do
+    yq --front-matter=extract '.tags' "$FILE"
+  done
+}
+
 hugo-new-article () {
   hugo new articles/"$1".md
   nvim "content/articles/$1.md"
