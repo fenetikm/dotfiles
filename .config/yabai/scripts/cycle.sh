@@ -15,7 +15,7 @@ CYCLE_OPTIONS=("${@:3}")
 # we have the path in here for when this is called via karabiner
 TIMESTAMP=$(/bin/date +%s)
 
-CYCLE_LOC="$HOME/.config/yabai/cycle_state_${CYCLE}.sh"
+CYCLE_LOC="$HOME/.config/yabai/scripts/cycle_state_${CYCLE}.sh"
 CYCLE_TIMESTAMP_VAR="CYCLE_${CYCLE}_TIMESTAMP"
 CYCLE_OPTION_VAR="CYCLE_${CYCLE}_OPTION"
 
