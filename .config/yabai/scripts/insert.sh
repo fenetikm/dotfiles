@@ -30,4 +30,4 @@ else
   yabai -m window "$TARGET" --warp "$WINDOW"
 fi
 
-source "$HOME"/.config/yabai/balance.sh
+source "$HOME"/.config/yabai/scripts/balance.sh

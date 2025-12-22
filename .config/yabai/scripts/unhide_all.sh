@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-source "$HOME/.config/yabai/tools.sh"
+source "$HOME/.config/yabai/scripts/tools.sh"
 
 yd "unhide_all.sh"
 

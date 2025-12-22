@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-source "$HOME/.config/yabai/tools.sh"
+source "$HOME/.config/yabai/scripts/tools.sh"
 
 yd "move.sh"
 
@@ -54,7 +54,7 @@ if [[ "$DIR" == "east" ]]; then
     yabai -m window "$W_ID" --display 1
     yabai -m window "$W_ID" --focus
 
-    source "$HOME"/.config/yabai/balance.sh
+    source "$HOME"/.config/yabai/scripts/scripts/balance.sh
 
     exit 0
   fi
@@ -68,7 +68,7 @@ else
     yabai -m window "$W_ID" --display 2
     yabai -m window "$W_ID" --focus
 
-    source "$HOME"/.config/yabai/balance.sh
+    source "$HOME"/.config/yabai/scripts/balance.sh
 
     exit 0
   fi

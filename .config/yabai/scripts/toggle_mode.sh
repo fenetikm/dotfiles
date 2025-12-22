@@ -7,5 +7,5 @@ if [[ "$MODE" == "bsp" ]]; then
   yabai -m space --layout stack
 else
   yabai -m space --layout bsp
-  /bin/zsh "$HOME/.config/yabai/reset_opacity.sh" "$SPACE_INDEX"
+  /bin/zsh "$HOME/.config/yabai/scripts/reset_opacity.sh" "$SPACE_INDEX"
 fi

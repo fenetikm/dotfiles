@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-source "$HOME/.config/yabai/tools.sh"
+source "$HOME/.config/yabai/scripts/tools.sh"
 
 yd "kitty.sh"
 
@@ -25,6 +25,6 @@ if [[ "$KITTY_ID" != "$WINDOWS[1]" ]]; then
   yabai -m window "$KITTY_ID" --swap "$WINDOWS[1]"
 fi
 
-source "$HOME"/.config/yabai/balance.sh
+source "$HOME"/.config/yabai/scripts/balance.sh
 
 yabai -m window "$KITTY_ID" --focus

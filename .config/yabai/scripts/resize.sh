@@ -1,4 +1,4 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
 
 # args: position size float layout space
 # positions:
@@ -26,7 +26,7 @@
 # todo: allow resizing of non-floated windows
 # - refactor into separate methods?
 
-source "$HOME/.config/yabai/tools.sh"
+source "$HOME/.config/yabai/scripts/tools.sh"
 
 yd "RESIZE.SH"
 

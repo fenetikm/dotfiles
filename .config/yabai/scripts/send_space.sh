@@ -3,7 +3,7 @@
 # usage:
 # send_space <SPACE> <FOCUS?> <FORCE_FLOAT?>
 
-source "$HOME/.config/yabai/tools.sh"
+source "$HOME/.config/yabai/scripts/tools.sh"
 
 yd "send_space.sh"
 

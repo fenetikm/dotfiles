@@ -5,7 +5,7 @@
 PID="$YABAI_PROCESS_ID"
 WID="$YABAI_WINDOW_ID"
 
-source "$HOME/.config/yabai/tools.sh"
+source "$HOME/.config/yabai/scripts/tools.sh"
 
 yd "application_visible.sh"
 

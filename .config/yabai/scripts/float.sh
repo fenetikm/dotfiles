@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-source "$HOME/.config/yabai/tools.sh"
+source "$HOME/.config/yabai/scripts/tools.sh"
 
 yd "float.SH"
 
@@ -9,4 +9,4 @@ WID=$(echo "$WINDOW" | jq '."id"')
 
 yabai -m window "$WID" --toggle float
 
-source "$HOME/.config/yabai/balance.sh"
+source "$HOME/.config/yabai/scripts/balance.sh"
