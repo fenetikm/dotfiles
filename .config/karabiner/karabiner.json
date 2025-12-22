@@ -107,7 +107,7 @@
                     }
                   },
                   {
-                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/move.sh west"
+                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/scripts/move.sh west"
                   }
                 ],
                 "type": "basic"
@@ -145,7 +145,7 @@
                     }
                   },
                   {
-                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/toggle_mode.sh"
+                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/scripts/toggle_mode.sh"
                   }
                 ],
                 "type": "basic"
@@ -175,7 +175,7 @@
                     }
                   },
                   {
-                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/send_space.sh 1 1"
+                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/scripts/send_space.sh 1 1"
                   }
                 ],
                 "type": "basic"
@@ -431,7 +431,7 @@
                     }
                   },
                   {
-                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/present.sh"
+                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/scripts/present.sh"
                   }
                 ],
                 "type": "basic"
@@ -469,7 +469,7 @@
                     }
                   },
                   {
-                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/fullscreen.sh"
+                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/scripts/fullscreen.sh"
                   }
                 ],
                 "type": "basic"
@@ -507,7 +507,7 @@
                     }
                   },
                   {
-                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/float.sh"
+                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/scripts/float.sh"
                   }
                 ],
                 "type": "basic"
@@ -545,7 +545,7 @@
                     }
                   },
                   {
-                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/move.sh east"
+                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/scripts/move.sh east"
                   }
                 ],
                 "type": "basic"
@@ -621,7 +621,7 @@
                     }
                   },
                   {
-                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/resize.sh c x"
+                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/scripts/resize.sh c x"
                   }
                 ],
                 "type": "basic"
@@ -659,7 +659,7 @@
                     }
                   },
                   {
-                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/present.sh 800 500"
+                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/scripts/present.sh 800 500"
                   }
                 ],
                 "type": "basic"
@@ -697,7 +697,7 @@
                     }
                   },
                   {
-                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/present.sh 1280 720"
+                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/scripts/present.sh 1280 720"
                   }
                 ],
                 "type": "basic"
@@ -727,7 +727,7 @@
                     }
                   },
                   {
-                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/send_space.sh 2 1"
+                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/scripts/send_space.sh 2 1"
                   }
                 ],
                 "type": "basic"
@@ -823,7 +823,7 @@
                     }
                   },
                   {
-                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/send_space.sh 3 1"
+                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/scripts/send_space.sh 3 1"
                   }
                 ],
                 "type": "basic"
@@ -919,7 +919,7 @@
                     }
                   },
                   {
-                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/send_space.sh 4 1"
+                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/scripts/send_space.sh 4 1"
                   }
                 ],
                 "type": "basic"
@@ -1015,7 +1015,7 @@
                     }
                   },
                   {
-                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/send_space.sh 5 1"
+                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/scripts/send_space.sh 5 1"
                   }
                 ],
                 "type": "basic"
@@ -1111,7 +1111,7 @@
                     }
                   },
                   {
-                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/send_space.sh 6 1"
+                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/scripts/send_space.sh 6 1"
                   }
                 ],
                 "type": "basic"

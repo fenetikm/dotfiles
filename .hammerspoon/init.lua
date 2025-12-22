@@ -141,7 +141,7 @@ hs.fnutils.each({
   { key = "v",      url = "obsidian://open?vault=PC" },
   { key = "m",      app = "Messages" },
   { key = "i",      app = "Music" },
-  { key = "b",      app = "BoltAI" },
+  -- { key = "b",      app = "BoltAI" },
 }, function(object)
   hk[object.key] = hs.hotkey.bind(hyper_mapping, object.key, function() launchOrFocus(object.app, object) end)
 end)
@@ -215,12 +215,6 @@ local yabai = function(args, completion)
   end
   yabai_task:start()
 end
-
--- set mode, todo: better here, maybe one key and cycle? or a selector
--- also reset transparency stuff after mode change
--- sk['z'] = bindKey('z', function() yabai({'-m', 'space', '--layout', 'bsp'}) end)
--- sk['x'] = bindKey('x', function() yabai({'-m', 'space', '--layout', 'float'}) end)
--- sk['c'] = bindKey('c', function() yabai({'-m', 'space', '--layout', 'stack'}) end)
 
 -- called from karabiner
 function smartMinimise()

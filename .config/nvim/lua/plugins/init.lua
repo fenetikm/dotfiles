@@ -4,7 +4,7 @@
 return {
   -- Colours
   'rktjmp/lush.nvim',
-  { 'rktjmp/shipwright.nvim', cmd = 'Shipwright' },
+  { 'rktjmp/shipwright.nvim',          cmd = 'Shipwright' },
   {
     dir = '~/Documents/Work/internal/vim/colors/falcon',
     lazy = false,
@@ -45,7 +45,10 @@ return {
     'gregsexton/MatchTag',
     ft = { 'html' }, --html tag matching
   },
-  { 'andymass/vim-matchup',   event = 'VimEnter' },
+  {
+    'andymass/vim-matchup',
+    event = { "BufReadPre", "BufNewFile" }
+  },
 
   -- Git - see git.lua
 

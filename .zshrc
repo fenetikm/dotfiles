@@ -50,6 +50,10 @@ bindkey -v
 bindkey '^P' history-search-backward
 bindkey '^N' history-search-forward
 
+# zsh-history-substring-search key bindings
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
 # change directory by just typing it's name
 setopt AUTO_CD
 
@@ -207,9 +211,11 @@ alias ..='cd ..'
 # see ~/.config/zsh/hugo.sh
 
 # love framework
+# shift to local
 alias love="/Applications/love.app/Contents/MacOS/love"
 
 # majyk
+# shift to local or even into that a .tmux.setup
 devlog() {
   local MON=$(date -v -Mon +"%Y-%m-%d")
   if [[ -e "./content/devlog/$MON.md" ]]; then
@@ -248,7 +254,7 @@ fancy-ctrl-z () {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
-# what does this do?!
+# disable ctrl+s and ctrl+q flow control
 stty start undef stop undef
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -268,13 +274,15 @@ export PATH="$HOME/tmp/google-cloud-sdk/bin":$PATH
 # ripgrep configufation
 export RIPGREP_CONFIG_PATH="$HOME/.rgrc"
 
-# all files
+# use fd and rg across all files
 alias rga="rg --hidden --no-ignore"
 alias fda="fd --hidden --no-ignore"
 
 # kitty
-alias ki="kitty +kitten icat --align=left" #view image
-alias kiw="kitty +kitten icat --align=left --background=#ffffff" #view image
+# view an image
+alias ki="kitty +kitten icat --align=left"
+# view image with white background, useful on transparent images
+alias kiw="kitty +kitten icat --align=left --background=#ffffff"
 # generate a clean, up to date kitty config, see https://sw.kovidgoyal.net/kitty/conf/
 alias kc="kitty +runpy 'from kitty.config import *; print(commented_out_default_config())'"
 
@@ -307,9 +315,6 @@ fi
 # Source the static plugins file
 source ${zsh_plugins}.zsh
 
-# zsh-history-substring-search key bindings
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
 
 # change these depending on version
 # export PATH="/usr/local/opt/php@8.3/bin:$PATH"
@@ -364,6 +369,3 @@ export PATH="$PATH:/Users/michaelwelford/.lmstudio/bin"
 # unsetopt xtrace
 # exec 2>&3 3>&-
 # }}}
-
-# Generated for envman. Do not edit.
-[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"

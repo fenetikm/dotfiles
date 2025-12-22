@@ -130,15 +130,15 @@ yabai -m rule --add app="^(Kitty|kitty)" space=^5
 yabai -m rule --add app="^(Docker|OpenVPN|OmniFocus|Calendar|Chrome)" space=^1
 
 # signals i.e. events that then call scripts
-yabai -m signal --add event=window_created action="$HOME/.config/yabai/window_created.sh"
-yabai -m signal --add event=window_destroyed action="$HOME/.config/yabai/window_destroyed.sh"
-yabai -m signal --add event=application_hidden action="$HOME/.config/yabai/window_destroyed.sh"
-yabai -m signal --add event=window_minimized action="$HOME/.config/yabai/window_destroyed.sh"
-yabai -m signal --add event=window_focused action="$HOME/.config/yabai/window_focused.sh"
-yabai -m signal --add event=application_launched action="$HOME/.config/yabai/application_launched.sh"
-yabai -m signal --add event=application_visible action="$HOME/.config/yabai/application_visible.sh"
-yabai -m signal --add event=window_deminimized action="$HOME/.config/yabai/application_visible.sh"
-yabai -m signal --add event=display_added action="$HOME/.config/yabai/display_added.sh"
-yabai -m signal --add event=application_front_switched action="$HOME/.config/yabai/window_focused.sh"
+yabai -m signal --add event=window_created action="$HOME/.config/yabai/events/window_created.sh"
+yabai -m signal --add event=window_destroyed action="$HOME/.config/yabai/events/window_destroyed.sh"
+yabai -m signal --add event=application_hidden action="$HOME/.config/yabai/events/window_destroyed.sh"
+yabai -m signal --add event=window_minimized action="$HOME/.config/yabai/events/window_destroyed.sh"
+yabai -m signal --add event=window_focused action="$HOME/.config/yabai/events/window_focused.sh"
+yabai -m signal --add event=application_launched action="$HOME/.config/yabai/events/application_launched.sh"
+yabai -m signal --add event=application_visible action="$HOME/.config/yabai/events/application_visible.sh"
+yabai -m signal --add event=window_deminimized action="$HOME/.config/yabai/events/application_visible.sh"
+yabai -m signal --add event=display_added action="$HOME/.config/yabai/events/display_added.sh"
+yabai -m signal --add event=application_front_switched action="$HOME/.config/yabai/events/window_focused.sh"
 
 yabai -m space 1 --focus
