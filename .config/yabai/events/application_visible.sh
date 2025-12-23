@@ -9,22 +9,6 @@ source "$HOME/.config/yabai/scripts/tools.sh"
 
 yd "application_visible.sh"
 
-# hide apps that are floated but then should always hide on blur
-APPS=$(
-cat <<EOF
-Transmission
-EOF
-)
-SPACE_ID=$(yabai -m query --spaces --space | jq -r '.index')
-
-for APP in "${APPS[@]}"
-do
-  WINDOW_ID=$(yabai -m query --windows --space "$SPACE_ID" | jq -r '.[] | select(.title == "'"$APP"'") | .id')
-  # don't hide if made visible
-  if [[ "$WINDOW_ID" != "" && "$WINDOW_ID" != "$WID" ]]; then
-    # todo: use smart minimise instead?
-    yabai -m window "$WINDOW_ID" --minimize
-  fi
-done
+source "$HOME/.config/yabai/scripts/hide_special.sh"
 
 source "$HOME/.config/yabai/scripts/balance.sh"

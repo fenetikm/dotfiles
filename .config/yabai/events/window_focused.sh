@@ -24,7 +24,8 @@ if [[ $(echo "$WINDOW" | jq -re '."is-floating"') == "true" ]]; then
 fi
 
 # this resets the opacity to 1.0
-yabai -m window "$WID" --opacity 0.0
+# not used for now
+# yabai -m window "$WID" --opacity 0.0
 
 # first scenario, stacked space
 SPACE=$(yabai -m query --spaces --space)
@@ -49,6 +50,9 @@ if [[ $(echo "$SPACE" | jq -re '."type" == "stack"') == true && "$FIX_OPACITY" =
     done
   fi
 fi
+
+# todo: this hides when it shouldn't...
+# source "$HOME/.config/yabai/scripts/hide_special.sh"
 
 # second scenario, when window is in stack but space not in stack
 # not needed for now

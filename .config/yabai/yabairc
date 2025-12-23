@@ -34,7 +34,7 @@ yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 sudo yabai --load-sa
 
 # turn on debug
-# yabai -m config debug_output on
+yabai -m config debug_output on
 
 # defaults
 yabai                         -m           config \
@@ -119,7 +119,7 @@ yabai -m rule --add app="^Chrome" role="^AXSheet" manage=off
 yabai -m rule --add role="AXPopover" manage=off
 yabai -m rule --add app="^(Little Snitch|CleanShot|Mirth|Keychain|zoom|Zoom|OpenVPN|Microsoft Teams|Coherence|Microsoft Remote Desktop|Insta360|Adobe)" manage=off
 
-# send apps to specific displays or spaces
+# send apps to specific displays or spaces, the ^ means follow
 yabai -m rule --add app="^Messages" space=^3
 yabai -m rule --add app="^Slack" space=^3
 yabai -m rule --add app="^Slack" title="^Huddle" manage=off display=^2 space=^6
@@ -128,6 +128,7 @@ yabai -m rule --add app="^Mail" space=^2
 yabai -m rule --add app="^TablePlus" space=^4
 yabai -m rule --add app="^(Kitty|kitty)" space=^5
 yabai -m rule --add app="^(Docker|OpenVPN|OmniFocus|Calendar|Chrome)" space=^1
+yabai -m rule --add app="^(Transmission|Transmit)" space=^1
 
 # signals i.e. events that then call scripts
 yabai -m signal --add event=window_created action="$HOME/.config/yabai/events/window_created.sh"
