@@ -6,6 +6,7 @@
 .config/sketchybar/plugins/vol_state.sh
 
 .config/yabai/cycle_state_*
+.config/yabai/scripts/cycle_state_*
 
 .config/envman
 

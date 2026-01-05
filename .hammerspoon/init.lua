@@ -61,7 +61,7 @@ end
 
 -- this is faster than os.execute with the env arg
 local yabai_script = function(script_name, args)
-  local task = hs.task.new(os.getenv('HOME') .. '/.config/yabai/' .. script_name, nil, args)
+  local task = hs.task.new(os.getenv('HOME') .. '/.config/yabai/scripts/' .. script_name, nil, args)
   local env = task:environment()
   env['PATH'] = env['PATH'] .. ':' .. G.bin_path
   task:setEnvironment(env)
