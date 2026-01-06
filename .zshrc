@@ -319,8 +319,10 @@ source ${zsh_plugins}.zsh
 # change these depending on version
 # export PATH="/usr/local/opt/php@8.3/bin:$PATH"
 # export PATH="/usr/local/opt/php@8.3/bin:$PATH"
-export PATH="/usr/local/opt/php@8.1/sbin:$PATH"
-export PATH="/usr/local/opt/php@8.1/sbin:$PATH"
+# export PATH="/usr/local/opt/php@8.1/sbin:$PATH"
+# export PATH="/usr/local/opt/php@8.1/sbin:$PATH"
+export PATH="/usr/local/opt/php@8.2/sbin:$PATH"
+export PATH="/usr/local/opt/php@8.2/sbin:$PATH"
 # export PATH="/usr/local/opt/php@8.0/bin:$PATH"
 # export PATH="/usr/local/opt/php@8.0/sbin:$PATH"
 # then after doing the above, run:
