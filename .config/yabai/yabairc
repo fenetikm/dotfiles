@@ -34,7 +34,7 @@ yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 sudo yabai --load-sa
 
 # turn on debug
-yabai -m config debug_output on
+# yabai -m config debug_output on
 
 # defaults
 yabai                         -m           config \
