@@ -154,7 +154,7 @@ alias vt='nvim TODO.md'
 
 # edit the latest file in the directory
 edit-latest() {
-  nvim `print -rl *(D^/Om[1])`
+  nvim "`print -rl *(D^/Om[1])`"
 }
 alias el="edit-latest"
 alias eo="nvim -c \"Oil\""
