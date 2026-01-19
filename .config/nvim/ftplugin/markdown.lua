@@ -12,9 +12,13 @@ vim.keymap.set('v', '<localleader>u', 'c[](<c-r>")<c-o>F]')
 vim.keymap.set('n', '<localleader>t', 'viwc[<c-r>"]()<left>')
 vim.keymap.set('n', '<localleader>u', 'viwc[](<c-r>")<c-o>F]')
 
--- wrap in backticks
+-- backticks
 vim.keymap.set('v', '<localleader>`', 'c`<c-r>"`')
 vim.keymap.set('n', '<localleader>`', 'viwc`<c-r>"`<esc>')
+
+-- double quotes
+vim.keymap.set('v', '<localleader>"', 'c"<c-r>""')
+vim.keymap.set('n', '<localleader>"', 'viwc"<c-r>""<esc>')
 
 -- kbd tag
 vim.keymap.set('v', '<localleader>k', 'c<kbd><c-r>"<kbd>')

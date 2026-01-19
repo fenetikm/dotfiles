@@ -3,7 +3,7 @@
 
 require("lsp-format").setup {
   html = {
-    exclude = { "html", "php" },
+    exclude = { "html", "php", "javascript" },
   },
 }
 

@@ -53,8 +53,7 @@ hugo-list-tags () {
 }
 
 hugo-new-article () {
-  hugo new articles/"$1".md
-  nvim "content/articles/$1.md"
+  hugo new articles/"$1".md --editor nvim
 }
 
 hugo-new-til () {
