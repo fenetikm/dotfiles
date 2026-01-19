@@ -1,4 +1,5 @@
 # relative to ~
+.DS_Store
 
 .config/sketchybar/plugins/weather.json
 .config/sketchybar/plugins/task_*
