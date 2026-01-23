@@ -6,6 +6,7 @@
 # maximum window title length
 MAX_WIN=16
 OUTPUT=
+# colour of the tmux location
 ESC_LOC="\e[38;2;87;87;94m"
 ESC_RESET="\e[0m"
 
