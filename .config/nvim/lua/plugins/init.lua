@@ -618,6 +618,9 @@ return {
   -- https://github.com/OXY2DEV/markview.nvim markdown viewer
   -- https://github.com/stevearc/quicker.nvim quickfix editing etc.
   -- https://github.com/TaDaa/vimade for fading inactive window
+  -- https://github.com/cbochs/grapple.nvim?tab=readme-ov-file like harpoon
+  -- https://github.com/folke/sidekick.nvim ai side panel by folke, has some good preset prompts
+  -- https://github.com/NickvanDyke/opencode.nvim?tab=readme-ov-file opencode integration
   --
   -- new neovim features:
   -- https://gpanders.com/blog/whats-new-in-neovim-0-11/ virtual lines looks cool
