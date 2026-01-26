@@ -371,3 +371,6 @@ export PATH="$PATH:/Users/michaelwelford/.lmstudio/bin"
 # unsetopt xtrace
 # exec 2>&3 3>&-
 # }}}
+
+# opencode
+export PATH=/Users/michaelwelford/.opencode/bin:$PATH

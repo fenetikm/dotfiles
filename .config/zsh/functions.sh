@@ -10,6 +10,20 @@ source "$DIR"/fzf.sh
 
 alias cg="$DIR/claude-glow.sh"
 
+# pad_string <width> <string>
+pad_string() {
+  local STR=$2
+  local STR_LEN="${#STR}"
+  local WIDTH=$1
+  local PAD=$((WIDTH - STR_LEN))
+  local PAD_STR=
+  for i in {1.."$PAD"}; do
+    PAD_STR="${PAD_STR} "
+  done
+
+  echo "$2 $PAD_STR $3"
+}
+
 file_paste() {
   SOURCE_FILE=$(pbpaste)
   DEST_FILE="$1"
