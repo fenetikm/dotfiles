@@ -1,9 +1,11 @@
 #!/usr/bin/env zsh
 
-# todo: fix this hardcoding... or ellipsis?
-MAX_PROJECT=22
+PROJECT_LEN=28
+TRIM_LEN=24
+
 ESC_DARK_GREY="\e[38;2;87;87;94m"
 ESC_RESET="\e[0m"
+ELLIPSIS=…
 
 # get all the dirs
 PROJECTS=$(ls -d -1 ~/Documents/Work/internal/projects/*)
@@ -17,7 +19,12 @@ LIST=
 # note: (f) split on newlines, turn into an array
 for P in "${(f)PROJECTS}"; do
   PNAME=$(echo "$P" | sed 's/.*\///')
-  PNAME=$(pad_string "$MAX_PROJECT" "$PNAME")
+  PNAME_LEN="${#PNAME}"
+  if (( "$PNAME_LEN" > "$PROJECT_LEN" )); then
+    PNAME=`echo "$PNAME" | cut -c -"$TRIM_LEN"`
+    PNAME+=…
+  fi
+  PNAME=$(pad_string "$PROJECT_LEN" "$PNAME")
   LOC="$ESC_DARL_GREY($P)$ESC_RESET"
   LIST="$LIST${PNAME}${LOC}\n"
 done
