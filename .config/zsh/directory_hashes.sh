@@ -23,3 +23,4 @@ hash -d crafting=~/Documents/Work/internal/projects/interpreters/crafting
 hash -d m=~/Documents/Work/internal/projects/majyk
 hash -d y=~/.config/yabai
 hash -d sb=~/.config/sketchybar
+hash -d tmux=~/.config/tmux

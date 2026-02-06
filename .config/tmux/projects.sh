@@ -15,8 +15,9 @@ LEARNING2=$(ls -d -1 ~/Documents/Work/internal/learning/boot/*)
 LEARNING3=$(ls -d -1 ~/Documents/Work/internal/learning/fem/*)
 PROJECTS="$PROJECTS"$'\n'"$M"$'\n'"$LEARNING1"$'\n'"$LEARNING2"$'\n'"$LEARNING3"
 
+
 LIST=
-# note: (f) split on newlines, turn into an array
+# note: (f) splits on newlines, turn into an array
 for P in "${(f)PROJECTS}"; do
   PNAME=$(echo "$P" | sed 's/.*\///')
   PNAME_LEN="${#PNAME}"
@@ -28,14 +29,20 @@ for P in "${(f)PROJECTS}"; do
   LOC="$ESC_DARL_GREY($P)$ESC_RESET"
   LIST="$LIST${PNAME}${LOC}\n"
 done
+LIST="$LIST<new>"
 
 PROJECT=$(echo "$LIST" |
   fzf --color=bg:#020223,bg+:#020223 --no-scrollbar --no-info --reverse --ansi --no-preview --no-multi)
 
-if [[ "$PROJECT" != "" ]]; then
+if [[ "$PROJECT" == "<new>" ]]; then
+  NEWDIR=~/Documents/Work/internal/projects
+  read "NAME?$NEWDIR"
+  if [[ "$NAME" != "" ]]; then
+    "$HOME"/.config/tmux/sesh.sh auto "$NAME" "$NEWDIR"
+  fi
+elif [[ "$PROJECT" != "" ]]; then
   PDIR=$(echo "$PROJECT" | sed 's/.* (//')
   PDIR=$(echo "$PDIR" | sed 's/)$//')
   NAME=$(echo "$PROJECT" | sed 's/ .*$//')
   "$HOME"/.config/tmux/sesh.sh auto "$NAME" "$PDIR"
 fi
-
