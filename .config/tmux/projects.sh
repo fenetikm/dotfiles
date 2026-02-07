@@ -33,12 +33,12 @@ for P in "${(f)PROJECTS}"; do
 done
 
 # add new project item
-LIST="$LIST<new>"
+LIST="$LIST<new project>"
 
 PROJECT=$(echo "$LIST" |
   fzf --color=bg:#020223,bg+:#020223 --no-scrollbar --no-info --reverse --ansi --no-preview --no-multi)
 
-if [[ "$PROJECT" == "<new>" ]]; then
+if [[ "$PROJECT" == "<new project>" ]]; then
   NEWDIR=~/Documents/Work/internal/projects/
   read "NAME?Project: "
   if [[ "$NAME" != "" ]]; then
