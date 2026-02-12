@@ -448,6 +448,8 @@ return {
 
   -- Alpha see alpha.lua
 
+  -- AI see ai.lua
+
   -- Other
   {
     'dkarter/bullets.vim',
