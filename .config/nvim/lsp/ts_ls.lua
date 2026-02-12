@@ -56,12 +56,10 @@ return {
     'typescript.tsx',
   },
   root_dir = function(bufnr, on_dir)
-    print("root dir ts")
     -- The project root is where the LSP can be started from
     -- As stated in the documentation above, this LSP supports monorepos and simple projects.
     -- We select then from the project root, which is identified by the presence of a package
     -- manager lock file.
-    print("root dir ts_ls")
     local root_markers = { 'package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'bun.lockb', 'bun.lock' }
     -- Give the root markers equal priority by wrapping them in a table
     root_markers = vim.fn.has('nvim-0.11.3') == 1 and { root_markers, { '.git' } }
@@ -118,7 +116,6 @@ return {
     end,
   },
   on_attach = function(client, bufnr)
-    print("on attach ts")
     -- ts_ls provides `source.*` code actions that apply to the whole file. These only appear in
     -- `vim.lsp.buf.code_action()` if specified in `context.only`.
     vim.api.nvim_buf_create_user_command(bufnr, 'LspTypescriptSourceAction', function()
