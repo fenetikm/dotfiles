@@ -32,10 +32,10 @@ return {
       hint_prefix = ':'
     },
   },
-  {
-    'neovim/nvim-lspconfig',
-    event = 'VeryLazy',
-  },
+  -- don't actually need this - enabling breaks client activation
+  -- {
+  --   'neovim/nvim-lspconfig',
+  -- },
   {
     'folke/trouble.nvim',
     event = 'VeryLazy',
