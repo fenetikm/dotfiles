@@ -491,27 +491,28 @@ return {
   --     rocks = {  "lua-curl", "nvim-nio", "mimetypes", "xml2lua" }, -- Specify LuaRocks packages to install
   --   },
   -- },
-  { -- REST client, should just work with latest version of lazy
-    'rest-nvim/rest.nvim',
-    ft = 'http',
-    keys = {
-      { '<localleader>r', '<cmd>Rest run<cr>', desc = 'Run reset request' }
-    },
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      opts = function(_, opts)
-        opts.ensure_installed = opts.ensure_installed or {}
-        table.insert(opts.ensure_installed, "http")
-      end,
-    },
-    config = function()
-      vim.g.rest_nvim = {
-        request = {
-          skip_ssl_verification = true
-        }
-      }
-    end
-  },
+  -- currently broken, try again later
+  -- { -- REST client, should just work with latest version of lazy
+  --   'rest-nvim/rest.nvim',
+  --   ft = 'http',
+  --   keys = {
+  --     { '<localleader>r', '<cmd>Rest run<cr>', desc = 'Run REST request' }
+  --   },
+  --   dependencies = {
+  --     "nvim-treesitter/nvim-treesitter",
+  --     opts = function(_, opts)
+  --       opts.ensure_installed = opts.ensure_installed or {}
+  --       table.insert(opts.ensure_installed, "http")
+  --     end,
+  --   },
+  --   config = function()
+  --     vim.g.rest_nvim = {
+  --       request = {
+  --         skip_ssl_verification = true
+  --       }
+  --     }
+  --   end
+  -- },
 
   -- Writing
   {
