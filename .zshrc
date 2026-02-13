@@ -237,8 +237,20 @@ alias ytaudio='yt-dlp --extract-audio -4 --sleep-requests 2 --sleep-interval 2 -
 # alias lc='claude -p'
 alias cc='claude'
 alias lc="$HOME/.config/zsh/claude-glow.sh"
+alias oc='opencode'
 # see ~/.config/zsh/claude-glow.sh
 
+# use fd and rg across all files
+alias rga="rg --hidden --no-ignore"
+alias fda="fd --hidden --no-ignore"
+
+# kitty
+# view an image
+alias ki="kitty +kitten icat --align=left"
+# view image with white background, useful on transparent images
+alias kiw="kitty +kitten icat --align=left --background=#ffffff"
+# generate a clean, up to date kitty config, see https://sw.kovidgoyal.net/kitty/conf/
+alias kc="kitty +runpy 'from kitty.config import *; print(commented_out_default_config())'"
 # }}}
 
 # function to toggle fg/bg on control z
@@ -274,18 +286,6 @@ export PATH="$HOME/tmp/google-cloud-sdk/bin":$PATH
 # ripgrep configufation
 export RIPGREP_CONFIG_PATH="$HOME/.rgrc"
 
-# use fd and rg across all files
-alias rga="rg --hidden --no-ignore"
-alias fda="fd --hidden --no-ignore"
-
-# kitty
-# view an image
-alias ki="kitty +kitten icat --align=left"
-# view image with white background, useful on transparent images
-alias kiw="kitty +kitten icat --align=left --background=#ffffff"
-# generate a clean, up to date kitty config, see https://sw.kovidgoyal.net/kitty/conf/
-alias kc="kitty +runpy 'from kitty.config import *; print(commented_out_default_config())'"
-
 # load local env keys
 local_export() {
   KEYS=`cat ~/.env`
@@ -314,7 +314,6 @@ fi
 
 # Source the static plugins file
 source ${zsh_plugins}.zsh
-
 
 # change these depending on version
 # export PATH="/usr/local/opt/php@8.3/bin:$PATH"
@@ -362,6 +361,9 @@ fi
 export PATH="$PATH:/Users/michaelwelford/.lmstudio/bin"
 # End of LM Studio CLI section
 
+# opencode
+export PATH=/Users/michaelwelford/.opencode/bin:$PATH
+
 # {{{
 # profiling end
 # simple profiling and output
@@ -372,5 +374,3 @@ export PATH="$PATH:/Users/michaelwelford/.lmstudio/bin"
 # exec 2>&3 3>&-
 # }}}
 
-# opencode
-export PATH=/Users/michaelwelford/.opencode/bin:$PATH
