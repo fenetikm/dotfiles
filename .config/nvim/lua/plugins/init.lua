@@ -492,6 +492,7 @@ return {
   --   },
   -- },
   -- currently broken, try again later
+  -- related issue: https://github.com/rest-nvim/rest.nvim/issues/559
   -- { -- REST client, should just work with latest version of lazy
   --   'rest-nvim/rest.nvim',
   --   ft = 'http',
