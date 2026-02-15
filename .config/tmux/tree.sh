@@ -27,7 +27,7 @@ for SESH in "${SESH_LINES[@]}"; do
     continue
   fi
 
-  WINDOWS=$(tmux list-windows -t "$SESH" -F '#{window_name} (#{session_name}:#{window_name})')
+  WINDOWS=$(tmux list-windows -t "$SESH" -F '#{window_name} (#{session_name}:#{window_index})')
   WINDOWS_LINES=(${(f)WINDOWS})
   FIRST=1
   for WIN_LINE in "${WINDOWS_LINES[@]}"; do
