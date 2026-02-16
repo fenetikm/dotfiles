@@ -122,9 +122,13 @@ alias tmthin='tmutil thinlocalsnapshots / $((50 * 1024 * 1024 * 1024)) 4'
 alias e='eza -algB --group-directories-first'
 alias et='eza -algB --tree'
 # just the file names
-alias es='eza --oneline --group-directories-first'
+alias ef='eza --oneline --group-directories-first'
 # just directories
 alias ed='eza -algBD'
+# sort by modified
+alias em='eza -algB --group-directories-first --sort modified'
+# reverse modified
+alias eM='eza -algBr --group-directories-first --sort modified'
 
 alias cat='bat'
 alias c='bat'
