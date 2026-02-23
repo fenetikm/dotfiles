@@ -14,5 +14,12 @@ Mainly stuff not yet in the fingers or wet ware.
 `[` - switch to previous tab
 `]` - switch to next tab
 `ctrl+c` - close tab
+`x` - cut file
+`y` - copy file
+`p` - paste
+`P` - paste and overwrite
+`d` - delete to trash
+`D` - delete, permanently
 
 ## Lazygit
+TBD!
