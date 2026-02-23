@@ -4,7 +4,7 @@
 # - popup.sh <name|script> <arg1> <arg2>
 
 # "smart" sizing
-PERC=80
+PERC=85
 MIN_WIDTH=140
 MIN_HEIGHT=50
 CURRENT_WIDTH=$(tmux display -p "#{window_width}")

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "share": "disabled",
+  "plugin": [
+    "opencode-cursor-auth@1.0.16"
+  ],
+  "provider": {
+    "cursor": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Cursor Agent (local)",
+      "options": {
+        "baseURL": "http://127.0.0.1:32123/v1"
+      },
+      "models": {
+        "auto": {
+          "name": "Cursor Agent Auto"
+        },
+        "gpt-5": {
+          "name": "Cursor Agent GPT-5 (alias → gpt-5.2)"
+        },
+        "gpt-5.2": {
+          "name": "Cursor Agent GPT-5.2"
+        },
+        "gpt-5.1": {
+          "name": "Cursor Agent GPT-5.1"
+        },
+        "gpt-5.1-codex": {
+          "name": "Cursor Agent GPT-5.1 Codex"
+        },
+        "sonnet-4.5": {
+          "name": "Cursor Agent Sonnet 4.5"
+        },
+        "sonnet-4.5-thinking": {
+          "name": "Cursor Agent Sonnet 4.5 Thinking"
+        }
+      }
+    }
+  }
+}

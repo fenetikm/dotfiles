@@ -493,27 +493,27 @@ return {
   -- },
   -- currently broken, try again later
   -- related issue: https://github.com/rest-nvim/rest.nvim/issues/559
-  -- { -- REST client, should just work with latest version of lazy
-  --   'rest-nvim/rest.nvim',
-  --   ft = 'http',
-  --   keys = {
-  --     { '<localleader>r', '<cmd>Rest run<cr>', desc = 'Run REST request' }
-  --   },
-  --   dependencies = {
-  --     "nvim-treesitter/nvim-treesitter",
-  --     opts = function(_, opts)
-  --       opts.ensure_installed = opts.ensure_installed or {}
-  --       table.insert(opts.ensure_installed, "http")
-  --     end,
-  --   },
-  --   config = function()
-  --     vim.g.rest_nvim = {
-  --       request = {
-  --         skip_ssl_verification = true
-  --       }
-  --     }
-  --   end
-  -- },
+  { -- REST client, should just work with latest version of lazy
+    'rest-nvim/rest.nvim',
+    ft = 'http',
+    keys = {
+      { '<localleader>r', '<cmd>Rest run<cr>', desc = 'Run REST request' }
+    },
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      opts = function(_, opts)
+        opts.ensure_installed = opts.ensure_installed or {}
+        table.insert(opts.ensure_installed, "http")
+      end,
+    },
+    config = function()
+      vim.g.rest_nvim = {
+        request = {
+          skip_ssl_verification = true
+        }
+      }
+    end
+  },
 
   -- Writing
   {
