@@ -6,8 +6,8 @@ return {
       'Gdiffsplit'
     },
     keys = {
-      {'<leader>gr', '<cmd>Gread<cr>', noremap = true},
-      {'<leader>gb', '<cmd>Git blame<cr>', noremap = true},
+      { '<leader>gr', '<cmd>Gread<cr>',     noremap = true },
+      { '<leader>gb', '<cmd>Git blame<cr>', noremap = true },
     }
   },
   {
@@ -16,11 +16,12 @@ return {
       'DiffviewOpen'
     },
     keys = {
-      {'<leader>gd', '<cmd>DiffviewOpen<cr>', noremap = true},
+      { '<leader>gd', '<cmd>DiffviewOpen -uno<cr>', noremap = true },
+      { '<leader>gc', '<cmd>DiffviewClose<cr>',     noremap = true },
     },
     opts = {
       default_args = {
-        DiffviewOpen = { "--imply-local"}
+        DiffviewOpen = { "--imply-local" }
       },
       use_icons = true, --one day can we have folders without file icons?
     }
@@ -28,8 +29,7 @@ return {
   {
     'NeogitOrg/neogit',
     keys = {
-      {'<leader>gs', '<cmd>Neogit<cr>', silent = true, noremap = true},
-      {'<leader>gc', '<cmd>Neogit commit<cr>', silent = true, noremap = true},
+      { '<leader>gs', '<cmd>Neogit<cr>', silent = true, noremap = true },
     },
     cmd = {
       'Neogit',
