@@ -625,6 +625,7 @@ return {
   -- https://github.com/cbochs/grapple.nvim?tab=readme-ov-file like harpoon
   -- https://github.com/folke/sidekick.nvim ai side panel by folke, has some good preset prompts
   -- https://github.com/NickvanDyke/opencode.nvim?tab=readme-ov-file opencode integration
+  -- https://github.com/mhinz/neovim-remote for controlling nvim processes remotely
   --
   -- new neovim features:
   -- https://gpanders.com/blog/whats-new-in-neovim-0-11/ virtual lines looks cool

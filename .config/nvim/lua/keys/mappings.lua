@@ -1,9 +1,28 @@
+local yank = require 'custom.yank'
+
 -- center the screen on the cursor when jumping around methods
 vim.keymap.set('n', '[m', '[mzz', { noremap = true })
 vim.keymap.set('n', ']m', ']mzz', { noremap = true })
 
 -- yank to end of line, just like shit-d, shift-c
 vim.keymap.set('n', '<s-y>', 'y$', { noremap = true })
+
+-- yank with extra info, from: https://github.com/richardgill/nix/blob/bdd30a0a4bb328f984275c37c7146524e99f1c22/modules/home-manager/dot-files/nvim/lua/config/keymap.lua
+vim.keymap.set('n', '<leader>ya', function()
+  yank.yank_path(yank.get_buffer_absolute(), 'absolute')
+end, { desc = '[Y]ank [A]bsolute path to clipboard' })
+
+vim.keymap.set('n', '<leader>yr', function()
+  yank.yank_path(yank.get_buffer_cwd_relative(), 'relative')
+end, { desc = '[Y]ank [R]elative path to clipboard' })
+
+vim.keymap.set('v', '<leader>ya', function()
+  yank.yank_visual_with_path(yank.get_buffer_absolute(), 'absolute')
+end, { desc = '[Y]ank selection with [A]bsolute path' })
+
+vim.keymap.set('v', '<leader>yr', function()
+  yank.yank_visual_with_path(yank.get_buffer_cwd_relative(), 'relative')
+end, { desc = '[Y]ank selection with [R]elative path' })
 
 -- move selection up and down, thanks prime
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -98,10 +117,6 @@ vim.cmd([[
 
   " paste without destroying what was previously yanked, neat
   vnoremap <leader>p "_dP
-
-  "visual mode
-  xnoremap <leader>y "uyy
-  " xnoremap <leader>d "ud
 
   "easier begin and end of line
   nnoremap <s-h> ^
