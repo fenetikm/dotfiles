@@ -25,6 +25,7 @@ b - balance @done
 w/s - select window to left or right? or maybe make window smaller/larger, yes, do this
 q/e? - focus / select window to left or right? @done
 m - toggle mode
+? - hide everything except for focused window
 
 for change mode:
 - `                    "shell_command": "export PATH=/usr/local/bin:/usr/bin:/opt/homebrew/bin; /bin/zsh ~/.config/yabai/toggle_mode.sh"
