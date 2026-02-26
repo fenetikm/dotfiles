@@ -352,11 +352,6 @@ alias luamake=$HOME/tmp/lua-language-server/3rd/luamake/luamake
 
 eval "$(zoxide init zsh)"
 
-# todo: some more general way of doing this
-if [[ -f ~pc/.aliases.zsh ]]; then
-  source ~pc/.aliases.zsh
-fi
-
 if [[ -f "$HOME/.local/bin/env" ]]; then
   . "$HOME/.local/bin/env"
 fi
@@ -367,6 +362,10 @@ export PATH="$PATH:/Users/michaelwelford/.lmstudio/bin"
 
 # opencode
 export PATH=/Users/michaelwelford/.opencode/bin:$PATH
+
+if [[ -f "$HOME/.zshrc.local" ]]; then
+  source "$HOME/.zshrc.local"
+fi
 
 # {{{
 # profiling end
