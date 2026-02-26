@@ -7,3 +7,7 @@ if [[ -f "$HOME/.env.keys" ]]; then
 fi
 
 . "$HOME/.cargo/env"
+
+if [[ -f "$HOME/.zshenv.local" ]]; then
+  source "$HOME/.zshenv.local"
+fi
