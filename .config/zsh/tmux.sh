@@ -11,6 +11,8 @@ tmux_setup() {
     else
       echo "Oh noes! Couldn't find a .tmux.setup file."
     fi
+  elif [[ "$1" == "none" ]]; then
+    # nothing to do
   else
     if [[ -x "$HOME/.config/tmux/templates/$1/.tmux.setup" ]]; then
       ~/.config/tmux/templates/$1/.tmux.setup

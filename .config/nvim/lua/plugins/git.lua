@@ -16,14 +16,34 @@ return {
       'DiffviewOpen'
     },
     keys = {
-      { '<leader>gd', '<cmd>DiffviewOpen -uno<cr>', noremap = true },
-      { '<leader>gc', '<cmd>DiffviewClose<cr>',     noremap = true },
+      { '<leader>gd', '<cmd>DiffviewOpen -uno<cr>',   noremap = true },
+      { '<leader>gc', '<cmd>DiffviewClose<cr>',       noremap = true },
+      { '<leader>gh', '<cmd>DiffviewFileHistory<cr>', noremap = true },
     },
     opts = {
       default_args = {
         DiffviewOpen = { "--imply-local" }
       },
+      view = {
+        default = {
+          layout = "diff2_horizontal",
+          disable_diagnostics = true,
+          winbar_info = true,
+        },
+        merge_tool = {
+          layout = "diff3_horizontal", -- diff3_horizontal | diff3_vertical | diff3_mixed | diff4_mixed
+          disable_diagnostics = true,
+          winbar_info = true,
+        },
+        file_history = {
+          layout = "diff2_horizontal",
+          disable_diagnostics = true,
+          winbar_info = true,
+        },
+      },
       use_icons = true, --one day can we have folders without file icons?
+      diff_binaries = false,
+      watch_index = true,
     }
   },
   {

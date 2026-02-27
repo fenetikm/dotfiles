@@ -4,7 +4,7 @@
 #
 # sesh.sh <template> <session_name> <target_directory>
 #
-# - <template> - auto (default) or specific
+# - <template> - "auto" (default), "none" or specific
 # - <session_name>, defaults to directory name
 # - <target_directory>, defaults to current directory
 
