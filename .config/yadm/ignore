@@ -35,4 +35,4 @@
 .config/uv
 .config/yazi/yazi.toml*
 
-.config/cursor/chats/**
+.config/cursor
