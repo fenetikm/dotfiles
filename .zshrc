@@ -154,7 +154,7 @@ alias nv='nvim'
 alias v='nvim'
 alias sv='sudo nvim'
 alias vl='run_vim_leader'
-alias vt='nvim TODO.md'
+alias vd='nvim -c DiffviewOpen'
 
 # edit the latest file in the directory
 edit-latest() {

@@ -16,7 +16,8 @@ return {
       'DiffviewOpen'
     },
     keys = {
-      { '<leader>gd', '<cmd>DiffviewOpen -uno<cr>',   noremap = true },
+      { '<leader>gd', '<cmd>DiffviewOpen<cr>',        noremap = true },
+      { '<leader>gf', '<cmd>DiffviewOpen -uno<cr>',   noremap = true }, -- `-uno`, ignore files not addedd
       { '<leader>gc', '<cmd>DiffviewClose<cr>',       noremap = true },
       { '<leader>gh', '<cmd>DiffviewFileHistory<cr>', noremap = true },
     },

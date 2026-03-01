@@ -29,5 +29,4 @@ vim.cmd([[
       let expansionString = repeat(repeatsymbol, w - strwidth(prefix.foldSizeStr.line.foldLevelStr))
       return prefix . line . expansionString . foldSizeStr . foldLevelStr
     endfunction
-
 ]])
