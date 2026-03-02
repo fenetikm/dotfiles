@@ -22,6 +22,19 @@ return {
       { '<leader>gc', '<cmd>DiffviewClose<cr>',       noremap = true },
       { '<leader>gh', '<cmd>DiffviewFileHistory<cr>', noremap = true },
     },
+    config = function()
+      -- to fix the vim-markdown problems
+      -- see: https://github.com/dlyongemallo/diffview.nvim?tab=readme-ov-file#recommended
+      require('diffview').setup({
+        hooks = {
+          diff_buf_win_enter = function(bufnr, winid, ctx)
+            if ctx.layout_name == 'diff2_horizontal' then
+              vim.wo[winid].foldlevel = 99
+            end
+          end,
+        },
+      })
+    end,
     opts = {
       use_icons = false, --one day can we have folders without file icons?
       diff_binaries = false,
