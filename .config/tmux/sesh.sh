@@ -9,11 +9,12 @@
 # - <target_directory>, defaults to current directory
 
 switch_to_session() {
-    if [[ -z "$TMUX" ]]; then
-        tmux attach-session -t $1
-    else
-        tmux switch-client -t $1
-    fi
+  local TARGET="$1"
+  if [[ -z "$TMUX" ]]; then
+    tmux attach-session -t "$TARGET"
+  else
+    tmux switch-client -t "$TARGET:1"
+  fi
 }
 
 TEMPLATE=$1
