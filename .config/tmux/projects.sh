@@ -48,11 +48,11 @@ PROJECT=$(echo "$LIST" |
 
 if [[ "$PROJECT" == "<new project>" ]]; then
   NEWDIR=~/Documents/Work/internal/projects/
-  read "NAME?Project: "
+  read "NAME?Project name: "
   if [[ "$NAME" != "" ]]; then
     PDIR="$NEWDIR$NAME"
     if [[ -d "$PDIR" ]]; then
-      echo "Error: new project exists."
+      echo "Error: project with that name exists."
       return 1
     else
       mkdir -p "$PDIR"
