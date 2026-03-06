@@ -1,6 +1,7 @@
 #!/usr/bin/env zsh
 
 # usage: /projects.sh
+#
 # shows a fzf picker of existing projects to select from or select "<new>" to create a new one
 
 PROJECT_LEN=28
@@ -36,7 +37,14 @@ done
 LIST="$LIST<new project>"
 
 PROJECT=$(echo "$LIST" |
-  fzf --color=bg:#020223,bg+:#020223 --no-scrollbar --no-info --reverse --ansi --no-preview --no-multi)
+  fzf \
+    --color=bg:#020223,bg+:#020223 \
+    --no-scrollbar \
+    --no-info \
+    --reverse \
+    --ansi \
+    --no-preview \
+    --no-multi)
 
 if [[ "$PROJECT" == "<new project>" ]]; then
   NEWDIR=~/Documents/Work/internal/projects/
