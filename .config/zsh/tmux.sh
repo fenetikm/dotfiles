@@ -26,4 +26,3 @@ tmux_setup() {
 alias mn='~/.config/tmux/sesh.sh'
 alias ma='tmux attach-session'
 alias mw='tmux new-window -n'
-alias mnphp='~/.config/tmux/sesh.sh php'

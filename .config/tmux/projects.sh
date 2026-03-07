@@ -15,6 +15,7 @@ ESC_DARK_GREY="\e[38;2;87;87;94m"
 ESC_RESET="\e[0m"
 ELLIPSIS=…
 
+# todo: gracefully handle dirs not existing
 # dirs to select from
 PROJECTS=$(ls -d -1 ~/Documents/Work/internal/projects/*)
 M=$(ls -d -1 ~/Documents/Work/internal/projects/majyk/repos/*)

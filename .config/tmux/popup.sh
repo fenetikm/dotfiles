@@ -35,7 +35,7 @@ if [[ "$1" == "scratch" ]]; then
   else
     # see .tmux.conf.popup for options set on the popup
     # set via the `after-new-session` hook
-    tmux display-popup -d '#{pane_current_path}' -b rounded -w "$WIDTH" -h "$HEIGHT" -s "bg=#020223" -E "tmux attach -t $SESSION || tmux new -s $SESSION"
+    tmux display-popup -d '#{pane_current_path}' -b rounded -w "$WIDTH" -h "$HEIGHT" -s "bg=#020223" -E "tmux attach -t $SESSION || tmux new -s $SESSION -c $HOME/tmp/empty"
   fi
 else
   # ephemeral
