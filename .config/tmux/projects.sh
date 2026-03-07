@@ -3,6 +3,10 @@
 # usage: /projects.sh
 #
 # shows a fzf picker of existing projects to select from or select "<new>" to create a new one
+#
+# todo:
+# - different actions via diff keys?
+# - when creating, pick a template
 
 PROJECT_LEN=28
 TRIM_LEN=24
