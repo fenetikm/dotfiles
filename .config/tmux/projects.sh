@@ -22,7 +22,8 @@ M=$(ls -d -1 ~/Documents/Work/internal/projects/majyk/repos/*)
 LEARNING1=$(ls -d -1 ~/Documents/Work/internal/learning/*)
 LEARNING2=$(ls -d -1 ~/Documents/Work/internal/learning/boot/*)
 LEARNING3=$(ls -d -1 ~/Documents/Work/internal/learning/fem/*)
-PROJECTS="$PROJECTS"$'\n'"$M"$'\n'"$LEARNING1"$'\n'"$LEARNING2"$'\n'"$LEARNING3"
+FALCON=$(echo ~falcon)
+PROJECTS="$PROJECTS"$'\n'"$M"$'\n'"$LEARNING1"$'\n'"$LEARNING2"$'\n'"$LEARNING3"$'\n'"$FALCON"
 
 LIST=
 # note: (f) splits on newlines, turn into an array
