@@ -19,6 +19,13 @@ vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter' }, {
   group = mw_group
 })
 
+-- double check if file has changed
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter' }, {
+  pattern = '*',
+  command = 'silent! checktime',
+  group = mw_group
+})
+
 -- auto resize on size change
 vim.api.nvim_create_autocmd({ 'VimResized' }, {
   pattern = '*',

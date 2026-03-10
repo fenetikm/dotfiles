@@ -351,6 +351,8 @@ alias luamake=$HOME/tmp/lua-language-server/3rd/luamake/luamake
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 eval "$(zoxide init zsh)"
+alias j='z'
+alias jj='zi'
 
 if [[ -f "$HOME/.local/bin/env" ]]; then
   . "$HOME/.local/bin/env"
