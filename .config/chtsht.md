@@ -21,5 +21,9 @@ Mainly stuff not yet in the fingers or wet ware.
 `d` - delete to trash
 `D` - delete, permanently
 
+## Zsh
+j - instead of z, zoxide
+jj - search through zoxide to jump to
+
 ## Lazygit
 TBD!

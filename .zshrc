@@ -179,7 +179,6 @@ export CLICOLOR_FORCE=1
 # e.g. `cat tmp.txt L`
 alias -g L="| less"
 alias -g T="| tail"
-alias -g TL="| tail -20"
 alias -g C="| pbcopy"
 alias -g G="| grep"
 alias -g R="| rg"
@@ -219,7 +218,7 @@ alias ..='cd ..'
 alias love="/Applications/love.app/Contents/MacOS/love"
 
 # majyk
-# shift to local or even into that a .tmux.setup
+# todo: shift to local or even into that a .tmux.setup
 devlog() {
   local MON=$(date -v -Mon +"%Y-%m-%d")
   if [[ -e "./content/devlog/$MON.md" ]]; then
