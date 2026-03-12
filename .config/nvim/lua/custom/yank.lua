@@ -1,5 +1,6 @@
 -- from: https://github.com/richardgill/nix/blob/bdd30a0a4bb328f984275c37c7146524e99f1c22/modules/home-manager/dot-files/nvim/lua/custom/yank.lua
 -- via: https://xata.io/blog/configuring-neovim-coding-agents
+-- thanks!
 local M = {}
 
 M.get_buffer_absolute = function()
