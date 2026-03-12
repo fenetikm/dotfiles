@@ -5,6 +5,19 @@
     "opencode-cursor-auth@1.0.16"
   ],
   "provider": {
+    "qwen": {
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "http://localhost:1234/v1"
+      },
+      "models": {
+        "qwen3-coder-30b": {
+          "id": "qwen/qwen3-coder-30b",
+          "reasoning": true,
+          "tool_call": true
+        }
+      },
+    },
     "cursor": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "Cursor Agent (local)",

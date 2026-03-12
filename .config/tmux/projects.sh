@@ -1,7 +1,12 @@
 #!/usr/bin/env zsh
 
 # usage: /projects.sh
+#
 # shows a fzf picker of existing projects to select from or select "<new>" to create a new one
+#
+# todo:
+# - different actions via diff keys?
+# - when creating, pick a template
 
 PROJECT_LEN=28
 TRIM_LEN=24
@@ -10,13 +15,15 @@ ESC_DARK_GREY="\e[38;2;87;87;94m"
 ESC_RESET="\e[0m"
 ELLIPSIS=…
 
+# todo: gracefully handle dirs not existing
 # dirs to select from
 PROJECTS=$(ls -d -1 ~/Documents/Work/internal/projects/*)
 M=$(ls -d -1 ~/Documents/Work/internal/projects/majyk/repos/*)
 LEARNING1=$(ls -d -1 ~/Documents/Work/internal/learning/*)
 LEARNING2=$(ls -d -1 ~/Documents/Work/internal/learning/boot/*)
 LEARNING3=$(ls -d -1 ~/Documents/Work/internal/learning/fem/*)
-PROJECTS="$PROJECTS"$'\n'"$M"$'\n'"$LEARNING1"$'\n'"$LEARNING2"$'\n'"$LEARNING3"
+FALCON=$(echo ~falcon)
+PROJECTS="$PROJECTS"$'\n'"$M"$'\n'"$LEARNING1"$'\n'"$LEARNING2"$'\n'"$LEARNING3"$'\n'"$FALCON"
 
 LIST=
 # note: (f) splits on newlines, turn into an array
@@ -36,15 +43,22 @@ done
 LIST="$LIST<new project>"
 
 PROJECT=$(echo "$LIST" |
-  fzf --color=bg:#020223,bg+:#020223 --no-scrollbar --no-info --reverse --ansi --no-preview --no-multi)
+  fzf \
+    --color=bg:#020223,bg+:#020223 \
+    --no-scrollbar \
+    --no-info \
+    --reverse \
+    --ansi \
+    --no-preview \
+    --no-multi)
 
 if [[ "$PROJECT" == "<new project>" ]]; then
   NEWDIR=~/Documents/Work/internal/projects/
-  read "NAME?Project: "
+  read "NAME?Project name: "
   if [[ "$NAME" != "" ]]; then
     PDIR="$NEWDIR$NAME"
     if [[ -d "$PDIR" ]]; then
-      echo "Error: new project exists."
+      echo "Error: project with that name exists."
       return 1
     else
       mkdir -p "$PDIR"
