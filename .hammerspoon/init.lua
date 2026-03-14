@@ -141,6 +141,7 @@ hs.fnutils.each({
   { key = "v",      url = "obsidian://open?vault=PC" },
   { key = "m",      app = "Messages" },
   { key = "i",      app = "Music" },
+  { key = "a",      app = "Claude" },
   -- { key = "b",      app = "BoltAI" },
 }, function(object)
   hk[object.key] = hs.hotkey.bind(hyper_mapping, object.key, function() launchOrFocus(object.app, object) end)
