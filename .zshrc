@@ -163,6 +163,10 @@ edit-latest() {
 alias el="edit-latest"
 alias eo="nvim -c \"Oil\""
 
+# yadm
+alias ys="yadm st"
+alias ysu="yadm stu"
+
 # suffix aliases: typing name of file with suffix will use that program
 alias -s php=nvim
 alias -s module=nvim
