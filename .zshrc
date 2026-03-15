@@ -163,6 +163,10 @@ edit-latest() {
 alias el="edit-latest"
 alias eo="nvim -c \"Oil\""
 
+# yadm
+alias ys="yadm st"
+alias ysu="yadm stu"
+
 # suffix aliases: typing name of file with suffix will use that program
 alias -s php=nvim
 alias -s module=nvim
@@ -239,6 +243,7 @@ alias ytaudio='yt-dlp --extract-audio -4 --sleep-requests 2 --sleep-interval 2 -
 # claude
 # alias lc='claude -p'
 alias cc='claude'
+alias ccr='claude --resume'
 alias lc="$HOME/.config/zsh/claude-glow.sh"
 alias oc='opencode'
 # see ~/.config/zsh/claude-glow.sh

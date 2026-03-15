@@ -6,7 +6,7 @@
 #
 # todo:
 # - different actions via diff keys?
-# - when creating, pick a template
+# - when creating, pick a template?
 
 PROJECT_LEN=28
 TRIM_LEN=24
