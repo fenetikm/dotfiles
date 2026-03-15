@@ -1,7 +1,16 @@
 {
   "enabledPlugins": {
+    "php-lsp@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true,
     "commit-commands@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "anthropic-agent-skills": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/skills"
+      }
+    }
   },
   "env": {
     "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "75"
