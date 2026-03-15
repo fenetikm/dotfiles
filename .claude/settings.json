@@ -1,0 +1,13 @@
+{
+  "enabledPlugins": {
+    "gopls-lsp@claude-plugins-official": true,
+    "commit-commands@claude-plugins-official": true
+  },
+  "env": {
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "75"
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.config/claude/status.sh"
+  }
+}
