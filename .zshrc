@@ -350,6 +350,8 @@ alias luamake=$HOME/tmp/lua-language-server/3rd/luamake/luamake
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 eval "$(zoxide init zsh)"
+
+# 'j' for jump (trigger zoxide)
 alias j='z'
 alias jj='zi'
 
