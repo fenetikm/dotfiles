@@ -6,7 +6,6 @@ local watcher = nil
 local debounce_timer = nil
 local on_change_handlers = {}
 
--- Debounce helper to prevent callback storms
 local debounce = function(fn, delay)
   return function(...)
     local args = { ... }

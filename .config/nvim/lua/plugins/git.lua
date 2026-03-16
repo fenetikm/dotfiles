@@ -1,5 +1,7 @@
+-- the following looks to refresh diffview via watching for changes
 -- from: https://github.com/richardgill/nix/blob/ebdd826/modules/home-manager/dot-files/nvim/lua/plugins/git-diff_diffview.lua
--- refreshes diffview when a change is made to a file
+
+-- whether a path is ignored by git
 local is_git_ignored = function(filepath)
   vim.fn.system('git check-ignore -q ' .. vim.fn.shellescape(filepath))
   return vim.v.shell_error == 0
@@ -16,7 +18,6 @@ local update_left_pane = function()
   end)
 end
 
-vim.notify '[diffview] init'
 -- Register handler for file changes in watched directory
 require('custom.directory-watcher').registerOnChangeHandler('diffview', function(filepath, events)
   local is_in_dot_git_dir = filepath:match '/%.git/' or filepath:match '^%.git/'
@@ -63,7 +64,7 @@ return {
       { '<leader>gh', '<cmd>DiffviewFileHistory<cr>', noremap = true },
     },
     config = function()
-      -- to fix the vim-markdown problems
+      -- to fix the vim-markdown problems, folding at load
       -- see: https://github.com/dlyongemallo/diffview.nvim?tab=readme-ov-file#recommended
       require('diffview').setup({
         hooks = {
