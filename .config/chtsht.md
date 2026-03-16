@@ -22,8 +22,14 @@ Mainly stuff not yet in the fingers or wet ware.
 `D` - delete, permanently
 
 ## Zsh
-j - instead of z, zoxide
-jj - search through zoxide to jump to
+`j` - instead of z, zoxide
+`jj` - search through zoxide to jump to
+
+## Neovim
+`o` - toggle cursor top / bottom on selection
+`[<space>` - add space above, no insert
+`]<space>` - add space below, no insert
+`s` - delete line, put cursor at indented insert position
 
 ## Lazygit
 TBD!
