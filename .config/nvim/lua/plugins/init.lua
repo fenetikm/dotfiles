@@ -516,52 +516,8 @@ return {
     end
   },
 
-  -- Writing
-  {
-    'folke/zen-mode.nvim',
-    dependencies = {
-      {
-        'folke/twilight.nvim',
-        opts = {
-          context = 15,
-          dimming = {
-            alpha = 0.5
-          }
-        }
-      }
-    },
-    keys = {
-      { '<leader>z', function() require('zen-mode').toggle() end },
-    },
-    opts = {
-      window = {
-        width = 90,
-        options = {
-          relativenumber = false,
-          number = false
-        }
-      },
-      plugins = {
-        tmux = { enabled = true },
-        kitty = { -- sometimes fails after sleeping because wrong port
-          enabled = true,
-          font = "+4",
-        },
-      },
-      on_open = function()
-        require('gitsigns').toggle_signs(false)
-        if vim.fn.exists(':IBLDisable') then
-          vim.cmd('IBLDisable')
-        end
-      end,
-      on_close = function()
-        require('gitsigns').toggle_signs(true)
-        if vim.fn.exists(':IBLEnable') then
-          vim.cmd('IBLEnable')
-        end
-      end,
-    }
-  },
+  -- Zen mode
+  -- see zen_mode.lua
 }
 
 --[[
