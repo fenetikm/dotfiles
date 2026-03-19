@@ -26,10 +26,13 @@ Mainly stuff not yet in the fingers or wet ware.
 `jj` - search through zoxide to jump to
 
 ## Neovim
+Forgotten tidbits.
 `o` - toggle cursor top / bottom on selection
 `[<space>` - add space above, no insert
 `]<space>` - add space below, no insert
 `s` - delete line, put cursor at indented insert position
+`]p` - paste, match indent, below
+`[p` - paste, match indent, above
 
 ## Lazygit
 TBD!
