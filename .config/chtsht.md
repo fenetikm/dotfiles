@@ -1,6 +1,24 @@
 # Cheat sheet
 Mainly stuff not yet in the fingers or wet ware.
 
+## Yabai
+F21+
+`a/d` - move window left/right
+`f` - app, full screen
+`return` - present @done
+`r` - restart yabai
+`c` - center @done
+`z` - toggle float @done
+`r` - restart yabai @done
+`x` - minimise @done
+`b` - balance @done
+1x - change focused space
+1x double - shift to that space
+w/s - select window to left or right? or maybe make window smaller/larger, yes, do this
+q/e? - focus / select window to left or right? @done
+m - toggle mode
+? - hide everything except for focused window
+
 ## Yazi
 `z` - cd to file / directory via `fzf`
 `Z` - cd to file / directory via `zoxide`
