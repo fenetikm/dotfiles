@@ -244,6 +244,7 @@ alias ytaudio='yt-dlp --extract-audio -4 --sleep-requests 2 --sleep-interval 2 -
 # alias lc='claude -p'
 alias cc='claude'
 alias ccr='claude --resume'
+# l for "llm"
 alias lc="$HOME/.config/zsh/claude-glow.sh"
 alias oc='opencode'
 # see ~/.config/zsh/claude-glow.sh

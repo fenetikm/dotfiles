@@ -76,3 +76,8 @@ function y() {
   rm -f -- "$tmp"
 }
 
+# this fn handles the socket changing on waking from sleep
+get_kitty_socket() {
+  SOCKET=(/tmp/kitty-*(N[1]))
+  echo "unix:$SOCKET"
+}
