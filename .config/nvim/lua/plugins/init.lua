@@ -23,6 +23,26 @@ return {
     end
   },
 
+  -- UI
+  {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    ---@type snacks.Config
+    opts = {
+      bigfile = { enabled = true },
+      picker = { enabled = true },
+      -- todo: look through them all: https://github.com/folke/snacks.nvim/tree/main
+      -- notifier = { enabled = true },
+      -- notify = { enabled = true },
+      -- quickfile = { enabled = true },
+      -- scope = { enabled = true },
+      -- scroll = { enabled = true },
+      -- statuscolumn = { enabled = true },
+      -- words = { enabled = true },
+    },
+  },
+
   -- Project management
   {
     'dbakker/vim-projectroot'
