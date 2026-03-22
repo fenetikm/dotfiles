@@ -2,7 +2,7 @@
 Mainly stuff not yet in the fingers or wet ware.
 
 ## Yabai
-F21+
+<F21>+
 `a/d` - move window left/right
 `f` - app, full screen
 `return` - present @done
@@ -18,6 +18,9 @@ w/s - select window to left or right? or maybe make window smaller/larger, yes, 
 q/e? - focus / select window to left or right? @done
 m - toggle mode
 ? - hide everything except for focused window
+
+## Claude
+`/copy` - copy last output to clipboard
 
 ## Yazi
 `z` - cd to file / directory via `fzf`
@@ -51,6 +54,11 @@ Forgotten tidbits.
 `s` - delete line, put cursor at indented insert position
 `]p` - paste, match indent, below
 `[p` - paste, match indent, above
+`<leader>at` Send {this} to agent
+`<leader>aa` Open agent
+`<leader>af` Send {file} to agent
+`<leader>ap` Use a prompt with agent
+`<leader>av` Send visual selection to agent
 
 ## Lazygit
 TBD!
