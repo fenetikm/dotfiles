@@ -120,7 +120,10 @@ alias tmthin='tmutil thinlocalsnapshots / $((50 * 1024 * 1024 * 1024)) 4'
 
 # eza
 alias e='eza -algB --group-directories-first'
-alias et='eza -algB --tree'
+# tree structure
+alias et='eza -algB --tree --group-directories-first --ignore-glob ".git"'
+# tree structure, directories only
+alias etd='eza -agBD --tree --group-directories-first --ignore-glob ".git"'
 # just the file names
 alias ef='eza --oneline --group-directories-first'
 # just directories
