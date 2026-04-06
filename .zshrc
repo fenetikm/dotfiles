@@ -189,11 +189,7 @@ alias -g T="| tail"
 alias -g C="| pbcopy"
 alias -g G="| grep"
 alias -g R="| rg"
-
-# Preview via fzf, edit with enter
-alias -g P="| fzf --preview 'bat --color=always --line-range :500' --bind 'enter:execute(nvim {})'"
-alias -g PMD="| fzf --preview 'echo {} | cut -d\" \" -f1 | sed \"s/://\" | xargs cat | bat --color=always --line-range :500 --language=md' --bind 'enter:execute(nvim {})'"
-alias -g PG="| fzf --preview 'export CLICOLOR_FORCE=1; echo {} | cut -d\" \" -f1 | sed \"s/://\" | xargs cat | glow -s dark | cat' --bind 'enter:execute(nvim {})'"
+alias P="pbpaste | nvim -"
 
 export GLOW_STYLE=$(echo ~falcon)"/glow/falcon_modern.json"
 

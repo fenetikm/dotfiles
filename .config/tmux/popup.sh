@@ -27,17 +27,16 @@ if (( HEIGHT < MIN_HEIGHT )); then
   fi
 fi
 
-if [[ "$1" == "scratch" ]]; then
-  SESSION="$1"_popup_
-  # detach / hide if already visible
+# "persist" for sessions that are created once, then attach/detach from
+if [[ "$1" == "persist" ]]; then
+  SESSION="$2"_popup_
+  INIT_CMD="$3"
   if [[ "$(tmux display-message -p -F "#{session_name}")" = "$SESSION" ]]; then
     tmux detach-client
   else
-    # see .tmux.conf.popup for options set on the popup
-    # set via the `after-new-session` hook
-    tmux display-popup -d '#{pane_current_path}' -b rounded -w "$WIDTH" -h "$HEIGHT" -s "bg=#020223" -E "tmux attach -t $SESSION || tmux new -s $SESSION -c $HOME/tmp/empty"
+    # see above re options given to popup
+    tmux display-popup -d '#{pane_current_path}' -b rounded -w "$WIDTH" -h "$HEIGHT" -s "bg=#020223" -E "tmux attach -t $SESSION || tmux new -s $SESSION $INIT_CMD"
   fi
 else
-  # ephemeral
   tmux display-popup -d rounded -w "$WIDTH" -h "$HEIGHT" -T "$2" -s "bg=#020223" -E "$1 $3"
 fi
