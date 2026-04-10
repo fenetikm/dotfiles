@@ -48,7 +48,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- Disable document colors, instead use Colorizer
     if client:supports_method('textDocument/documentColor') then
       if vim.lsp.document_color then
-        vim.lsp.document_color.enable(false, args.buf)
+        vim.lsp.document_color.enable(false, {
+          bufnr = args.buf
+        })
       end
     end
 

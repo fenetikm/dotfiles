@@ -8,7 +8,8 @@
 - - don't need colour re git modifications
 - Can we use ftplugin for lsp enablement? e.g. https://dev.to/vonheikemen/a-guide-on-neovims-lsp-client-mn0
 - Finish setting up markview.
-- Treesitter mappings for textobjects if not somewhere else?
+- Treesitter mappings for textobjects if not somewhere else? expand / contract
+- When commenting, keep selection in visual mode
 
 ## Done
 - Integrate exrc instead of vimrclocal plugin https://neovim.io/doc/user/options.html#'exrc'
@@ -24,12 +25,6 @@
 - Try out the intelephense one and LSP folding
 - This one looks interesting, nifty: https://github.com/kevinhwang91/nvim-ufo
 - https://github.com/chrisgrieser/nvim-origami Chris Geiser one
-
-## 0.12 breakage
-Have changed the following
-- matchup plugin @fixed
-- commentstring dependency for commenting
-- highlighting markdown code blocks broken? @fixed
 
 ## CC reviews
 

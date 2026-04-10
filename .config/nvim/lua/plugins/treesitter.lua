@@ -99,12 +99,6 @@ return {
     end
   },
   {
-    'nvim-treesitter/playground',
-    keys = {
-      { '<c-b>', '<cmd>TSHighlightCapturesUnderCursor<cr>', silent = false, noremap = true }
-    },
-  },
-  {
     'nvim-treesitter/nvim-treesitter-context',
     event = 'VeryLazy',
     opts = {
