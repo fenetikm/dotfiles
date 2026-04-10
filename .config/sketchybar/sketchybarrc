@@ -92,6 +92,7 @@ if [[ "$SHOW_SYMBOLS" == "1" ]]; then
       padding_right=5
       label.drawing=off
       script="$PLUGIN_DIR/space.sh"
+      click_script="yabai -m space --focus \$SID"
     )
     SPACE_ICON="${SPACE_ICONS[i]}"
     case "$SPACE_ICON" in
@@ -114,6 +115,7 @@ else
       padding_right=3
       label.drawing=on
       script="$PLUGIN_DIR/space_no_symbols.sh"
+      click_script="yabai -m space --focus \$SID"
     )
     sketchybar --add space space."$sid" left --set space."$sid" "${space[@]}" label="$sid"
   done
