@@ -7,6 +7,23 @@ vim.keymap.set('n', ']m', ']mzz', { noremap = true })
 -- yank to end of line, just like shit-d, shift-c
 vim.keymap.set('n', '<s-y>', 'y$', { noremap = true })
 
+-- incremental selection
+vim.keymap.set({ "x" }, "v", function()
+  if vim.treesitter.get_parser(nil, nil, { error = false }) then
+    require("vim.treesitter._select").select_parent(vim.v.count1)
+  else
+    vim.lsp.buf.selection_range(vim.v.count1)
+  end
+end, { desc = "Select parent treesitter node or outer incremental lsp selections" })
+
+vim.keymap.set({ "x" }, "V", function()
+  if vim.treesitter.get_parser(nil, nil, { error = false }) then
+    require("vim.treesitter._select").select_child(vim.v.count1)
+  else
+    vim.lsp.buf.selection_range(-vim.v.count1)
+  end
+end, { desc = "Select child treesitter node or inner incremental lsp selections" })
+
 -- yank with extra info, from: https://github.com/richardgill/nix/blob/bdd30a0a4bb328f984275c37c7146524e99f1c22/modules/home-manager/dot-files/nvim/lua/config/keymap.lua
 vim.keymap.set('n', '<leader>ya', function()
   yank.yank_path(yank.get_buffer_absolute(), 'absolute')
@@ -39,7 +56,7 @@ vim.keymap.set("n", "dd", function()
 end, { expr = true })
 
 -- previous mappings
--- redoo shift+u
+-- redo shift+u
 vim.keymap.set('n', 'U', '<c-r>')
 
 -- map j and k to do linewise up and down, don't mess with count for relative numbering
@@ -50,14 +67,11 @@ vim.keymap.set('n', 'k', 'v:count ? "k" : "gk"', { noremap = true, expr = true }
 vim.keymap.set('n', 'J', '6j', {})
 vim.keymap.set('n', 'K', '6k', {})
 
--- replace join (now taken by the above)
--- vim.keymap.set('n', '<c-o>', '<cmd>join<cr>')
-
 -- keep cursor in middle of page when going to next search hit
 vim.keymap.set('n', 'n', 'nzzzv', { noremap = true })
 vim.keymap.set('n', 'N', 'Nzzzv', { noremap = true })
 
--- fast split switching
+-- split navigation
 vim.keymap.set('n', '<c-h>', '<c-w>h', { noremap = true })
 vim.keymap.set('n', '<c-j>', '<c-w>j', { noremap = true })
 vim.keymap.set('n', '<c-k>', '<c-w>k', { noremap = true })
@@ -87,25 +101,10 @@ vim.keymap.set('x', '<', '<gv', { noremap = true })
 vim.keymap.set('x', '>', '>gv', { noremap = true })
 
 vim.cmd([[
-  "Redo for shift-u
-  " noremap U <c-r>
-
-  " Edit macro
-  " not sure how to use this!
-  " nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
-
-  "visual mode pressing * or # searches for the current selection
-  " vnoremap <silent> * :call VisualSelection('f')<cr>
-  " vnoremap <silent> # :call VisualSelection('b')<cr>
-
   "remap ` to '
   "` jumps to the line and column marked with ma
   nnoremap ' `
   nnoremap ` '
-
-  "get the selection back after indenting
-  " xnoremap <  <gv
-  " xnoremap >  >gv
 
   "yanking and pasting from a register with indent
   "can these be made shorter? better?
@@ -129,15 +128,8 @@ vim.cmd([[
   " alternate
   " nnoremap <Backspace> <c-^>
 
-  "close the preview window with leader z
-  "TODO never do this?
-  " nmap <leader>z :pclose<cr>
-  " replaced with zenmode toggle
-
-  " Use CTRL-S for saving, also in Insert mode
+  " Use CTRL-S for saving
   noremap <silent> <c-s> :update!<cr>
-  " vnoremap <silent> <c-s> <c-c>:update!<cr>
-  " inoremap <silent> <c-s> <c-o>:update!<cr>
 
   " quit all
   nnoremap ZQ :qa!<cr>
@@ -153,27 +145,11 @@ vim.cmd([[
   "disable accidental Ex mode
   nnoremap Q <nop>
 
-  "this breaks things... somewhere
-  " map <c-,> nop
-
-  "region expanding
-  vmap v <Plug>(expand_region_expand)
-  vmap <C-v> <Plug>(expand_region_shrink)
-
-  " hooray for programmable keyboards, navigation of quick / location
+  " navigation of quick / location
   nnoremap <Down> :lnext<cr>
   nnoremap <Up> :lprevious<cr>
   nnoremap <Right> :cnext<cr>
   nnoremap <Left> :cprevious<cr>
-
-  "sensible increment / decrement, the default is mapped
-  " replaced with dial.nvim mapping
-  " nnoremap + <C-a>
-  " nnoremap - <C-x>
-
-  "for visual selections, will create incremental list when all 0 on each line
-  " xnoremap + g<C-a>
-  " xnoremap - g<C-x>
 
   "quick enter command mode
   noremap ; :
@@ -187,9 +163,6 @@ vim.cmd([[
 
   "jump to end when inserting
   inoremap <c-e> <c-o>$
-
-  "line completion
-  " inoremap <c-l> <c-x><c-l>
 
   "ev to edit vimrc, eV to source vimrc
   nnoremap <silent> <leader>eV :so $MYVIMRC <bar>exe 'normal! zvzz'<cr>
