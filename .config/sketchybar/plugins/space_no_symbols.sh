@@ -2,7 +2,6 @@
 
 source "$HOME/.config/sketchybar/vars.sh"
 
-#todo make clickable
 SPACE_ICON=
 if [[ "$SELECTED" == "true" ]]; then
   case "$NAME" in

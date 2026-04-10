@@ -34,10 +34,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
       require("lsp-format").on_attach(client, args.buf)
     end
 
-    -- require('lsp_signature').on_attach({
-    --   hint_enable = false -- trying this out, trigger with c-h, see below
-    -- }, args.buf)
-
     vim.diagnostic.config({
       underline = true,
       virtual_text = { prefix = '◿' },
@@ -48,26 +44,22 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- Disable document colors, instead use Colorizer
     if client:supports_method('textDocument/documentColor') then
       if vim.lsp.document_color then
-        vim.lsp.document_color.enable(false, args.buf)
+        vim.lsp.document_color.enable(false, {
+          bufnr = args.buf
+        })
       end
     end
 
-    -- Defaults, overridden elsewhere
-    -- vim.keymap.del('n', 'K', { buffer = args.buf })
-    -- vim.keymap.del('n', 'c-s', { buffer = args.buf })
-
-    -- defaults, for completeness
-    vim.keymap.set('n', 'grn', function() vim.lsp.buf.rename() end, { buffer = true, silent = true })
+    -- defaults, for completeness and ref
     vim.keymap.set('n', 'gra', function() vim.lsp.buf.code_action() end, { buffer = true, silent = true })
     vim.keymap.set('n', 'gri', function() vim.lsp.buf.implementation() end, { buffer = true, silent = true })
+    vim.keymap.set('n', 'grn', function() vim.lsp.buf.rename() end, { buffer = true, silent = true })
     vim.keymap.set('n', 'grr', function() vim.lsp.buf.references() end, { buffer = true, silent = true })
+    vim.keymap.set('n', 'grt', function() vim.lsp.buf.type_definition() end, { buffer = true, silent = true })
+    vim.keymap.set('n', 'grx', function() vim.lsp.codelens.run() end, { buffer = true, silent = true })
     vim.keymap.set('n', 'gO', function() vim.lsp.buf.document_symbol() end, { buffer = true, silent = true })
-
+    -- <c-s> mapped to vim.lsp.buf.signature_help
     -- end defaults
-    -- instead of the default ctrl-s
-    vim.keymap.set({ 'i' }, '<c-h>', function()
-      require('lsp_signature').toggle_float_win()
-    end, { silent = true, noremap = true })
 
     -- Where the var is set
     vim.keymap.set('n', 'gD', function() vim.lsp.buf.declaration() end, { buffer = true, silent = true })

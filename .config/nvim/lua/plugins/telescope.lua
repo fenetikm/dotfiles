@@ -34,7 +34,7 @@ return {
   { 'nvim-lua/popup.nvim', event = 'VeryLazy' },
   {
     'nvim-telescope/telescope.nvim',
-    tag = '0.1.8',
+    branch = 'master',
     cmd = 'Telescope',
     dependencies = {
       { 'nvim-lua/plenary.nvim' },

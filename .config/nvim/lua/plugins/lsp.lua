@@ -26,17 +26,6 @@ return {
     event = 'VeryLazy',
   },
   {
-    'ray-x/lsp_signature.nvim',
-    event = 'InsertEnter',
-    opts = {
-      hint_prefix = ':'
-    },
-  },
-  -- don't actually need this - enabling breaks client activation
-  -- {
-  --   'neovim/nvim-lspconfig',
-  -- },
-  {
     'folke/trouble.nvim',
     event = 'VeryLazy',
     keys = {

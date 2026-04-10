@@ -340,6 +340,7 @@ export PATH="/Users/mjw/tmp/apache-maven/bin:$PATH"
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 export PATH="$PATH:/Users/michael/.local/bin"
+export PATH="$PATH:$HOME/.cargo/bin"
 
 alias phpd="php -d xdebug.mode=debug -d xdebug.start_with_request=yes"
 

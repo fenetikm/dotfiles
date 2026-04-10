@@ -102,11 +102,7 @@ return {
 
   -- Search
   { 'BurntSushi/ripgrep',              event = 'VeryLazy' },
-  -- {'wincent/loupe', event = 'VeryLazy'}, --nicer search highlighting
-  -- {'wincent/ferret', event = 'VeryLazy'}, --multi file search
-  --
   { 'nelstrom/vim-visual-star-search', event = 'VeryLazy' }, --use * in visual mode to search
-  -- {'jesseleite/vim-agriculture', event = 'VeryLazy'}, --pass things through to rg
   {
     'folke/flash.nvim',
     event = 'VeryLazy',
@@ -314,7 +310,6 @@ return {
   -- Folding
   {
     'kevinhwang91/nvim-ufo',
-    enabled = false,
     event = 'VeryLazy',
     enabled = false,
     dependencies = {
