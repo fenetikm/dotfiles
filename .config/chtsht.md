@@ -19,8 +19,9 @@ q/e? - focus / select window to left or right? @done
 m - toggle mode
 ? - hide everything except for focused window
 
-## Claude
+## Claude Code
 `/copy` - copy last output to clipboard
+`<c-c>` - interrupt
 
 ## Yazi
 `z` - cd to file / directory via `fzf`

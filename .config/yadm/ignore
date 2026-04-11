@@ -36,3 +36,12 @@
 .config/yazi/yazi.toml*
 
 .config/cursor
+
+# claude
+.claude/*
+!.claude/CLAUDE.md
+!.claude/settings.json
+!.claude/skills
+!.claude/agents
+!.claude/hooks
+

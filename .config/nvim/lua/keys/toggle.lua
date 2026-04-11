@@ -1,6 +1,6 @@
 -- toggle for clean look
 local all_toggled = false
-local all_toggle = function ()
+local all_toggle = function()
   vim.o.ruler = all_toggled
   vim.o.showmode = all_toggled
   vim.o.showcmd = all_toggled
@@ -11,9 +11,14 @@ local all_toggle = function ()
   end
   all_toggled = not all_toggled
 end
-vim.keymap.set('n', '<leader>tx', all_toggle, {silent = true})
+vim.keymap.set('n', '<leader>tx', all_toggle, { silent = true })
 
-vim.keymap.set('n', '<Esc>', ':nohl<cr>:echo<cr>', {silent = true}) --toggle search highlight, clear cmd line
+vim.keymap.set('n', '<Esc>', ':nohl<cr>:echo<cr>', { silent = true }) --toggle search highlight, clear cmd line
+
+vim.keymap.set('n', '<leader>td', function()
+  local enabled = vim.diagnostic.is_enabled()
+  vim.diagnostic.enable(not enabled)
+end, { desc = 'Toggle diagnostics' })
 
 vim.cmd([[
   "toggle guides

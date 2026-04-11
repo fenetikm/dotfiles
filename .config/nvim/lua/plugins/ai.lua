@@ -101,8 +101,9 @@ return {
       --   expr = true,
       --   desc = "Goto/Apply Next Edit Suggestion",
       -- },
+      -- this doesn't work, but could create a custom workaround
       -- {
-      --   "<c-.>",
+      --   "<leader>as",
       --   function() require("sidekick.cli").focus() end,
       --   desc = "Sidekick Focus",
       --   mode = { "n", "t", "i", "x" },
