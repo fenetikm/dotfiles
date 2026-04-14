@@ -7,8 +7,8 @@
 PERC=85
 MIN_WIDTH=140
 MIN_HEIGHT=50
-CURRENT_WIDTH=$(tmux display -p "#{window_width}")
-CURRENT_HEIGHT=$(tmux display -p "#{window_height}")
+CURRENT_WIDTH=$(tmux display -p "#{client_width}")
+CURRENT_HEIGHT=$(tmux display -p "#{client_height}")
 MARGIN=6
 WIDTH=$(( CURRENT_WIDTH * PERC / 100 ))
 if (( WIDTH < MIN_WIDTH )); then
@@ -33,6 +33,11 @@ if [[ "$1" == "persist" ]]; then
   INIT_CMD="$3"
   if [[ "$(tmux display-message -p -F "#{session_name}")" = "$SESSION" ]]; then
     tmux detach-client
+  elif [[ "$(tmux display-message -p -F "#{session_name}")" = *_popup_* ]]; then
+    tmux detach-client
+    sleep 0.3
+    # note: in this context, CURRENT_WIDTH/HEIGHT will be of the popup that we are replacing
+    tmux display-popup -d '#{pane_current_path}' -b rounded -w "$CURRENT_WIDTH" -h "$CURRENT_HEIGHT" -s "bg=#020223" -E "tmux attach -t $SESSION || tmux new -s $SESSION $INIT_CMD"
   else
     # see above re options given to popup
     tmux display-popup -d '#{pane_current_path}' -b rounded -w "$WIDTH" -h "$HEIGHT" -s "bg=#020223" -E "tmux attach -t $SESSION || tmux new -s $SESSION $INIT_CMD"
