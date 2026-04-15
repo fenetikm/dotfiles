@@ -54,6 +54,7 @@ Forgotten tidbits.
 `s` - delete line, put cursor at indented insert position
 `]p` - paste, match indent, below
 `[p` - paste, match indent, above
+`gS` - toggle split join
 `<leader>at` Send {this} to agent
 `<leader>aa` Open agent
 `<leader>af` Send {file} to agent
