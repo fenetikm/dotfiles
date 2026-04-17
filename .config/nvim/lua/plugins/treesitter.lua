@@ -4,10 +4,31 @@ return {
     branch = 'main',
     -- build = ':TSUpdate',
     init = function()
+      -- use treesitter on these
       vim.api.nvim_create_autocmd('FileType', {
+        pattern = {
+          'bash', 'c', 'cpp', 'css', 'go', 'html',
+          'javascript', 'json', 'lua', 'python',
+          'rust', 'toml', 'typescript', 'elixir', 'php', 'java',
+          'ruby', 'twig',
+          'http',
+        },
         callback = function()
           -- Enable treesitter highlighting and disable regex syntax
           pcall(vim.treesitter.start)
+          -- Enable treesitter-based indentation
+          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end,
+      })
+
+      -- use regex matching on these
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = {
+          'markdown', 'markdown_inline',
+        },
+        callback = function()
+          -- Disable treesitter highlighting
+          pcall(vim.treesitter.stop)
           -- Enable treesitter-based indentation
           vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
         end,
@@ -33,59 +54,9 @@ return {
       {
         "nvim-treesitter/nvim-treesitter-textobjects",
         branch = 'main',
-        config = function()
-          -- When in diff mode, we want to use the default
-          -- vim text objects c & C instead of the treesitter ones.
-          -- local move = require("nvim-treesitter.textobjects.move") ---@type table<string,fun(...)>
-          -- local configs = require("nvim-treesitter")
-          -- for name, fn in pairs(move) do
-          --   if name:find("goto") == 1 then
-          --     move[name] = function(q, ...)
-          --       if vim.wo.diff then
-          --         local config = configs.get_module("textobjects.move")[name] ---@type table<string,string>
-          --         for key, query in pairs(config or {}) do
-          --           if q == query and key:find("[%]%[][cC]") then
-          --             vim.cmd("normal! " .. key)
-          --             return
-          --           end
-          --         end
-          --       end
-          --       return fn(q, ...)
-          --     end
-          --   end
-          -- end
-        end,
       },
     },
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
-    keys = {
-      { "<c-space>", desc = "Increment selection" },
-      { "<bs>",      desc = "Decrement selection", mode = "x" },
-    },
-    config = function()
-      local ts_configs = require('nvim-treesitter')
-      ts_configs.setup {
-        -- context_commentstring = { enable = true, enable_autocmd = false },
-        -- incremental_selection = {
-        --   enable = true,
-        --   keymaps = {
-        --     init_selection = "<C-space>",
-        --     node_incremental = "<C-space>",
-        --     scope_incremental = false,
-        --     node_decremental = "<bs>",
-        --   },
-        -- },
-        -- textobjects = {
-        --   move = {
-        --     enable = true,
-        --     goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer" },
-        --     goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer" },
-        --     goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer" },
-        --     goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer" },
-        --   },
-        -- },
-      }
-    end
   },
   {
     'nvim-treesitter/nvim-treesitter-context',
