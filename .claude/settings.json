@@ -1,23 +1,6 @@
 {
-  "enabledPlugins": {
-    "php-lsp@claude-plugins-official": true,
-    "gopls-lsp@claude-plugins-official": true,
-    "commit-commands@claude-plugins-official": true
-  },
-  "extraKnownMarketplaces": {
-    "anthropic-agent-skills": {
-      "source": {
-        "source": "github",
-        "repo": "anthropics/skills"
-      }
-    }
-  },
   "env": {
     "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "75"
-  },
-  "statusLine": {
-    "type": "command",
-    "command": "$HOME/.config/claude/status.sh"
   },
   "hooks": {
     "UserPromptSubmit": [
@@ -75,5 +58,23 @@
         ]
       }
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "$HOME/.config/claude/status.sh"
+  },
+  "enabledPlugins": {
+    "php-lsp@claude-plugins-official": true,
+    "gopls-lsp@claude-plugins-official": true,
+    "commit-commands@claude-plugins-official": true,
+    "lua-lsp@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "anthropic-agent-skills": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/skills"
+      }
+    }
   }
 }
