@@ -150,7 +150,9 @@ end)
 G.reloadWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
 s('Hammerspoon reloaded')
 
-hk['l'] = hs.hotkey.bind(hyper_mapping, 'l', function() hs.caffeinate.systemSleep() end)
+hk['l'] = hs.hotkey.bind(hyper_mapping, 'l', function()
+  hs.task.new('/usr/bin/pmset', nil, {'sleepnow'}):start()
+end)
 
 hk['='] = hs.hotkey.bind(hyper_mapping, '=', function()
   hs.reload()
