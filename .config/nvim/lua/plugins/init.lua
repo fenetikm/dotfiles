@@ -499,16 +499,6 @@ return {
     end
   },
 
-  -- {
-  --   event = 'VeryLazy',
-  --   "vhyrro/luarocks.nvim",
-  --   config = true,
-  --   opts = {
-  --     rocks = {  "lua-curl", "nvim-nio", "mimetypes", "xml2lua" }, -- Specify LuaRocks packages to install
-  --   },
-  -- },
-  -- currently broken, try again later
-  -- related issue: https://github.com/rest-nvim/rest.nvim/issues/559
   { -- REST client, should just work with latest version of lazy
     'rest-nvim/rest.nvim',
     ft = 'http',

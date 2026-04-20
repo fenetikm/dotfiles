@@ -2,6 +2,7 @@
 
 # todo:
 # - implement the notification, when a an agent becomes idle
+# - session to have some kind of prefix
 
 SESSION_NAME=$(tmux display-message -p '#S')
 tmux rename-session -t $SESSION_NAME $1
