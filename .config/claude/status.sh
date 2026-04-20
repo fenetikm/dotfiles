@@ -46,16 +46,26 @@ get_ctx_bar() {
     printf "${ctx_color}Ctx:${percentage}%%\\033[0m"
 }
 
+rate_color() {
+    local pct=$1
+    if [ "$pct" -lt 50 ]; then printf "\\033[0m"
+    elif [ "$pct" -lt 80 ]; then printf "\\033[33m"
+    else printf "\\033[31m"; fi
+}
+
 get_rate_info() {
     [ -z "$rate_5hr" ] && return
     local rate_5hr_int
     rate_5hr_int=$(printf "%.0f" "$rate_5hr")
+    local color_5hr
+    color_5hr=$(rate_color "$rate_5hr_int")
     if [ -n "$rate_7day" ]; then
-        local rate_7day_int
+        local rate_7day_int color_7day
         rate_7day_int=$(printf "%.0f" "$rate_7day")
-        echo " 5h:${rate_5hr_int}% 7d:${rate_7day_int}%"
+        color_7day=$(rate_color "$rate_7day_int")
+        printf " ${color_5hr}5h:${rate_5hr_int}%%\\033[0m ${color_7day}7d:${rate_7day_int}%%\\033[0m"
     else
-        echo " 5h:${rate_5hr_int}%"
+        printf " ${color_5hr}5h:${rate_5hr_int}%%\\033[0m"
     fi
 }
 
@@ -68,7 +78,7 @@ render_status() {
 
     [ -n "$git_info" ] && printf "\\033[0m%s\\033[0m" "$git_info"
     [ -n "$ctx_bar" ] && printf "%b" "$ctx_bar"
-    [ -n "$rate_info" ] && printf "\\033[0m%s\\033[0m" "$rate_info"
+    [ -n "$rate_info" ] && printf "%b" "$rate_info"
     printf " \\033[0m%s\\033[0m" "$display_dir"
     [ -n "$model" ] && printf " \\033[0m[%s] " "$model"
 }
