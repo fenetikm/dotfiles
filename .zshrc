@@ -159,6 +159,11 @@ alias sv='sudo nvim'
 alias vl='run_vim_leader'
 alias vd='nvim -c DiffviewOpen'
 
+run_vim_agent() {
+  nvim "$1" -c "lua require('custom.sidekick').open_agent()"
+}
+alias va="run_vim_agent"
+
 # edit the latest file in the directory
 edit-latest() {
   nvim "`print -rl *(D^/Om[1])`"
