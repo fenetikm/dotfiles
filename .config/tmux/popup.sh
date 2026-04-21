@@ -35,6 +35,7 @@ if [[ "$1" == "persist" ]]; then
     tmux detach-client
   elif [[ "$(tmux display-message -p -F "#{session_name}")" = *_popup_* ]]; then
     tmux detach-client
+    # is this still needed?! eh, this still doesn't work
     sleep 0.3
     # note: in this context, CURRENT_WIDTH/HEIGHT will be of the popup that we are replacing
     tmux display-popup -d '#{pane_current_path}' -b rounded -w "$CURRENT_WIDTH" -h "$CURRENT_HEIGHT" -s "bg=#020223" -E "tmux attach -t $SESSION || tmux new -s $SESSION $INIT_CMD"
