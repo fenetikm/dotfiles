@@ -35,4 +35,5 @@ if ($thing) { ;; }
 ,./<>?;':"
 
 ~~thing~~
+this will show an underline:
 [a link](https://example.com)
