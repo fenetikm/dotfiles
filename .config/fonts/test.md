@@ -34,6 +34,8 @@ if ($thing) { ;; }
 
 ,./<>?;':"
 
+strikethrough:
 ~~thing~~
+
 this will show an underline:
 [a link](https://example.com)
