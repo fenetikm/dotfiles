@@ -4,12 +4,349 @@
       "complex_modifications": {
         "rules": [
           {
-            "description": "Mac OSX: double-tap left shift key → caps lock toggle",
+            "description": "CapsLock turned off automagically enter, down arrow, tab, quote and =.,/, turned on by double-tap left shift - doesn't work :(",
+            "enabled": false,
             "manipulators": [
               {
                 "conditions": [
                   {
-                    "name": "left_shift pressed",
+                    "name": "caps_lock_state",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "from": {
+                  "key_code": "equal_sign",
+                  "modifiers": {
+                    "optional": [
+                      "caps_lock"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "caps_lock",
+                    "lazy": false
+                  },
+                  {
+                    "set_variable": {
+                      "name": "caps_lock_state",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "key_code": "equal_sign"
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "conditions": [
+                  {
+                    "name": "caps_lock_state",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "from": {
+                  "key_code": "period",
+                  "modifiers": {
+                    "optional": [
+                      "caps_lock"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "caps_lock",
+                    "lazy": false
+                  },
+                  {
+                    "set_variable": {
+                      "name": "caps_lock_state",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "key_code": "period"
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "conditions": [
+                  {
+                    "name": "caps_lock_state",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "from": {
+                  "key_code": "comma",
+                  "modifiers": {
+                    "optional": [
+                      "caps_lock"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "caps_lock",
+                    "lazy": false
+                  },
+                  {
+                    "set_variable": {
+                      "name": "caps_lock_state",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "key_code": "comma"
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "conditions": [
+                  {
+                    "name": "caps_lock_state",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "from": {
+                  "key_code": "return_or_enter",
+                  "modifiers": {
+                    "optional": [
+                      "caps_lock"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "caps_lock",
+                    "lazy": false
+                  },
+                  {
+                    "set_variable": {
+                      "name": "caps_lock_state",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "key_code": "return_or_enter"
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "conditions": [
+                  {
+                    "name": "caps_lock_state",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "from": {
+                  "key_code": "down_arrow",
+                  "modifiers": {
+                    "optional": [
+                      "caps_lock"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "caps_lock",
+                    "lazy": false
+                  },
+                  {
+                    "set_variable": {
+                      "name": "caps_lock_state",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "key_code": "down_arrow"
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "conditions": [
+                  {
+                    "name": "caps_lock_state",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "from": {
+                  "key_code": "tab",
+                  "modifiers": {
+                    "optional": [
+                      "caps_lock"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "caps_lock",
+                    "lazy": false
+                  },
+                  {
+                    "set_variable": {
+                      "name": "caps_lock_state",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "key_code": "tab"
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "conditions": [
+                  {
+                    "name": "caps_lock_state",
+                    "type": "variable_if",
+                    "value": 1
+                  }
+                ],
+                "from": {
+                  "key_code": "quote",
+                  "modifiers": {
+                    "optional": [
+                      "caps_lock",
+                      "left_shift"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "caps_lock",
+                    "lazy": false
+                  },
+                  {
+                    "set_variable": {
+                      "name": "caps_lock_state",
+                      "value": 0
+                    }
+                  },
+                  {
+                    "key_code": "quote"
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "conditions": [
+                  {
+                    "type": "expression_if",
+                    "expression": "left_shift_pressed == 1 and caps_lock_state == 0"
+                  }
+                ],
+                "from": {
+                  "key_code": "left_shift",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "caps_lock",
+                    "lazy": false
+                  },
+                  {
+                    "set_variable": {
+                      "name": "caps_lock_state",
+                      "value": 1
+                    }
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "conditions": [
+                  {
+                    "type": "expression_if",
+                    "expression": "caps_lock_state == 1 and left_shift_pressed == 1"
+                  }
+                ],
+                "from": {
+                  "key_code": "left_shift",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "caps_lock",
+                    "lazy": false
+                  },
+                  {
+                    "set_variable": {
+                      "name": "caps_lock_state",
+                      "value": 0
+                    }
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "from": {
+                  "key_code": "left_shift",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "set_variable": {
+                      "name": "left_shift_pressed",
+                      "value": 1
+                    }
+                  },
+                  {
+                    "key_code": "left_shift"
+                  }
+                ],
+                "to_delayed_action": {
+                  "to_if_canceled": [
+                    {
+                      "set_variable": {
+                        "name": "left_shift_pressed",
+                        "value": 0
+                      }
+                    }
+                  ],
+                  "to_if_invoked": [
+                    {
+                      "set_variable": {
+                        "name": "left_shift_pressed",
+                        "value": 0
+                      }
+                    }
+                  ]
+                },
+                "type": "basic"
+              }
+            ]
+          },
+          {
+            "description": "Mac OSX: double-tap left shift key → caps lock toggle",
+            "enabled": false,
+            "manipulators": [
+              {
+                "conditions": [
+                  {
+                    "name": "left_shift_pressed",
                     "type": "variable_if",
                     "value": 1
                   }
@@ -41,7 +378,7 @@
                 "to": [
                   {
                     "set_variable": {
-                      "name": "left_shift pressed",
+                      "name": "left_shift_pressed",
                       "value": 1
                     }
                   },
@@ -53,7 +390,7 @@
                   "to_if_canceled": [
                     {
                       "set_variable": {
-                        "name": "left_shift pressed",
+                        "name": "left_shift_pressed",
                         "value": 0
                       }
                     }
@@ -61,7 +398,7 @@
                   "to_if_invoked": [
                     {
                       "set_variable": {
-                        "name": "left_shift pressed",
+                        "name": "left_shift_pressed",
                         "value": 0
                       }
                     }
