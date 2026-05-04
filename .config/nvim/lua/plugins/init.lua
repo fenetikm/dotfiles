@@ -501,6 +501,7 @@ return {
 
   { -- REST client, should just work with latest version of lazy
     'rest-nvim/rest.nvim',
+    enabled = false,
     ft = 'http',
     keys = {
       { '<localleader>r', '<cmd>Rest run<cr>', desc = 'Run REST request' }

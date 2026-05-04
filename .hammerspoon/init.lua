@@ -25,12 +25,16 @@ s = function(message)
   end
 end
 
+-- if you get issues installing, try running this first...
+-- hs.ipc.cliUninstall()
+-- hs.ipc.cliUninstall("/opt/homebrew")
+
 G.yabai_path = "/usr/local/bin/yabai"
 G.bin_path = "/usr/local/bin"
 if hs.fs.displayName(G.yabai_path) == nil then
   G.yabai_path = "/opt/homebrew/bin/yabai"
   G.bin_path = "/opt/homebrew/bin"
-  -- hs.ipc.cliInstall("/opt/homebrew")
+  hs.ipc.cliInstall("/opt/homebrew")
 else
   hs.ipc.cliInstall()
 end
