@@ -2,6 +2,7 @@
   "env": {
     "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "75"
   },
+  "model": "opus[1m]",
   "hooks": {
     "UserPromptSubmit": [
       {
@@ -98,6 +99,5 @@
         "repo": "anthropics/skills"
       }
     }
-  },
-  "model": "opus"
+  }
 }
