@@ -2,6 +2,11 @@
 
 source "$HOME/.config/sketchybar/vars.sh"
 
+if [[ ! -f "$HOME/Library/Application Support/Focus" ]]; then
+  sketchybar --set "$NAME" drawing=off
+  return
+fi
+
 END_DATE=$(jq -r '.activeSessions[0] | .endDate' ~/Library/Application\ Support/Focus/default.cfg)
 
 if [[ "$END_DATE" == "null" ]]; then
