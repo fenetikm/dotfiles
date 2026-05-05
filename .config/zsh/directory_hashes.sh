@@ -8,7 +8,6 @@ hash -d docs=~/Documents
 hash -d down=~/Downloads
 hash -d p=~/Documents/personal
 hash -d falcon=~/Documents/Work/internal/vim/colors/falcon
-hash -d pw=~/Documents/Work/personify_care/video/product_weekly/
 hash -d nv=~/.config/nvim
 hash -d z=~/vaults/zettelkasten/
 hash -d icloud=~/Library/Mobile\ Documents/com~apple~CloudDocs/
