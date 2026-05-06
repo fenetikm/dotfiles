@@ -25,7 +25,7 @@ s = function(message)
   end
 end
 
--- if you get issues installing, try running this first...
+-- if you (me!) get issues with installing the cli, try uncommenting the following, running, then commenting out again
 -- hs.ipc.cliUninstall()
 -- hs.ipc.cliUninstall("/opt/homebrew")
 
@@ -146,7 +146,7 @@ hs.fnutils.each({
   { key = "m",      app = "Messages" },
   { key = "i",      app = "Music" },
   { key = "a",      app = "Claude" },
-  -- { key = "b",      app = "BoltAI" },
+  -- { key = "t",      app = "Stickies" },
 }, function(object)
   hk[object.key] = hs.hotkey.bind(hyper_mapping, object.key, function() launchOrFocus(object.app, object) end)
 end)
