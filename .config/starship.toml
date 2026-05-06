@@ -30,6 +30,9 @@ number_threshold = 1 # always show
 style = 'fg:#707082'
 format = '[\[$number\]]($style) '
 
+[username]
+show_always = false
+
 [character]
 success_symbol = "[==>](fg:#5521d9)"
 error_symbol = "[==>](red)"
@@ -61,10 +64,9 @@ format = "[$path]($style)"
 '~/Documents' = '~docs'
 '~/Downloads' = '~down'
 '~w/internal/vim/colors/falcon' = '~falcon'
-'~w/personify_care' = '~pc'
-'~pc/repos/personify-care-platform' = '~pcp'
-'~pc/repos/personify-care-test' = '~pct'
-'~pc/repos/personify-care-web' = '~pcw'
+'~w/SuperIT' = '~si'
+'~si/repos/subtechnica' = '~sit'
+'~si/repos/subtechnica-agent' = '~sia'
 '~/.config/nvim' = '~nv'
 '~/Library/Mobile Documents/com~apple~CloudDocs' = '~icloud'
 '~/vaults/zettelkasten' = '~z'
