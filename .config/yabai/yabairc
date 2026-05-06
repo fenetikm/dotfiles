@@ -1,4 +1,4 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
 
 # todo:
 # - when slack huddle opens, float it at a certain size, has `Huddle in the name`
