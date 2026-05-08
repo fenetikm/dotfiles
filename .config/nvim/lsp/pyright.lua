@@ -43,6 +43,20 @@ return {
       },
     },
   },
+  before_init = function(params, config)
+    local root = params.rootPath
+    if not root and params.workspaceFolders and params.workspaceFolders[1] then
+      root = vim.uri_to_fname(params.workspaceFolders[1].uri)
+    end
+    if not root then return end
+
+    local venv_python = root .. '/.venv/bin/python'
+    if vim.uv.fs_stat(venv_python) then
+      config.settings = vim.tbl_deep_extend('force', config.settings or {}, {
+        python = { pythonPath = venv_python },
+      })
+    end
+  end,
   on_attach = function(client, bufnr)
     vim.api.nvim_buf_create_user_command(bufnr, 'LspPyrightOrganizeImports', function()
       local params = {
