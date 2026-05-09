@@ -25,7 +25,7 @@ get_git_info() {
         branch=$(git -C "$cwd" --no-optional-locks branch --show-current 2>/dev/null)
         if [ -n "$branch" ]; then
             if [ -n "$(git -C "$cwd" --no-optional-locks status --porcelain 2>/dev/null)" ]; then
-                echo " git:($branch)✗"
+                echo " git:($branch)✗ "
             else
                 echo " git:($branch)"
             fi

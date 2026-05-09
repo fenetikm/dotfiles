@@ -99,5 +99,5 @@
       }
     }
   },
-  "model": "opus"
+  "editorMode": "vim"
 }
