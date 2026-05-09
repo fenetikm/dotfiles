@@ -6,7 +6,9 @@ if [[ -f "$HOME/.env.keys" ]]; then
   export $(grep -v '^#' "$HOME/.env.keys" | xargs)
 fi
 
-. "$HOME/.cargo/env"
+if [[ -f "$HOME/.cargo/env" ]]; then
+  . "$HOME/.cargo/env"
+fi
 
 if [[ -f "$HOME/.zshenv.local" ]]; then
   source "$HOME/.zshenv.local"

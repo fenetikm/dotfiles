@@ -25,6 +25,10 @@ s = function(message)
   end
 end
 
+-- if you (me!) get issues with installing the cli, try uncommenting the following, running, then commenting out again
+-- hs.ipc.cliUninstall()
+-- hs.ipc.cliUninstall("/opt/homebrew")
+
 G.yabai_path = "/usr/local/bin/yabai"
 G.bin_path = "/usr/local/bin"
 if hs.fs.displayName(G.yabai_path) == nil then
@@ -142,7 +146,7 @@ hs.fnutils.each({
   { key = "m",      app = "Messages" },
   { key = "i",      app = "Music" },
   { key = "a",      app = "Claude" },
-  -- { key = "b",      app = "BoltAI" },
+  -- { key = "t",      app = "Stickies" },
 }, function(object)
   hk[object.key] = hs.hotkey.bind(hyper_mapping, object.key, function() launchOrFocus(object.app, object) end)
 end)
