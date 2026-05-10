@@ -63,6 +63,7 @@ format = "[$path]($style)"
 '~/Documents/Work' = '~w'
 '~/Documents' = '~docs'
 '~/Downloads' = '~down'
+'~down/yt' = '~yt'
 '~w/internal/vim/colors/falcon' = '~falcon'
 '~w/SuperIT' = '~si'
 '~si/repos/subtechnica' = '~sit'
