@@ -66,27 +66,19 @@ setup_space() {
   local SPACE=
   echo "Setup space $SPACE_ID : $NAME"
 
-  SPACE=$(yabai -m query --spaces --space "$SPACE_ID")
-  if [[ -z "$SPACE" ]]; then
-    yabai -m space --create "$DISPLAY"
-  fi
-
   DISPLAY=$(yabai -m query --displays --display "$DISPLAY_ID")
   if [[ -z "$DISPLAY" ]]; then
     DISPLAY_ID=1
   fi
 
-  # todo: make more general, shift the reverse too
-  if [[ "$DISPLAY_ID" == "2" ]]; then
-    SPACE=$(yabai -m query --spaces --space "$SPACE_ID")
-    SPACE_DISPLAY=$(echo "$SPACE" | jq -r '.display')
-    if [[ "$DISPLAY_ID" != "$SPACE_DISPLAY" ]]; then
-      yabai -m space "$SPACE_ID" --display "$DISPLAY_ID"
-    fi
+  SPACE=$(yabai -m query --spaces --space "$SPACE_ID")
+  if [[ -z "$SPACE" ]]; then
+    yabai -m space --create "$DISPLAY"
   fi
 
   yabai -m space "$SPACE_ID" --label "$NAME"
   yabai -m config --space "$SPACE_ID" layout "$LAYOUT"
+  yabai -m space "$SPACE_ID" --display "$DISPLAY_ID"
   yabai -m display "$DISPLAY_ID" --space "$SPACE_ID"
 }
 
