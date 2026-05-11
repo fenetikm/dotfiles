@@ -16,8 +16,8 @@ vim.keymap.set('n', '<leader>tx', all_toggle, { silent = true })
 vim.keymap.set('n', '<Esc>', ':nohl<cr>:echo<cr>', { silent = true }) --toggle search highlight, clear cmd line
 
 vim.keymap.set('n', '<leader>td', function()
-  local enabled = vim.diagnostic.is_enabled()
-  vim.diagnostic.enable(not enabled)
+  local enabled = vim.diagnostic.is_enabled({ bufnr = 0 })
+  vim.diagnostic.enable(not enabled, { bufnr = 0 })
 end, { desc = 'Toggle diagnostics' })
 
 vim.cmd([[

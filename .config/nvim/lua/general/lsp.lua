@@ -58,7 +58,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'grt', function() vim.lsp.buf.type_definition() end, { buffer = true, silent = true })
     vim.keymap.set('n', 'grx', function() vim.lsp.codelens.run() end, { buffer = true, silent = true })
     vim.keymap.set('n', 'gO', function() vim.lsp.buf.document_symbol() end, { buffer = true, silent = true })
-    -- <c-s> mapped to vim.lsp.buf.signature_help
     -- end defaults
 
     -- Where the var is set
@@ -71,6 +70,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.diagnostic.open_float({ border = 'rounded' })
     end, { buffer = true, silent = true })
 
+    -- duplicate of above, gp "g problem"
+    vim.keymap.set('n', 'gp', function()
+      vim.diagnostic.open_float({ border = 'rounded' })
+    end, { buffer = true, silent = true })
+
     vim.keymap.set('n', '[d', function()
       vim.diagnostic.jump({ count = -1, float = { border = 'rounded' } })
     end, { buffer = true, silent = true })
@@ -80,14 +84,18 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end, { buffer = true, silent = true })
 
     vim.keymap.set('n', 'gh', function()
-      vim.lsp.buf.hover()
+      vim.lsp.buf.hover({ border = 'rounded' })
     end, { buffer = true, silent = true })
 
     vim.keymap.set('n', 'gs', function()
-      vim.lsp.buf.signature_help()
+      vim.lsp.buf.signature_help({ border = 'rounded' })
     end, { buffer = true, silent = true })
 
-    -- toggle virtual lines, nifty
+    vim.keymap.set('i', '<C-s>', function()
+      vim.lsp.buf.signature_help({ border = 'rounded' })
+    end, { buffer = true, silent = true })
+
+    -- toggle virtual lines, nifty except when the diagnostic is long
     vim.keymap.set('n', 'gl', function()
       if vim.diagnostic.config().virtual_lines then
         vim.diagnostic.config({ virtual_lines = false })
@@ -137,6 +145,7 @@ local signs = {
 
 vim.diagnostic.config({
   float = {
+    border = 'rounded',
     header = 'Diagnostics',
     prefix = function(diagnostic, i, total)
       if diagnostic.severity == vim.diagnostic.severity.ERROR then
