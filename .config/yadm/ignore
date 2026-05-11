@@ -36,6 +36,11 @@
 .config/yazi/yazi.toml*
 
 .config/cursor
+.config/cagent
+.config/linear
+.config/nats
+.config/op
+.config/gh-dash
 
 # claude
 .claude/*
