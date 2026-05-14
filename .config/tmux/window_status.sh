@@ -12,13 +12,15 @@
 # Arguments:
 #   running   Program is actively working — sets @window_status to "running"
 #   waiting   Program is waiting for user input — sets @window_status to "waiting"
-#   stop      Program has finished or is idle — unsets @window_status (default)
+#   stop      Program is idle — unsets @window_status (default)
 #   done      Alias for stop
 #   idle      Alias for stop
+#   end       Program ended / exited
 
 [[ -z "$TMUX" ]] && exit 0
 
-STATUS=${1:-stop}
+STATUS=${1:-end}
+echo $STATUS >> /tmp/claude_hook.txt
 
 TARGET=()
 [[ -n "$TMUX_PANE" ]] && TARGET="$TMUX_PANE"
@@ -33,8 +35,11 @@ case $STATUS in
   error)
     tmux set -wq -t "${TARGET[@]}" @window_status "error"
     ;;
-  stop|done|idle|end)
-    tmux set -uwq -t "${TARGET[@]}" @window_status
+  stop|done|idle)
+    tmux set -wq -t "${TARGET[@]}" @window_status "stop"
+    ;;
+  end)
+    tmux set -wq -t "${TARGET[@]}" @window_status ""
     ;;
 esac
 
