@@ -102,7 +102,8 @@
     "commit-commands@claude-plugins-official": true,
     "lua-lsp@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true,
-    "linear-cli@linear-cli": true
+    "linear-cli@linear-cli": true,
+    "superpowers@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "anthropic-agent-skills": {
@@ -122,6 +123,5 @@
   "effortLevel": "high",
   "awaySummaryEnabled": false,
   "prefersReducedMotion": false,
-  "editorMode": "vim",
-  "model": "opus[1m]"
+  "editorMode": "vim"
 }
