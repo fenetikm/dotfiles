@@ -20,7 +20,6 @@
 [[ -z "$TMUX" ]] && exit 0
 
 STATUS=${1:-end}
-echo $STATUS >> /tmp/claude_hook.txt
 
 TARGET=()
 [[ -n "$TMUX_PANE" ]] && TARGET="$TMUX_PANE"
