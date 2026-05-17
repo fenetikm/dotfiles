@@ -37,7 +37,8 @@ get_ctx_bar() {
     local total_input=$(( input_tokens + cache_creation + cache_read ))
     [ "$total_input" -le 0 ] && return
 
-    local tokens_k=$(( (total_input + 500) / 1000 ))
+    local tenths=$(( (total_input + 50) / 100 ))
+    local tokens_k="$(( tenths / 10 )).$(( tenths % 10 ))"
     local ctx_color="\\033[32m"
     if [ -n "$context_window_size" ] && [ "$context_window_size" -gt 0 ]; then
         local percentage=$(( (total_input * 100 + context_window_size / 2) / context_window_size ))
