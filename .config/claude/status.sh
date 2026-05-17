@@ -35,15 +35,18 @@ get_git_info() {
 
 get_ctx_bar() {
     local total_input=$(( input_tokens + cache_creation + cache_read ))
-    [ "$total_input" -le 0 ] || [ -z "$context_window_size" ] || [ "$context_window_size" -le 0 ] && return
+    [ "$total_input" -le 0 ] && return
 
-    local percentage=$(( (total_input * 100 + context_window_size / 2) / context_window_size ))
-    local ctx_color
-    if [ "$percentage" -lt 50 ]; then ctx_color="\\033[32m"
-    elif [ "$percentage" -lt 80 ]; then ctx_color="\\033[33m"
-    else ctx_color="\\033[31m"; fi
+    local tokens_k=$(( (total_input + 500) / 1000 ))
+    local ctx_color="\\033[32m"
+    if [ -n "$context_window_size" ] && [ "$context_window_size" -gt 0 ]; then
+        local percentage=$(( (total_input * 100 + context_window_size / 2) / context_window_size ))
+        if [ "$percentage" -lt 50 ]; then ctx_color="\\033[32m"
+        elif [ "$percentage" -lt 80 ]; then ctx_color="\\033[33m"
+        else ctx_color="\\033[31m"; fi
+    fi
 
-    printf "${ctx_color}Ctx:${percentage}%%\\033[0m"
+    printf "${ctx_color}${tokens_k}k\\033[0m"
 }
 
 rate_color() {
@@ -76,8 +79,8 @@ render_status() {
     ctx_bar=$(get_ctx_bar)
     rate_info=$(get_rate_info)
 
-    [ -n "$git_info" ] && printf "\\033[0m%s\\033[0m" "$git_info"
     [ -n "$ctx_bar" ] && printf "%b" "$ctx_bar"
+    [ -n "$git_info" ] && printf "\\033[0m%s\\033[0m" "$git_info"
     [ -n "$rate_info" ] && printf "%b" "$rate_info"
     printf " \\033[0m%s\\033[0m" "$display_dir"
     [ -n "$model" ] && printf " \\033[0m[%s] " "$model"
