@@ -26,7 +26,11 @@ DIRECTION=${2:-"next"}
 # creates indexed array
 typeset -a waiting_targets   # "session:window_index" strings, in traversal order
 
+NOAGENTS="<no waiting agents>"
+
 # Collect waiting windows
+sessions=$(tmux list-sessions -F "#{session_name}" 2>/dev/null)
+
 while IFS= read -r session; do
   # Always skip tmux popup sessions
   [[ "$session" == *_popup_* ]] && continue
@@ -36,12 +40,14 @@ while IFS= read -r session; do
     [[ "$session" != ${SESSION_PATTERN}* ]] && continue
   fi
 
+  windows=$(tmux list-windows -t "$session" -F "#{window_index}	#{@window_status}" 2>/dev/null)
+
   while IFS=$'\t' read -r win_idx win_status; do
     [[ "$win_status" == "waiting" ]] || continue
     waiting_targets+=("${session}:${win_idx}")
-  done < <(tmux list-windows -t "$session" -F "#{window_index}	#{@window_status}" 2>/dev/null)
+  done <<< "$windows"
 
-done < <(tmux list-sessions -F "#{session_name}" 2>/dev/null)
+done <<< "$sessions"
 
 if (( ${#waiting_targets[@]} == 0 )); then
   exit 1
