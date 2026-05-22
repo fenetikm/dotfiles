@@ -77,7 +77,7 @@ format = "[$path]($style)"
 
 # name of python virtual env if applicable
 [python]
-format = '[(\($virtualenv\))]($style) '
+format = '[(<$virtualenv>)]($style) '
 style = "fg:#707082"
 
 [custom.git_status]

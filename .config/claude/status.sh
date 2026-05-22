@@ -1,5 +1,4 @@
 #!/bin/bash
-# from: https://www.builder.io/blog/claude-code-settings#4-add-a-live-status-line
 input=$(cat)
 
 extract_data() {
@@ -33,7 +32,7 @@ get_git_info() {
     fi
 }
 
-get_ctx_bar() {
+get_ctx() {
     local total_input=$(( input_tokens + cache_creation + cache_read ))
     [ "$total_input" -le 0 ] && return
 
@@ -42,8 +41,8 @@ get_ctx_bar() {
     local ctx_color="\\033[32m"
     if [ -n "$context_window_size" ] && [ "$context_window_size" -gt 0 ]; then
         local percentage=$(( (total_input * 100 + context_window_size / 2) / context_window_size ))
-        if [ "$percentage" -lt 50 ]; then ctx_color="\\033[32m"
-        elif [ "$percentage" -lt 80 ]; then ctx_color="\\033[33m"
+        if [ "$percentage" -lt 30 ]; then ctx_color="\\033[32m"
+        elif [ "$percentage" -lt 60 ]; then ctx_color="\\033[33m"
         else ctx_color="\\033[31m"; fi
     fi
 
@@ -77,7 +76,7 @@ render_status() {
     local display_dir git_info ctx_bar rate_info
     display_dir=$(get_display_dir)
     git_info=$(get_git_info)
-    ctx_bar=$(get_ctx_bar)
+    ctx_bar=$(get_ctx)
     rate_info=$(get_rate_info)
 
     [ -n "$ctx_bar" ] && printf "%b" "$ctx_bar"
