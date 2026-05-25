@@ -28,7 +28,9 @@ source $ZSH/oh-my-zsh.sh
 
 # remove the right prompt extra space at the end
 ZLE_RPROMPT_INDENT=0
-eval "$(starship init zsh)"
+
+# starship init
+(( $+commands[starship] )) && eval "$(starship init zsh)"
 # }}}
 # the following is now called from ~/.zshenv
 # source ~/.config/zsh/directory_hashes.zsh
@@ -360,7 +362,8 @@ alias luamake=$HOME/tmp/lua-language-server/3rd/luamake/luamake
 # eval "$(fasd --init auto)"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-eval "$(zoxide init zsh)"
+# zoxide init
+(( $+commands[zoxide] )) && eval "$(zoxide init zsh)"
 
 # 'j' for jump (trigger zoxide)
 alias j='z'
@@ -381,6 +384,9 @@ if [[ -f "$HOME/.zshrc.local" ]]; then
   source "$HOME/.zshrc.local"
 fi
 
+# direnv hook init
+(( $+commands[direnv] )) && eval "$(direnv hook zsh)"
+
 # {{{
 # profiling end
 # simple profiling and output
@@ -391,3 +397,8 @@ fi
 # exec 2>&3 3>&-
 # }}}
 
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/michaelwelford/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
