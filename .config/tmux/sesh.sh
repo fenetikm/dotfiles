@@ -7,6 +7,8 @@
 # - <template> - "auto" (default), "none" or specific
 # - <session_name>, defaults to directory name
 # - <target_directory>, defaults to current directory
+#
+# see ~/.config/zsh/tmux.sh for the `tmux_setup` function
 
 switch_to_session() {
   local TARGET="$1"

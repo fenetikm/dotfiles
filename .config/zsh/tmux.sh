@@ -1,6 +1,14 @@
 #!/usr/bin/env zsh
 
 # used in .config/tmux/sesh.sh
+#
+# usage:
+#   tmux_setup <template> <session-name>
+#
+#   template:
+#     - "auto": use `.tmux.setup` file in current directory, fall back to home `.tmux.setup`
+#     - "none": don't do anything
+#     - <template>: use a .tmux.setup file in the `templates` directory
 tmux_setup() {
   if [[ "$1" == "auto" ]]; then
     if [[ -x ./.tmux.setup ]]; then

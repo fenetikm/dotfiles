@@ -15,15 +15,26 @@ ESC_DARK_GREY="\e[38;2;87;87;94m"
 ESC_RESET="\e[0m"
 ELLIPSIS=…
 
-# todo: gracefully handle dirs not existing
-# dirs to select from
-PROJECTS=$(ls -d -1 ~/Documents/Work/internal/projects/*)
-M=$(ls -d -1 ~/Documents/Work/internal/projects/majyk/repos/*)
-LEARNING1=$(ls -d -1 ~/Documents/Work/internal/learning/*)
-LEARNING2=$(ls -d -1 ~/Documents/Work/internal/learning/boot/*)
-LEARNING3=$(ls -d -1 ~/Documents/Work/internal/learning/fem/*)
-FALCON=$(echo ~falcon)
-PROJECTS="$PROJECTS"$'\n'"$M"$'\n'"$LEARNING1"$'\n'"$LEARNING2"$'\n'"$LEARNING3"$'\n'"$FALCON"
+# source local config first so EXTRA_PROJECTS can be set there
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+
+# build dir list as an array; (N) glob flag silently skips missing paths
+typeset -a PROJECT_DIRS
+PROJECT_DIRS=(
+  ~/Documents/Work/internal/projects/*(N)
+  ~/Documents/Work/internal/projects/majyk/repos/*(N)
+  ~/Documents/Work/internal/learning/*(N)
+  ~/Documents/Work/internal/learning/boot/*(N)
+  ~/Documents/Work/internal/learning/fem/*(N)
+)
+[[ -d ~falcon ]] && PROJECT_DIRS+=(~falcon)
+
+for _d in "${EXTRA_PROJECTS[@]}"; do
+  [[ -d "$_d" ]] && PROJECT_DIRS+=("$_d")
+done
+
+# join to newline-separated string
+PROJECTS=${(j:\n:)PROJECT_DIRS}
 
 LIST=
 # note: (f) splits on newlines, turn into an array
