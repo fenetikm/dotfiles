@@ -1,6 +1,11 @@
 #!/bin/bash
 input=$(cat)
 
+COLOR_OK="\\033[32m"
+COLOR_WARNING="\\033[33m"
+COLOR_CRITICAL="\\033[31m"
+COLOR_RESET="\\033[0m"
+
 extract_data() {
     cwd=$(echo "$input" | jq -r '.workspace.current_dir')
     model=$(echo "$input" | jq -r '.model.display_name // empty')
@@ -38,22 +43,22 @@ get_ctx() {
 
     local tenths=$(( (total_input + 50) / 100 ))
     local tokens_k="$(( tenths / 10 )).$(( tenths % 10 ))"
-    local ctx_color="\\033[32m"
+    local ctx_color="$COLOR_OK"
     if [ -n "$context_window_size" ] && [ "$context_window_size" -gt 0 ]; then
         local percentage=$(( (total_input * 100 + context_window_size / 2) / context_window_size ))
-        if [ "$percentage" -lt 30 ]; then ctx_color="\\033[32m"
-        elif [ "$percentage" -lt 60 ]; then ctx_color="\\033[33m"
-        else ctx_color="\\033[31m"; fi
+        if [ "$percentage" -lt 30 ]; then ctx_color="$COLOR_OK"
+        elif [ "$percentage" -lt 60 ]; then ctx_color="$COLOR_WARNING"
+        else ctx_color="$COLOR_CRITICAL"; fi
     fi
 
-    printf "${ctx_color}${tokens_k}k\\033[0m"
+    printf "${ctx_color}${tokens_k}k${COLOR_RESET}"
 }
 
 rate_color() {
     local pct=$1
-    if [ "$pct" -lt 50 ]; then printf "\\033[0m"
-    elif [ "$pct" -lt 80 ]; then printf "\\033[33m"
-    else printf "\\033[31m"; fi
+    if [ "$pct" -lt 50 ]; then printf "$COLOR_RESET"
+    elif [ "$pct" -lt 80 ]; then printf "$COLOR_WARNING"
+    else printf "$COLOR_CRITICAL"; fi
 }
 
 get_rate_info() {
@@ -66,9 +71,9 @@ get_rate_info() {
         local rate_7day_int color_7day
         rate_7day_int=$(printf "%.0f" "$rate_7day")
         color_7day=$(rate_color "$rate_7day_int")
-        printf " ${color_5hr}5h:${rate_5hr_int}%%\\033[0m ${color_7day}7d:${rate_7day_int}%%\\033[0m"
+        printf " ${color_5hr}5h:${rate_5hr_int}%%${COLOR_RESET} ${color_7day}7d:${rate_7day_int}%%${COLOR_RESET}"
     else
-        printf " ${color_5hr}5h:${rate_5hr_int}%%\\033[0m"
+        printf " ${color_5hr}5h:${rate_5hr_int}%%${COLOR_RESET}"
     fi
 }
 
@@ -80,10 +85,10 @@ render_status() {
     rate_info=$(get_rate_info)
 
     [ -n "$ctx_bar" ] && printf "%b" "$ctx_bar"
-    [ -n "$git_info" ] && printf "\\033[0m%s\\033[0m" "$git_info"
+    [ -n "$git_info" ] && printf "${COLOR_RESET}%s${COLOR_RESET}" "$git_info"
     [ -n "$rate_info" ] && printf "%b" "$rate_info"
-    printf " \\033[0m%s\\033[0m" "$display_dir"
-    [ -n "$model" ] && printf " \\033[0m[%s] " "$model"
+    printf " ${COLOR_RESET}%s${COLOR_RESET}" "$display_dir"
+    [ -n "$model" ] && printf " ${COLOR_RESET}[%s] " "$model"
 }
 
 extract_data
