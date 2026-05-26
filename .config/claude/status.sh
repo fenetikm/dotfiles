@@ -29,7 +29,7 @@ get_git_info() {
         branch=$(git -C "$cwd" --no-optional-locks branch --show-current 2>/dev/null)
         if [ -n "$branch" ]; then
             if [ -n "$(git -C "$cwd" --no-optional-locks status --porcelain 2>/dev/null)" ]; then
-                echo " git:($branch)✗ "
+                echo " git:($branch)✗"
             else
                 echo " git:($branch)"
             fi
@@ -65,32 +65,34 @@ rate_color() {
     else printf "$COLOR_CRITICAL"; fi
 }
 
-get_rate_info() {
+get_rate_5hr() {
     [ -z "$rate_5hr" ] && return
-    local rate_5hr_int
-    rate_5hr_int=$(printf "%.0f" "$rate_5hr")
-    local color_5hr
-    color_5hr=$(rate_color "$rate_5hr_int")
-    if [ -n "$rate_7day" ]; then
-        local rate_7day_int color_7day
-        rate_7day_int=$(printf "%.0f" "$rate_7day")
-        color_7day=$(rate_color "$rate_7day_int")
-        printf " ${color_5hr}5h:${rate_5hr_int}%%${COLOR_RESET} ${color_7day}7d:${rate_7day_int}%%${COLOR_RESET}"
-    else
-        printf " ${color_5hr}5h:${rate_5hr_int}%%${COLOR_RESET}"
-    fi
+    local rate_int color
+    rate_int=$(printf "%.0f" "$rate_5hr")
+    color=$(rate_color "$rate_int")
+    printf " ${color}5h:${rate_int}%%${COLOR_RESET}"
+}
+
+get_rate_7day() {
+    [ -z "$rate_7day" ] && return
+    local rate_int color
+    rate_int=$(printf "%.0f" "$rate_7day")
+    color=$(rate_color "$rate_int")
+    printf " ${color}7d:${rate_int}%%${COLOR_RESET}"
 }
 
 render_status() {
-    local display_dir git_info ctx_bar rate_info
+    local display_dir git_info ctx_bar rate_5hr_info rate_7day_info
     display_dir=$(get_display_dir)
     git_info=$(get_git_info)
     ctx_bar=$(get_ctx)
-    rate_info=$(get_rate_info)
+    rate_5hr_info=$(get_rate_5hr)
+    rate_7day_info=$(get_rate_7day)
 
     [ -n "$ctx_bar" ] && printf "%b" "$ctx_bar"
     [ -n "$git_info" ] && printf "${COLOR_RESET}%s${COLOR_RESET}" "$git_info"
-    [ -n "$rate_info" ] && printf "%b" "$rate_info"
+    [ -n "$rate_5hr_info" ] && printf "%b" "$rate_5hr_info"
+    [ -n "$rate_7day_info" ] && printf "%b" "$rate_7day_info"
     printf " ${COLOR_RESET}%s${COLOR_RESET}" "$display_dir"
     [ -n "$model" ] && printf " ${COLOR_RESET}[%s] " "$model"
 }
