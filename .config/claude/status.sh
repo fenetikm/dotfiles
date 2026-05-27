@@ -1,10 +1,11 @@
 #!/bin/bash
 input=$(cat)
 
-COLOR_OK="\\033[32m"
-COLOR_WARNING="\\033[33m"
-COLOR_CRITICAL="\\033[31m"
-COLOR_RESET="\\033[0m"
+COLOUR_OK="\\033[32m"
+COLOUR_WARNING="\\033[33m"
+COLOUR_CRITICAL="\\033[31m"
+COLOUR_SEPARATOR="\\033[38;2;87;87;94m"
+COLOUR_RESET="\\033[0m"
 
 extract_data() {
     cwd=$(echo "$input" | jq -r '.workspace.current_dir')
@@ -43,26 +44,26 @@ get_ctx() {
 
     local tenths=$(( (total_input + 50) / 100 ))
     local tokens_k="$(( tenths / 10 )).$(( tenths % 10 ))"
-    local ctx_color="$COLOR_OK"
+    local ctx_color="$COLOUR_OK"
     if [ -n "$context_window_size" ] && [ "$context_window_size" -gt 0 ]; then
         local percentage=$(( (total_input * 100 + context_window_size / 2) / context_window_size ))
         if [ "$percentage" -lt 20 ]; then
-          ctx_color="$COLOR_OK"
+          ctx_color="$COLOUR_OK"
         elif [ "$percentage" -lt 40 ]; then
-          ctx_color="$COLOR_WARNING"
+          ctx_color="$COLOUR_WARNING"
         else
-          ctx_color="$COLOR_CRITICAL"
+          ctx_color="$COLOUR_CRITICAL"
         fi
     fi
 
-    printf "${ctx_color}${tokens_k}k${COLOR_RESET}"
+    printf "${ctx_color}${tokens_k}k${COLOUR_RESET}"
 }
 
 rate_color() {
     local pct=$1
-    if [ "$pct" -lt 50 ]; then printf "$COLOR_RESET"
-    elif [ "$pct" -lt 80 ]; then printf "$COLOR_WARNING"
-    else printf "$COLOR_CRITICAL"; fi
+    if [ "$pct" -lt 50 ]; then printf "$COLOUR_RESET"
+    elif [ "$pct" -lt 80 ]; then printf "$COLOUR_WARNING"
+    else printf "$COLOUR_CRITICAL"; fi
 }
 
 get_rate_5hr() {
@@ -70,7 +71,7 @@ get_rate_5hr() {
     local rate_int color
     rate_int=$(printf "%.0f" "$rate_5hr")
     color=$(rate_color "$rate_int")
-    printf " ${color}5h:${rate_int}%%${COLOR_RESET}"
+    printf " ${color}5h:${rate_int}%%${COLOUR_RESET}"
 }
 
 get_rate_7day() {
@@ -78,23 +79,34 @@ get_rate_7day() {
     local rate_int color
     rate_int=$(printf "%.0f" "$rate_7day")
     color=$(rate_color "$rate_int")
-    printf " ${color}7d:${rate_int}%%${COLOR_RESET}"
+    printf " ${color}7d:${rate_int}%%${COLOUR_RESET}"
+}
+
+get_model() {
+    [ -z "$model" ] && return
+    local short="$model"
+    short="${short//Opus /Opus}"
+    short="${short//Sonnet /S}"
+    short="${short//Haiku /H}"
+    short="${short// (1M context)/|1M}"
+    printf " ${COLOUR_SEPARATOR}|${COLOUR_RESET} %s " "$short"
 }
 
 render_status() {
-    local display_dir git_info ctx_bar rate_5hr_info rate_7day_info
+    local display_dir git_info ctx_bar rate_5hr_info rate_7day_info model_info
     display_dir=$(get_display_dir)
     git_info=$(get_git_info)
     ctx_bar=$(get_ctx)
     rate_5hr_info=$(get_rate_5hr)
     rate_7day_info=$(get_rate_7day)
+    model_info=$(get_model)
 
     [ -n "$ctx_bar" ] && printf "%b" "$ctx_bar"
-    [ -n "$git_info" ] && printf "${COLOR_RESET}%s${COLOR_RESET}" "$git_info"
+    [ -n "$git_info" ] && printf "${COLOUR_RESET}%s${COLOUR_RESET}" "$git_info"
     [ -n "$rate_5hr_info" ] && printf "%b" "$rate_5hr_info"
     [ -n "$rate_7day_info" ] && printf "%b" "$rate_7day_info"
-    printf " ${COLOR_RESET}%s${COLOR_RESET}" "$display_dir"
-    [ -n "$model" ] && printf " ${COLOR_RESET}[%s] " "$model"
+    printf " ${COLOUR_SEPARATOR}|${COLOUR_RESET} %s${COLOUR_RESET}" "$display_dir"
+    [ -n "$model_info" ] && printf "%b" "$model_info"
 }
 
 extract_data
