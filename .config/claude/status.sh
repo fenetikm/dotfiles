@@ -4,7 +4,9 @@ input=$(cat)
 COLOUR_OK="\\033[32m"
 COLOUR_WARNING="\\033[33m"
 COLOUR_CRITICAL="\\033[31m"
-COLOUR_SEPARATOR="\\033[38;2;38;38;43m"
+COLOUR_SEPARATOR="\\033[38;2;87;87;94m"
+COLOUR_DIR="\\033[38;2;153;164;188m"
+COLOUR_GIT="\\033[38;2;112;112;130m"
 COLOUR_RESET="\\033[0m"
 
 extract_data() {
@@ -30,9 +32,9 @@ get_git_info() {
         branch=$(git -C "$cwd" --no-optional-locks branch --show-current 2>/dev/null)
         if [ -n "$branch" ]; then
             if [ -n "$(git -C "$cwd" --no-optional-locks status --porcelain 2>/dev/null)" ]; then
-                echo " git:($branch)✗"
+                printf " ${COLOUR_SEPARATOR}|${COLOUR_RESET} ${COLOUR_GIT} %s✗${COLOUR_RESET}" "$branch"
             else
-                echo " git:($branch)"
+                printf " ${COLOUR_SEPARATOR}|${COLOUR_RESET} ${COLOUR_GIT} %s${COLOUR_RESET}" "$branch"
             fi
         fi
     fi
@@ -88,7 +90,7 @@ get_model() {
     short="${short//Opus /Opus}"
     short="${short//Sonnet /Sonnet}"
     short="${short//Haiku /Haiku}"
-    short="${short// (1M context)/|1M}"
+    short="${short// (1M context)/(1M)}"
     printf " ${COLOUR_SEPARATOR}|${COLOUR_RESET} %s " "$short"
 }
 
@@ -100,12 +102,13 @@ render_status() {
     rate_5hr_info=$(get_rate_5hr)
     rate_7day_info=$(get_rate_7day)
     model_info=$(get_model)
+    printf "${COLOUR_RESET}"
 
     [ -n "$ctx_bar" ] && printf "%b" "$ctx_bar"
-    [ -n "$git_info" ] && printf "${COLOUR_RESET}%s${COLOUR_RESET}" "$git_info"
     [ -n "$rate_5hr_info" ] && printf "%b" "$rate_5hr_info"
     [ -n "$rate_7day_info" ] && printf "%b" "$rate_7day_info"
-    printf " ${COLOUR_SEPARATOR}|${COLOUR_RESET} %s${COLOUR_RESET}" "$display_dir"
+    [ -n "$git_info" ] && printf "%b" "$git_info"
+    printf " ${COLOUR_SEPARATOR}|${COLOUR_RESET} ${COLOUR_DIR}%s${COLOUR_RESET}" "$display_dir"
     [ -n "$model_info" ] && printf "%b" "$model_info"
 }
 
