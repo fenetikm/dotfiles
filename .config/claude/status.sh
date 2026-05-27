@@ -86,8 +86,8 @@ get_model() {
     [ -z "$model" ] && return
     local short="$model"
     short="${short//Opus /Opus}"
-    short="${short//Sonnet /S}"
-    short="${short//Haiku /H}"
+    short="${short//Sonnet /Sonnet}"
+    short="${short//Haiku /Haiku}"
     short="${short// (1M context)/|1M}"
     printf " ${COLOUR_SEPARATOR}|${COLOUR_RESET} %s " "$short"
 }
