@@ -87,9 +87,9 @@ get_rate_7day() {
 get_model() {
     [ -z "$model" ] && return
     local short="$model"
-    short="${short//Opus /Opus}"
-    short="${short//Sonnet /Sonnet}"
-    short="${short//Haiku /Haiku}"
+    short="${short//Opus /Op}"
+    short="${short//Sonnet /So}"
+    short="${short//Haiku /Ha}"
     short="${short// (1M context)/(1M)}"
     printf " ${COLOUR_SEPARATOR}|${COLOUR_RESET} %s " "$short"
 }
