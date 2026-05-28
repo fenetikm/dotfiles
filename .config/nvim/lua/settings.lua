@@ -127,3 +127,14 @@ vim.o.shada = '!,\'100,<50,s10,h,%' -- shared data file settings
 -- 10kb max for any item
 
 vim.o.exrc = true --project local config
+
+-- diffoptions
+vim.o.diffopt = 'internal'
+vim.o.diffopt = vim.o.diffopt .. ',filler'             -- show filler lines, useful for side by side
+vim.o.diffopt = vim.o.diffopt .. ',closeoff'           -- turn off diffing when only one diff window
+vim.o.diffopt = vim.o.diffopt .. ',algorithm:patience' -- matches lines, before trying to diff
+vim.o.diffopt = vim.o.diffopt .. ',indent-heuristic'   -- not exactly sure!
+vim.o.diffopt = vim.o.diffopt .. ',inline:char'        -- highlight inter line diff
+vim.o.diffopt = vim.o.diffopt .. ',linematch:40'       -- align changes up to this many lines
+vim.o.diffopt = vim.o.diffopt .. ',context:6'          -- how many lines to show around a diff before folding
+-- vim.o.diffopt = 'internal,filler,closeoff,algorithm:patience,indent-heuristic,inline:char,linematch:40'
