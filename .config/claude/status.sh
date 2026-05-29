@@ -44,11 +44,12 @@ get_ctx() {
     local total_input=$(( input_tokens + cache_creation + cache_read ))
     [ "$total_input" -le 0 ] && return
 
-    local tenths=$(( (total_input + 50) / 100 ))
-    local tokens_k="$(( tenths / 10 )).$(( tenths % 10 ))"
+    local tokens_k="$(( (total_input + 500) / 1000 ))"
     local ctx_color="$COLOUR_OK"
+    local pct_display=""
     if [ -n "$context_window_size" ] && [ "$context_window_size" -gt 0 ]; then
         local percentage=$(( (total_input * 100 + context_window_size / 2) / context_window_size ))
+        pct_display="(${percentage}%%)"
         if [ "$percentage" -lt 20 ]; then
           ctx_color="$COLOUR_OK"
         elif [ "$percentage" -lt 40 ]; then
@@ -58,7 +59,7 @@ get_ctx() {
         fi
     fi
 
-    printf "${ctx_color}${tokens_k}k${COLOUR_RESET}"
+    printf "${ctx_color}${tokens_k}k${pct_display}${COLOUR_RESET}"
 }
 
 rate_color() {
