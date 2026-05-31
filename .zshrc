@@ -1,3 +1,4 @@
+# vim: set foldmethod=marker foldlevel=0:
 # {{{ profiling start
 # for profiling
 # simple profiling of zsh related things
@@ -13,7 +14,6 @@
 # {{{ inspo
 # https://evanhahn.com/scripts-i-wrote-that-i-use-all-the-time/
 # }}}
-
 # {{{ prompt
 # disable the update prompt
 DISABLE_UPDATE_PROMPT=true
@@ -31,21 +31,13 @@ ZLE_RPROMPT_INDENT=0
 
 # starship init
 (( $+commands[starship] )) && eval "$(starship init zsh)"
-# }}}
+#   }}}
+# {{{ zsh config
 # the following is now called from ~/.zshenv
 # source ~/.config/zsh/directory_hashes.zsh
 
-# eza colours
-source $HOME/Documents/Work/internal/vim/colors/falcon/exa/EXA_COLORS_MODERN
-
-export PATH=":/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-export PATH="$PATH:$HOME/.composer/vendor/bin"
-export XDG_CONFIG_HOME="$HOME/.config"
-
-# set how long to wait for a sequence
-KEYTIMEOUT=1
-
 export EDITOR="nvim"
+# turn on vi mode command line editing
 bindkey -v
 
 # vi style incremental search
@@ -59,30 +51,47 @@ bindkey '^[[B' history-substring-search-down
 # change directory by just typing it's name
 setopt AUTO_CD
 
-# use the hash in the prompt
+# set how long to wait for a sequence
+KEYTIMEOUT=1
+
+# use ~dir for directories assigned to vars
 setopt AUTO_NAME_DIRS
 
-# push previous directory on to the stack
+# push previous directory on to the stack, so `cd -2` goes to 2nd last directory visited
 setopt AUTO_PUSHD
 
 # don't ignore dups in stack
 unsetopt PUSHD_IGNORE_DUPS
 
-# exchage meanings of + and -
+# exchange meanings of + and -
 setopt PUSHD_MINUS
 
 # completion options
+# double tab to see match options
 setopt AUTO_MENU
+# move cursor to end on selection
 setopt ALWAYS_TO_END
+# when inside a word allow completion
 setopt COMPLETE_IN_WORD
+# disable flow control via ctrl+s/ctrl+q, allow this keys for other mappings
 unsetopt FLOW_CONTROL
+# disable inserting completion on first tab
 unsetopt MENU_COMPLETE
+
+# disable ctrl+s and ctrl+q flow control, disable at the terminal driver level
+stty start undef stop undef
+
 # activate menu (using tab) selection
 zstyle ':completion:*:*:*:*:*' menu select
+# specify what is matched and in what order
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|=*' 'l:|=* r:|=*'
+# enable caching of completion results
 zstyle ':completion::complete:*' use-cache 1
+# set where the caching files are kept
 zstyle ':completion::complete:*' cache-path $ZSH_CACHE_DIR
+# use LS_COLORS for completion options
 zstyle ':completion:*' list-colors ''
+# highlighting when completing a process to kill
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 
 # formatting
@@ -107,7 +116,19 @@ setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_SPACE
 setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
+# history options
+# save timestamp and duration
+setopt EXTENDED_HISTORY
+# get rid of duplicate items when needed
+setopt HIST_EXPIRE_DUPS_FIRST
+# ignore putting duplicates in the history
+setopt HIST_IGNORE_DUPS
+# ignore spaces
+setopt HIST_IGNORE_SPACE
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
 
+# }}}
 # {{{ aliases
 # general
 # -i to stop overwrite
@@ -214,10 +235,6 @@ alias g='_f() { if [[ $# == 0 ]]; then git status --short --branch; else git "$@
 # tmux
 # see ~/.config/zsh/tmux.sh
 
-# todo: shift into local stuffs
-# ssh
-alias ventrassh='ssh theoryz4@s03de.syd6.hostingplatform.net.au -p 2683 -i $HOME/.ssh/id_dsa'
-
 alias ..='cd ..'
 
 # hugo stuff
@@ -255,6 +272,9 @@ alias lc="$HOME/.config/zsh/claude-glow.sh"
 alias oc='opencode'
 # see ~/.config/zsh/claude-glow.sh
 
+export CLAUDE_CODE_TMUX_TRUECOLOR=1
+# see https://code.claude.com/docs/en/env-vars
+
 # use fd and rg across all files
 alias rga="rg --hidden --no-ignore"
 alias fda="fd --hidden --no-ignore"
@@ -281,9 +301,6 @@ fancy-ctrl-z () {
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 
-# disable ctrl+s and ctrl+q flow control
-stty start undef stop undef
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # fzf
@@ -291,11 +308,17 @@ stty start undef stop undef
 
 # todo: update re new mac
 # export PATH="/usr/local/opt/ncurses/bin:$PATH"
+export PATH=":/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+# export PATH="$PATH:$HOME/.composer/vendor/bin"
+export XDG_CONFIG_HOME="$HOME/.config"
 export GOPATH="$HOME/go"
 export PATH="$GOPATH/bin:$PATH"
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 export PATH=/Applications/kitty.app/Contents/MacOS:$PATH
 export PATH="$HOME/tmp/google-cloud-sdk/bin":$PATH
+
+# eza colours
+source $HOME/Documents/Work/internal/vim/colors/falcon/exa/EXA_COLORS_MODERN
 
 # ripgrep config
 # ripgrep configufation
