@@ -21,7 +21,8 @@ extract_data() {
 }
 
 get_display_dir() {
-    local dir="$cwd"
+    base=$(basename "$cwd")
+    dir="…/${base}"
     [ "${#dir}" -gt 25 ] && dir="…${dir: -24}"
     echo "$dir"
 }
