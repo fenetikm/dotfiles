@@ -63,7 +63,7 @@ return {
     event = 'VeryLazy',
     opts = {
       mode = "cursor",
-      max_lines = 3,
+      max_lines = 4,
       separator = ' ',
     },
   }
