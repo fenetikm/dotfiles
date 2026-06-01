@@ -51,9 +51,9 @@ get_ctx() {
     if [ -n "$context_window_size" ] && [ "$context_window_size" -gt 0 ]; then
         local percentage=$(( (total_input * 100 + context_window_size / 2) / context_window_size ))
         pct_display="(${percentage}%%)"
-        if [ "$percentage" -lt 20 ]; then
+        if [ "$percentage" -lt 30 ]; then
           ctx_color="$COLOUR_OK"
-        elif [ "$percentage" -lt 40 ]; then
+        elif [ "$percentage" -lt 50 ]; then
           ctx_color="$COLOUR_WARNING"
         else
           ctx_color="$COLOUR_CRITICAL"
