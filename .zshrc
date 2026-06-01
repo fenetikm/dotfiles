@@ -54,6 +54,9 @@ setopt AUTO_CD
 # set how long to wait for a sequence
 KEYTIMEOUT=1
 
+# extended globbing
+setopt EXTENDED_GLOB
+
 # use ~dir for directories assigned to vars
 setopt AUTO_NAME_DIRS
 
@@ -180,7 +183,8 @@ alias nv='nvim'
 alias v='nvim'
 alias sv='sudo nvim'
 alias vl='run_vim_leader'
-alias vd='nvim -c DiffviewOpen'
+alias vd='nvim -c CodeDiff'
+alias vdm='nvim -c "CodeDiff main"'
 
 run_vim_agent() {
   nvim "$1" -c "lua require('custom.sidekick').open_agent()"
@@ -189,7 +193,7 @@ alias va="run_vim_agent"
 
 # edit the latest file in the directory
 edit-latest() {
-  nvim "`print -rl *(D^/Om[1])`"
+  nvim "`print -rl *~.DS_Store(D^/Om[1])`"
 }
 alias el="edit-latest"
 alias eo="nvim -c \"Oil\""
@@ -353,15 +357,21 @@ fi
 # Source the static plugins file
 source ${zsh_plugins}.zsh
 
+# docker cli completions
+fpath=(/Users/michaelwelford/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+
 # change these depending on version
 # export PATH="/usr/local/opt/php@8.3/bin:$PATH"
 # export PATH="/usr/local/opt/php@8.3/bin:$PATH"
 # export PATH="/usr/local/opt/php@8.1/sbin:$PATH"
 # export PATH="/usr/local/opt/php@8.1/sbin:$PATH"
-export PATH="/usr/local/opt/php@8.2/sbin:$PATH"
-export PATH="/usr/local/opt/php@8.2/sbin:$PATH"
+# export PATH="/usr/local/opt/php@8.2/sbin:$PATH"
+# export PATH="/usr/local/opt/php@8.2/sbin:$PATH"
 # export PATH="/usr/local/opt/php@8.0/bin:$PATH"
 # export PATH="/usr/local/opt/php@8.0/sbin:$PATH"
+#
 # then after doing the above, run:
 # `brew unlink php && brew link --force php@8.1`
 export JAVA_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-22.jdk/Contents/Home"
@@ -371,8 +381,6 @@ export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 export PATH="$PATH:/Users/michael/.local/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
-
-alias phpd="php -d xdebug.mode=debug -d xdebug.start_with_request=yes"
 
 # zsh falcon colouring
 source $HOME/Documents/Work/internal/vim/colors/falcon/zsh/falcon.zsh
@@ -410,8 +418,7 @@ fi
 # direnv hook init
 (( $+commands[direnv] )) && eval "$(direnv hook zsh)"
 
-# {{{
-# profiling end
+# {{{ profiling end
 # simple profiling and output
 # zprof > ~/tmp/prof.txt
 
@@ -419,9 +426,3 @@ fi
 # unsetopt xtrace
 # exec 2>&3 3>&-
 # }}}
-
-# The following lines have been added by Docker Desktop to enable Docker CLI completions.
-fpath=(/Users/michaelwelford/.docker/completions $fpath)
-autoload -Uz compinit
-compinit
-# End of Docker CLI completions
