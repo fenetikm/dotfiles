@@ -133,7 +133,7 @@ return {
         line_insert = "diffAdded",
         line_delete = "diffRemoved",
         char_insert = "diffAddedInline",
-        char_delete = "diffRmovedInline",
+        char_delete = "diffRemovedInline",
       },
       diff = {
         layout = "inline",                         -- Diff layout: "side-by-side" (two panes) or "inline" (single pane with virtual lines)
