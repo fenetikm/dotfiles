@@ -228,6 +228,15 @@ return {
     opts = {}
   },
 
+  -- autoload in direnv entries, useful for LSPs e.g. pyright
+  {
+    "NotAShelf/direnv.nvim",
+    event = 'VeryLazy',
+    config = function()
+      require("direnv").setup({})
+    end,
+  },
+
   -- Treesitter see file treesitter.lua
 
   -- cmp see file cmp.lua
