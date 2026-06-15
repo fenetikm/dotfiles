@@ -35,10 +35,10 @@ return {
     "esmuellert/codediff.nvim", -- VSCode like diffing
     cmd = "CodeDiff",
     keys = {
-      { '<leader>gd', '<cmd>CodeDiff<cr>',         noremap = true },
-      { '<leader>gm', '<cmd>CodeDiff main<cr>',    noremap = true },
-      { '<leader>gh', '<cmd>CodeDiff history<cr>', noremap = true },
-      { '<leader>gf', '<cmd>CodeDiff history<cr>', noremap = true },
+      { '<leader>gd', '<cmd>CodeDiff<cr>',           noremap = true },
+      { '<leader>gm', '<cmd>CodeDiff main<cr>',      noremap = true },
+      { '<leader>gh', '<cmd>CodeDiff history<cr>',   noremap = true },
+      { '<leader>gf', '<cmd>CodeDiff history %<cr>', noremap = true },
     },
     opts = {
       highlights = {
