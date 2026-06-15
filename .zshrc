@@ -34,7 +34,7 @@ ZLE_RPROMPT_INDENT=0
 #   }}}
 # {{{ zsh config
 # the following is now called from ~/.zshenv
-# source ~/.config/zsh/directory_hashes.zsh
+# source ~/.config/zsh/directory_hashes.sh
 
 export EDITOR="nvim"
 # turn on vi mode command line editing
@@ -184,7 +184,7 @@ alias v='nvim'
 alias sv='sudo nvim'
 alias vl='run_vim_leader'
 alias vd='nvim -c CodeDiff'
-alias vdm='nvim -c "CodeDiff main"'
+alias vm='nvim -c "CodeDiff main"'
 
 run_vim_agent() {
   nvim "$1" -c "lua require('custom.sidekick').open_agent()"

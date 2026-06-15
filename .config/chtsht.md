@@ -63,4 +63,4 @@ Forgotten tidbits.
 - `<leader>av` Send visual selection to agent
 
 ## Lazygit
-TBD!
+- `<c-s>` - search for a file, then see the history
