@@ -1,44 +1,7 @@
 return {
-  -- {
-  --   "nickjvandyke/opencode.nvim",
-  --   event = "VeryLazy",
-  --   dependencies = {
-  --     -- Recommended for `ask()` and `select()`.
-  --     -- Required for `snacks` provider.
-  --     ---@module 'snacks' <- Loads `snacks.nvim` types for configuration intellisense.
-  --     -- { "folke/snacks.nvim", opts = { input = {}, picker = {}, terminal = {} } },
-  --   },
-  --   config = function()
-  --     ---@type opencode.Opts
-  --     vim.g.opencode_opts = {
-  --       provider = {
-  --         enabled = "tmux",
-  --       }
-  --     }
-  --
-  --     -- Required for `opts.events.reload`.
-  --     vim.o.autoread = true
-  --
-  --     vim.keymap.set({ "n", "x" }, "<leader>aa", function() require("opencode").ask("@this: ", { submit = true }) end,
-  --       { desc = "Ask opencode…" })
-  --     vim.keymap.set({ "n", "x" }, "<leader>as", function() require("opencode").select() end,
-  --       { desc = "Execute opencode action…" })
-  --     vim.keymap.set({ "n", "t" }, "<leader>at", function() require("opencode").toggle() end,
-  --       { desc = "Toggle opencode" })
-  --
-  --     vim.keymap.set({ "n", "x" }, "go", function() return require("opencode").operator("@this ") end,
-  --       { desc = "Add range to opencode", expr = true })
-  --     vim.keymap.set("n", "goo", function() return require("opencode").operator("@this ") .. "_" end,
-  --       { desc = "Add line to opencode", expr = true })
-  --
-  --     vim.keymap.set("n", "<S-C-u>", function() require("opencode").command("session.half.page.up") end,
-  --       { desc = "Scroll opencode up" })
-  --     vim.keymap.set("n", "<S-C-d>", function() require("opencode").command("session.half.page.down") end,
-  --       { desc = "Scroll opencode down" })
-  --   end,
-  -- }
   {
-    "folke/sidekick.nvim",
+    dir = '~/Documents/Personal/projects/sidekick.nvim',
+    -- "folke/sidekick.nvim",
     event = "VeryLazy",
     opts = {
       nes = {
@@ -55,19 +18,16 @@ return {
             size = 0.5,      -- size of the split (0-1 for percentage)
           },
         },
+        tools = {
+          claude = {
+            is_proc = {
+              "\\<claude\\>",
+              "sbx run claude-[^ ]*",
+            },
+          },
+        },
       },
       prompts = {
-        -- todo: put skills into this?
-        -- this doesn't work?
-        question        = function(ctx)
-          local input = nil
-          vim.ui.input({
-            prompt = 'Question:',
-          }, function(i)
-            input = i
-          end)
-          return input .. " {this}"
-        end,
         changes         = "Review these changes",
         diagnostics     = "Fix the diagnostics in {file}\n{diagnostics}",
         diagnostics_all = "Fix all these diagnostics\n{diagnostics_all}",
@@ -90,63 +50,50 @@ return {
       },
     },
     keys = {
-      -- {
-      --   "<tab>",
-      --   function()
-      --     -- if there is a next edit, jump to it, otherwise apply it if any
-      --     if not require("sidekick").nes_jump_or_apply() then
-      --       return "<Tab>" -- fallback to normal tab
-      --     end
-      --   end,
-      --   expr = true,
-      --   desc = "Goto/Apply Next Edit Suggestion",
-      -- },
-      -- this doesn't work, but could create a custom workaround
-      -- {
-      --   "<leader>as",
-      --   function() require("sidekick.cli").focus() end,
-      --   desc = "Sidekick Focus",
-      --   mode = { "n", "t", "i", "x" },
-      -- },
+      -- note `submit = true` will trigger submission (undocumented)
       {
         "<leader>aa",
-        function() require("sidekick.cli").toggle() end,
-        desc = "Sidekick Toggle CLI",
+        function() require("sidekick.cli").toggle({ strategy = "auto", focus = false }) end,
+        desc = "Sidekick toggle CLI",
       },
-      -- {
-      --   "<leader>as",
-      --   function() require("sidekick.cli").select() end,
-      --   -- Or to select only installed tools:
-      --   -- require("sidekick.cli").select({ filter = { installed = true } })
-      --   desc = "Select CLI",
-      -- },
       {
         "<leader>ad",
         function() require("sidekick.cli").close() end,
-        desc = "Detach a CLI Session",
+        desc = "Sidekick detach CLI",
       },
       {
         "<leader>at",
         function() require("sidekick.cli").send({ msg = "{this}" }) end,
         mode = { "x", "n" },
-        desc = "Send `this` to CLI",
+        desc = "Send `this` to Sidekick CLI",
+      },
+      {
+        "<leader>al",
+        function() require("sidekick.cli").send({ msg = "{line}" }) end,
+        mode = { "x", "n" },
+        desc = "Send `line` to Sidekick CLI",
       },
       {
         "<leader>af",
-        function() require("sidekick.cli").send({ msg = "{file}" }) end,
-        desc = "Send file",
+        function() require("sidekick.cli").send({ msg = "{file}", focus = true }) end,
+        desc = "Send file reference to Sidekick CLI",
       },
       {
-        "<leader>av",
-        function() require("sidekick.cli").send({ msg = "{selection}" }) end,
-        mode = { "x" },
-        desc = "Send visual selection",
+        "<leader>as",
+        function() require("sidekick.cli").send({ msg = "", focus = true, submit = true }) end,
+        desc = "Submit Sidekick CLI",
       },
       {
         "<leader>ap",
-        function() require("sidekick.cli").prompt() end,
+        function() require("sidekick.cli").prompt({ submit = true }) end,
         mode = { "n", "x" },
-        desc = "Sidekick select prompt",
+        desc = "Prompt Sidekick CLI",
+      },
+      {
+        "<leader>ac",
+        function() require("sidekick.cli").toggle({ name = "claude", focus = true, strategy = "auto" }) end,
+        mode = { "n", "x" },
+        desc = "Sidekick toggle Claude",
       },
     },
   }

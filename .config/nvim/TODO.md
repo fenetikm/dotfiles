@@ -10,6 +10,8 @@
 - Finish setting up markview.
 - Treesitter mappings for textobjects if not somewhere else? expand / contract
 - When commenting, keep selection in visual mode
+- try out fzf-lua - replace a couple?
+- put borders on every popup (except completion)
 
 ## Done
 - Integrate exrc instead of vimrclocal plugin https://neovim.io/doc/user/options.html#'exrc'
