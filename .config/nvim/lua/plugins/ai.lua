@@ -57,19 +57,24 @@ return {
         desc = "Sidekick toggle CLI",
       },
       {
+        "<leader>ac",
+        function() require("sidekick.cli").toggle({ focus = false }) end,
+        desc = "Sidekick toggle CLI",
+      },
+      {
         "<leader>ad",
         function() require("sidekick.cli").close() end,
         desc = "Sidekick detach CLI",
       },
       {
         "<leader>at",
-        function() require("sidekick.cli").send({ msg = "{this}" }) end,
+        function() require("sidekick.cli").send({ msg = "{this}", focus = true }) end,
         mode = { "x", "n" },
         desc = "Send `this` to Sidekick CLI",
       },
       {
         "<leader>al",
-        function() require("sidekick.cli").send({ msg = "{line}" }) end,
+        function() require("sidekick.cli").send({ msg = "{line}", focus = true }) end,
         mode = { "x", "n" },
         desc = "Send `line` to Sidekick CLI",
       },
@@ -88,12 +93,6 @@ return {
         function() require("sidekick.cli").prompt({ submit = true }) end,
         mode = { "n", "x" },
         desc = "Prompt Sidekick CLI",
-      },
-      {
-        "<leader>ac",
-        function() require("sidekick.cli").toggle({ name = "claude", focus = true, strategy = "auto" }) end,
-        mode = { "n", "x" },
-        desc = "Sidekick toggle Claude",
       },
     },
   }
