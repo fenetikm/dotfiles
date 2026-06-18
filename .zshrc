@@ -13,6 +13,7 @@
 # }}}
 # {{{ inspo
 # https://evanhahn.com/scripts-i-wrote-that-i-use-all-the-time/
+# https://iam.mt/bringing-down-my-zsh-load-times-from-3-1s-to-230ms/
 # }}}
 # {{{ prompt
 # disable the update prompt

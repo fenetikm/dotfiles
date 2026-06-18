@@ -7,6 +7,7 @@ source "$DIR"/hugo.sh
 source "$DIR"/redis.sh
 source "$DIR"/tmux.sh
 source "$DIR"/fzf.sh
+source "$DIR"/sbx.sh
 
 alias cg="$DIR/claude-glow.sh"
 

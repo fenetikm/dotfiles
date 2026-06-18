@@ -2,6 +2,7 @@
   "env": {
     "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "75"
   },
+  "model": "opus[1m]",
   "hooks": {
     "UserPromptSubmit": [
       {
@@ -118,12 +119,19 @@
         "source": "github",
         "repo": "schpet/linear-cli"
       }
+    },
+    "superpowers-dev": {
+      "source": {
+        "source": "github",
+        "repo": "obra/superpowers"
+      }
     }
   },
   "spinnerTipsEnabled": false,
   "effortLevel": "high",
   "awaySummaryEnabled": false,
+  "tui": "default",
   "prefersReducedMotion": false,
-  "theme": "auto",
+  "theme": "custom:falcon-modern",
   "editorMode": "vim"
 }
