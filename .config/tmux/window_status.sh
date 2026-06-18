@@ -1,21 +1,20 @@
 #!/usr/bin/env zsh
 
-# window_status.sh — update the tmux @window_status window option
+# window_status.sh
 #
-# Sets a tmux window-level option that statusline components can read to display
-# the current state of programs running. Refreshes the tmux client status line after each change.
-# Exits immediately if run outside of a tmux session.
+# Sets tmux window-level variable @window_status then refreshes
+# status line.
 #
 # Usage:
 #   window_status.sh [running|waiting|stop|done|idle]
 #
 # Arguments:
-#   running   Program is actively working — sets @window_status to "running"
-#   waiting   Program is waiting for user input — sets @window_status to "waiting"
-#   stop      Program is idle — unsets @window_status (default)
+#   running   Program is actively working
+#   waiting   Program is waiting for user input
+#   stop      Program is idle
 #   done      Alias for stop
 #   idle      Alias for stop
-#   end       Program ended / exited
+#   end       Program ended / exited, unsets @window_status
 
 [[ -z "$TMUX" ]] && exit 0
 
