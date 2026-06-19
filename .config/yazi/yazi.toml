@@ -2,3 +2,28 @@
 [mgr]
 show_hidden = true
 ratio = [3, 5, 7] #parent, current, preview
+
+# [plugin]
+# prepend_previewers = [
+#   { name = "*.md", run = "mdcat" },
+# ]
+
+# [opener]
+# markless = [
+# 	{ run = 'markless "$1"', orphan = true, desc = "Preview Markdown in browser" },
+# ]
+#
+# [open]
+# prepend_rules = [
+# 	{ url = "*.md", use = "markless" },
+# 	{ url = "*.mdx", use = "markless" },
+# 	{ url = "*.markdown", use = "markless" },
+# ]
+
+# prepend_preloaders = [
+#   { url = "*.md",     run = 'faster-piper -- markless --wrap-width $w -- "$1"' }
+# ]
+
+[[plugin.prepend_previewers]]
+url = "*.md"
+run = 'piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"'

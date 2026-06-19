@@ -1,0 +1,5 @@
+schemaVersion: "1"
+kind: mixin
+name: cc
+displayName: Claude Code
+description: Setup for Claude Code development

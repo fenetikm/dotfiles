@@ -1,0 +1,33 @@
+{
+    "gopls": {
+        "command": "gopls",
+        "args": [
+            "serve"
+        ],
+        "extensionToLanguage": {
+            ".go": "go"
+        }
+    },
+    "pyright": {
+        "command": "pyright-langserver",
+        "args": [
+            "--stdio"
+        ],
+        "extensionToLanguage": {
+            ".py": "python",
+            ".pyi": "python"
+        }
+    },
+    "typescript": {
+        "command": "typescript-language-server",
+        "args": [
+            "--stdio"
+        ],
+        "extensionToLanguage": {
+            ".ts": "typescript",
+            ".tsx": "typescriptreact",
+            ".js": "javascript",
+            ".jsx": "javascriptreact"
+        }
+    }
+}

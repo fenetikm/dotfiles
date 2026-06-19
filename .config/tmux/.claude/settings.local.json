@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(rtk grep *)"
+      "Bash(rtk grep *)",
+      "Bash(rtk read *)",
+      "Bash(chmod +x *)"
     ]
   }
 }
