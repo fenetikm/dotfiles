@@ -187,21 +187,12 @@ alias vl='run_vim_leader'
 alias vd='nvim -c CodeDiff'
 alias vm='nvim -c "CodeDiff main"'
 
-run_vim_agent() {
-  nvim "$1" -c "lua require('custom.sidekick').open_agent()"
-}
-alias va="run_vim_agent"
-
 # edit the latest file in the directory
 edit-latest() {
   nvim "`print -rl *~.DS_Store(D^/Om[1])`"
 }
 alias el="edit-latest"
 alias eo="nvim -c \"Oil\""
-
-# yadm
-alias ys="yadm st"
-alias ysu="yadm stu"
 
 # suffix aliases: typing name of file with suffix will use that program
 alias -s php=nvim
@@ -245,38 +236,21 @@ alias ..='cd ..'
 # hugo stuff
 # see ~/.config/zsh/hugo.sh
 
-# love framework
-# shift to local
-alias love="/Applications/love.app/Contents/MacOS/love"
-
-# majyk
-# todo: shift to local or even into that a .tmux.setup
-devlog() {
-  local MON=$(date -v -Mon +"%Y-%m-%d")
-  if [[ -e "./content/devlog/$MON.md" ]]; then
-    nvim "./content/devlog/$MON.md"
-  elif [[ -e "./content/devlog/$MON/index.md" ]]; then
-    nvim "./content/devlog/$MON/index.md"
-  else
-    hugo new "devlog/$MON.md" --editor nvim
-  fi
-}
-
 # yt things
 alias ytbest='yt-dlp -f bestvideo+bestaudio --merge-output-format=mkv -4 --sleep-requests 2 --sleep-interval 2 --extractor-args "youtube:player-client=web_embedded"'
 alias yt1080='yt-dlp -S "height:1080" --merge-output-format=mkv -4 --sleep-requests 2 --sleep-interval 2 --extractor-args "youtube:player-client=web_embedded"'
 alias yt720='yt-dlp -S "height:720" --merge-output-format=mkv -4 --sleep-requests 2 --sleep-interval 2 --extractor-args "youtube:player-client=web_embedded"'
 alias ytaudio='yt-dlp --extract-audio -4 --sleep-requests 2 --sleep-interval 2 --extractor-args "youtube:player-client=web_embedded" --audio-format mp3 --audio-quality 0'
 
-# claude
-# alias lc='claude -p'
-alias cc='claude'
-alias ccr='claude --resume'
+# agents
+alias ac='claude'
+alias acr='claude --resume'
 # l for "llm"
-alias lc="$HOME/.config/zsh/claude-glow.sh"
-alias oc='opencode'
+alias ag="$HOME/.config/zsh/claude-glow.sh"
+alias ao='opencode'
 # see ~/.config/zsh/claude-glow.sh
 
+# make colours look correct in tmux
 export CLAUDE_CODE_TMUX_TRUECOLOR=1
 # see https://code.claude.com/docs/en/env-vars
 
@@ -292,19 +266,6 @@ alias kiw="kitty +kitten icat --align=left --background=#ffffff"
 # generate a clean, up to date kitty config, see https://sw.kovidgoyal.net/kitty/conf/
 alias kc="kitty +runpy 'from kitty.config import *; print(commented_out_default_config())'"
 # }}}
-
-# function to toggle fg/bg on control z
-fancy-ctrl-z () {
-  if [[ $#BUFFER -eq 0 ]]; then
-    BUFFER="fg"
-    zle accept-line
-  else
-    zle push-input
-    zle clear-screen
-  fi
-}
-zle -N fancy-ctrl-z
-bindkey '^Z' fancy-ctrl-z
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -328,15 +289,6 @@ source $HOME/Documents/Work/internal/vim/colors/falcon/exa/EXA_COLORS_MODERN
 # ripgrep config
 # ripgrep configufation
 export RIPGREP_CONFIG_PATH="$HOME/.rgrc"
-
-# load local env keys
-local_export() {
-  KEYS=`cat ~/.env`
-  while read -r key; do
-      export "$key"
-  done <<< "$KEYS"
-}
-# local_export
 
 # fast antidote loading from the page
 # Set the root name of the plugins files (.txt and .zsh) antidote will use.
@@ -412,12 +364,13 @@ export PATH="$PATH:/Users/michaelwelford/.lmstudio/bin"
 # opencode
 export PATH=/Users/michaelwelford/.opencode/bin:$PATH
 
+# direnv hook init
+(( $+commands[direnv] )) && eval "$(direnv hook zsh)"
+
+# local .zshrc
 if [[ -f "$HOME/.zshrc.local" ]]; then
   source "$HOME/.zshrc.local"
 fi
-
-# direnv hook init
-(( $+commands[direnv] )) && eval "$(direnv hook zsh)"
 
 # {{{ profiling end
 # simple profiling and output

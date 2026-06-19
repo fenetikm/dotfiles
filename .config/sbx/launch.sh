@@ -15,7 +15,7 @@
 #
 # Requires: tmux, sbx, jq, lsof.
 
-SNAME="$1"
+SNAME="agent-$1"
 WINDOW_ID=$(tmux display-message -p '#{window_id}')
 BASE_PORT=9999
 

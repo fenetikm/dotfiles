@@ -82,3 +82,16 @@ get_kitty_socket() {
   SOCKET=(/tmp/kitty-*(N[1]))
   echo "unix:$SOCKET"
 }
+
+# function to toggle fg/bg on control z
+fancy-ctrl-z () {
+  if [[ $#BUFFER -eq 0 ]]; then
+    BUFFER="fg"
+    zle accept-line
+  else
+    zle push-input
+    zle clear-screen
+  fi
+}
+zle -N fancy-ctrl-z
+bindkey '^Z' fancy-ctrl-z

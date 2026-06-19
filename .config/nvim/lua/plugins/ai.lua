@@ -1,5 +1,6 @@
 return {
   {
+    -- using my fork with extras
     dir = '~/Documents/Personal/projects/sidekick.nvim',
     -- "folke/sidekick.nvim",
     event = "VeryLazy",
@@ -22,19 +23,17 @@ return {
           claude = {
             is_proc = {
               "\\<claude\\>",
-              "sbx run claude-[^ ]*",
+              "sbx run agent-[^ ]*",
             },
           },
         },
       },
       prompts = {
-        changes         = "Review these changes",
         diagnostics     = "Fix the diagnostics in {file}\n{diagnostics}",
         diagnostics_all = "Fix all these diagnostics\n{diagnostics_all}",
         document        = "Add documentation to {function|line}",
         explain         = "Explain {this}",
-        fix             = "Can you fix {this}?",
-        optimize        = "How can {this} be optimized?",
+        optimise        = "How can {this} be optimised?",
         review          = "Can you review {file} for any issues or improvements?",
         tests           = "Can you write tests for {this}?",
 
