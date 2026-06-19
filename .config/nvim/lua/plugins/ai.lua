@@ -54,7 +54,7 @@ return {
       {
         "<leader>aa",
         function() require("sidekick.cli").toggle({ strategy = "auto", focus = false }) end,
-        desc = "Sidekick toggle CLI",
+        desc = "Sidekick toggle CLI, auto",
       },
       {
         "<leader>ac",

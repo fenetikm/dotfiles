@@ -1,4 +1,19 @@
 #!/usr/bin/env zsh
+#
+# launch.sh - Create and run an sbx sandbox for the current project.
+#
+# Usage:
+#   launch.sh <sandbox-name>
+#
+# What it does:
+#   1. Picks a free TCP port starting at 9999 for the status listener.
+#   2. Seeds ./.local/sbx from $HOME/.config/sbx/template if it's missing.
+#   3. Creates a sandbox named <sandbox-name> using ./.local/sbx for spec
+#   4. Exports the tmux window id and chosen port into the sandbox.
+#   5. Allows sandbox network access to localhost:<port>.
+#   6. Starts the status listener and runs the sandbox, cleaning up on exit.
+#
+# Requires: tmux, sbx, jq, lsof.
 
 SNAME="$1"
 WINDOW_ID=$(tmux display-message -p '#{window_id}')
@@ -18,6 +33,14 @@ find_free_port() {
 }
 
 PORT=$(find_free_port)
+
+ensure_kit() {
+  if [[ ! -d ./.local/sbx ]]; then
+    echo "No sbx config directory found, using template"
+    mkdir -p .local
+    cp -r "$HOME/.config/sbx/template" .local/sbx
+  fi
+}
 
 create_sandbox() {
   sbx create claude --kit ./.local/sbx --name "$1" .
@@ -40,9 +63,11 @@ cleanup() {
 }
 
 if check_exists "$SNAME"; then
-  echo "Sandbox exists, remove it first"
-  exit 0
+  echo "Sandbox '$SNAME' exists, remove it first with `sbx rm <name>`"
+  exit 1
 fi
+
+ensure_kit
 
 echo "Creating sandbox $SNAME"
 create_sandbox "$SNAME"
