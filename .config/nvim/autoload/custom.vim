@@ -117,11 +117,8 @@ endfunction
 " This puts all your zsh directory hashes in $xxx var links
 function! custom#variables() abort
   " Set up shortcut variables for "hash -d" directories.
-  let l:dirs=system(
-        \ 'zsh -c "' .
-        \ 'source ~/.config/zsh/directory_hashes.zsh; ' .
-        \ 'hash -d"'
-        \ )
+  " This works as directory hashes are loaded in .zshenv
+  let l:dirs=system('hash -d')
   let l:lines=split(l:dirs, '\n')
   for l:line in l:lines
     let l:pair=split(l:line, '=')
