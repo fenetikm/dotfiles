@@ -1,8 +1,8 @@
 #!/usr/bin/env zsh
 
-# safe bot
-sbot() {
+sbx_launch() {
   local NAME="${1:-${PWD##*/}}"
   NAME="${NAME// /-}"
-  "$HOME/.config/sbx/launch.sh" "$NAME"
+  local AGENT_TYPE="${2:claude}"
+  "$HOME/.config/sbx/launch.sh" "$NAME" "$AGENT_TYPE"
 }

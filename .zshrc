@@ -204,7 +204,8 @@ alias -s yml=nvim
 alias -s md=glow -p
 
 # this is for glow to always output colour (doesn't always work)
-export CLICOLOR_FORCE=1
+# disable for now
+# export CLICOLOR_FORCE=1
 
 # Global aliases, substitute anywhere
 # e.g. `cat tmp.txt L`
@@ -245,10 +246,10 @@ alias ytaudio='yt-dlp --extract-audio -4 --sleep-requests 2 --sleep-interval 2 -
 # agents
 alias ac='claude'
 alias acr='claude --resume'
-# l for "llm"
-alias ag="$HOME/.config/zsh/claude-glow.sh"
 alias ao='opencode'
+
 # see ~/.config/zsh/claude-glow.sh
+# alias ag="$HOME/.config/zsh/claude-glow.sh"
 
 # make colours look correct in tmux
 export CLAUDE_CODE_TMUX_TRUECOLOR=1
