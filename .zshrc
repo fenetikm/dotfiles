@@ -365,6 +365,12 @@ export PATH="$PATH:/Users/michaelwelford/.lmstudio/bin"
 # opencode
 export PATH=/Users/michaelwelford/.opencode/bin:$PATH
 
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/michaelwelford/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/michaelwelford/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/michaelwelford/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/michaelwelford/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
 # direnv hook init
 (( $+commands[direnv] )) && eval "$(direnv hook zsh)"
 
