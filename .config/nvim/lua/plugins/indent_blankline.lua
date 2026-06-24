@@ -3,8 +3,8 @@ return {
   event = 'VeryLazy',
   opts = {
     indent = {
-      char = {'│', '┊'},
-      highlight = {'IndentBlanklineIndent1', 'IndentBlanklineIndent1'},
+      char = { '│', '┊' },
+      highlight = { 'IndentBlanklineIndent1', 'IndentBlanklineIndent1' },
     },
     whitespace = {
       remove_blankline_trail = true,

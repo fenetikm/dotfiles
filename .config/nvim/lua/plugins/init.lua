@@ -491,11 +491,11 @@ return {
       }
     end
   },
-  { 'tpope/vim-unimpaired', event = 'VimEnter' }, --Various dual pair commands
-  { 'tpope/vim-repeat',     event = 'VimEnter' }, --Repeat plugin commands
-  { 'Valloric/ListToggle',  event = 'VeryLazy' }, --Toggle quickfix and location lists
+  -- { 'tpope/vim-unimpaired', event = 'VimEnter' }, --Various dual pair commands, too many though, to be refined
+  { 'tpope/vim-repeat',    event = 'VimEnter' }, --Repeat plugin commands
+  { 'Valloric/ListToggle', event = 'VeryLazy' }, --Toggle quickfix and location lists
   {
-    'Wansmer/sibling-swap.nvim',                  -- swap nodes e.g. params/args, conditions etc.
+    'Wansmer/sibling-swap.nvim',                 -- swap nodes e.g. params/args, conditions etc.
     event = 'VeryLazy',
     keys = {
       { '<C-.>', function() require('sibling-swap').swap_with_right() end, desc = "Swap with right node" },

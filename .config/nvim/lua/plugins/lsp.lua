@@ -27,11 +27,13 @@ return {
   },
   {
     'folke/trouble.nvim',
-    event = 'VeryLazy',
+    cmd = "Trouble",
     keys = {
-      { '<leader>xx', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>', silent = true, noremap = true, desc = "Diagnostics (Trouble)" },
-      { '<leader>xq', '<cmd>Trouble qflist toggle<cr>',                   silent = true, noremap = true, desc = "Quickfix list (Trouble)" },
-      { '<leader>xs', '<cmd>Trouble symbols toggle pinned=true<cr>',      silent = true, noremap = true, desc = "Quickfix list (Trouble)" },
+      { '<leader>xx', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',      silent = true, noremap = true, desc = "Diagnostics (Trouble)" },
+      { '<leader>xq', '<cmd>Trouble qflist toggle<cr>',                        silent = true, noremap = true, desc = "Quickfix (Trouble)" },
+      { '<leader>xs', '<cmd>Trouble symbols toggle focus=false<cr>',           silent = true, noremap = true, desc = "Symbols (Trouble)" },
+      { ']x',         '<cmd>lua require("trouble").next({ focus = true})<cr>', silent = true, noremap = true, desc = "Next item (Trouble)" },
+      { '[x',         '<cmd>lua require("trouble").prev({ focus = true})<cr>', silent = true, noremap = true, desc = "Prev item (Trouble)" },
     },
     opts = {
       signs = {
