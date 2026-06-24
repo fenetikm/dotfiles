@@ -30,6 +30,8 @@ return {
     event = 'VeryLazy',
     keys = {
       { '<leader>xx', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>', silent = true, noremap = true, desc = "Diagnostics (Trouble)" },
+      { '<leader>xq', '<cmd>Trouble qflist toggle<cr>',                   silent = true, noremap = true, desc = "Quickfix list (Trouble)" },
+      { '<leader>xs', '<cmd>Trouble symbols toggle pinned=true<cr>',      silent = true, noremap = true, desc = "Quickfix list (Trouble)" },
     },
     opts = {
       signs = {

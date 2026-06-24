@@ -330,7 +330,7 @@ ins_a {
 ins_a {
   'filename',
   symbols = {
-    readonly = ' ',
+    readonly = '󰌾 ',
   },
   color = { fg = colours.mid_gray_alt2.hex },
   padding = { 0 },
