@@ -3,10 +3,12 @@
 options=(
   style=rounded
   width=1.0
-  hidpi=off
+  hidpi=on
   # active_color=0xa04f4f59
   active_color="glow(0xff4f4f59)"
   inactive_color=0
 )
+
+# note: can try `order=above` with kitty square / no borders?
 
 borders "${options[@]}"

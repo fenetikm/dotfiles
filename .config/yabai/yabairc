@@ -135,3 +135,6 @@ yabai -m signal --add event=display_added action="$HOME/.config/yabai/events/dis
 yabai -m signal --add event=application_front_switched action="$HOME/.config/yabai/events/window_focused.sh"
 
 yabai -m space 1 --focus
+
+# enable janky borders
+brew services start borders
