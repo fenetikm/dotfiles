@@ -9,18 +9,18 @@
 #   - [agent-type]: optional, defaults to "claude"
 #
 # What it does:
-#   1. Picks a free TCP port starting at 9999 for the status listener.
-#   2. Seeds ./.local/sbx from $HOME/.config/sbx/template if it's missing.
-#   3. Creates a sandbox named <sandbox-name> using ./.local/sbx for spec
-#   4. Exports the tmux window id and chosen port into the sandbox.
-#   5. Allows sandbox network access to localhost:<port>.
-#   6. Starts the status listener and runs the sandbox, cleaning up on exit.
+# 1. Picks a free TCP port starting at 9999 for the status listener.
+# 2. Seeds ./.sbx from $HOME/.config/sbx/templates if it's missing.
+# 3. Creates a sandbox named <sandbox-name> using .sbx/$AGENT_TYPE/spec.yaml
+# 4. Exports the tmux window id and chosen port into the sandbox.
+# 5. Allows sandbox network access to localhost:<port>.
+# 6. Starts the status listener and runs the sandbox, cleaning up on exit.
 #
 # Requires: tmux, sbx, jq, lsof.
 
 WINDOW_ID=$(tmux display-message -p '#{window_id}')
 BASE_PORT=9999
-AGENT_TYPE="${2:claude}"
+AGENT_TYPE="${2:-claude}"
 SANDBOX_NAME="sbx-$AGENT_TYPE-$1"
 
 find_free_port() {
@@ -44,15 +44,15 @@ ensure_kit() {
     exit 1
   fi
 
-  if [[ ! -d ./.local/sbx ]]; then
+  if [[ ! -d ./.sbx ]]; then
     echo "No sbx config directory found, using template."
-    mkdir -p .local
-    cp -r "$HOME/.config/sbx/template/$AGENT_TYPE" ".local/sbx/$AGENT_TYPE"
+    mkdir -p .sbx
+    cp -r "$HOME/.config/sbx/templates/$AGENT_TYPE" ".sbx/$AGENT_TYPE"
   fi
 }
 
 create_sandbox() {
-  sbx create "$AGENT_TYPE" --kit "./.local/sbx/$AGENT_TYPE" --name "$1" .
+  sbx create "$AGENT_TYPE" --kit "./.sbx/$AGENT_TYPE" --name "$1" .
 }
 
 set_sandbox_var() {
@@ -89,4 +89,4 @@ echo "Starting listener on $PORT"
 "$HOME/.config/sbx/status_listener.sh" "$PORT" "$WINDOW_ID" &
 LISTENER_PID=$!
 trap cleanup EXIT INT TERM
-sbx run "$SANDBOX_NAME"
+sbx run "$NAME"
