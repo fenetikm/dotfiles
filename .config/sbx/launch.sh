@@ -18,6 +18,9 @@
 #
 # Requires: tmux, sbx, jq, lsof.
 
+GREEN=$'\033[32m'
+RESET=$'\033[0m'
+
 WINDOW_ID=$(tmux display-message -p '#{window_id}')
 BASE_PORT=9999
 AGENT_TYPE="${2:-claude}"
@@ -28,7 +31,7 @@ find_free_port() {
   local MAX=$(( p + 20 ))
   while lsof -iTCP:"$p" -sTCP:LISTEN -nP >/dev/null 2>&1; do
     if [[ "$p" == "$MAX" ]]; then
-      echo "Couldn't find a free port."
+      echo "${GREEN}Couldn't find a free port.${RESET}"
       exit 1
     fi
     (( p++ ))
@@ -40,12 +43,12 @@ PORT=$(find_free_port)
 
 ensure_kit() {
   if [[ ! -d "$HOME/.config/sbx/templates/$AGENT_TYPE" ]]; then
-    echo "Agent type not supported."
+    echo "${GREEN}Agent type not supported.${RESET}"
     exit 1
   fi
 
   if [[ ! -d ./.sbx ]]; then
-    echo "No sbx config directory found, using template."
+    echo "${GREEN}No sbx config directory found, using template.${RESET}"
     mkdir -p .sbx
     cp -r "$HOME/.config/sbx/templates/$AGENT_TYPE" ".sbx/$AGENT_TYPE"
   fi
@@ -67,26 +70,35 @@ cleanup() {
   # guard
   [[ -n "$CLEANED" ]] && return
   CLEANED=1
-  echo "Cleaning up."
+  echo "${GREEN}Cleaning up.${RESET}"
   [[ -n "$LISTENER_PID" ]] && kill "$LISTENER_PID" 2>/dev/null
   sbx rm -f "$SANDBOX_NAME" 2>/dev/null
+  echo "${GREEN}Done.${RESET}"
 }
 
 if check_exists "$SANDBOX_NAME"; then
-  echo "Sandbox '$SANDBOX_NAME' exists, remove it first with `sbx rm <name>`"
+  echo "${GREEN}Sandbox '$SANDBOX_NAME' exists, remove it first with `sbx rm <name>`${RESET}"
   exit 1
 fi
 
 ensure_kit
 
-echo "Creating sandbox $SANDBOX_NAME"
+echo "${GREEN}Creating sandbox $SANDBOX_NAME...${RESET}"
+echo "\n"
+
 create_sandbox "$SANDBOX_NAME"
-echo "Setting sandbox vars"
+
+echo "${GREEN}Setting sandbox vars...${RESET}"
+echo "\n"
+
 set_sandbox_var TM_WINDOW_ID "$WINDOW_ID"
 set_sandbox_var TM_PORT "$PORT"
 sbx policy allow network --sandbox "$SANDBOX_NAME" localhost:"$PORT"
-echo "Starting listener on $PORT"
+
+echo "${GREEN}Starting listener on $PORT.${RESET}"
 "$HOME/.config/sbx/status_listener.sh" "$PORT" "$WINDOW_ID" &
 LISTENER_PID=$!
 trap cleanup EXIT INT TERM
+
+echo "${GREEN}Starting listener on $PORT.${RESET}"
 sbx run --name "$SANDBOX_NAME"
