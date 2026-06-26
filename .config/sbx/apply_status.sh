@@ -13,7 +13,6 @@ IFS= read -r msg
 msg=${msg%$'\r'}
 msg=${msg//#/}
 
-"$HOME/.config/tmux/window_status.sh $msg"
-# tmux set-option -t "$WINDOW_ID" @window_status "$msg"
-# tmux refresh-client -S
-# tmux display-message "$msg"
+tmux display-message "$msg"
+
+# "$HOME/.config/tmux/window_status.sh" "'"$msg"'"

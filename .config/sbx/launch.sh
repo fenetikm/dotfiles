@@ -89,4 +89,4 @@ echo "Starting listener on $PORT"
 "$HOME/.config/sbx/status_listener.sh" "$PORT" "$WINDOW_ID" &
 LISTENER_PID=$!
 trap cleanup EXIT INT TERM
-sbx run "$NAME"
+sbx run --name "$SANDBOX_NAME"
