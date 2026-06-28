@@ -1,8 +1,9 @@
 return {
   {
     -- using my fork with extras
-    dir = '~/Documents/Personal/projects/sidekick.nvim',
+    -- dir = '~/Documents/Personal/projects/sidekick.nvim',
     -- "folke/sidekick.nvim",
+    "fenetikm/sidekick.nvim",
     event = "VeryLazy",
     opts = {
       nes = {
