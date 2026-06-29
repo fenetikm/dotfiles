@@ -1,8 +1,8 @@
 #!/usr/bin/env zsh
 
-sbx_launch() {
+sbx_start() {
   local NAME="${1:-${PWD##*/}}"
   NAME="${NAME// /-}"
   local AGENT_TYPE="${2:-claude}"
-  "$HOME/.config/sbx/launch.sh" "$NAME" "$AGENT_TYPE"
+  "$HOME/.config/sbx/start.sh" "$NAME" "$AGENT_TYPE"
 }

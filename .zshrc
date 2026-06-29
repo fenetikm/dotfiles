@@ -247,7 +247,7 @@ alias ytaudio='yt-dlp --extract-audio -4 --sleep-requests 2 --sleep-interval 2 -
 alias ac='claude'
 alias acr='claude --resume'
 alias ao='opencode'
-alias acs='sbx_launch $(basename "$PWD") claude'
+alias acs='sbx_start $(basename "$PWD") claude'
 
 # see ~/.config/zsh/claude-glow.sh
 # alias ag="$HOME/.config/zsh/claude-glow.sh"
