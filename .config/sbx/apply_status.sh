@@ -13,6 +13,4 @@ IFS= read -r msg
 msg=${msg%$'\r'}
 msg=${msg//#/}
 
-tmux display-message "$msg"
-
-# "$HOME/.config/tmux/window_status.sh" "'"$msg"'"
+"$HOME/.config/tmux/window_status.sh" "$msg"

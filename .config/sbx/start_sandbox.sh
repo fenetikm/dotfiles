@@ -1,22 +1,31 @@
 #!/usr/bin/env zsh
-#
-# launch.sh - Create and run an sbx sandbox for the current project.
-#
-# Usage:
-#   launch.sh <sandbox-name> [agent-type]
-#
-# Args:
-#   - [agent-type]: optional, defaults to "claude"
-#
-# What it does:
-# 1. Picks a free TCP port starting at 9999 for the status listener.
-# 2. Seeds ./.sbx from $HOME/.config/sbx/templates if it's missing.
-# 3. Creates a sandbox named <sandbox-name> using .sbx/$AGENT_TYPE/spec.yaml
-# 4. Exports the tmux window id and chosen port into the sandbox.
-# 5. Allows sandbox network access to localhost:<port>.
-# 6. Starts the status listener and runs the sandbox, cleaning up on exit.
-#
-# Requires: tmux, sbx, jq, lsof.
+
+usage() {
+  cat <<'EOF'
+start_sandbox.sh - Create and run an sbx sandbox for the current project.
+
+Usage:
+  launch.sh <sandbox-name> [agent-type]
+
+Args:
+  - [agent-type]: optional, defaults to "claude"
+
+What it does:
+1. Picks a free TCP port starting at 9999 for the status listener.
+2. Seeds ./.sbx from $HOME/.config/sbx/templates if it's missing.
+3. Creates a sandbox named <sandbox-name> using .sbx/$AGENT_TYPE/spec.yaml
+4. Exports the tmux window id and chosen port into the sandbox.
+5. Allows sandbox network access to localhost:<port>.
+6. Starts the status listener and runs the sandbox, cleaning up on exit.
+
+Requires: tmux, sbx, jq, lsof.
+EOF
+}
+
+if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+  usage
+  exit 0
+fi
 
 GREEN=$'\033[32m'
 RESET=$'\033[0m'
@@ -40,6 +49,20 @@ find_free_port() {
 }
 
 PORT=$(find_free_port)
+
+check_sbx_auth() {
+  local diag auth
+  diag=$(sbx diagnose -o json 2>/dev/null)
+  auth=$(echo "$diag" | jq -r '.checks[] | select(.name == "Authentication") | .status')
+
+  if [[ "$auth" == "pass" ]]; then
+    return 0
+  fi
+
+  echo "Not logged into sbx, run 'sbx login' first."
+  echo "$diag" | jq -r '.checks[] | select(.status != "pass") | "  ✗ \(.name): \(.message)\(if .hint != "" then " → \(.hint)" else "" end)"'
+  exit 1
+}
 
 ensure_kit() {
   if [[ ! -d "$HOME/.config/sbx/templates/$AGENT_TYPE" ]]; then
@@ -76,6 +99,8 @@ cleanup() {
   echo "${GREEN}Done.${RESET}"
 }
 
+check_sbx_auth
+
 if check_exists "$SANDBOX_NAME"; then
   echo "${GREEN}Sandbox '$SANDBOX_NAME' exists, remove it first with `sbx rm <name>`${RESET}"
   exit 1
@@ -100,5 +125,5 @@ echo "${GREEN}Starting listener on $PORT.${RESET}"
 LISTENER_PID=$!
 trap cleanup EXIT INT TERM
 
-echo "${GREEN}Starting listener on $PORT.${RESET}"
+echo "${GREEN}Running sandbox...${RESET}"
 sbx run --name "$SANDBOX_NAME"
