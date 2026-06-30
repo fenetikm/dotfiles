@@ -27,6 +27,11 @@ if [[ "$1" == "--help" || "$1" == "-h" ]]; then
   exit 0
 fi
 
+if [[ "$1" == "" ]]; then
+  echo "Argument <sandbox-name> is required."
+  exit 1
+fi
+
 GREEN=$'\033[32m'
 RESET=$'\033[0m'
 
@@ -36,32 +41,54 @@ AGENT_TYPE="${2:-claude}"
 SANDBOX_NAME="sbx-$AGENT_TYPE-$1"
 
 find_free_port() {
-  local p=$BASE_PORT
-  local MAX=$(( p + 20 ))
-  while lsof -iTCP:"$p" -sTCP:LISTEN -nP >/dev/null 2>&1; do
-    if [[ "$p" == "$MAX" ]]; then
+  local P=$BASE_PORT
+  local MAX=$(( P + 20 ))
+  while lsof -iTCP:"$P" -sTCP:LISTEN -nP >/dev/null 2>&1; do
+    if [[ "$P" == "$MAX" ]]; then
       echo "${GREEN}Couldn't find a free port.${RESET}"
       exit 1
     fi
-    (( p++ ))
+    (( P++ ))
   done
-  echo "$p"
+  echo "$P"
 }
 
 PORT=$(find_free_port)
 
-check_sbx_auth() {
-  local diag auth
-  diag=$(sbx diagnose -o json 2>/dev/null)
-  auth=$(echo "$diag" | jq -r '.checks[] | select(.name == "Authentication") | .status')
+check_connection() {
+  # start daemon if required
+  DAEMON_STATUS=$(sbx daemon status 2>/dev/null)
+  if [[ "$DAEMON_STATUS" == *"stopped"* ]]; then
+    echo "Starting sbx daemon..."
+    if ! sbx daemon start -d; then
+      echo "Failed to start sbx daemon."
+      exit 1
+    fi
 
-  if [[ "$auth" == "pass" ]]; then
+    # Wait for the daemon to become reachable.
+    local diag_daemon() {
+      sbx diagnose -o json 2>/dev/null | jq -r '.checks[] | select(.name == "Daemon") | .status'
+    }
+
+    local TRIES=0
+    while [[ "$(diag_daemon)" != "pass" ]]; do
+      if (( TRIES++ >= 10 )); then
+        echo "sbx daemon did not become ready in time."
+        exit 1
+      fi
+      sleep 0.5
+    done
+  fi
+  local DIAG AUTH
+  DIAG=$(sbx diagnose -o json 2>/dev/null)
+  AUTH=$(echo "$DIAG" | jq -r '.checks[] | select(.name == "Authentication") | .status')
+
+  if [[ "$AUTH" == "pass" ]]; then
     return 0
   fi
 
-  echo "Not logged into sbx, run 'sbx login' first."
-  echo "$diag" | jq -r '.checks[] | select(.status != "pass") | "  ✗ \(.name): \(.message)\(if .hint != "" then " → \(.hint)" else "" end)"'
-  exit 1
+  echo "Not logged into sbx, logging in..."
+  sbx login
 }
 
 ensure_kit() {
@@ -99,7 +126,7 @@ cleanup() {
   echo "${GREEN}Done.${RESET}"
 }
 
-check_sbx_auth
+check_connection
 
 if check_exists "$SANDBOX_NAME"; then
   echo "${GREEN}Sandbox '$SANDBOX_NAME' exists, remove it first with `sbx rm <name>`${RESET}"
