@@ -7,8 +7,18 @@
 PERC=85
 MIN_WIDTH=140
 MIN_HEIGHT=50
-CURRENT_WIDTH=$(tmux display -p "#{client_width}")
-CURRENT_HEIGHT=$(tmux display -p "#{client_height}")
+# Get full window metrics from kitty, most reliable
+read -r CURRENT_WIDTH CURRENT_HEIGHT < <(
+  kitten @ ls 2>/dev/null | jq -r '
+    .[] | select(.is_focused) | .tabs[] | select(.is_focused)
+    | .windows[] | select(.is_focused) | "\(.columns) \(.lines)"
+  '
+)
+# Tmux fallback
+if [[ -z "$CURRENT_WIDTH" || -z "$CURRENT_HEIGHT" ]]; then
+  CURRENT_WIDTH=$(tmux display -p "#{client_width}")
+  CURRENT_HEIGHT=$(tmux display -p "#{client_height}")
+fi
 MARGIN=6
 WIDTH=$(( CURRENT_WIDTH * PERC / 100 ))
 if (( WIDTH < MIN_WIDTH )); then
@@ -34,11 +44,9 @@ if [[ "$1" == "persist" ]]; then
   if [[ "$(tmux display-message -p -F "#{session_name}")" = "$SESSION" ]]; then
     tmux detach-client
   elif [[ "$(tmux display-message -p -F "#{session_name}")" = *_popup_* ]]; then
+    # popup currently displaying, deatch and reshow
     tmux detach-client
-    # is this still needed?! eh, this still doesn't work
-    sleep 0.3
-    # note: in this context, CURRENT_WIDTH/HEIGHT will be of the popup that we are replacing
-    tmux display-popup -d '#{pane_current_path}' -b rounded -w "$CURRENT_WIDTH" -h "$CURRENT_HEIGHT" -s "bg=#020223" -E "tmux attach -t $SESSION || tmux new -s $SESSION $INIT_CMD"
+    tmux display-popup -d '#{pane_current_path}' -b rounded -w "$WIDTH" -h "$HEIGHT" -s "bg=#020223" -E "tmux attach -t $SESSION || tmux new -s $SESSION $INIT_CMD"
   else
     # see above re options given to popup
     tmux display-popup -d '#{pane_current_path}' -b rounded -w "$WIDTH" -h "$HEIGHT" -s "bg=#020223" -E "tmux attach -t $SESSION || tmux new -s $SESSION $INIT_CMD"
