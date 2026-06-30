@@ -3,10 +3,12 @@
 # usage:
 # - popup.sh <name|script> <arg1> <arg2>
 
-# "smart" sizing
+# Percentage of the screen to take up
 PERC=85
+# ... but then take up more than that if less than these minimum values
 MIN_WIDTH=140
 MIN_HEIGHT=50
+
 # Get full window metrics from kitty, most reliable
 read -r CURRENT_WIDTH CURRENT_HEIGHT < <(
   kitten @ ls 2>/dev/null | jq -r '
@@ -19,6 +21,8 @@ if [[ -z "$CURRENT_WIDTH" || -z "$CURRENT_HEIGHT" ]]; then
   CURRENT_WIDTH=$(tmux display -p "#{client_width}")
   CURRENT_HEIGHT=$(tmux display -p "#{client_height}")
 fi
+
+# Always have at least this margin
 MARGIN=6
 WIDTH=$(( CURRENT_WIDTH * PERC / 100 ))
 if (( WIDTH < MIN_WIDTH )); then
