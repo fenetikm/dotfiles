@@ -22,18 +22,19 @@ Requires: tmux, sbx, jq, lsof.
 EOF
 }
 
+GREEN=$'\033[32m'
+RED=$'\033[31m'
+RESET=$'\033[0m'
+
 if [[ "$1" == "--help" || "$1" == "-h" ]]; then
   usage
   exit 0
 fi
 
 if [[ "$1" == "" ]]; then
-  echo "Argument <sandbox-name> is required."
+  echo "${RED}Argument <sandbox-name> is required.${RESET}"
   exit 1
 fi
-
-GREEN=$'\033[32m'
-RESET=$'\033[0m'
 
 WINDOW_ID=$(tmux display-message -p '#{window_id}')
 BASE_PORT=9999
@@ -45,7 +46,7 @@ find_free_port() {
   local MAX=$(( P + 20 ))
   while lsof -iTCP:"$P" -sTCP:LISTEN -nP >/dev/null 2>&1; do
     if [[ "$P" == "$MAX" ]]; then
-      echo "${GREEN}Couldn't find a free port.${RESET}"
+      echo "${RED}Couldn't find a free port.${RESET}"
       exit 1
     fi
     (( P++ ))
@@ -61,7 +62,7 @@ check_connection() {
   if [[ "$DAEMON_STATUS" == *"stopped"* ]]; then
     echo "Starting sbx daemon..."
     if ! sbx daemon start -d; then
-      echo "Failed to start sbx daemon."
+      echo "${RED}Failed to start sbx daemon.${RESET}"
       exit 1
     fi
 
@@ -73,7 +74,7 @@ check_connection() {
     local TRIES=0
     while [[ "$(diag_daemon)" != "pass" ]]; do
       if (( TRIES++ >= 10 )); then
-        echo "sbx daemon did not become ready in time."
+        echo "${RED}The sbx daemon did not become ready in time.${RESET}"
         exit 1
       fi
       sleep 0.5
@@ -93,7 +94,7 @@ check_connection() {
 
 ensure_kit() {
   if [[ ! -d "$HOME/.config/sbx/templates/$AGENT_TYPE" ]]; then
-    echo "${GREEN}Agent type not supported.${RESET}"
+    echo "${RED}Agent type not supported.${RESET}"
     exit 1
   fi
 
@@ -129,7 +130,7 @@ cleanup() {
 check_connection
 
 if check_exists "$SANDBOX_NAME"; then
-  echo "${GREEN}Sandbox '$SANDBOX_NAME' exists, remove it first with `sbx rm <name>`${RESET}"
+  echo "${RED}Sandbox '$SANDBOX_NAME' exists, remove it first with `sbx rm <name>`${RESET}"
   exit 1
 fi
 
