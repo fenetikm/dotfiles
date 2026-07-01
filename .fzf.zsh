@@ -13,6 +13,14 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
   --color=prompt:#a1a1a9,spinner:#5521d9,pointer:#847161,header:#dfdfe5
   --color=border:#262626,label:#aeaeae,query:#787882'
 
+# notes on what is what:
+# - fg: Text
+# - bg: Background
+# - fg+: Current line
+# - bg+: Background of the current line
+# - hl: Highlighted substring
+# - hl+: highlighted substring, current line
+
 # Auto-completion
 # ---------------
 if [[ -f /usr/local/opt/fzf/shell/completion.zsh ]]; then
