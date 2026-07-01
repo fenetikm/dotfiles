@@ -18,6 +18,7 @@ vim.o.showmode = false      --hide showing which mode we are in, the status bar 
 
 vim.o.splitbelow = true     --horizontal split shows up below
 vim.o.previewheight = 10    --preview window height
+vim.o.winborder = 'rounded' --default floating window border style
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","

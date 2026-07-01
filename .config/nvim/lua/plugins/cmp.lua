@@ -66,6 +66,11 @@ return {
         completion = {
           keyword_length = 2
         },
+        window = {
+          completion = {
+            border = ''
+          },
+        },
 
         snippet = {
           expand = function(args)
