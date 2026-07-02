@@ -14,6 +14,11 @@ return {
         desc = 'Find files (fzf-lua)',
       },
       {
+        '<c-s-o>',
+        function() require('fzf-lua').files({ cwd = vim.fn.expand('~z') }) end,
+        desc = 'Find files (fzf-lua)',
+      },
+      {
         '<leader>fm',
         function() require('fzf-lua').keymaps() end,
         desc = 'Search keymaps (fzf-lua)',
@@ -92,9 +97,29 @@ return {
         prompt = "=> ",
         file_icons = false,
       },
+      winopts = {
+        height      = 0.7,
+        width       = 0.85,
+        row         = 0.85,
+        col         = 0.5,
+        title_flags = false,
+        treesitter  = {
+          enabled = true,
+          -- treesitter can knock out the fzf_colors below, so need these here
+          -- without this, will get "reverse" style on matches
+          fzf_colors = {
+            ["hl"] = { "fg", "Normal" },
+            ["hl+"] = { "fg", "TelescopeMatching" },
+          },
+        },
+      },
       fzf_opts = {
         ["--layout"] = "default",
       },
+      -- note: the way to set highlights:
+      -- - try via `hls` override, if fail then
+      -- - try via `fzf_colors`
+      -- - check if it needs to be added to the treesitter settings above
       hls = {
         border = "TelescopeBorder",
         title = "TelescopeTitle",
@@ -102,18 +127,20 @@ return {
         preview_border = "TelescopeBorder",
         preview_title = "TelescopeTitle",
         preview_normal = "TelescopeNormal",
-        match = "TelescopeMatch",
       },
       fzf_colors = {
         ["bg+"] = { "bg", "CursorLine" },
+        ["pointer"] = { "fg", "FzfLuaPointer" },
+        ["prompt"] = { "fg", "FzfLuaPrompt" },
+        ["hl"] = { "fg", "Normal" },
+        ["hl+"] = { "fg", "TelescopeMatching" },
       },
       files = {
         cwd_prompt = false,
       },
       grep = {
-        -- todo: colors still need tweaking
         rg_opts      =
-        "--colors=match:fg:15 --colors=line:fg:244 --colors=path:fg:244 --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e",
+        "--colors=match:fg:15 --colors=line:fg:120,120,130 --colors=column:fg:120,120,130 --colors=path:fg:120,120,130 --column --line-number --no-heading --color=always --smart-case --max-columns=4096 -e",
         input_prompt = 'Search ❯ ',
       },
     },
