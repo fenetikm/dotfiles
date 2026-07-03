@@ -284,6 +284,8 @@ export PATH="$GOPATH/bin:$PATH"
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 export PATH=/Applications/kitty.app/Contents/MacOS:$PATH
 export PATH="$HOME/tmp/google-cloud-sdk/bin":$PATH
+# for cursor agent
+export PATH="$HOME/.local/bin":$PATH
 
 # eza colours
 source $HOME/Documents/Work/internal/vim/colors/falcon/exa/EXA_COLORS_MODERN
