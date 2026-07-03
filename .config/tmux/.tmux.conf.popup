@@ -1,4 +1,5 @@
 #!/usr/bin/env zsh
+
 SESSIONS=$(tmux list-sessions -F '#{session_name}')
 SESH_LINES=(${(f)SESSIONS})
 for SESH in "${SESH_LINES[@]}"; do
