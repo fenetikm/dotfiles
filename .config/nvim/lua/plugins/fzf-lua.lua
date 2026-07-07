@@ -32,6 +32,11 @@ return {
         desc = 'Search keymaps (fzf-lua)',
       },
       {
+        '<leader>fb',
+        function() require('fzf-lua').buffers({ previewer = vim.o.columns > preview_cutoff and 'builtin' or false }) end,
+        desc = 'Search buffers (fzf-lua)',
+      },
+      {
         '<leader>fc',
         function() require('fzf-lua').commands({ previewer = vim.o.columns > preview_cutoff and 'builtin' or false }) end,
         desc = 'Search commands (fzf-lua)',
@@ -116,9 +121,6 @@ return {
       },
     },
     opts = {
-      -- todo: see telescope config, can we make it not so big?
-      -- - no preview when not much room / cutoff
-      -- ... remove telescope config completely
       defaults = {
         prompt = "❯ ",
         file_icons = false,
@@ -133,10 +135,11 @@ return {
         preview     = {
           layout = "horizontal",
         },
+        -- todo: can we _not_ use treesitter? it's slower than the alternative
         treesitter  = {
           enabled = true,
-          -- treesitter can knock out the fzf_colors below, so need these here
-          -- without this, will get "reverse" style on matches
+          -- treesitter can knock out the fzf_colors further below, so need these here
+          -- without this, will get "reverse" style on matches, yuck
           fzf_colors = {
             ["hl"] = { "fg", "TelescopeMatching" },
             ["hl+"] = { "fg", "TelescopeMatching" },
@@ -147,9 +150,9 @@ return {
         ["--layout"] = "default",
       },
       -- note: the way to set highlights:
-      -- - try via `hls` override, if fail then
+      -- - try via `hls` override, if no change then
       -- - try via `fzf_colors`
-      -- - check if it needs to be added to the treesitter settings above
+      -- - also check if it needs to be added to the treesitter settings above
       hls = {
         border = "TelescopeBorder",
         title = "TelescopeTitle",
