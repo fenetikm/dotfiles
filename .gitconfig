@@ -79,6 +79,10 @@
   # Divergence (commits we added and commits remote added)
   div = divergence
 
+  wl = worktree list
+  wr = worktree remove
+  wa = worktree add
+
   # Goodness (summary of diff lines added/removed/total)
   gn = goodness
   gnc = goodness --cached
