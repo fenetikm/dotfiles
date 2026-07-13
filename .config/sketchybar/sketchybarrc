@@ -163,10 +163,18 @@ sketchybar \
     background.border_color=$BG1_BORDER_COLOUR \
     background.border_width=$BG_BORDER_WIDTH
 
+# ... I don't think knowing the app or whatever is that useful?
+# janky borders seems better re focus
+# sketchybar \
+#   --add item front_app left \
+#   --set front_app script="$PLUGIN_DIR/front_app.sh" \
+#   --subscribe front_app front_app_switched
+
 sketchybar \
-  --add item front_app left \
-  --set front_app script="$PLUGIN_DIR/front_app.sh" \
-  --subscribe front_app front_app_switched
+  --add item music left \
+  --set music update_freq=20 script="$PLUGIN_DIR/music.sh"
+  # --set front_app script="$PLUGIN_DIR/front_app.sh" \
+  # --subscribe front_app front_app_switched
 
 # right items
 sketchybar \
@@ -201,9 +209,7 @@ sketchybar \
    --add item focus right \
    --set focus update_freq=30 script="$PLUGIN_DIR/focus.sh" \
    --add item pomo right \
-   --set pomo update_freq=30 script="$PLUGIN_DIR/pomo.sh" \
-   --add item music right \
-   --set music update_freq=20 script="$PLUGIN_DIR/music.sh"
+   --set pomo update_freq=30 script="$PLUGIN_DIR/pomo.sh" 
 
    # this seems too heavy for now
    # --add item cpu right \
