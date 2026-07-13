@@ -155,12 +155,17 @@ G.reloadWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", relo
 s('Hammerspoon reloaded')
 
 hk['l'] = hs.hotkey.bind(hyper_mapping, 'l', function()
-  hs.task.new('/usr/bin/pmset', nil, {'sleepnow'}):start()
+  hs.task.new('/usr/bin/pmset', nil, { 'sleepnow' }):start()
 end)
 
 hk['='] = hs.hotkey.bind(hyper_mapping, '=', function()
   hs.reload()
-  s('Hammerspoon config reloaded')
+  s('Hammerspoon reloaded')
+end)
+
+hk['b'] = hs.hotkey.bind(hyper_mapping, 'b', function()
+  -- note: tried this using task.new, had issues, probs env?
+  hs.execute(G.bin_path .. '/brew services restart sketchybar', true)
 end)
 
 -- shift current tab to separate window
