@@ -9,6 +9,4 @@ if [[ "$SENDER" = "volume_change" ]]; then
   echo "VOL_TIME=$TIMESTAMP" > "$VOL_LOC"
 
   sketchybar --set "$NAME" label="V:$VOLUME" icon.drawing=off padding_right=4
-
-  # "$HOME/.config/sketchybar/plugins/volume_clear.sh &"
 fi

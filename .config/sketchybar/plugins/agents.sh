@@ -35,7 +35,7 @@ item_args() {
   fi
 
   local LABEL="${PREFIX}:${PCT}%"
-  local COLOUR="$DEFAULT_COLOUR"
+  local COLOUR="$PASSIVE_COLOUR"
   (( PCT >= 60 )) && COLOUR="$WARNING_COLOUR"
 
   # when % greater than 80, show the time to reset
@@ -43,7 +43,7 @@ item_args() {
     COLOUR="$ISSUE_COLOUR"
     LABEL="${PREFIX}:${RESET}"
   fi
-  echo "--set $ITEM label=$LABEL label.color=$COLOUR icon.drawing=off drawing=on"
+  echo "--set ${ITEM} label=${LABEL} label.color=${COLOUR} icon.drawing=off drawing=on"
 }
 
 sketchybar $(item_args agent_claude C "$CLAUDE" "$CLAUDE_RESET") \

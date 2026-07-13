@@ -21,7 +21,7 @@ if (( "$DIFF" <= "$THRESHOLD" )); then
   sketchybar --set "$NAME" drawing=off
 fi
 
-COLOUR=$DEFAULT_COLOUR
+COLOUR=$PASSIVE_COLOUR
 if (( "$DIFF" > "$THRESHOLD" )); then
   COLOUR=$WARNING_COLOUR
 fi
