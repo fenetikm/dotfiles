@@ -194,9 +194,10 @@ sketchybar \
    --add item timemachine right \
    --set timemachine update_freq=86400 script="$PLUGIN_DIR/timemachine.sh" \
    --subscribe timemachine system_woke \
-   --add item toggl right \
-   --set toggl update_freq=180 script="$PLUGIN_DIR/toggl.sh" \
-   --subscribe toggl system_woke \
+   --add item agent_cursor right \
+   --add item agent_codex right \
+   --add item agent_claude right \
+   --set agent_claude update_freq=120 script="$PLUGIN_DIR/agents.sh" \
    --add item focus right \
    --set focus update_freq=30 script="$PLUGIN_DIR/focus.sh" \
    --add item pomo right \
