@@ -182,9 +182,6 @@ sketchybar \
    --set dnd update_freq=35 script="$PLUGIN_DIR/dnd.sh" \
    --add item date_time right \
    --set date_time update_freq=10 script="$PLUGIN_DIR/date_time.sh" \
-   --add item weather right \
-   --set weather update_freq=7200 script="$PLUGIN_DIR/weather.sh" \
-   --subscribe weather system_woke \
    --add item messages right \
    --set messages update_freq=121 script="$PLUGIN_DIR/messages.sh" \
    --subscribe messages system_woke front_app_switched \

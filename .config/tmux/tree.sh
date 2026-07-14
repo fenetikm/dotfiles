@@ -1,7 +1,8 @@
 #!/usr/bin/env zsh
 
 # todo:
-# - MAX_WIN is not calculated, just hardcoded
+# - MAX_WIN is not calculated, just hardcoded, use the kitty thang
+# - use window id instead of index, spaces aren't handled
 
 # maximum window title length
 MAX_WIN=16

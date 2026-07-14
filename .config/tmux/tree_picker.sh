@@ -2,6 +2,7 @@
 
 "$HOME/.config/tmux/tree_rebuild.sh"
 
+# todo: use the kitty metrics, this doesn't work correctly
 CLIENT_WIDTH=$(tmux display-message -p '#{client_width}')
 
 if (( "$CLIENT_WIDTH" < 160 )); then
