@@ -16,6 +16,7 @@ read -r CURRENT_WIDTH CURRENT_HEIGHT < <(
     | .windows[] | select(.is_focused) | "\(.columns) \(.lines)"
   '
 )
+
 # Tmux fallback
 if [[ -z "$CURRENT_WIDTH" || -z "$CURRENT_HEIGHT" ]]; then
   CURRENT_WIDTH=$(tmux display -p "#{client_width}")

@@ -171,10 +171,29 @@ sketchybar \
 #   --subscribe front_app front_app_switched
 
 sketchybar \
+  --add item agent_icon left \
+  --set agent_icon icon=󰚩  label.drawing=off \
+   icon.font="$ICON_FONT:$ICON_FONT_WEIGHT:14.0" icon.padding_left=2 icon.padding_right=0 \
+  --add item agent_claude left \
+  --set agent_claude update_freq=120 script="$PLUGIN_DIR/agents.sh claude" \
+  --add item agent_openai left \
+  --set agent_openai update_freq=121 script="$PLUGIN_DIR/agents.sh codex" \
+  --add item agent_cursor left \
+  --set agent_cursor update_freq=122 script="$PLUGIN_DIR/agents.sh cursor"
+
+sketchybar \
+  --add bracket agents '/agent_.*/' \
+  --set agents background.color=$BG1_COLOUR \
+    background.corner_radius=$BG_RADIUS \
+    background.height=20 \
+    background.shadow.drawing=on \
+    background.shadow.distance=1 \
+    background.border_color=$BG1_BORDER_COLOUR \
+    background.border_width=$BG_BORDER_WIDTH
+
+sketchybar \
   --add item music left \
   --set music update_freq=20 script="$PLUGIN_DIR/music.sh"
-  # --set front_app script="$PLUGIN_DIR/front_app.sh" \
-  # --subscribe front_app front_app_switched
 
 # right items
 sketchybar \
@@ -199,10 +218,6 @@ sketchybar \
    --add item timemachine right \
    --set timemachine update_freq=86400 script="$PLUGIN_DIR/timemachine.sh" \
    --subscribe timemachine system_woke \
-   --add item agent_cursor right \
-   --add item agent_codex right \
-   --add item agent_claude right \
-   --set agent_claude update_freq=120 script="$PLUGIN_DIR/agents.sh" \
    --add item focus right \
    --set focus update_freq=30 script="$PLUGIN_DIR/focus.sh" \
    --add item pomo right \
