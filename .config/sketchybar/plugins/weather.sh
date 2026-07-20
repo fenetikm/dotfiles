@@ -41,5 +41,7 @@ TEMP=$(printf "%.0f\n" "$TEMP")
 #
 sketchybar \
   --set "$NAME" \
-  label="W:${TEMP}°" label.padding_left=0 \
-  icon.font="Hack Nerd Font:Bold:15.0" padding_left=0
+    label="W:${TEMP}°" \
+    label.padding_left=0 label.padding_right=0 \
+    icon.font="Hack Nerd Font:Bold:15.0" \
+    padding_left=6 padding_right=6
