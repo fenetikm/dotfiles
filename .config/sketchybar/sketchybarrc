@@ -110,10 +110,10 @@ else
     sid="$(($i+1))"
     space=(
       space="$sid"
+      label.drawing=on
       icon.drawing=off
       padding_left=3
       padding_right=3
-      label.drawing=on
       script="$PLUGIN_DIR/space_no_symbols.sh"
       click_script="yabai -m space --focus \$SID"
     )
@@ -144,7 +144,7 @@ sketchybar \
     script="$PLUGIN_DIR/front_space_2.sh" \
   --subscribe space.space_name_2 front_app_switched
 
-# adds the right padding
+# empty padding
 sketchybar \
   --add item space.spacer_right left \
   --set space.spacer_right background.drawing=off \
@@ -161,7 +161,7 @@ sketchybar \
     background.shadow.drawing=on \
     background.shadow.distance=1 \
     background.border_color=$BG1_BORDER_COLOUR \
-    background.border_width=$BG_BORDER_WIDTH
+    background.border_width=$BG_BORDER_WIDTH \
 
 # ... I don't think knowing the app or whatever is that useful?
 # janky borders seems better re focus
@@ -170,16 +170,27 @@ sketchybar \
 #   --set front_app script="$PLUGIN_DIR/front_app.sh" \
 #   --subscribe front_app front_app_switched
 
+# empty padding
+sketchybar \
+  --add item agentgap left \
+  --set agentgap background.drawing=off \
+    icon.drawing=off label.drawing=off \
+    padding_left=0 padding_right=0 \
+    width=6
+
 sketchybar \
   --add item agent_icon left \
-  --set agent_icon icon=󰚩  label.drawing=off \
-   icon.font="$ICON_FONT:$ICON_FONT_WEIGHT:14.0" icon.padding_left=2 icon.padding_right=0 \
+  --set agent_icon icon="A:" label.drawing=off \
+   icon.font="${FONT}:${FONT_WEIGHT}:${FONT_SIZE}" icon.color="${ICON_COLOUR}" \
+   icon.padding_left=2 icon.padding_right=0 icon.y_offset=0 \
   --add item agent_claude left \
   --set agent_claude update_freq=120 script="$PLUGIN_DIR/agents.sh claude" \
   --add item agent_openai left \
-  --set agent_openai update_freq=121 script="$PLUGIN_DIR/agents.sh codex" \
+  --set agent_openai update_freq=121 script="$PLUGIN_DIR/agents.sh codex 1" \
   --add item agent_cursor left \
-  --set agent_cursor update_freq=122 script="$PLUGIN_DIR/agents.sh cursor"
+  --set agent_cursor update_freq=122 script="$PLUGIN_DIR/agents.sh cursor 1" \
+    label.padding_right=8 \
+    padding_right=8
 
 sketchybar \
   --add bracket agents '/agent_.*/' \

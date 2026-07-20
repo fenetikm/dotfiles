@@ -11,6 +11,13 @@ if [[ "$1" == "" ]]; then
   return 0
 fi
 
+SHOW_DIV=$2
+if [[ "$2" == "" ]]; then
+  SHOW_DIV=off
+else
+  SHOW_DIV=on
+fi
+
 # requires `codexbar` installation
 if ! command -v codexbar >/dev/null 2>&1; then
   return 0
@@ -44,4 +51,9 @@ if (( AGENT_USAGE >= 80 )); then
   LABEL="$AGENT_RESET"
 fi
 
-sketchybar --set "$NAME" label="$LABEL" label.color="$COLOUR" icon.drawing=off drawing=on padding_left=0 padding_right=4
+sketchybar \
+  --set "$NAME" \
+  label="$LABEL" label.color="$COLOUR" \
+  icon="•" icon.color="$DIV_COLOUR" icon.y_offset=-1 icon.padding_left=0 \
+  icon.drawing="${SHOW_DIV}" \
+  drawing=on padding_left=0 padding_right=0

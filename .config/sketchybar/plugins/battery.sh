@@ -14,12 +14,12 @@ if [[ "$PERCENTAGE" == "100" ]]; then
   exit 0;
 fi
 
-LABEL="E:"
+ICON="E:"
 
 if [[ "$CHARGING" != "" ]]; then
-  LABEL="E:"
+  ICON="E:"
 fi
-LABEL="$LABEL$PERCENTAGE"
+LABEL="$PERCENTAGE"
 
 COLOUR=$PASSIVE_COLOUR
 if (( "$PERCENTAGE" < 40 )); then
@@ -29,6 +29,10 @@ if (( "$PERCENTAGE" < 15 )); then
   COLOUR=$ISSUE_COLOUR
 fi
 
-# todo: tweak the left gap on this...
-sketchybar --set "$NAME" label="${LABEL}" label.color="${COLOUR}" drawing=on \
-  icon.drawing=off padding_left=7
+sketchybar \
+  --set "$NAME" \
+  label="${LABEL}" label.color="${COLOUR}" drawing=on \
+  icon.drawing=on \
+  icon="${ICON}" \
+  icon.font="${FONT}:${FONT_WEIGHT}:${FONT_SIZE}" icon.color="${ICON_COLOUR}" \
+  padding_right=4

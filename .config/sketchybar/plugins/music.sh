@@ -44,18 +44,24 @@ EOF)
 
   SCROLL_DURATION=`echo $(( 400 + ($FULL_LEN - $MAX_LEN) * 15 ))`
 
-  ICON="󰺢 "
-  sketchybar --set "$NAME" icon="$ICON" label="${FULL}" \
+  ICON="M:"
+  sketchybar \
+    --set "$NAME" \
+    icon="$ICON" \
+    icon.padding_left=10 icon.padding_right=6 icon.color=$ICON_COLOUR \
+    icon.font="${FONT}:${FONT_WEIGHT}:${FONT_SIZE}" \
+    label="${FULL}" \
     label.padding_right=10 \
     drawing=on \
     label.max_chars=$MAX_LEN \
     scroll_texts="$DO_SCROLL" \
     label.scroll_duration="$SCROLL_DURATION" \
-    icon.padding_left=10 icon.color=$ICON_COLOUR \
     background.drawing=on background.color=$BG1_COLOUR \
     background.shadow.drawing=on background.shadow.distance=1 \
     background.border_color=$BG1_BORDER_COLOUR background.border_width=$BG_BORDER_WIDTH \
     background.corner_radius=$BG_RADIUS background.height=$BG_HEIGHT
 else
-  sketchybar --set "$NAME" drawing=off
+  sketchybar \
+    --set "$NAME" \
+    drawing=off
 fi

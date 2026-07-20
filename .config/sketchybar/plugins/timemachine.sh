@@ -31,4 +31,11 @@ fi
 
 DIFF="$DIFF"d
 
-sketchybar --set "$NAME" label="B:${DIFF}" label.color="${COLOUR}" icon.drawing=off padding_right=7
+sketchybar \
+  --set "$NAME" \
+    icon.drawing=on \
+    icon="B:" \
+    icon.font="${FONT}:${FONT_WEIGHT}:${FONT_SIZE}" icon.color="${ICON_COLOUR}" \
+    label="${DIFF}" \
+    label.color="${COLOUR}" \
+    padding_right=6

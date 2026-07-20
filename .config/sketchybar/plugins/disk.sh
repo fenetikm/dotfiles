@@ -8,7 +8,6 @@ THRESHOLD=100
 
 SPACE=$(df -h --si "/" | tail -n 1 | cut -w -f4)
 NUM=$(echo $SPACE | sed -E 's/G//')
-ICON=
 COLOUR=$PASSIVE_COLOUR
 if (( "$NUM" < 20 )); then
   COLOUR=$WARNING_COLOUR
@@ -21,7 +20,13 @@ if [[ "$NUM" =~ "M$" ]]; then
 fi
 
 if (( "$NUM" > "$THRESHOLD" )); then
-  sketchybar --set "$NAME" drawing=off
+  sketchybar \
+    --set "$NAME" \
+    drawing=off
 else
-  sketchybar --set "$NAME" icon="$ICON" label="D:${SPACE}" label.color="${COLOUR}" icon.drawing=off
+  sketchybar \
+    --set "$NAME" \
+    icon="D:" \
+    icon.font="${FONT}:${FONT_WEIGHT}:${FONT_SIZE}" icon.color="${ICON_COLOUR}" \
+    label="${SPACE}" label.color="${COLOUR}"
 fi
