@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 
 source "$HOME/.config/sketchybar/vars.sh"
 

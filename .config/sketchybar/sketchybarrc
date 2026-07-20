@@ -212,23 +212,21 @@ sketchybar \
    --set dnd update_freq=35 script="$PLUGIN_DIR/dnd.sh" \
    --add item date_time right \
    --set date_time update_freq=10 script="$PLUGIN_DIR/date_time.sh" \
-   --add item messages right \
-   --set messages update_freq=121 script="$PLUGIN_DIR/messages.sh" \
-   --subscribe messages system_woke front_app_switched \
-   --add item wifi right \
-   --set wifi update_freq=15 script="$PLUGIN_DIR/wifi.sh" \
-   --add item volume right \
-   --set volume script="$PLUGIN_DIR/volume.sh" \
-   --subscribe volume volume_change \
-   --add item battery right \
-   --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
-   --subscribe battery system_woke power_source_change \
-   --add item disk right \
-   --set disk update_freq=130 script="$PLUGIN_DIR/disk.sh" \
-   --subscribe disk system_woke \
-   --add item timemachine right \
-   --set timemachine update_freq=86400 script="$PLUGIN_DIR/timemachine.sh" \
-   --subscribe timemachine system_woke \
+   --add item internal_messages right \
+   --set internal_messages update_freq=121 script="$PLUGIN_DIR/messages.sh" \
+   --subscribe internal_messages system_woke front_app_switched \
+   --add item internal_volume right \
+   --set internal_volume script="$PLUGIN_DIR/volume.sh" \
+   --subscribe internal_volume volume_change \
+   --add item internal_battery right \
+   --set internal_battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
+   --subscribe internal_battery system_woke power_source_change \
+   --add item internal_disk right \
+   --set internal_disk update_freq=130 script="$PLUGIN_DIR/disk.sh" \
+   --subscribe internal_disk system_woke \
+   --add item internal_timemachine right \
+   --set internal_timemachine update_freq=86400 script="$PLUGIN_DIR/timemachine.sh" \
+   --subscribe internal_timemachine system_woke \
    --add item focus right \
    --set focus update_freq=30 script="$PLUGIN_DIR/focus.sh" \
    --add item pomo right \
@@ -237,6 +235,20 @@ sketchybar \
    # this seems too heavy for now
    # --add item cpu right \
    # --set cpu update_freq=10 script="$PLUGIN_DIR/cpu_load.sh" \
+   #
+   # not using this
+   # --add item wifi right \
+   # --set wifi update_freq=15 script="$PLUGIN_DIR/wifi.sh" \
+
+sketchybar \
+  --add bracket internal '/internal_.*/' \
+  --set internal background.color=$BG1_COLOUR \
+    background.corner_radius=$BG_RADIUS \
+    background.height=20 \
+    background.shadow.drawing=on \
+    background.shadow.distance=1 \
+    background.border_color=$BG1_BORDER_COLOUR \
+    background.border_width=$BG_BORDER_WIDTH
 
 # update all items
 sketchybar --update

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 
 # todo:
 # - fix the gap issue by having multiple then reset the scroll at just the right time?
@@ -10,7 +10,7 @@ DO_TRIM=off
 MAX_LEN=28
 TRIM_LEN=`echo $(( $MAX_LEN - 3 ))`
 
-MUSIC_TRACK=$(osascript <<EOF
+MUSIC_TRACK=$(osascript <<'EOF'
 on appIsRunning(appName)
     tell app "System Events" to (name of processes) contains appName
 end appIsRunning
@@ -22,10 +22,11 @@ if appIsRunning("Music") then
     end tell
   end try
 end if
-EOF)
+EOF
+)
 
 if [[ ! -z "$MUSIC_TRACK" ]]; then
-  MUSIC_ARTIST=$(osascript <<EOF
+  MUSIC_ARTIST=$(osascript <<'EOF'
   on appIsRunning(appName)
       tell app "System Events" to (name of processes) contains appName
   end appIsRunning
@@ -33,7 +34,8 @@ if [[ ! -z "$MUSIC_TRACK" ]]; then
   if appIsRunning("Music") then
     tell app "Music" to get the artist of the current track
   end if
-EOF)
+EOF
+)
 
   FULL="${MUSIC_TRACK} - ${MUSIC_ARTIST}"
   FULL_LEN=${#FULL}
