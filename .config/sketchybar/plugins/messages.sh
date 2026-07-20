@@ -6,14 +6,14 @@ source "$HOME/.config/sketchybar/vars.sh"
 MESSAGES=$(sqlite3 ~/Library/Messages/chat.db "SELECT COUNT(guid) FROM message WHERE NOT(is_read) AND NOT(is_from_me) AND text !=''")
 
 if (( "$MESSAGES" > 0 )); then
-  # sketchybar --set "$NAME" icon="${ICON}" label="${MESSAGES}" drawing=on icon.drawing=on
   sketchybar \
     --set "$NAME" \
-      label="${MESSAGES}" \
       drawing=on \
-      icon.drawing=on \
       icon="M:" \
-      icon.font="${FONT}:${FONT_WEIGHT}:${FONT_SIZE}" icon.color="${ICON_COLOUR}"
+      icon.drawing=on \
+      icon.font="${FONT}:${FONT_WEIGHT}:${FONT_SIZE}" icon.color="${ICON_COLOUR}" \
+      label="${MESSAGES}" \
+      padding_left=4 padding_right=4
 else
   sketchybar \
     --set "$NAME" \

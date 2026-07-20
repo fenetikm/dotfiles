@@ -16,16 +16,21 @@ if [ -f ~/.thyme-tmux ]; then
 fi
 
 ICON=" "
-
 if [[ -n "$TIMELEFT" ]]; then
-  sketchybar --set "$NAME" icon="$ICON" icon.color="${COLOUR}" label="${TIMELEFT}" label.color="${COLOUR}" drawing=on \
-    padding_right=0 \
-    label.padding_right=8 \
-    icon.padding_left=8 \
-    background.shadow.drawing=on background.shadow.distance=1 \
-    background.drawing=on background.color=$BG2_COLOUR \
-    background.border_color=$BG2_BORDER_COLOUR background.border_width=$BG_BORDER_WIDTH \
-    background.corner_radius=$BG_RADIUS background.height=$BG_HEIGHT
+  sketchybar \
+    --set "$NAME" \
+      drawing=on \
+      icon="$ICON" \
+      icon.color="${COLOUR}" icon.padding_left=8 \
+      label="${TIMELEFT}" \
+      label.color="${COLOUR}" label.padding_right=8 \
+      background.shadow.drawing=on background.shadow.distance=1 \
+      background.drawing=on background.color=$BG2_COLOUR \
+      background.border_color=$BG2_BORDER_COLOUR background.border_width=$BG_BORDER_WIDTH \
+      background.corner_radius=$BG_RADIUS background.height=$BG_HEIGHT \
+      padding_right=0
 else
-  sketchybar --set "$NAME" drawing=off
+  sketchybar \
+    --set "$NAME" \
+      drawing=off icon.drawing=off
 fi

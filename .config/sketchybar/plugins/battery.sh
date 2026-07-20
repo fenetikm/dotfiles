@@ -31,8 +31,10 @@ fi
 
 sketchybar \
   --set "$NAME" \
-  label="${LABEL}" label.color="${COLOUR}" drawing=on \
-  icon.drawing=on \
-  icon="${ICON}" \
-  icon.font="${FONT}:${FONT_WEIGHT}:${FONT_SIZE}" icon.color="${ICON_COLOUR}" \
-  padding_right=4
+    label="${LABEL}" label.color="${COLOUR}" drawing=on \
+    label.padding_right=0 \
+    icon.drawing=on \
+    icon="${ICON}" \
+    icon.padding_left=0 \
+    icon.font="${FONT}:${FONT_WEIGHT}:${FONT_SIZE}" icon.color="${ICON_COLOUR}" \
+    padding_right=6 padding_left=6

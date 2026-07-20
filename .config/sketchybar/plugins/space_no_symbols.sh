@@ -1,30 +1,13 @@
-#!/bin/sh
+#!/usr/bin/env zsh
 
 source "$HOME/.config/sketchybar/vars.sh"
 
-SPACE_ICON=
 if [[ "$SELECTED" == "true" ]]; then
-  case "$NAME" in
-    space.1) SPACE_ICON="󰋜 " ;;
-    space.2) SPACE_ICON="󰇮 " ;;
-    space.3) SPACE_ICON="󰭹 " ;;
-    space.4) SPACE_ICON="󰆼 " ;;
-    space.5) SPACE_ICON="󰧚 " ;;
-    space.6) SPACE_ICON="󰈈 " ;;
-  esac
+  sketchybar \
+    --set "$NAME" \
+      label.color="$SELECTED_COLOUR"
 else
-  case "$NAME" in
-    space.1) SPACE_ICON=" " ;;
-    space.2) SPACE_ICON=" " ;;
-    space.3) SPACE_ICON="󰻞 " ;;
-    space.4) SPACE_ICON="󱘲 " ;;
-    space.5) SPACE_ICON="󰧛 " ;;
-    space.6) SPACE_ICON="󰛐 " ;;
-  esac
-fi
-
-if [[ "$SELECTED" == "true" ]]; then
-  sketchybar --set "$NAME" label.color="$SELECTED_COLOUR"
-else
-  sketchybar --set "$NAME" label.color="$PASSIVE_COLOUR"
+  sketchybar \
+    --set "$NAME" \
+      label.color="$PASSIVE_COLOUR"
 fi

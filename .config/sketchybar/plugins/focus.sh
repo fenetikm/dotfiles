@@ -30,13 +30,13 @@ else
   fi
   TEXT="$TEXT $PROFILE_NAME"
 
-  sketchybar --set "$NAME" icon="$ICON" icon.color="${FG_COLOUR}" label="${TEXT}" label.color="${FG_COLOUR}" drawing=on \
-    padding_right=7 \
-    label.padding_right=8 \
-    icon.padding_left=8 \
-    background.shadow.drawing=on background.shadow.distance=1 \
-    background.drawing=on background.color=$BG_COLOUR \
-    background.corner_radius=$BG_RADIUS background.height=$BG_HEIGHT
+  sketchybar \
+    --set "$NAME" \
+      icon="$ICON" icon.color="${FG_COLOUR}" label="${TEXT}" label.color="${FG_COLOUR}" drawing=on \
+      padding_right=7 \
+      label.padding_right=8 \
+      icon.padding_left=8 \
+      background.shadow.drawing=on background.shadow.distance=1 \
+      background.drawing=on background.color=$BG_COLOUR \
+      background.corner_radius=$BG_RADIUS background.height=$BG_HEIGHT
 fi
-
-

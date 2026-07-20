@@ -15,7 +15,9 @@ fi
 # LASTBACKUP=`/usr/libexec/PlistBuddy -c "Print Destinations:0:SnapshotDates" /Library/Preferences/com.apple.TimeMachine.plist | tail -n 2 | head -n 1 | awk '{$1=$1};1'`
 
 if [[ "$LASTBACKUP" == "" ]]; then
-  sketchybar --set "$NAME" drawing=off
+  sketchybar \
+    --set "$NAME" \
+      drawing=off icon.drawing=off
 
   return
 fi
@@ -30,7 +32,9 @@ else
   DIFF=`echo $(( ($NOW - $LASTBACKUP)/ (60*60*24) ))`
 
   if (( "$DIFF" <= "$THRESHOLD" )); then
-    sketchybar --set "$NAME" drawing=off
+    sketchybar \
+      --set "$NAME" \
+        drawing=off icon.drawing=off
   fi
 
   COLOUR=$PASSIVE_COLOUR
@@ -44,12 +48,14 @@ else
   DIFF="$DIFF"d
 fi
 
-
 sketchybar \
   --set "$NAME" \
+    drawing=on \
     icon.drawing=on \
     icon="B:" \
     icon.font="${FONT}:${FONT_WEIGHT}:${FONT_SIZE}" icon.color="${ICON_COLOUR}" \
+    icon.padding_left=0 \
     label="${DIFF}" \
     label.color="${COLOUR}" \
-    padding_right=6
+    label.padding_right=6 \
+    padding_right=0 padding_left=2

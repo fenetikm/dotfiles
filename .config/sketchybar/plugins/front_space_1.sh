@@ -12,5 +12,8 @@ else
 fi
 
 sketchybar \
-  --set "$NAME" label="${SPACE}" label.color="$PASSIVE_COLOUR" \
-    icon.drawing=off padding_left=6 padding_right=1
+  --set "$NAME" \
+    icon.drawing=off \
+    label="${SPACE}" \
+    label.color="$PASSIVE_COLOUR" \
+    padding_left=0 padding_right=1

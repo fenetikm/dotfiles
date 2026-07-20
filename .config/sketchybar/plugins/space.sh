@@ -24,7 +24,11 @@ else
 fi
 
 if [[ "$SELECTED" == "true" ]]; then
-  sketchybar --set "$NAME" icon.color="$SELECTED_COLOUR" icon="$SPACE_ICON"
+  sketchybar \
+    --set "$NAME" \
+      icon.color="$SELECTED_COLOUR" icon="$SPACE_ICON"
 else
-  sketchybar --set "$NAME" icon.color="$ICON_COLOUR" icon="$SPACE_ICON"
+  sketchybar \
+    --set "$NAME" \
+    icon.color="$ICON_COLOUR" icon="$SPACE_ICON"
 fi

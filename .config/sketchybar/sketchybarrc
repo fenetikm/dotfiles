@@ -15,17 +15,43 @@ PLUGIN_DIR="$CONFIG_DIR/plugins"
 # someday:
 # - click on wifi brings up something
 
-# offset version
-# sketchybar --bar position=top height=32 margin=16 y_offset=16 \
-  # padding_left=10 padding_right=10 \
-  # blur_radius=16 color=0xdd020221 corner_radius=9 \
-  # font_smoothing=on shadow=on
-
 HW_MODEL=$(sysctl hw.model)
+# with background
+# if [[ "$HW_MODEL" =~ "Mac16,6" ]]; then
+# notch
+#   bar=(
+#     blur_radius=0
+#     color=0xff000000
+#     font_smoothing=on
+#     y_offset=0
+#     height=32
+#     margin=0
+#     padding_left=16
+#     padding_right=16
+#     position=top
+#   )
+# else
+# no notch
+#   bar=(
+#     blur_radius=16
+#     color=$BAR_COLOUR
+#     font_smoothing=on
+#     y_offset=-2
+#     height=30
+#     margin=0
+#     padding_left=16
+#     padding_right=16
+#     position=top
+#   )
+# fi
+# sketchybar --bar "${bar[@]}"
+
+# pills
 if [[ "$HW_MODEL" =~ "Mac16,6" ]]; then
+# notch
   bar=(
     blur_radius=0
-    color=0xff000000
+    color=$NO_BAR
     font_smoothing=on
     y_offset=0
     height=32
@@ -35,9 +61,10 @@ if [[ "$HW_MODEL" =~ "Mac16,6" ]]; then
     position=top
   )
 else
+# no notch
   bar=(
     blur_radius=16
-    color=$BAR_COLOUR
+    color=$NO_BAR
     font_smoothing=on
     y_offset=-2
     height=30
@@ -77,54 +104,29 @@ sketchybar \
     icon.drawing=off label.drawing=off \
     width=6
 
-SHOW_SYMBOLS=0
 SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
 
-if [[ "$SHOW_SYMBOLS" == "1" ]]; then
-  for i in "${!SPACE_ICONS[@]}"; do
-    sid="$(($i+1))"
-    space=(
-      space="$sid"
-      icon.font="${ICON_FONT}:${ICON_FONT_WEIGHT}:${ICON_SIZE}"
-      icon.padding_left=3
-      icon.padding_right=3
-      padding_left=5
-      padding_right=5
-      label.drawing=off
-      script="$PLUGIN_DIR/space.sh"
-      click_script="yabai -m space --focus \$SID"
-    )
-    SPACE_ICON="${SPACE_ICONS[i]}"
-    case "$SPACE_ICON" in
-      1) SPACE_ICON=" " ;;
-      2) SPACE_ICON=" " ;;
-      3) SPACE_ICON="󰻞 " ;;
-      4) SPACE_ICON="󱘲 " ;;
-      5) SPACE_ICON="󰧛 " ;;
-      6) SPACE_ICON="󰛐 " ;;
-    esac
-    sketchybar --add space space."$sid" left --set space."$sid" "${space[@]}" icon="$SPACE_ICON"
-  done
-else
-  for i in "${!SPACE_ICONS[@]}"; do
-    sid="$(($i+1))"
-    space=(
-      space="$sid"
-      label.drawing=on
-      icon.drawing=off
-      padding_left=3
-      padding_right=3
-      script="$PLUGIN_DIR/space_no_symbols.sh"
-      click_script="yabai -m space --focus \$SID"
-    )
-    sketchybar --add space space."$sid" left --set space."$sid" "${space[@]}" label="$sid"
-  done
-fi
+for i in "${!SPACE_ICONS[@]}"; do
+  sid="$(($i+1))"
+  space=(
+    space="$sid"
+    label.drawing=on
+    icon.drawing=off
+    padding_left=3
+    padding_right=3
+    script="$PLUGIN_DIR/space_no_symbols.sh"
+    click_script="yabai -m space --focus \$SID"
+  )
+  sketchybar --add space space."$sid" left \
+    --set space."$sid" "${space[@]}" label="$sid"
+done
 
 sketchybar \
   --add item space.space_divider left \
   --set space.space_divider background.drawing=off \
-    icon="•" icon.color="$DIV_COLOUR" label.drawing=off \
+    icon="•" icon.color="$DIV_COLOUR" \
+    icon.padding_left=0 icon.padding_right=0 \
+    label.drawing=off \
     padding_left=0 padding_right=0 y_offset=-1 \
     width=10
 
@@ -163,14 +165,7 @@ sketchybar \
     background.border_color=$BG1_BORDER_COLOUR \
     background.border_width=$BG_BORDER_WIDTH \
 
-# ... I don't think knowing the app or whatever is that useful?
-# janky borders seems better re focus
-# sketchybar \
-#   --add item front_app left \
-#   --set front_app script="$PLUGIN_DIR/front_app.sh" \
-#   --subscribe front_app front_app_switched
-
-# empty padding
+# gap
 sketchybar \
   --add item agentgap left \
   --set agentgap background.drawing=off \
@@ -181,8 +176,8 @@ sketchybar \
 sketchybar \
   --add item agent_icon left \
   --set agent_icon icon="A:" label.drawing=off \
-   icon.font="${FONT}:${FONT_WEIGHT}:${FONT_SIZE}" icon.color="${ICON_COLOUR}" \
-   icon.padding_left=2 icon.padding_right=0 icon.y_offset=0 \
+    icon.font="${FONT}:${FONT_WEIGHT}:${FONT_SIZE}" icon.color="${ICON_COLOUR}" \
+    icon.padding_left=2 icon.padding_right=0 icon.y_offset=0 \
   --add item agent_claude left \
   --set agent_claude update_freq=120 script="$PLUGIN_DIR/agents.sh claude" \
   --add item agent_openai left \
@@ -232,13 +227,21 @@ sketchybar \
    --add item pomo right \
    --set pomo update_freq=30 script="$PLUGIN_DIR/pomo.sh" 
 
-   # this seems too heavy for now
-   # --add item cpu right \
-   # --set cpu update_freq=10 script="$PLUGIN_DIR/cpu_load.sh" \
-   #
-   # not using this
-   # --add item wifi right \
-   # --set wifi update_freq=15 script="$PLUGIN_DIR/wifi.sh" \
+# gap between pills
+sketchybar \
+  --add item internal_gap right \
+  --set internal_gap background.drawing=off \
+    icon.drawing=off label.drawing=off \
+    padding_left=0 padding_right=0 \
+    width=6
+
+# this seems too heavy for now
+# --add item cpu right \
+# --set cpu update_freq=10 script="$PLUGIN_DIR/cpu_load.sh" \
+#
+# not using this
+# --add item wifi right \
+# --set wifi update_freq=15 script="$PLUGIN_DIR/wifi.sh" \
 
 sketchybar \
   --add bracket internal '/internal_.*/' \

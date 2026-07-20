@@ -49,21 +49,23 @@ EOF
   ICON="M:"
   sketchybar \
     --set "$NAME" \
-    icon="$ICON" \
-    icon.padding_left=10 icon.padding_right=6 icon.color=$ICON_COLOUR \
-    icon.font="${FONT}:${FONT_WEIGHT}:${FONT_SIZE}" \
-    label="${FULL}" \
-    label.padding_right=10 \
-    drawing=on \
-    label.max_chars=$MAX_LEN \
-    scroll_texts="$DO_SCROLL" \
-    label.scroll_duration="$SCROLL_DURATION" \
-    background.drawing=on background.color=$BG1_COLOUR \
-    background.shadow.drawing=on background.shadow.distance=1 \
-    background.border_color=$BG1_BORDER_COLOUR background.border_width=$BG_BORDER_WIDTH \
-    background.corner_radius=$BG_RADIUS background.height=$BG_HEIGHT
+      drawing=on \
+      icon="$ICON" \
+      icon.drawing=on \
+      icon.padding_left=8 icon.padding_right=6 icon.color=$ICON_COLOUR \
+      icon.font="${FONT}:${FONT_WEIGHT}:${FONT_SIZE}" \
+      label="${FULL}" \
+      label.padding_right=10 \
+      label.max_chars=$MAX_LEN \
+      label.scroll_duration="$SCROLL_DURATION" \
+      scroll_texts="$DO_SCROLL" \
+      background.drawing=on background.color=$BG1_COLOUR \
+      background.shadow.drawing=on background.shadow.distance=1 \
+      background.border_color=$BG1_BORDER_COLOUR background.border_width=$BG_BORDER_WIDTH \
+      background.corner_radius=$BG_RADIUS background.height=$BG_HEIGHT
 else
   sketchybar \
     --set "$NAME" \
-    drawing=off
+      drawing=off
+      icon.drawing=off
 fi

@@ -53,7 +53,8 @@ fi
 
 sketchybar \
   --set "$NAME" \
-  label="$LABEL" label.color="$COLOUR" \
-  icon="•" icon.color="$DIV_COLOUR" icon.y_offset=-1 icon.padding_left=0 \
-  icon.drawing="${SHOW_DIV}" \
-  drawing=on padding_left=0 padding_right=0
+    label="$LABEL" label.color="$COLOUR" \
+    icon="•" icon.color="$DIV_COLOUR" icon.y_offset=-1 \
+    icon.padding_left=1 icon.padding_right=3 \
+    icon.drawing="${SHOW_DIV}" \
+    drawing=on padding_left=0 padding_right=0
