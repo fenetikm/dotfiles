@@ -12,8 +12,10 @@ if (( "$MESSAGES" > 0 )); then
       icon="M:" \
       icon.drawing=on \
       icon.font="${FONT}:${FONT_WEIGHT}:${FONT_SIZE}" icon.color="${ICON_COLOUR}" \
+      icon.padding_left=0 \
       label="${MESSAGES}" \
-      padding_left=4 padding_right=4
+      label.padding_left=0 label.padding_right=0 \
+      padding_left=6 padding_right=6
 else
   sketchybar \
     --set "$NAME" \

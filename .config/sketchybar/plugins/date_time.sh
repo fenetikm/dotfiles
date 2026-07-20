@@ -11,7 +11,7 @@ DATETIME=`date '+%d %b. %l:%M%p' | sed -E 's/  / /g'`
 sketchybar \
   --set "$NAME" \
     label="${DATETIME}" \
-    label.padding_right=10 label.padding_left=10 \
+    label.padding_right=8 label.padding_left=8 \
     icon.drawing=off \
     background.drawing=on background.color=$BG1_COLOUR \
     background.shadow.drawing=on background.shadow.distance=1 \

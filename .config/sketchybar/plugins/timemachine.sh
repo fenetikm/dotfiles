@@ -57,5 +57,5 @@ sketchybar \
     icon.padding_left=0 \
     label="${DIFF}" \
     label.color="${COLOUR}" \
-    label.padding_right=6 \
-    padding_right=0 padding_left=2
+    label.padding_right=0 label.padding_left=0 \
+    padding_right=6 padding_left=6

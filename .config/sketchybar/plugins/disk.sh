@@ -30,6 +30,6 @@ else
       icon.padding_left=0 \
       icon.font="${FONT}:${FONT_WEIGHT}:${FONT_SIZE}" icon.color="${ICON_COLOUR}" \
       label="${SPACE}" label.color="${COLOUR}" \
-      label.padding_right=0 \
+      label.padding_right=0 label.padding_left=0 \
       padding_right=6 padding_left=6
 fi

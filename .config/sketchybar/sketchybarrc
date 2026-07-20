@@ -167,8 +167,8 @@ sketchybar \
 
 # gap
 sketchybar \
-  --add item agentgap left \
-  --set agentgap background.drawing=off \
+  --add item left_gap_1 left \
+  --set left_gap_1 background.drawing=off \
     icon.drawing=off label.drawing=off \
     padding_left=0 padding_right=0 \
     width=6
@@ -207,6 +207,11 @@ sketchybar \
    --set dnd update_freq=35 script="$PLUGIN_DIR/dnd.sh" \
    --add item date_time right \
    --set date_time update_freq=10 script="$PLUGIN_DIR/date_time.sh" \
+   --add item internal_gap_1 right \
+   --set internal_gap_1 background.drawing=off \
+     icon.drawing=off label.drawing=off \
+     padding_left=0 padding_right=0 \
+     width=2 \
    --add item internal_messages right \
    --set internal_messages update_freq=121 script="$PLUGIN_DIR/messages.sh" \
    --subscribe internal_messages system_woke front_app_switched \
@@ -222,15 +227,20 @@ sketchybar \
    --add item internal_timemachine right \
    --set internal_timemachine update_freq=86400 script="$PLUGIN_DIR/timemachine.sh" \
    --subscribe internal_timemachine system_woke \
+   --add item internal_gap_2 right \
+   --set internal_gap_2 background.drawing=off \
+     icon.drawing=off label.drawing=off \
+     padding_left=0 padding_right=0 \
+     width=2 \
    --add item focus right \
    --set focus update_freq=30 script="$PLUGIN_DIR/focus.sh" \
    --add item pomo right \
-   --set pomo update_freq=30 script="$PLUGIN_DIR/pomo.sh" 
+   --set pomo update_freq=30 script="$PLUGIN_DIR/pomo.sh"
 
 # gap between pills
 sketchybar \
-  --add item internal_gap right \
-  --set internal_gap background.drawing=off \
+  --add item right_gap_1 right \
+  --set right_gap_1 background.drawing=off \
     icon.drawing=off label.drawing=off \
     padding_left=0 padding_right=0 \
     width=6

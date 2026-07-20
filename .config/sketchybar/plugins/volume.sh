@@ -17,6 +17,6 @@ if [[ "$SENDER" = "volume_change" ]]; then
       icon.font="${FONT}:${FONT_WEIGHT}:${FONT_SIZE}" icon.color="${ICON_COLOUR}" \
       icon.padding_left=0 \
       label="${VOLUME}" \
-      label.padding_left=0 \
+      label.padding_left=0 label.padding_right=0 \
       padding_right=6 padding_left=6
 fi
