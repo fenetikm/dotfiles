@@ -49,7 +49,7 @@ if [[ "$1" == "persist" ]]; then
   if [[ "$(tmux display-message -p -F "#{session_name}")" = "$SESSION" ]]; then
     tmux detach-client
   elif [[ "$(tmux display-message -p -F "#{session_name}")" = *_popup_* ]]; then
-    # popup currently displaying, deatch and reshow
+    # popup currently displaying, detach and reshow
     tmux detach-client
     tmux display-popup -d '#{pane_current_path}' -b rounded -w "$WIDTH" -h "$HEIGHT" -s "bg=#020223" -E "tmux attach -t $SESSION || tmux new -s $SESSION $INIT_CMD"
   else
