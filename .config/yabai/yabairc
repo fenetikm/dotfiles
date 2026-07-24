@@ -39,7 +39,7 @@ sudo yabai --load-sa
 # defaults
 yabai                         -m           config \
     external_bar              all:32:0     \
-    top_padding               12           \
+    top_padding               20           \
     bottom_padding            20           \
     left_padding              20           \
     right_padding             20           \
@@ -83,10 +83,10 @@ setup_space() {
 }
 
 setup_space 1 home stack 1
-setup_space 2 mail bsp 1
+setup_space 2 mail stack 1
 setup_space 3 chat stack 1
-setup_space 4 db stack 1
-setup_space 5 dev bsp 2
+setup_space 4 data stack 1
+setup_space 5 term bsp 2
 setup_space 6 view float 2
 
 # remove space 7, sometimes shows up?

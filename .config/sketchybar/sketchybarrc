@@ -179,11 +179,17 @@ sketchybar \
     icon.font="${FONT}:${FONT_WEIGHT}:${FONT_SIZE}" icon.color="${ICON_COLOUR}" \
     icon.padding_left=2 icon.padding_right=0 icon.y_offset=0 \
   --add item agent_claude left \
-  --set agent_claude update_freq=120 script="$PLUGIN_DIR/agents.sh claude" \
+  --set agent_claude update_freq=120 \
+    script="$PLUGIN_DIR/agents.sh claude" \
+    click_script="open https://claude.ai/new#settings/usage" \
   --add item agent_openai left \
-  --set agent_openai update_freq=121 script="$PLUGIN_DIR/agents.sh codex 1" \
+  --set agent_openai update_freq=121 \
+    script="$PLUGIN_DIR/agents.sh codex 1" \
+    click_script="open https://chatgpt.com/codex/cloud/settings/analytics#usage" \
   --add item agent_cursor left \
-  --set agent_cursor update_freq=122 script="$PLUGIN_DIR/agents.sh cursor 1" \
+  --set agent_cursor update_freq=122 \
+    script="$PLUGIN_DIR/agents.sh cursor 1" \
+    click_script="open https://cursor.com/dashboard/usage" \
     label.padding_right=8 \
     padding_right=8
 
