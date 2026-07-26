@@ -2,10 +2,10 @@
 
 options=(
   style=rounded
-  width=2.0
+  width=3.0
   hidpi=on
   # active_color=0xa04f4f59
-  active_color="glow(0x604f4f59)"
+  active_color="glow(0x504f4f59)"
   inactive_color=0
 )
 
