@@ -42,19 +42,46 @@ if (( HEIGHT < MIN_HEIGHT )); then
   fi
 fi
 
+show_popup() {
+  tmux display-popup -d '#{pane_current_path}' -b rounded -w "$WIDTH" -h "$HEIGHT" -s "bg=#020223" -E "tmux attach -t $1 || tmux new -s $1 $2"
+}
+
+dismiss_popup() {
+  if [[ "$1" = *_popup_temp_ ]]; then
+    tmux detach-client -s "$1"
+    tmux kill-session -t "$1"
+  else
+    tmux detach-client
+  fi
+}
+
+CURRENT="$(tmux display-message -p -F "#{session_name}")"
+
 # "persist" for sessions that are created once, then attach/detach from
 if [[ "$1" == "persist" ]]; then
   SESSION="$2"_popup_
   INIT_CMD="$3"
-  if [[ "$(tmux display-message -p -F "#{session_name}")" = "$SESSION" ]]; then
+  if [[ "$CURRENT" = "$SESSION" ]]; then
     tmux detach-client
-  elif [[ "$(tmux display-message -p -F "#{session_name}")" = *_popup_* ]]; then
-    # popup currently displaying, detach and reshow
-    tmux detach-client
-    tmux display-popup -d '#{pane_current_path}' -b rounded -w "$WIDTH" -h "$HEIGHT" -s "bg=#020223" -E "tmux attach -t $SESSION || tmux new -s $SESSION $INIT_CMD"
+  elif [[ "$CURRENT" = *_popup_* ]]; then
+    # popup currently displaying, dismiss it and show ours
+    dismiss_popup "$CURRENT"
+    show_popup "$SESSION" "$INIT_CMD"
   else
-    # see above re options given to popup
-    tmux display-popup -d '#{pane_current_path}' -b rounded -w "$WIDTH" -h "$HEIGHT" -s "bg=#020223" -E "tmux attach -t $SESSION || tmux new -s $SESSION $INIT_CMD"
+    show_popup "$SESSION" "$INIT_CMD"
+  fi
+# "temp" for throwaway sessions
+elif [[ "$1" == "temp" ]]; then
+  SESSION="$2"_popup_temp_
+  INIT_CMD="$3"
+  if [[ "$CURRENT" = "$SESSION" ]]; then
+    tmux detach-client -s "$SESSION"
+    tmux kill-session -t "$SESSION"
+  elif [[ "$CURRENT" = *_popup_* ]]; then
+    dismiss_popup "$CURRENT"
+    show_popup "$SESSION" "$INIT_CMD"
+  else
+    show_popup "$SESSION" "$INIT_CMD"
   fi
 else
   tmux display-popup -d rounded -w "$WIDTH" -h "$HEIGHT" -T "$2" -s "bg=#020223" -E "$1 $3"
