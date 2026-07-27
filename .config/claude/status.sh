@@ -5,6 +5,7 @@ COLOUR_OK="\\033[32m"
 COLOUR_WARNING="\\033[33m"
 COLOUR_CRITICAL="\\033[31m"
 COLOUR_SEPARATOR="\\033[38;2;87;87;94m"
+COLOUR_EFFORT_MAX="\\033[1;38;2;189;147;249m"
 COLOUR_DIR="\\033[38;2;153;164;188m"
 COLOUR_GIT="\\033[38;2;112;112;130m"
 COLOUR_RESET="\\033[0m"
@@ -18,6 +19,7 @@ extract_data() {
     context_window_size=$(echo "$input" | jq -r '.context_window.context_window_size // empty')
     rate_5hr=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // empty')
     rate_7day=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty')
+    effort=$(echo "$input" | jq -r '.effort.level // empty')
 }
 
 get_display_dir() {
@@ -86,6 +88,16 @@ get_rate_7day() {
     printf " ${color}7d:${rate_int}%%${COLOUR_RESET}"
 }
 
+get_effort() {
+    case "$effort" in
+        low)    printf "l" ;;
+        medium) printf "m" ;;
+        high)   printf "h" ;;
+        xhigh)  printf "x" ;;
+        max)    printf "${COLOUR_EFFORT_MAX}X${COLOUR_RESET}" ;;
+    esac
+}
+
 get_model() {
     [ -z "$model" ] && return
     local short="$model"
@@ -93,7 +105,7 @@ get_model() {
     short="${short//Sonnet /So}"
     short="${short//Haiku /Ha}"
     short="${short// (1M context)/(1M)}"
-    printf " ${COLOUR_SEPARATOR}|${COLOUR_RESET} %s " "$short"
+    printf " ${COLOUR_SEPARATOR}|${COLOUR_RESET} %s%s " "$short" "$(get_effort)"
 }
 
 render_status() {
