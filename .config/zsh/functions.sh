@@ -11,6 +11,14 @@ source "$DIR"/sbx.sh
 
 alias cg="$DIR/claude-glow.sh"
 
+print_red() {
+  print -P "%F{red}$*%f"
+}
+
+print_green() {
+  print -P "%F{green}$*%f"
+}
+
 # pad_string <width> <string>
 pad_string() {
   local STR=$2
