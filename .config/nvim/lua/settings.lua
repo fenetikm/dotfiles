@@ -22,6 +22,7 @@ vim.o.winborder = 'rounded'            --default floating window border style
 
 vim.o.title = true                     --turn on updating the terminal title
 vim.o.titlestring = '%{expand("%:p")}' --set the title to current filepath
+vim.o.titlelen = 0                     --no limit on title length
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","

@@ -15,9 +15,27 @@ if [[ ! -f "$FILE" ]]; then
   exit 1
 fi
 
+# required so that glow can handle the popup resizing due to .tmux.conf.popup
+wait_for_stable_size() {
+  local PREV="" CUR="" STABLE=0
+  repeat 20; do
+    CUR=$(tmux display-message -p '#{pane_width}x#{pane_height}' 2>/dev/null)
+    if [[ -n "$CUR" && "$CUR" == "$PREV" ]]; then
+      (( ++STABLE >= 3 )) && return
+    else
+      STABLE=0
+    fi
+    PREV="$CUR"
+    sleep 0.05
+  done
+}
+
 # `:l` lowercases, so .MD matches too
 case "${FILE:l}" in
-  *.md|*.markdown) markless --force-half-cell "$FILE" ;;
+  *.md|*.markdown)
+    wait_for_stable_size
+    glow -t "$FILE"
+    ;;
   # paging is required, a popup closes the moment its command exits
   *)               bat --paging=always "$FILE" ;;
 esac

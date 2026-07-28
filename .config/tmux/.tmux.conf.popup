@@ -6,6 +6,7 @@ for SESH in "${SESH_LINES[@]}"; do
   if [[ "$SESH" =~ "_popup_" ]]; then
     tmux set -s -t "$SESH" status off
     tmux set -s -t "$SESH" window-active-style "bg=#020223"
+    # this will slightly adjust the popup size which may mess with some programs / scripts
     tmux set -s -t "$SESH" pane-border-status off
     # required otherwise it switches to another session and draws it inside the popup
     tmux set -s -t "$SESH" detach-on-destroy on
