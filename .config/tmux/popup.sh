@@ -84,5 +84,5 @@ elif [[ "$1" == "temp" ]]; then
     show_popup "$SESSION" "$INIT_CMD"
   fi
 else
-  tmux display-popup -d rounded -w "$WIDTH" -h "$HEIGHT" -T "$2" -s "bg=#020223" -E "$1 $3"
+  tmux display-popup -b rounded -w "$WIDTH" -h "$HEIGHT" -T "$2" -s "bg=#020223" -E "$1 $3"
 fi

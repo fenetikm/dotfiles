@@ -7,6 +7,8 @@ for SESH in "${SESH_LINES[@]}"; do
     tmux set -s -t "$SESH" status off
     tmux set -s -t "$SESH" window-active-style "bg=#020223"
     tmux set -s -t "$SESH" pane-border-status off
+    # required otherwise it switches to another session and draws it inside the popup
+    tmux set -s -t "$SESH" detach-on-destroy on
   fi
 done
 

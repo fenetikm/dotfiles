@@ -1,24 +1,27 @@
-vim.o.compatible = false    --disable compatibility with vi
-vim.o.scrolloff = 5         --set number of lines to show above and below cursor
-vim.o.sidescrolloff = 5     -- same as scrolloff, but for columns
-vim.o.history = 999         --number of lines of history
-vim.o.cursorline = true     --highlight the line the cursor is on
-vim.o.clipboard = 'unnamed' --for copy and paste, anonymous register aliased to * register
-vim.o.autoread = true       --set to auto read when a file is changed from the outside
-vim.o.report = 0            --Always report line changes
-vim.o.mouse = 'nv'          -- mouse only enabled in normal and visual
-vim.o.showcmd = false       --hide the command showing in the status
-vim.o.nrformats = ""        --force decimal-based arithmetic
-vim.o.termguicolors = true  --24bitcolors
-vim.o.errorbells = false    --no annoying beeps
-vim.o.visualbell = false    --no screen flashes on errors
-vim.o.timeoutlen = 1000     --timeout for leader key
-vim.o.ttimeoutlen = 5       --timeout for key code delays
-vim.o.showmode = false      --hide showing which mode we are in, the status bar is fine
+vim.o.compatible = false               --disable compatibility with vi
+vim.o.scrolloff = 5                    --set number of lines to show above and below cursor
+vim.o.sidescrolloff = 5                -- same as scrolloff, but for columns
+vim.o.history = 999                    --number of lines of history
+vim.o.cursorline = true                --highlight the line the cursor is on
+vim.o.clipboard = 'unnamed'            --for copy and paste, anonymous register aliased to * register
+vim.o.autoread = true                  --set to auto read when a file is changed from the outside
+vim.o.report = 0                       --Always report line changes
+vim.o.mouse = 'nv'                     -- mouse only enabled in normal and visual
+vim.o.showcmd = false                  --hide the command showing in the status
+vim.o.nrformats = ""                   --force decimal-based arithmetic
+vim.o.termguicolors = true             --24bitcolors
+vim.o.errorbells = false               --no annoying beeps
+vim.o.visualbell = false               --no screen flashes on errors
+vim.o.timeoutlen = 1000                --timeout for leader key
+vim.o.ttimeoutlen = 5                  --timeout for key code delays
+vim.o.showmode = false                 --hide showing which mode we are in, the status bar is fine
 
-vim.o.splitbelow = true     --horizontal split shows up below
-vim.o.previewheight = 10    --preview window height
-vim.o.winborder = 'rounded' --default floating window border style
+vim.o.splitbelow = true                --horizontal split shows up below
+vim.o.previewheight = 10               --preview window height
+vim.o.winborder = 'rounded'            --default floating window border style
+
+vim.o.title = true                     --turn on updating the terminal title
+vim.o.titlestring = '%{expand("%:p")}' --set the title to current filepath
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
