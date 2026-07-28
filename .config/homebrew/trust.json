@@ -1,0 +1,17 @@
+{
+  "trustedformulae": [
+    "anomalyco/tap/opencode",
+    "cirruslabs/cli/softnet",
+    "cirruslabs/cli/tart",
+    "hashicorp/tap/terraform"
+  ],
+  "trustedtaps": [
+    "docker/tap",
+    "felixkratz/formulae",
+    "makew0rld/tap"
+  ],
+  "trustedcasks": [
+    "docker/tap/sbx",
+    "steipete/tap/codexbar"
+  ]
+}
