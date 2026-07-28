@@ -2,85 +2,27 @@
   "env": {
     "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "75"
   },
+  "permissions": {
+    "deny": [
+      "EnterPlanMode",
+      "ExitPlanMode",
+      "DesignSync",
+      "NotebookEdit",
+      "SendMessage",
+      "PushNotification",
+      "ReportFindings",
+      "ScheduleWakeup",
+      "AskUserQuestion",
+      "CronCreate",
+      "CronDelete",
+      "CronList"
+    ],
+    "defaultMode": "auto"
+  },
   "model": "opus[1m]",
+  "disableClaudeAiConnectors": true,
+  "disableBundledSkills": true,
   "hooks": {
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.config/tmux/window_status.sh running",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "PermissionRequest": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.config/tmux/window_status.sh waiting",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "Elicitation": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.config/tmux/window_status.sh waiting",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.config/tmux/window_status.sh stop",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "SessionEnd": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.config/tmux/window_status.sh end",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.config/tmux/window_status.sh idle",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "StopFailure": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.config/tmux/window_status.sh error",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
     "PreToolUse": [
       {
         "matcher": "Bash",
@@ -93,6 +35,8 @@
       }
     ]
   },
+  "disableWorkflows": true,
+  "disableArtifact": true,
   "statusLine": {
     "type": "command",
     "command": "$HOME/.config/claude/status.sh"
@@ -105,7 +49,10 @@
     "pyright-lsp@claude-plugins-official": true,
     "linear-cli@linear-cli": true,
     "superpowers@claude-plugins-official": true,
-    "typescript-lsp@claude-plugins-official": true
+    "typescript-lsp@claude-plugins-official": true,
+    "tmux-agent-sidebar@mw-dev-marketplace": true,
+    "tmux-agent-sidebar@my-agent-sidebar": true,
+    "rust-analyzer-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "anthropic-agent-skills": {
@@ -125,6 +72,12 @@
         "source": "github",
         "repo": "obra/superpowers"
       }
+    },
+    "mw-dev-marketplace": {
+      "source": {
+        "source": "directory",
+        "path": "/Users/michaelwelford/Documents/Work/internal/projects/my-agent-sidebar"
+      }
     }
   },
   "spinnerTipsEnabled": false,
@@ -133,5 +86,6 @@
   "tui": "default",
   "prefersReducedMotion": false,
   "theme": "custom:falcon-modern",
-  "editorMode": "vim"
+  "editorMode": "vim",
+  "preferredNotifChannel": "notifications_disabled"
 }
