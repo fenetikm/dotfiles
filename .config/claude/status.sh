@@ -90,11 +90,11 @@ get_rate_7day() {
 
 get_effort() {
     case "$effort" in
-        low)    printf "l" ;;
-        medium) printf "m" ;;
-        high)   printf "h" ;;
-        xhigh)  printf "x" ;;
-        max)    printf "${COLOUR_EFFORT_MAX}X${COLOUR_RESET}" ;;
+        low)    printf "L" ;;
+        medium) printf "M" ;;
+        high)   printf "H" ;;
+        xhigh)  printf "X" ;;
+        max)    printf "${COLOUR_EFFORT_MAX}!${COLOUR_RESET}" ;;
     esac
 }
 
