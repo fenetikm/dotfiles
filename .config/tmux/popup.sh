@@ -5,6 +5,7 @@
 
 # Percentage of the screen to take up
 PERC=85
+
 # ... but then take up more than that if less than these minimum values
 MIN_WIDTH=140
 MIN_HEIGHT=50
@@ -23,7 +24,7 @@ if [[ -z "$CURRENT_WIDTH" || -z "$CURRENT_HEIGHT" ]]; then
   CURRENT_HEIGHT=$(tmux display -p "#{client_height}")
 fi
 
-# Always have at least this margin
+# Always have at least this margin from the edge
 MARGIN=6
 WIDTH=$(( CURRENT_WIDTH * PERC / 100 ))
 if (( WIDTH < MIN_WIDTH )); then
@@ -42,8 +43,26 @@ if (( HEIGHT < MIN_HEIGHT )); then
   fi
 fi
 
+create_popup_session() {
+  local SESSION="$1"
+  local INIT="$2"
+  tmux has-session -t "=$SESSION" 2>/dev/null && return
+  # why -2? the session being created is to be attached _inside_ the popup and the popup has a border (1 on each side)
+  # this way whatever runs inside doesn't have to contend with any resizing that would happen
+  tmux new-session -d -s "$SESSION" -x $(( WIDTH - 2 )) -y $(( HEIGHT - 2 )) -c "$PANE_PATH"
+  tmux set -t "$SESSION:" status off
+  tmux set -t "$SESSION:" detach-on-destroy on
+  tmux set -w -t "$SESSION:" pane-border-status off
+  # this colour makes the bg solid vs #020221 which is configured transparent in kitty
+  tmux set -w -t "$SESSION:" window-active-style "bg=#020223"
+  # respawn so that the command starts where the pty size is final
+  # note: `init` may be a command _or_ bare `tmux new` flags (e.g. `-c <dir>`),
+  [[ -n "$INIT" ]] && eval "tmux respawn-window -k -t '$SESSION:' $INIT"
+}
+
 show_popup() {
-  tmux display-popup -d '#{pane_current_path}' -b rounded -w "$WIDTH" -h "$HEIGHT" -s "bg=#020223" -E "tmux attach -t $1 || tmux new -s $1 $2"
+  create_popup_session "$1" "$2"
+  tmux display-popup -d '#{pane_current_path}' -b rounded -w "$WIDTH" -h "$HEIGHT" -s "bg=#020223" -E "tmux attach -t '=$1'"
 }
 
 dismiss_popup() {
@@ -56,6 +75,8 @@ dismiss_popup() {
 }
 
 CURRENT="$(tmux display-message -p -F "#{session_name}")"
+
+PANE_PATH="$(tmux display-message -p -F "#{pane_current_path}")"
 
 # "persist" for sessions that are created once, then attach/detach from
 if [[ "$1" == "persist" ]]; then
