@@ -185,7 +185,7 @@ alias v='nvim'
 alias sv='sudo nvim'
 alias vl='run_vim_leader'
 alias vd='nvim -c CodeDiff'
-alias vm='nvim -c "CodeDiff main"'
+alias vm='nvim -c "CodeDiff origin/main"'
 
 # edit the latest file in the directory
 edit-latest() {
