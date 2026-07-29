@@ -183,11 +183,11 @@ sketchybar \
     script="$PLUGIN_DIR/agents.sh claude" \
     click_script="open https://claude.ai/new#settings/usage" \
   --add item agent_openai left \
-  --set agent_openai update_freq=121 \
+  --set agent_openai update_freq=120 \
     script="$PLUGIN_DIR/agents.sh codex 1" \
     click_script="open https://chatgpt.com/codex/cloud/settings/analytics#usage" \
   --add item agent_cursor left \
-  --set agent_cursor update_freq=122 \
+  --set agent_cursor update_freq=120 \
     script="$PLUGIN_DIR/agents.sh cursor 1" \
     click_script="open https://cursor.com/dashboard/usage" \
     label.padding_right=8 \

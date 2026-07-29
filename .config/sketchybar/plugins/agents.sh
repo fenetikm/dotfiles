@@ -36,8 +36,19 @@ USAGE_BUCKET='.usage.primary // .usage.secondary'
 
 AGENT_USAGE=$(jq -r ".[] | select(.provider==\"$AGENT_NAME\") | ($USAGE_BUCKET).usedPercent | round" <<< "$USAGE")
 
-# format to human readable time offset e.g. 1h20m, 5m, 2d+ for 1 day or more etc.
-RESET_FMT='(.usage.primary // .usage.secondary) as $u | ([(($u.resetsAt | fromdateiso8601) - now) / 60 | floor, 0] | max) as $m | if $m >= 1440 then "\($m / 1440 | floor)d+" else ($m / 60 | floor) as $h | if $h == 0 then "\($m)m" else "\($h)h\($m % 60)m" end end'
+# format to human readable time offset e.g. 5m, 1h+ for 1 hour or more, 2d+ for 1 day or more etc.
+RESET_FMT="
+  # minutes until reset, never negative
+  (($USAGE_BUCKET).resetsAt | fromdateiso8601) - now
+  | . / 60 | floor
+  | [., 0] | max
+
+  # only show the largest unit (1440 minutes = 1 day)
+  | if   . >= 1440 then \"\\(. / 1440 | floor)d+\"
+    elif . >= 60   then \"\\(. / 60   | floor)h+\"
+    else                \"\\(.)m\"
+    end
+"
 
 AGENT_RESET=$(jq -r ".[] | select(.provider==\"$AGENT_NAME\") | $RESET_FMT" <<< "$USAGE")
 
