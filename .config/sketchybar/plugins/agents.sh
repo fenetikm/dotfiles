@@ -36,7 +36,7 @@ USAGE_BUCKET='.usage.primary // .usage.secondary'
 
 AGENT_USAGE=$(jq -r ".[] | select(.provider==\"$AGENT_NAME\") | ($USAGE_BUCKET).usedPercent | round" <<< "$USAGE")
 
-# format to human readable time offset e.g. 5m, 1h+ for 1 hour or more, 2d+ for 1 day or more etc.
+# human readable time offset e.g. 5m, 1h+ for 1 hour or more, 2d+ for 1 day or more etc.
 RESET_FMT="
   # minutes until reset, never negative
   (($USAGE_BUCKET).resetsAt | fromdateiso8601) - now
