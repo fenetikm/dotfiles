@@ -1,0 +1,70 @@
+# Keyboard actions
+up = 'k'
+down = 'j'
+page_up = 'u'
+page_down = 'd'
+half_page_down = 'J'
+half_page_up = 'K'
+top = 'g'
+bottom = 'G'
+search = 'f'
+search_next = 'n'
+search_previous = 'N'
+# This will search downwards until it finds one or select the last link in document.
+select_link = 's'
+# Finds the link 2/3 up the page. It will search then for closest in both direction.
+select_link_alt = 'S'
+# Enter select-details mode. Press <Enter> on a selected <details> to fold/unfold it.
+select_details = 'D'
+edit = 'e'
+hover = 'K'
+back = 'b'
+file_tree = 't'
+sort = 'o'
+
+# General settings
+# width = 100 # Set to 0 for full terminal width
+width = 0 # Set to 0 for full terminal width
+gitignore = false
+alignment = "left" # "center" | "right"
+help_menu = false # false hides it
+
+# Inline styling
+bold_color = "reset"
+bold_italic_color = "reset"
+code_bg_color = "reset"
+code_fg_color = "#adc2db"
+italic_color = "reset"
+link_color = "#99a4bc"
+link_selected_bg_color = "#311282"
+link_selected_fg_color = "#dfdfe5"
+strikethrough_color = "reset"
+
+# Block styling
+code_block_bg_color = "#36363a"
+quote_bg_color = "reset"
+table_header_bg_color = "reset"
+table_header_fg_color = "#dfdfe5"
+
+# File tree
+file_tree_name_color = "blue"
+file_tree_page_count_color = "lightgreen"
+file_tree_path_color = "gray"
+file_tree_selected_fg_color = "lightgreen"
+
+# Quote bar
+quote_caution = "lightmagenta"
+quote_default = "white"
+quote_important = "lightred"
+quote_note = "lightblue"
+quote_tip = "lightgreen"
+quote_warning = "lightYellow"
+
+# Heading
+h_bg_color = "#dfdfe5"
+h_fg_color = "#020221"
+h2_fg_color = "#a1a1a9"
+h3_fg_color = "#a1a1a9"
+h4_fg_color = "#a1a1a9"
+h5_fg_color = "#a1a1a9"
+h6_fg_color = "#a1a1a9"

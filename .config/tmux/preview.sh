@@ -18,7 +18,7 @@ fi
 # `:l` lowercases, so .MD matches too
 case "${FILE:l}" in
   *.md|*.markdown)
-    glow -t "$FILE"
+    mdt "$FILE"
     ;;
   # paging is required, a popup closes the moment its command exits
   *)               bat --paging=always "$FILE" ;;
