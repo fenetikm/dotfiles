@@ -35,6 +35,8 @@ else
     sketchybar \
       --set "$NAME" \
         drawing=off icon.drawing=off
+
+    return
   fi
 
   COLOUR=$PASSIVE_COLOUR
