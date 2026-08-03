@@ -1,5 +1,8 @@
 #!/bin/zsh -f
 #
+# Note: vibed by Cursor Composer 2.5
+#       can see myself rewriting this one to match existing script style
+#
 # Toggle the agent sidebar, then equalise mains on close.
 #   toggle_sidebar.sh       — current window (prefix+e)
 #   toggle_sidebar.sh --all — all windows (prefix+E)
