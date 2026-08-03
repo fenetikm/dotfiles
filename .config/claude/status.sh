@@ -90,7 +90,7 @@ get_rate_7day() {
 }
 
 get_effort() {
-  # note! chevrons render using one cell due to specific kitty `narrow_symbols` config
+  # note! the below renders using one cell due to specific kitty `narrow_symbols` config
   case "$effort" in
     low)    printf "" ;;
     medium) printf "" ;;
