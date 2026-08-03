@@ -2,6 +2,10 @@
 #
 # Equalise pane sizes in the current window (including nested splits).
 #
+# Note: this is a vibe script created by Cursor Composer 2.5
+#       it works, but it's firmly in the "do not care" bucket
+#       maybe I'll rewrite it one day or atleast get it into better shape
+#
 # Handles:
 #   - stacked rows (pane above two panes) via full-width row bands
 #   - T-layouts (full-height column beside a vertical stack) via column/stack passes
