@@ -41,7 +41,7 @@ link_selected_fg_color = "#dfdfe5"
 strikethrough_color = "reset"
 
 # Block styling
-code_block_bg_color = "#36363a"
+code_block_bg_color = "#18181d"
 quote_bg_color = "reset"
 table_header_bg_color = "reset"
 table_header_fg_color = "#dfdfe5"
@@ -53,12 +53,12 @@ file_tree_path_color = "gray"
 file_tree_selected_fg_color = "lightgreen"
 
 # Quote bar
-quote_caution = "lightmagenta"
-quote_default = "white"
-quote_important = "lightred"
-quote_note = "lightblue"
-quote_tip = "lightgreen"
-quote_warning = "lightYellow"
+quote_caution = "#ffc552"
+quote_default = "#adc2db"
+quote_important = "#ff3600"
+quote_note = "#311282"
+quote_tip = "#cfc1b2"
+quote_warning = "#ffc552"
 
 # Heading
 h_bg_color = "#dfdfe5"
