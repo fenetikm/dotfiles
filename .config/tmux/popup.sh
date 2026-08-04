@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 # usage:
-# - popup.sh <name|script> <arg1> <arg2>
+# - popup.sh <name|script> [arg1] [arg2] [max_width]
 
 # Percentage of the screen to take up
 PERC=85
@@ -27,6 +27,14 @@ fi
 # Always have at least this margin from the edge
 MARGIN=6
 WIDTH=$(( CURRENT_WIDTH * PERC / 100 ))
+
+# fixed / max width specified
+if [[ "$4" != "" ]]; then
+  if (( WIDTH > "$4" )); then
+    WIDTH="$4"
+  fi
+fi
+
 if (( WIDTH < MIN_WIDTH )); then
   if (( MIN_WIDTH + MARGIN > CURRENT_WIDTH )); then
     WIDTH=$(( CURRENT_WIDTH - MARGIN ))
