@@ -11,8 +11,9 @@ if [[ "$1" == "" ]]; then
   return 0
 fi
 
-SHOW_DIV=$2
-if [[ "$2" == "" ]]; then
+# divider glyph to draw before the label, empty for none
+DIV=$2
+if [[ "$DIV" == "" ]]; then
   SHOW_DIV=off
 else
   SHOW_DIV=on
@@ -65,7 +66,7 @@ fi
 sketchybar \
   --set "$NAME" \
     label="$LABEL" label.color="$COLOUR" \
-    icon="•" icon.color="$DIV_COLOUR" icon.y_offset=-1 \
+    icon="$DIV" icon.color="$DIV_COLOUR" icon.y_offset=-1 \
     icon.padding_left=1 icon.padding_right=3 \
     icon.drawing="${SHOW_DIV}" \
     drawing=on padding_left=0 padding_right=0

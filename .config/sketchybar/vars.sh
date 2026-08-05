@@ -1,3 +1,9 @@
+# sketchybar's PATH is homebrew + system only, add user tools e.g. cswap
+case ":$PATH:" in
+  *":$HOME/.local/bin:"*) ;;
+  *) export PATH="$HOME/.local/bin:$PATH" ;;
+esac
+
 FONT="SF PRO"
 FONT_WEIGHT="Medium"
 FONT_SIZE="13.0"
