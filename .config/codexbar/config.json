@@ -16,6 +16,8 @@
       "id" : "azureopenai"
     },
     {
+      "claudeSwapEnabled" : true,
+      "claudeSwapExecutablePath" : "~\/.local\/bin\/cswap",
       "enabled" : true,
       "id" : "claude"
     },
@@ -94,10 +96,6 @@
     {
       "enabled" : false,
       "id" : "jetbrains"
-    },
-    {
-      "enabled" : false,
-      "id" : "kimik2"
     },
     {
       "enabled" : false,
@@ -214,6 +212,66 @@
     {
       "enabled" : false,
       "id" : "chutes"
+    },
+    {
+      "enabled" : false,
+      "id" : "clinepass"
+    },
+    {
+      "enabled" : false,
+      "id" : "qwencloud"
+    },
+    {
+      "enabled" : false,
+      "id" : "sakana"
+    },
+    {
+      "enabled" : false,
+      "id" : "deepinfra"
+    },
+    {
+      "enabled" : false,
+      "id" : "qoder"
+    },
+    {
+      "enabled" : false,
+      "id" : "neuralwatt"
+    },
+    {
+      "enabled" : false,
+      "id" : "clawrouter"
+    },
+    {
+      "enabled" : false,
+      "id" : "longcat"
+    },
+    {
+      "enabled" : false,
+      "id" : "sub2api"
+    },
+    {
+      "enabled" : false,
+      "id" : "wayfinder"
+    },
+    {
+      "enabled" : false,
+      "id" : "zenmux"
+    },
+    {
+      "enabled" : false,
+      "id" : "aiand"
+    },
+    {
+      "enabled" : false,
+      "id" : "zoommate"
+    },
+    {
+      "enabled" : false,
+      "id" : "xai"
+    },
+    {
+      "enabled" : false,
+      "id" : "notion"
     }
   ],
   "version" : 1

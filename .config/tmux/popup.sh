@@ -55,7 +55,7 @@ create_popup_session() {
   local SESSION="$1"
   local INIT="$2"
   tmux has-session -t "=$SESSION" 2>/dev/null && return
-  # why -2? the session being created is to be attached _inside_ the popup and the popup has a border (1 on each side)
+  # below, why -2? the session being created is to be attached _inside_ the popup and the popup has a border (1 on each side)
   # this way whatever runs inside doesn't have to contend with any resizing that would happen
   tmux new-session -d -s "$SESSION" -x $(( WIDTH - 2 )) -y $(( HEIGHT - 2 )) -c "$PANE_PATH"
   tmux set -t "$SESSION:" status off

@@ -1,0 +1,15 @@
+#!/usr/bin/env zsh
+
+SESSION_NAME=$(tmux display-message -p '#S')
+tmux rename-session -t $SESSION_NAME "s:$1"
+SESSION_NAME="s:$1"
+
+tmux new-window -t $SESSION_NAME:2 -n 'diff'
+tmux new-window -t $SESSION_NAME:3 -n 'notes'
+
+## diff
+tmux select-window -t $SESSION_NAME:2
+tmux send-keys '~sit'
+tmux send-keys
+
+## todo

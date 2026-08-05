@@ -100,6 +100,12 @@ get_effort() {
   esac
 }
 
+get_session_tag() {
+  # set at launch, e.g. `CLAUDE_TAG=bob claude`
+  [ -z "$CLAUDE_TAG" ] && return
+  printf "${COLOUR_SEPARATOR}|${COLOUR_RESET} [%s] " "$CLAUDE_TAG"
+}
+
 get_model() {
   [ -z "$model" ] && return
   local short="$model"
@@ -111,7 +117,8 @@ get_model() {
 }
 
 render_status() {
-  local display_dir git_info ctx_bar rate_5hr_info rate_7day_info model_info
+  local display_dir git_info ctx_bar rate_5hr_info rate_7day_info model_info session_tag
+  session_tag=$(get_session_tag)
   display_dir=$(get_display_dir)
   git_info=$(get_git_info)
   ctx_bar=$(get_ctx)
@@ -126,7 +133,12 @@ render_status() {
   [ -n "$git_info" ] && printf "%b" "$git_info"
   printf " ${COLOUR_SEPARATOR}|${COLOUR_RESET} ${COLOUR_DIR}%s${COLOUR_RESET}" "$display_dir"
   [ -n "$model_info" ] && printf "%b" "$model_info"
+  [ -n "$session_tag" ] && printf "%b" "$session_tag"
 }
 
 extract_data
 render_status
+
+# render_status ends on a short-circuit test; without this the script exits
+# non-zero when CLAUDE_TAG is unset and Claude Code discards the output.
+exit 0
