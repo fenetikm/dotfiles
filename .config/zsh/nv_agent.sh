@@ -1,37 +1,38 @@
 #!/usr/bin/env zsh
 
-# vim_agent - neovim on the left, an agent cli on the right
+# nv_agent - neovim on the left, an agent cli on the right
 #
 # usage:
-#   vim_agent <agent> [nvim args...]
+#   nv_agent <agent> [nvim args...]
 #
 # e.g.:
-#   vim_agent claude
-#   vim_agent opencode README.md
+#   nv_agent claude
+#   nv_agent opencode README.md
 
 # agents whose command isn't just their sidekick name
-typeset -gA VIM_AGENT_CMDS=(
+typeset -gA NV_AGENT_CMDS=(
   amazon_q 'q'
   copilot  'copilot --banner'
   cursor   'cursor-agent'
+  claude   'claude_tagged'
 )
 
-vim_agent() {
+nv_agent() {
   local AGENT="$1"
   shift
 
   if [[ -z "$AGENT" ]]; then
-    print_red "vim_agent: which agent?"
+    print_red "nv_agent: which agent?"
     return 1
   fi
 
   # resolve the agent to a command, absolute path so it doesn't depend on
   # whatever the tmux server has in its path
-  local -a AGENT_CMD=(${=VIM_AGENT_CMDS[$AGENT]:-$AGENT})
+  local -a AGENT_CMD=(${=NV_AGENT_CMDS[$AGENT]:-$AGENT})
   local AGENT_BIN="${commands[$AGENT_CMD[1]]}"
 
   if [[ -z "$AGENT_BIN" ]]; then
-    print_red "vim_agent: couldn't find $AGENT_CMD[1] on the path"
+    print_red "nv_agent: couldn't find $AGENT_CMD[1] on the path"
     return 1
   fi
 
@@ -43,5 +44,5 @@ vim_agent() {
   SIDEKICK_ATTACH="$AGENT" nvim "$@"
 }
 
-alias vac='vim_agent claude'
-alias vao='vim_agent opencode'
+alias vac='nv_agent claude'
+alias vao='nv_agent opencode'
