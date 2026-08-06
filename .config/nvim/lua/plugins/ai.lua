@@ -49,6 +49,38 @@ return {
         class           = "{class}",
       },
     },
+    config = function(_, opts)
+      require("sidekick").setup(opts)
+
+      -- `vim_agent` (see ~/.config/zsh/vim_agent.sh) starts an agent in a tmux
+      -- split before launching neovim, `SIDEKICK_ATTACH` holds the tool name,
+      -- attach to it once the process turns up
+      local agent = vim.env.SIDEKICK_ATTACH
+
+      if agent and agent ~= "" and vim.env.TMUX then
+        local Session = require("sidekick.cli.session")
+        local tries = 0
+
+        local function attach()
+          tries = tries + 1
+          Session.setup()
+          local tmux = Session.backends.tmux
+          local sessions = tmux and tmux.current_window_sessions() or {}
+          local found = vim.tbl_filter(function(session)
+            return session.tool.name == agent
+          end, sessions)[1]
+
+          if found then
+            require("sidekick.cli").toggle({ name = agent, strategy = "auto", focus = false })
+          elseif tries < 20 then
+            -- the agent may still be starting up, keep looking for ~10 seconds
+            vim.defer_fn(attach, 500)
+          end
+        end
+
+        vim.defer_fn(attach, 200)
+      end
+    end,
     keys = {
       -- note `submit = true` will trigger submission (undocumented)
       {
