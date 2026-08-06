@@ -244,31 +244,7 @@ alias yt720='yt-dlp -S "height:720" --merge-output-format=mkv -4 --sleep-request
 alias ytaudio='yt-dlp --extract-audio -4 --sleep-requests 2 --sleep-interval 2 --extractor-args "youtube:player-client=web_embedded" --audio-format mp3 --audio-quality 0'
 
 # agents
-# tag claude with the first letter of the active cswap account's email domain
-# this ends up in the status.sh at the end e.g. ` ... | [M]`
-claude_tagged() {
-  local TAG=""
-  if (( $+commands[cswap] )) && (( $+commands[jq] )); then
-    TAG=$(cswap list --json 2>/dev/null | jq -r '
-      .activeAccountNumber as $n
-      | .accounts[]
-      | select(.number == $n)
-      | .email
-      | split("@")[1][0:1]
-      | ascii_upcase
-    ' 2>/dev/null)
-    [[ $TAG == "null" ]] && TAG=""
-  fi
-  CLAUDE_TAG="$TAG" claude "$@"
-}
-alias ac='claude_tagged'
-alias ao='opencode'
-# cursor
-alias ar='agent'
-alias acs='sbx_start $(basename "$PWD") claude'
-# claude swap, more specific go in .zshrc.local
-alias cs='cswap switch'
-alias csl='cswap list'
+# shifted to ~/.config/zsh/agents.sh
 
 # see ~/.config/zsh/claude-glow.sh
 # alias ag="$HOME/.config/zsh/claude-glow.sh"

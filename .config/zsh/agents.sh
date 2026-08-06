@@ -44,5 +44,34 @@ nv_agent() {
   SIDEKICK_ATTACH="$AGENT" nvim "$@"
 }
 
+# tag claude with the first letter of the active cswap account's email domain
+# this ends up in the status.sh at the end e.g. ` ... | [M]`
+claude_tagged() {
+  local TAG=""
+  if (( $+commands[cswap] )) && (( $+commands[jq] )); then
+    TAG=$(cswap list --json 2>/dev/null | jq -r '
+      .activeAccountNumber as $n
+      | .accounts[]
+      | select(.number == $n)
+      | .email
+      | split("@")[1][0:1]
+      | ascii_upcase
+    ' 2>/dev/null)
+    [[ $TAG == "null" ]] && TAG=""
+  fi
+  CLAUDE_TAG="$TAG" claude "$@"
+}
+
+alias ac='claude_tagged'
+alias ao='opencode'
+# cursor
+alias ar='agent'
+alias acs='sbx_start $(basename "$PWD") claude'
+
+# claude swap (accounts), more specific go in .zshrc.local
+alias cs='cswap switch'
+alias csl='cswap list'
+
 alias vac='nv_agent claude'
 alias vao='nv_agent opencode'
+alias var='nv_agent cursor'

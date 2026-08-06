@@ -8,9 +8,7 @@ source "$DIR"/redis.sh
 source "$DIR"/tmux.sh
 source "$DIR"/fzf.sh
 source "$DIR"/sbx.sh
-source "$DIR"/nv_agent.sh
-
-alias cg="$DIR/claude-glow.sh"
+source "$DIR"/agents.sh
 
 print_red() {
   print -P "%F{red}$*%f"
