@@ -245,7 +245,7 @@ alias ytaudio='yt-dlp --extract-audio -4 --sleep-requests 2 --sleep-interval 2 -
 
 # agents
 # tag claude with the first letter of the active cswap account's email domain
-# e.g. sam@example.com -> CLAUDE_TAG=E, blank if no cswap/active account
+# this ends up in the status.sh at the end e.g. ` ... | [M]`
 claude_tagged() {
   local TAG=""
   if (( $+commands[cswap] )) && (( $+commands[jq] )); then
@@ -263,10 +263,10 @@ claude_tagged() {
 }
 alias ac='claude_tagged'
 alias ao='opencode'
-#cursor
+# cursor
 alias ar='agent'
 alias acs='sbx_start $(basename "$PWD") claude'
-# claude swap
+# claude swap, more specific go in .zshrc.local
 alias cs='cswap switch'
 alias csl='cswap list'
 
