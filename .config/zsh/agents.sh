@@ -32,9 +32,7 @@ claude_tagged() {
 #   nv_agent claude
 #   nv_agent opencode README.md
 
-# agents whose command isn't just their sidekick name
-# these must be real binaries - the pane is spawned by tmux, which runs the
-# command through sh, so zsh functions and aliases aren't visible to it
+# for agents where command isn't just their name
 typeset -gA NV_AGENT_CMDS=(
   amazon_q 'q'
   copilot  'copilot --banner'
