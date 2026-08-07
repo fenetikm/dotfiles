@@ -87,5 +87,6 @@
   "prefersReducedMotion": false,
   "theme": "custom:falcon-modern",
   "editorMode": "vim",
-  "preferredNotifChannel": "notifications_disabled"
+  "preferredNotifChannel": "notifications_disabled",
+  "remoteControlAtStartup": true
 }
