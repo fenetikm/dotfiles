@@ -4,16 +4,24 @@
 #
 # shows a fzf picker of existing projects to select from or select "<new>" to create a new one
 #
+# each line is: <display text>\t<project name>\t<project path>
+# only the display text is shown by fzf, the hidden fields carry the real
+# untruncated name and path, so spaces and brackets in either are harmless
+#
 # todo:
 # - different actions via diff keys?
 # - when creating, pick a template?
 
-PROJECT_LEN=28
-TRIM_LEN=24
+# project name length before truncation
+NAME_CAP=28
+# spaces between the name and location columns
+GAP=2
 
-ESC_DARK_GREY="\e[38;2;87;87;94m"
-ESC_RESET="\e[0m"
+ESC_DARK_GREY=$'\e[38;2;87;87;94m'
+ESC_RESET=$'\e[0m'
 ELLIPSIS=…
+NEW_PROJECT='<new project>'
+NEWDIR=~/Documents/Work/internal/projects/
 
 # source local config first so EXTRA_PROJECTS can be set there
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
@@ -33,27 +41,38 @@ for _d in "${EXTRA_PROJECTS[@]}"; do
   [[ -d "$_d" ]] && PROJECT_DIRS+=("$_d")
 done
 
-# join to newline-separated string
-PROJECTS=${(j:\n:)PROJECT_DIRS}
+# measure the name column before rendering, so it fits what is actually shown
+typeset -a NAMES LABELS
+NAME_W=0
 
-LIST=
-# note: (f) splits on newlines, turn into an array
-for P in "${(f)PROJECTS}"; do
-  PNAME=$(echo "$P" | sed 's/.*\///')
-  PNAME_LEN="${#PNAME}"
-  if (( "$PNAME_LEN" > "$PROJECT_LEN" )); then
-    PNAME=`echo "$PNAME" | cut -c -"$TRIM_LEN"`
-    PNAME+=…
+for P in "${PROJECT_DIRS[@]}"; do
+  # :t is the trailing component, no need to shell out to sed
+  PNAME="${P:t}"
+  LABEL="$PNAME"
+
+  if (( ${#LABEL} > NAME_CAP )); then
+    LABEL="${LABEL[1,NAME_CAP - 1]}$ELLIPSIS"
   fi
-  PNAME=$(pad_string "$PROJECT_LEN" "$PNAME")
-  LOC="$ESC_DARL_GREY($P)$ESC_RESET"
-  LIST="$LIST${PNAME}${LOC}\n"
+
+  (( ${#LABEL} > NAME_W )) && NAME_W=${#LABEL}
+
+  NAMES+=("$PNAME")
+  LABELS+=("$LABEL")
 done
 
-# add new project item
-LIST="$LIST<new project>"
+(( NAME_W += GAP ))
 
-PROJECT=$(echo "$LIST" |
+# note: LINES is a special zsh parameter (terminal height), hence ROWS
+typeset -a ROWS
+
+for i in {1..${#PROJECT_DIRS}}; do
+  ROWS+=("$(pad_string "$NAME_W" "$LABELS[i]" "$ESC_DARK_GREY($PROJECT_DIRS[i])$ESC_RESET")"$'\t'"$NAMES[i]"$'\t'"$PROJECT_DIRS[i]")
+done
+
+# add new project item, the only line without hidden fields
+ROWS+=("$NEW_PROJECT")
+
+SELECTED=$(print -rl -- "${ROWS[@]}" |
   fzf \
     --color=bg:#020223,bg+:#020223 \
     --no-scrollbar \
@@ -61,24 +80,34 @@ PROJECT=$(echo "$LIST" |
     --reverse \
     --ansi \
     --no-preview \
-    --no-multi)
+    --no-multi \
+    --delimiter=$'\t' \
+    --with-nth='{1}')
 
-if [[ "$PROJECT" == "<new project>" ]]; then
-  NEWDIR=~/Documents/Work/internal/projects/
-  read "NAME?Project name: "
-  if [[ "$NAME" != "" ]]; then
-    PDIR="$NEWDIR$NAME"
-    if [[ -d "$PDIR" ]]; then
-      echo "Error: project with that name exists."
-      return 1
-    else
-      mkdir -p "$PDIR"
-      "$HOME"/.config/tmux/sesh.sh auto "$NAME" "$PDIR"
-    fi
-  fi
-elif [[ "$PROJECT" != "" ]]; then
-  PDIR=$(echo "$PROJECT" | sed 's/.* (//')
-  PDIR=$(echo "$PDIR" | sed 's/)$//')
-  NAME=$(echo "$PROJECT" | sed 's/ .*$//')
-  "$HOME"/.config/tmux/sesh.sh auto "$NAME" "$PDIR"
+# nothing picked, esc'd out
+if [[ -z "$SELECTED" ]]; then
+  exit 0
 fi
+
+FIELDS=("${(@ps:\t:)SELECTED}")
+NAME="$FIELDS[2]"
+PDIR="$FIELDS[3]"
+
+if [[ "$FIELDS[1]" == "$NEW_PROJECT" ]]; then
+  read "NAME?Project name: "
+
+  if [[ -z "$NAME" ]]; then
+    exit 0
+  fi
+
+  PDIR="$NEWDIR$NAME"
+
+  if [[ -d "$PDIR" ]]; then
+    print "Error: project with that name exists."
+    exit 1
+  fi
+
+  mkdir -p "$PDIR"
+fi
+
+"$HOME"/.config/tmux/sesh.sh auto "$NAME" "$PDIR"
