@@ -1,47 +1,74 @@
 #!/usr/bin/env zsh
 
-# todo:
-# - MAX_WIN is not calculated, just hardcoded, use the kitty thang
-# - use window id instead of index, spaces aren't handled
+# builds the session/window list consumed by tree_picker.sh
+# each line is: <display text>\t<session id>\t<window id>
+# only the display text is shown by fzf, the ids are the switch target
 
-# maximum window title length
-MAX_WIN=16
-OUTPUT=
+# window title length before truncation
+WIN_CAP=30
+# spaces between columns
+GAP=3
 # colour of the tmux location
-ESC_LOC="\e[38;2;87;87;94m"
-ESC_RESET="\e[0m"
+ESC_LOC=$'\e[38;2;87;87;94m'
+ESC_RESET=$'\e[0m'
 
-SESSIONS=$(tmux list-sessions -F '#{session_name}')
-SESH_LINES=(${(f)SESSIONS})
+typeset -a SESH_COL WIN_NAMES LOCS SESH_IDS WIN_IDS
 
-# get longest named session
-SESH_LEN=0
-for SESH in "${SESH_LINES[@]}"; do
-  if [[ "${#SESH}" > "$SESH_LEN" ]]; then
-    SESH_LEN="${#SESH}"
-  fi
-done
+SESH_W=0
+WIN_W=0
+LAST_SESH=
 
-for SESH in "${SESH_LINES[@]}"; do
+# ids rather than names as the target, they never contain spaces
+# window_name last, it is the only field that could hold a tab
+# $'..' so the \t become real tabs before tmux sees the format
+WINDOWS=$(tmux list-windows -a -F $'#{session_name}\t#{session_id}\t#{window_id}\t#{window_index}\t#{window_name}')
+
+if [[ -z "$WINDOWS" ]]; then
+  exit 0
+fi
+
+# print -r rather than echo, echo would expand a backslash in a window name
+print -r -- "$WINDOWS" | while IFS=$'\t' read -r SESH SESH_ID WIN_ID WIN_IDX WIN_NAME; do
   # ignore _popup_
-  if [[ "$SESH" =~ "_popup_" ]]; then
+  # filtered here so hidden rows can't widen the columns
+  if [[ "$SESH" == *_popup_* ]]; then
     continue
   fi
 
-  WINDOWS=$(tmux list-windows -t "$SESH" -F '#{window_name} (#{session_name}:#{window_index})')
-  WINDOWS_LINES=(${(f)WINDOWS})
-  FIRST=1
-  for WIN_LINE in "${WINDOWS_LINES[@]}"; do
-    LOC=$(echo "$WIN_LINE" | sed -E 's/([^ ]*)([ ]+)\((.*)\)/\3/')
-    WIN_NAME=$(echo "$WIN_LINE" | sed -E 's/([^ ]*)([ ]+)\((.*)\)/\1/')
-    WIN_PAD=$(pad_string "$MAX_WIN" "$WIN_NAME" "$ESC_LOC($LOC)$ESC_RESET")
-    SESH_PAD=$(pad_string $(("$SESH_LEN" + 3)))
-    if [[ "$FIRST" == 1 ]]; then
-      FIRST=0
-      SESH_PAD=$(pad_string $(("$SESH_LEN" + 3)) "[$SESH]")
-    fi
-    OUTPUT="$OUTPUT$SESH_PAD$WIN_PAD\n"
-  done
+  if (( ${#WIN_NAME} > WIN_CAP )); then
+    WIN_NAME="${WIN_NAME[1,WIN_CAP - 1]}…"
+  fi
+
+  # only the first window of a session is labelled
+  if [[ "$SESH" == "$LAST_SESH" ]]; then
+    SESH_COL+=("")
+  else
+    SESH_COL+=("[$SESH]")
+    LAST_SESH="$SESH"
+    (( ${#SESH} + 2 > SESH_W )) && SESH_W=$(( ${#SESH} + 2 ))
+  fi
+
+  (( ${#WIN_NAME} > WIN_W )) && WIN_W=${#WIN_NAME}
+
+  WIN_NAMES+=("$WIN_NAME")
+  LOCS+=("$SESH:$WIN_IDX")
+  SESH_IDS+=("$SESH_ID")
+  WIN_IDS+=("$WIN_ID")
 done
 
-echo $OUTPUT
+if (( ${#WIN_IDS} == 0 )); then
+  exit 0
+fi
+
+(( SESH_W += GAP ))
+(( WIN_W += GAP ))
+
+# the colour escapes go after the padded fields, printf pads by character
+# count and would otherwise measure the escape bytes as visible width
+for i in {1..${#WIN_IDS}}; do
+  printf '%-*s%-*s%s(%s)%s\t%s\t%s\n' \
+    "$SESH_W" "$SESH_COL[i]" \
+    "$WIN_W" "$WIN_NAMES[i]" \
+    "$ESC_LOC" "$LOCS[i]" "$ESC_RESET" \
+    "$SESH_IDS[i]" "$WIN_IDS[i]"
+done

@@ -18,18 +18,15 @@ print_green() {
   print -P "%F{green}$*%f"
 }
 
-# pad_string <width> <string>
+# pad_string <width> <string> [suffix]
+# pads <string> with spaces to exactly <width> characters, then appends [suffix]
+# a string already at or over <width> is returned untouched, never truncated
 pad_string() {
-  local STR=$2
-  local STR_LEN="${#STR}"
   local WIDTH=$1
-  local PAD=$((WIDTH - STR_LEN))
-  local PAD_STR=
-  for i in {1.."$PAD"}; do
-    PAD_STR="${PAD_STR} "
-  done
+  local STR=$2
+  local SUFFIX=$3
 
-  echo "$2 $PAD_STR $3"
+  printf '%-*s%s\n' "$WIDTH" "$STR" "$SUFFIX"
 }
 
 file_paste() {
