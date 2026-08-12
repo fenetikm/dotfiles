@@ -25,7 +25,7 @@ if (( CLIENT_WIDTH >= 160 )); then
   # --preview indexes the original line, so {3} is the window id
   FZF_ARGS+=(
     --preview-window=right,noinfo
-    --preview 'tmux capture-pane -p -t {3}'
+    --preview '"$HOME/.config/tmux/pane_preview.sh" {3}'
   )
 fi
 
