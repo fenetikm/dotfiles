@@ -55,11 +55,15 @@ build_list() {
     return
   fi
 
-  # attention first, then session so same-session rows still cluster,
-  # then the sidebar's own ordering
+  # attention, then running, then idle, matching the glyph order, then
+  # session so same-session rows still cluster, then the sidebar's own
+  # ordering
   rows=$(print -r -- "$json" | jq -r '
     .panes
-    | sort_by([(.attention | not), .tmux_session, .index])
+    | sort_by([
+        (if .attention then 0 elif .status == "running" then 1 else 2 end),
+        .tmux_session, .index
+      ])
     | .[]
     | [ (.attention | tostring), .status, .agent, .repo, .branch,
         .tmux_session, .window_id, .pane_id ]
