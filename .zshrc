@@ -109,26 +109,16 @@ bindkey '^E' autosuggest-accept
 # run the suggestion now (ctrl-enter)
 bindkey '^[[13;5u' autosuggest-execute
 
-# history options
+# history options, see https://zsh.sourceforge.io/Doc/Release/Options.html#History
 # save timestamp and duration
 setopt EXTENDED_HISTORY
 # get rid of duplicate items when needed
 setopt HIST_EXPIRE_DUPS_FIRST
 # ignore putting duplicates in the history
 setopt HIST_IGNORE_DUPS
-# ignore spaces
+# ignore spaces / blank lines
 setopt HIST_IGNORE_SPACE
-setopt INC_APPEND_HISTORY
-setopt SHARE_HISTORY
-# history options
-# save timestamp and duration
-setopt EXTENDED_HISTORY
-# get rid of duplicate items when needed
-setopt HIST_EXPIRE_DUPS_FIRST
-# ignore putting duplicates in the history
-setopt HIST_IGNORE_DUPS
-# ignore spaces
-setopt HIST_IGNORE_SPACE
+# append as we go
 setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
 
