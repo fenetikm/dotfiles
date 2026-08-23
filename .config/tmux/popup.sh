@@ -1,7 +1,25 @@
 #!/usr/bin/env zsh
 
 # usage:
-# - popup.sh <name|script> [arg1] [arg2] [max_width]
+# - popup.sh [--focus] <popup name|script> [script arg1] [script arg2] [max_width]
+
+CURRENT="$(tmux display-message -p -F "#{session_name}")"
+
+PANE_PATH="$(tmux display-message -p -F "#{pane_current_path}")"
+
+# show a popup over a blank window by running this same script via new-window creation
+# The `_focus_` name is matched by @sidebar_exclude_windows in ~/.tmux.conf
+if [[ "$1" == "--focus" ]]; then
+  shift
+  # already inside a popup, so there is nothing of ours to hide - carry on as normal
+  if [[ "$CURRENT" != *_popup_* ]]; then
+    # `A` for absolute path of the script
+    FOCUS_ARGV=("${0:A}" "$@")
+    # `j` joins the array, `q` does backslash escaping
+    tmux new-window -n _focus_ -c "$PANE_PATH" "${(j: :)${(q)FOCUS_ARGV[@]}}"
+    exit 0
+  fi
+fi
 
 # Percentage of the screen to take up
 PERC=85
@@ -28,7 +46,7 @@ fi
 MARGIN=6
 WIDTH=$(( CURRENT_WIDTH * PERC / 100 ))
 
-# fixed / max width specified
+# fixed / max width specified in arg $4
 if [[ "$4" != "" ]]; then
   if (( WIDTH > "$4" )); then
     WIDTH="$4"
@@ -81,10 +99,6 @@ dismiss_popup() {
     tmux detach-client
   fi
 }
-
-CURRENT="$(tmux display-message -p -F "#{session_name}")"
-
-PANE_PATH="$(tmux display-message -p -F "#{pane_current_path}")"
 
 # "persist" for sessions that are created once, then attach/detach from
 if [[ "$1" == "persist" ]]; then
