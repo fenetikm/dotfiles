@@ -98,6 +98,8 @@ build_list() {
 
     if [[ "$attention" == "true" ]]; then
       glyph=$GLYPH_ATTENTION
+      # the pane is idle because it is waiting on a reply, say so
+      pstatus='waiting'
     elif [[ "$pstatus" == "running" ]]; then
       glyph=$GLYPH_RUNNING
     else
