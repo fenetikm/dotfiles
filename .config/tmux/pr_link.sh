@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-# Copy the URL of the open PR for the focused pane's branch to the clipboard.
+# Copy the URL of the open PR for the focused pane's branch and open it in the browser.
 # Usage: pr_link.sh <path>   (bind with '#{pane_current_path}')
 
 # run-shell doesn't source a profile, so gh/pbcopy need to be findable
@@ -28,4 +28,5 @@ fi
 
 print -rn -- "$URL" | pbcopy
 tmux set-buffer -- "$URL"
-notify "PR link copied"
+open "$URL" &>/dev/null || notify "PR link copied (failed to open browser)" 1
+notify "PR link copied and opened"
