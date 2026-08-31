@@ -9,6 +9,7 @@ source "$DIR"/tmux.sh
 source "$DIR"/fzf.sh
 source "$DIR"/sbx.sh
 source "$DIR"/agents.sh
+source "$DIR"/gh.sh
 
 print_red() {
   print -P "%F{red}$*%f"
