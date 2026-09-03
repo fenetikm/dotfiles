@@ -138,9 +138,8 @@ for i in {1..${#IDS}}; do
   ROWS_OUT+=("$(pad_string "$ID_W" "$IDS[i]" "$META$TITLE")"$'\t'"$IDS[i]"$'\t'"$URLS[i]")
 done
 
-# glow only emits colour to a tty, and an fzf preview is not one
 if command -v glow >/dev/null; then
-  PREVIEW='linear issue view {2} --no-pager 2>&1 | CLICOLOR_FORCE=1 glow - -s dark -w "$FZF_PREVIEW_COLUMNS"'
+  PREVIEW='linear issue view {2} --no-pager 2>&1 | CLICOLOR_FORCE=1 glow - -s '${(q)GLOW_STYLE:-auto}' -w "$FZF_PREVIEW_COLUMNS"'
 else
   PREVIEW='linear issue view {2} --no-pager 2>&1'
 fi
