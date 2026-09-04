@@ -103,17 +103,18 @@ get_effort() {
 get_session_tag() {
   # set at launch, e.g. `CLAUDE_TAG=bob claude`
   [ -z "$CLAUDE_TAG" ] && return
-  printf "${COLOUR_SEPARATOR}|${COLOUR_RESET} [%s] " "$CLAUDE_TAG"
+  printf " ${COLOUR_SEPARATOR}|${COLOUR_RESET} [%s]" "$CLAUDE_TAG"
 }
 
 get_model() {
   [ -z "$model" ] && return
   local short="$model"
   short="${short//Opus /Op}"
+  short="${short//Fable /Fa}"
   short="${short//Sonnet /So}"
   short="${short//Haiku /Ha}"
   short="${short// (1M context)/(1M)}"
-  printf " ${COLOUR_SEPARATOR}|${COLOUR_RESET} %s%s " "$short" "$(get_effort)"
+  printf "%s%s" "$short" "$(get_effort)"
 }
 
 render_status() {
@@ -127,12 +128,15 @@ render_status() {
   model_info=$(get_model)
   printf "${COLOUR_RESET}"
 
-  [ -n "$ctx_bar" ] && printf "%b" "$ctx_bar"
+  [ -n "$model_info" ] && printf "%b" "$model_info"
+  if [ -n "$ctx_bar" ]; then
+    [ -n "$model_info" ] && printf " ${COLOUR_SEPARATOR}|${COLOUR_RESET} "
+    printf "%b" "$ctx_bar"
+  fi
   [ -n "$rate_5hr_info" ] && printf "%b" "$rate_5hr_info"
   [ -n "$rate_7day_info" ] && printf "%b" "$rate_7day_info"
   [ -n "$git_info" ] && printf "%b" "$git_info"
   printf " ${COLOUR_SEPARATOR}|${COLOUR_RESET} ${COLOUR_DIR}%s${COLOUR_RESET}" "$display_dir"
-  [ -n "$model_info" ] && printf "%b" "$model_info"
   [ -n "$session_tag" ] && printf "%b" "$session_tag"
 }
 
