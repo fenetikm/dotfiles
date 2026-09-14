@@ -22,18 +22,8 @@
   "model": "opus[1m]",
   "disableClaudeAiConnectors": true,
   "disableBundledSkills": true,
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "rtk hook claude"
-          }
-        ]
-      }
-    ]
+  "worktree": {
+    "baseRef": "fresh"
   },
   "disableWorkflows": true,
   "disableArtifact": true,
@@ -88,5 +78,7 @@
   "theme": "custom:falcon-modern",
   "editorMode": "vim",
   "preferredNotifChannel": "notifications_disabled",
-  "remoteControlAtStartup": true
+  "autoCompactEnabled": false,
+  "remoteControlAtStartup": false,
+  "agentPushNotifEnabled": true
 }
