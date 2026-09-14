@@ -46,6 +46,28 @@ quote_bg_color = "reset"
 table_header_bg_color = "reset"
 table_header_fg_color = "#dfdfe5"
 
+# Code block syntax highlighting (falcon modern)
+# Modern is near-monochrome: groups that are bold-only in vim use light_gray
+# (#DFDFE5) here since mdt can't do bold; groups that inherit Normal use reset.
+code_hl_attribute = "reset"                 # @tag.attribute -> Normal
+code_hl_constant = "#99A4BC"                # Boolean/Number/Float: blue_gray
+code_hl_function = "#DFDFE5"                # Function: bold
+code_hl_function_builtin = "#DFDFE5"        # @function.builtin -> @keyword: bold
+code_hl_keyword = "#DFDFE5"                 # Keyword: bold
+code_hl_operator = "#847161"                # Operator: darker_tanner
+code_hl_property = "reset"                  # @property -> Normal
+code_hl_punctuation = "#787882"             # @punctuation: mid_gray
+code_hl_punctuation_bracket = "#787882"     # @punctuation.bracket -> @punctuation
+code_hl_punctuation_delimiter = "#787882"   # @punctuation.delimiter -> @punctuation
+code_hl_string = "#ADC2DB"                  # String: light_bluer_gray
+code_hl_string_special = "#ADC2DB"          # -> String
+code_hl_tag = "#DFDFE5"                     # @tag -> @keyword: bold
+code_hl_type = "#DFDFE5"                    # Type: bold
+code_hl_type_builtin = "#DFDFE5"            # -> Type
+code_hl_variable = "reset"                  # @variable: mid_gray_alt2 (= terminal fg)
+code_hl_variable_builtin = "#DFDFE5"        # @variable.builtin -> @keyword: bold
+code_hl_variable_parameter = "reset"        # @parameter -> Normal
+
 # File tree
 file_tree_name_color = "blue"
 file_tree_page_count_color = "lightgreen"
