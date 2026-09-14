@@ -100,8 +100,7 @@ def ci_color($ci):
           elif .isDraft then ["draft", 4, "muted"]
           else ["no review yet", 3, "default"] end)
        else
-         ([ (if .isDraft then "D" else empty end),
-            (if $asked then "you" else empty end),
+         ([ (if $asked then "you" else empty end),
             # why it is quiet; redundant once "you: approved" says it
             (if .reviewDecision == "APPROVED" and my_review($me) == "" then "A" else empty end),
             (if my_review($me) != "" then "you: " + (my_review($me) | ascii_downcase) else empty end),
@@ -113,7 +112,7 @@ def ci_color($ci):
          # signal, and accent on most of its rows just reads as glare
          | [ $text,
              (if $asked then 0 else 1 end),
-             (if $bucket == "quiet" then "muted" else "default" end) ]
+             "default" ]
        end) as $note
     | { rank: (if $bucket == "review" then 0 elif $bucket == "mine" then 1 else 2 end),
         label: (if $bucket == "review" then "To review"
@@ -129,7 +128,7 @@ def ci_color($ci):
           # it is mine with red CI or one I was asked to look at
           text_color: (if .isDraft then "muted" else $note[2] end),
           icon: ci_icon($ci),
-          icon_color: (if .isDraft or $bucket == "quiet" then "muted"
+          icon_color: (if .isDraft then "muted"
                        else ci_color($ci) end),
           url: .url
         } }
