@@ -108,14 +108,14 @@ def ci_color($ci):
             (if .mergeable == "CONFLICTING" then "conflicts" else empty end),
             (if $age > $stale then "stale \($age)d" else empty end)
           ] | join(", ")) as $text
-         # no accent for "you": a section called "To review" is already the
+         # no accent for "you": a section called "Review" is already the
          # signal, and accent on most of its rows just reads as glare
          | [ $text,
              (if $asked then 0 else 1 end),
              "default" ]
        end) as $note
     | { rank: (if $bucket == "review" then 0 elif $bucket == "mine" then 1 else 2 end),
-        label: (if $bucket == "review" then "To review"
+        label: (if $bucket == "review" then "Review"
                 elif $bucket == "mine" then "Yours" else "Quiet" end),
         sub: $note[1],
         number: $n,
