@@ -66,6 +66,6 @@ EOF
 else
   sketchybar \
     --set "$NAME" \
-      drawing=off
+      drawing=off \
       icon.drawing=off
 fi
