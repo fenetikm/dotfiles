@@ -82,6 +82,11 @@ function y() {
   rm -f -- "$tmp"
 }
 
+# render markdown as images in kitty, see ~/.config/zsh/mdview.sh
+mdview() {
+  "$HOME"/.config/zsh/mdview.sh "$@"
+}
+
 # this fn handles the socket changing on waking from sleep
 get_kitty_socket() {
   SOCKET=(/tmp/kitty-*(N[1]))
