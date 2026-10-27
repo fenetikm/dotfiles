@@ -16,6 +16,8 @@ return {
 
       local alpha = require 'alpha'
       local fortune = require 'alpha.fortune'
+      -- LuaJIT's math.random is unseeded, so the fortune would be identical every launch
+      math.randomseed(vim.uv.hrtime())
 
       local atari_art = {
         [[                oo ooooo oo                ]],
