@@ -57,8 +57,8 @@ done
 debug() { [[ $DEBUG == 1 ]] && echo "mdview: $*" >&2 || true; }
 
 case $THEME in
-  dark)  BG="#1e1e2e" FG="#cdd6f4" MUTED="#7f849c" ACCENT="#89b4fa" LINK="#f5c2e7" CODE_BG="#313244" RAW_THEME=dark.tmTheme ;;
-  light) BG="#ffffff" FG="#24292f" MUTED="#6e7781" ACCENT="#0550ae" LINK="#8250df" CODE_BG="#f3f4f6" RAW_THEME= ;;
+  dark)  FG="#a1a1a9" MUTED="#7f849c" ACCENT="#89b4fa" HEADING="#ffffff" LINK="#99a4bc" CODE_BG="#212127" CODE_FG="#adc2db" CODE_INLINE_BG="#212127" RAW_THEME=dark.tmTheme ;;
+  light) FG="#24292f" MUTED="#6e7781" ACCENT="#0550ae" HEADING="#0550ae" LINK="#8250df" CODE_BG="#f3f4f6" CODE_FG="#24292f" CODE_INLINE_BG="#f3f4f6" RAW_THEME= ;;
   *) echo "mdview: unknown theme: $THEME" >&2; exit 2 ;;
 esac
 
@@ -109,14 +109,14 @@ $if(raw-theme)$
 #set raw(theme: "$raw-theme$")
 $endif$
 
-#set page(width: $page-width$pt, height: auto, margin: (x: 22pt, y: 18pt), fill: rgb("$bg$"))
+#set page(width: $page-width$pt, height: auto, margin: (x: 22pt, y: 18pt), fill: none)
 #set text(font: ("SF Pro Text", "Helvetica Neue", "Apple Symbols", "Menlo", "Apple Color Emoji"), size: 11pt, fill: rgb("$fg$"))
 #set par(leading: 0.7em, spacing: 1.2em)
 #set list(indent: 0.4em, body-indent: 0.5em)
 #set enum(indent: 0.4em, body-indent: 0.5em)
 #set terms(hanging-indent: 1.5em)
 
-#show heading: set text(fill: rgb("$accent$"), font: ("SF Pro Display", "Helvetica Neue"), weight: "semibold")
+#show heading: set text(fill: rgb("$heading$"), font: ("SF Pro Display", "Helvetica Neue"), weight: "semibold")
 #show heading: set block(above: 1.4em, below: 0.8em)
 #show heading.where(level: 1): it => {
   set text(size: 20pt)
@@ -129,10 +129,12 @@ $endif$
 #show heading.where(level: 4): set text(size: 11pt)
 
 #show raw: set text(font: ("Menlo", "DejaVu Sans Mono"), size: 9.5pt)
-#show raw.where(block: false): box.with(fill: rgb("$code-bg$"), inset: (x: 3pt), outset: (y: 3pt), radius: 2pt)
+#show raw.where(block: false): set text(fill: rgb("$code-fg$"))
+#show raw.where(block: false): box.with(fill: rgb("$code-inline-bg$"), inset: (x: 3pt), outset: (y: 3pt), radius: 2pt)
 #show raw.where(block: true): block.with(fill: rgb("$code-bg$"), inset: 10pt, radius: 4pt, width: 100%)
 
 #show link: set text(fill: rgb("$link$"))
+#show link: underline
 #show quote.where(block: true): it => block(
   stroke: (left: 2pt + rgb("$accent$")),
   inset: (left: 10pt, y: 4pt),
@@ -330,7 +332,7 @@ tm_rule() {
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict><key>name</key><string>mdview-dark</string><key>settings</key><array>
-<dict><key>settings</key><dict><key>foreground</key><string>#cdd6f4</string><key>background</key><string>#313244</string></dict></dict>
+<dict><key>settings</key><dict><key>foreground</key><string>#cdd6f4</string><key>background</key><string>#212127</string></dict></dict>
 EOF
   tm_rule "comment" "#7f849c" "<key>fontStyle</key><string>italic</string>"
   tm_rule "string, markup.raw" "#a6e3a1" ""
@@ -353,11 +355,11 @@ MERMAID_ARGS=()
 if command -v mmdc >/dev/null; then
   if [[ $THEME == dark ]]; then
     cat >"$ASSETS/mermaid-dark.json" <<'EOF'
-{"theme": "base", "themeVariables": {"darkMode": true, "background": "#1e1e2e",
- "primaryColor": "#313244", "primaryTextColor": "#cdd6f4", "primaryBorderColor": "#89b4fa",
- "secondaryColor": "#45475a", "tertiaryColor": "#181825", "lineColor": "#7f849c",
- "textColor": "#cdd6f4", "edgeLabelBackground": "#1e1e2e", "noteBkgColor": "#45475a",
- "noteTextColor": "#cdd6f4", "fontFamily": "SF Pro Text, Helvetica Neue, sans-serif"}}
+{"theme": "base", "themeVariables": {"darkMode": true, "background": "#1f2126",
+ "primaryColor": "#2e3138", "primaryTextColor": "#a1a1a9", "primaryBorderColor": "#99a4bc",
+ "secondaryColor": "#3d424b", "tertiaryColor": "#1f2126", "lineColor": "#7a8396",
+ "textColor": "#a1a1a9", "edgeLabelBackground": "#1f2126", "noteBkgColor": "#3d424b",
+ "noteTextColor": "#a1a1a9", "fontFamily": "SF Pro Text, Helvetica Neue, sans-serif"}}
 EOF
   else
     cat >"$ASSETS/mermaid-light.json" <<'EOF'
@@ -398,7 +400,6 @@ A8F0 A8F1 AAB0 AAB2 AAB3 AAB7 AAB8 AABE AABF AAC1 FE20 FE21 FE22 FE23 FE24 FE25 
 """.split()]
 PLACEHOLDER = "\U0010EEEE"
 IN_TMUX = bool(os.environ.get("TMUX"))
-HELP = "q quit  j/k line  space/b page  d/u half  g/G ends  r reload"
 
 
 def gfx(control, payload=""):
@@ -475,8 +476,8 @@ class Pager:
                 out.append("".join(PLACEHOLDER + DIACRITICS[r] + DIACRITICS[c] for c in range(ncols)))
                 out.append("\x1b[39m")
         pct = 100 if self.total <= height else round(100 * (self.top + height) / self.total)
-        status = " %s  %d%%  %s " % (self.title, min(pct, 100), HELP)
-        out.append("\x1b[%d;1H\x1b[7m%s\x1b[0m\x1b[K" % (height + 1, status[:width]))
+        status = " %s  %d%%" % (self.title, min(pct, 100))
+        out.append("\x1b[%d;1H%s\x1b[K" % (height + 1, status[:width]))
         os.write(1, "".join(out).encode())
 
     def handle(self, key, height):
@@ -572,8 +573,8 @@ render() {
     ${RAW_THEME:+-V raw-theme="$ASSETS/$RAW_THEME"} \
     -M mdview-dir="$dir" \
     ${MERMAID_ARGS[@]+"${MERMAID_ARGS[@]}"} \
-    -V page-width="$PAGE_PT" -V bg="$BG" -V fg="$FG" -V muted="$MUTED" \
-    -V accent="$ACCENT" -V link="$LINK" -V code-bg="$CODE_BG" \
+    -V page-width="$PAGE_PT" -V fg="$FG" -V muted="$MUTED" \
+    -V accent="$ACCENT" -V heading="$HEADING" -V link="$LINK" -V code-bg="$CODE_BG" -V code-fg="$CODE_FG" -V code-inline-bg="$CODE_INLINE_BG" \
     -o "$work/doc.typ"
   # GitHub-style left-aligned tables (pandoc hard-codes align(center))
   perl -pi -e 's/align\(center\)\[#table\(/align(left)[#table(/' "$work/doc.typ"
@@ -593,7 +594,7 @@ render() {
   # every tile maps exactly onto its placeholder grid and they stack seamlessly.
   local h
   h=$(magick identify -format '%h' "$work/full.png")
-  magick "$work/full.png" -background "$BG" -gravity north \
+  magick "$work/full.png" -background none -gravity north \
     -extent "${TARGET_PX}x$(( (h + CELL_H - 1) / CELL_H * CELL_H ))" \
     -crop "x$(( TILE_ROWS * CELL_H ))" +repage "$work/tile-%03d.png"
   debug "rendered in $(( SECONDS - t0 ))s"

@@ -3,7 +3,7 @@
 # used in .config/tmux/sesh.sh
 #
 # usage:
-#   tmux_setup <template> <session-name>
+#   tmux_setup <template> <session-name> [<args>...]
 #
 #   template:
 #     - "auto": use `.tmux.setup` file in current directory, fall back to home `.tmux.setup`
@@ -13,9 +13,9 @@ tmux_setup() {
   if [[ "$1" == "auto" ]]; then
     if [[ -x ./.tmux.setup ]]; then
       # either use the .tmux.setup in current directory or from root
-      ./.tmux.setup $2
+      ./.tmux.setup "${@:2}"
     elif [[ -x ~/.tmux.setup ]]; then
-      ~/.tmux.setup $2
+      ~/.tmux.setup "${@:2}"
     else
       echo "Oh noes! Couldn't find a .tmux.setup file."
     fi
@@ -23,7 +23,7 @@ tmux_setup() {
     # nothing to do
   else
     if [[ -x "$HOME/.config/tmux/templates/$1/.tmux.setup" ]]; then
-      ~/.config/tmux/templates/$1/.tmux.setup
+      "$HOME/.config/tmux/templates/$1/.tmux.setup" "${@:2}"
     else
       echo "Oh noes! Couldn't find a matching template .tmux.setup file."
     fi
