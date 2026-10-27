@@ -1,3 +1,8 @@
+# colour theme
+[flavor]
+  dark  = "falcon-modern"
+  light = "falcon-modern"
+
 # simplify the status
 [status]
 sep_left = { open = "", close = "" }
