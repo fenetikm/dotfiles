@@ -35,6 +35,11 @@ print -r -- "$WINDOWS" | while IFS=$'\t' read -r SESH SESH_ID WIN_ID WIN_IDX WIN
     continue
   fi
 
+  # ignore the blank backdrop windows from `popup-float.sh --focus`
+  if [[ "$WIN_NAME" == _focus_ ]]; then
+    continue
+  fi
+
   if (( ${#WIN_NAME} > WIN_CAP )); then
     WIN_NAME="${WIN_NAME[1,WIN_CAP - 1]}…"
   fi

@@ -25,6 +25,11 @@ pane_session() {
   tmux display-message -p -t "$1" '#{session_name}' 2>/dev/null
 }
 
+# true if the pane is a popup-float.sh floating pane (tagged with @popup)
+is_popup_pane() {
+  [[ -n "$(tmux display-message -p -t "$1" '#{@popup}' 2>/dev/null)" ]]
+}
+
 case "$ACTION" in
   out)
     LOST_PANE="$2"
@@ -37,6 +42,7 @@ case "$ACTION" in
 
     # coming back out of a popup, the pane behind it is still the real "last"
     [[ "$LOST_SESSION" == *_popup_* ]] && exit 0
+    is_popup_pane "$LOST_PANE" && exit 0
 
     ACTIVE="$(tmux display-message -p '#{pane_id} #{session_name}')"
     ACTIVE_PANE="${ACTIVE%% *}"
@@ -49,6 +55,7 @@ case "$ACTION" in
 
     # opening a popup shouldn't overwrite the pane we want to come back to
     [[ "$ACTIVE_SESSION" == *_popup_* ]] && exit 0
+    is_popup_pane "$ACTIVE_PANE" && exit 0
 
     # write via a temp file, concurrent focus events can truncate otherwise
     print -r -- "LAST_PANE=$LOST_PANE" > "$STATE_FILE.$$"

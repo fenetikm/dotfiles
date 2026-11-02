@@ -3,7 +3,7 @@
 # usage:
 # - preview.sh <absolute-path>
 # view a file in a viewer chosen by its extension
-# called from the `prefix + R` binding, via popup.sh
+# called from the `prefix + R` binding, via popup-float.sh
 
 FILE="$1"
 
