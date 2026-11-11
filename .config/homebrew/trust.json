@@ -3,6 +3,7 @@
     "anomalyco/tap/opencode",
     "cirruslabs/cli/softnet",
     "cirruslabs/cli/tart",
+    "dart-lang/dart/dart",
     "hashicorp/tap/terraform",
     "sass/sass/sass"
   ],
