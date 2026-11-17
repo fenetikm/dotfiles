@@ -1,3 +1,3 @@
 #!/usr/bin/env zsh
 
-ltui
+TEXTUAL_ANIMATIONS=none ltui
